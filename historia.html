@@ -503,11 +503,13 @@ steps.forEach(s => io.observe(s));
 if (!reduced) {
   const s4 = document.querySelector('.step[data-s="4"]');
   addEventListener('scroll', () => {
-    if (current !== 3 && current !== 4) return;
+    if (current !== 3 && current !== 3.5 && current !== 4) return;
     const r = s4.getBoundingClientRect();
     const vh = innerHeight;
     const p = Math.max(0, Math.min(1, 1 - (r.top - vh * 0.1) / (vh * 0.8)));
-    if (p > 0 && p < 1) { current = 3.5; curveChart({mix: [1 - p, p]}); }
+    if (p <= 0) { if (current !== 3) { current = 3; STATES[3](); } return; }
+    current = p >= 1 ? 4 : 3.5;
+    curveChart({mix: [1 - p, p]});
   }, {passive: true});
 }
 setState(1);
