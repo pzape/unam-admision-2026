@@ -112,6 +112,10 @@ legend { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; co
 #areaSelM input#ma2:checked + label { border-color: var(--a2); color: var(--a2); background: var(--a2-soft); }
 #areaSelM input#ma3:checked + label { border-color: var(--a3); color: var(--a3); background: var(--a3-soft); }
 #areaSelM input#ma4:checked + label { border-color: var(--a4); color: var(--a4); background: var(--a4-soft); }
+#areaSelC input#ca1:checked + label { border-color: var(--a1); color: var(--a1); background: var(--a1-soft); }
+#areaSelC input#ca2:checked + label { border-color: var(--a2); color: var(--a2); background: var(--a2-soft); }
+#areaSelC input#ca3:checked + label { border-color: var(--a3); color: var(--a3); background: var(--a3-soft); }
+#areaSelC input#ca4:checked + label { border-color: var(--a4); color: var(--a4); background: var(--a4-soft); }
 .seg input:focus-visible + label, .chk input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 0 0 12px; }
 circle.dot { cursor: pointer; }
@@ -147,7 +151,8 @@ summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; bo
 .score-row label { font-weight: 750; font-size: 15px; }
 input[type=range] { flex: 1; min-width: 220px; accent-color: var(--brand); height: 30px; }
 input[type=number] {
-  width: 78px; font: 800 22px/1.2 system-ui, sans-serif; color: var(--ink);
+  width: 104px; font: 800 22px/1.2 system-ui, sans-serif; color: var(--ink);
+  -moz-appearance: textfield; appearance: textfield;
   background: var(--card); border: 1.5px solid var(--line); border-radius: 12px;
   padding: 7px 8px; text-align: center; font-variant-numeric: tabular-nums;
 }
@@ -156,6 +161,7 @@ input[type=search] {
   background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px;
   padding: 13px 18px; box-shadow: var(--shadow);
 }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .summary-pill { font-size: 15px; line-height: 1.6; background: var(--brand-soft); border-radius: 12px; padding: 13px 17px; margin: 18px 0 0; color: var(--ink); }
 .results-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 340px; overflow-y: auto; }
@@ -959,9 +965,13 @@ function showProfile(code) {
   const host = document.getElementById('profile'); host.replaceChildren();
   const head = document.createElement('div'); head.className = 'profile-head';
   const h3 = document.createElement('h3'); h3.textContent = d.k; head.appendChild(h3);
-  for (const t of [d.p, 'Área ' + d.a + ' · ' + AREAS[d.a]]) {
-    const c = document.createElement('span'); c.className = 'chip'; c.textContent = t; head.appendChild(c);
-  }
+  const chipP = document.createElement('span'); chipP.className = 'chip'; chipP.textContent = d.p;
+  head.appendChild(chipP);
+  const chipA = document.createElement('span'); chipA.className = 'chip';
+  chipA.textContent = 'Área ' + d.a + ' · ' + AREAS[d.a];
+  chipA.style.color = 'var(--a' + d.a + ')'; chipA.style.background = 'var(--a' + d.a + '-soft)';
+  chipA.style.fontWeight = '700';
+  head.appendChild(chipA);
   host.appendChild(head);
   // year cards
   const yc = document.createElement('div'); yc.className = 'year-cards';
