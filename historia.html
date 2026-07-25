@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta property="og:type" content="article">
+<meta property="og:title" content="El examen en línea de la UNAM: qué cambió en 2026">
+<meta property="og:description" content="Una historia en datos: 504,100 resultados de admisión de 2024, 2025 y 2026 muestran, paso a paso, lo que pasó cuando el examen se contestó desde casa.">
+<meta name="description" content="Una historia en datos sobre el examen de admisión en línea de la UNAM en 2026.">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary_large_image">
+<title>El examen en línea de la UNAM: qué cambió en 2026</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f6f7fb; --surface: #ffffff; --ink: #101223; --ink2: #3f4557; --muted: #6a7186;
+  --line: #e7eaf2; --axis: #a7aec1; --card: #f0f2f9;
+  --brand: #4f46e5; --brand-soft: #eef0fe;
+  --y24: #2563eb; --y25: #059669; --y26: #ea580c; --y26-deep: #c2410c; --y25-deep: #047857;
+  --crit: #dc2626;
+  --shadow: 0 1px 2px rgba(16,18,35,.06), 0 12px 34px rgba(16,18,35,.10);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); margin: 0; -webkit-font-smoothing: antialiased; }
+a { color: var(--brand); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+  background: rgba(246,247,251,.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line); font-size: 13.5px;
+}
+.topbar-in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+.topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
+.topbar b { font-weight: 800; }
+.topbar a { margin-left: auto; font-weight: 650; text-decoration: none; }
+.hero { min-height: 92svh; display: flex; align-items: center; justify-content: center; padding: 90px 22px 40px; }
+.hero-in { max-width: 700px; text-align: center; }
+.kicker {
+  display: inline-block; background: var(--brand-soft); color: var(--brand); font-size: 12px;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px;
+  border-radius: 999px; margin-bottom: 18px;
+}
+h1 { font-size: clamp(30px, 5.5vw, 50px); line-height: 1.1; font-weight: 800; letter-spacing: -.025em; margin: 0 0 18px; text-wrap: balance; }
+.hero p { font-size: 18px; color: var(--ink2); max-width: 56ch; margin: 0 auto 10px; }
+.hero .hint { font-size: 13px; color: var(--muted); margin-top: 30px; }
+.hero .hint::after { content: "↓"; display: block; font-size: 20px; margin-top: 6px; animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { .hero .hint::after { animation: none; } }
+.scrolly { position: relative; }
+.stage {
+  position: sticky; top: 0; height: 100svh; display: flex; align-items: center;
+  justify-content: center; padding: 60px 20px 20px; z-index: 0;
+}
+.stage-in { width: min(880px, 96vw); }
+@media (min-width: 1050px) {
+  .stage { justify-content: flex-end; padding-right: 3vw; }
+  .stage > div { width: min(840px, 63vw); }
+  .stage-in { width: 100%; }
+}
+.steps { position: relative; z-index: 2; margin-top: -100svh; padding-bottom: 8svh; }
+.step { min-height: 96svh; display: flex; align-items: flex-end; padding: 0 20px 7svh; }
+.step .card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: var(--shadow); padding: 20px 24px; max-width: 460px;
+  margin: 0 auto; font-size: 15.5px;
+}
+@media (min-width: 1050px) { .step .card { margin: 0 0 0 4vw; } .step { align-items: center; } }
+.step .card .n { font-size: 11.5px; letter-spacing: .1em; font-weight: 750; color: var(--brand); text-transform: uppercase; display: block; margin-bottom: 6px; }
+.step .card p { margin: 8px 0 0; }
+.step .card strong { font-weight: 750; }
+svg { display: block; width: 100%; height: auto; }
+svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13px; }
+.bignum { text-align: center; }
+.bignum .row { margin: 22px 0; }
+.bignum .v { font-size: clamp(40px, 7vw, 74px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.bignum .l { font-size: 15px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+.bignum .v.hot { color: var(--y26); }
+.bignum .v.dim { color: var(--muted); font-size: clamp(30px, 5vw, 52px); }
+.stage-note { text-align: center; font-size: 13px; color: var(--muted); margin-top: 10px; min-height: 20px; }
+.timeline-stage { max-width: 560px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 26px 30px; }
+.timeline-stage ul { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+.timeline-stage li { padding: 0 0 16px 18px; position: relative; font-size: 14.5px; }
+.timeline-stage li::before { content: ""; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--axis); border: 2px solid var(--surface); }
+.timeline-stage li.hot::before { background: var(--y26); }
+.timeline-stage .d { font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 750; display: block; }
+.outro { padding: 60px 22px 90px; }
+.outro-in { max-width: 700px; margin: 0 auto; }
+.outro h2 { font-size: 24px; font-weight: 800; letter-spacing: -.015em; }
+.outro p { color: var(--ink2); max-width: 64ch; }
+.cta {
+  display: inline-block; background: var(--brand); color: #fff; font-weight: 700;
+  padding: 12px 24px; border-radius: 999px; text-decoration: none; margin: 12px 0 26px;
+  box-shadow: 0 4px 14px rgba(79,70,229,.3);
+}
+.foot { border-top: 1px solid var(--line); margin-top: 30px; padding-top: 18px; font-size: 13px; color: var(--muted); line-height: 1.7; }
+.foot a { color: var(--ink2); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <span class="dot"></span><b>Admisión UNAM</b><span style="color:var(--muted)">2024–2026</span>
+    <a href="https://pzape.github.io/unam-admision-2026/">Ir al explorador interactivo →</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-in">
+    <span class="kicker">Una historia en datos · julio de 2026</span>
+    <h1>El examen en línea de la UNAM: qué cambió en 2026</h1>
+    <p>En 2026, por primera vez, el examen de admisión a la UNAM se contestó desde casa.
+    Esta página recorre, paso a paso, lo que muestran los 504,100 resultados publicados
+    de 2024, 2025 y 2026.</p>
+    <p class="hint">Desplázate para continuar</p>
+  </div>
+</div>
+
+<div class="scrolly">
+  <div class="stage"><div>
+    <div class="stage-in" id="stageIn"></div>
+    <p class="stage-note" id="stageNote"></p>
+  </div></div>
+  <div class="steps" id="steps">
+
+    <div class="step" data-s="1"><div class="card"><span class="n">1 · El punto de partida</span>
+      <p>Cada año, alrededor de <strong>167,000 personas</strong> concursan por unos
+      <strong>14,000 lugares</strong> en la modalidad escolarizada.</p>
+      <p>Aproximadamente 1 de cada 10 obtiene un lugar. El único criterio es la calificación
+      en un examen de 120 preguntas.</p></div></div>
+
+    <div class="step" data-s="2"><div class="card"><span class="n">2 · Dos años casi idénticos</span>
+      <p>Los resultados de 2024 y 2025 fueron prácticamente iguales. Si se ordena a todos los
+      aspirantes por calificación, el que queda a la mitad obtuvo <strong>52 aciertos en ambos años</strong>.</p>
+      <p>Las dos curvas quedan una sobre otra. El examen medía igual un año y el siguiente.</p></div></div>
+
+    <div class="step" data-s="3"><div class="card"><span class="n">3 · El cambio de 2026</span>
+      <p>Del <strong>23 de mayo al 10 de junio de 2026</strong>, el examen se contestó desde casa:
+      3 horas, navegador bloqueado, cámara y micrófono encendidos.</p>
+      <p>Durante el primer fin de semana, la UNAM retiró del sistema a 498 aspirantes por
+      actividades contrarias a las reglas.</p></div></div>
+
+    <div class="step" data-s="4"><div class="card"><span class="n">4 · Los resultados se movieron</span>
+      <p>El 17 de julio se publicaron los resultados. La calificación del aspirante que queda a la
+      mitad pasó de 52 a <strong>71 aciertos</strong>: 19 más que el año anterior.</p>
+      <p>En los dos años anteriores, ese mismo valor había cambiado cero puntos.</p></div></div>
+
+    <div class="step" data-s="5"><div class="card"><span class="n">5 · La subida no fue igual para todos</span>
+      <p>Los aspirantes con calificaciones bajas subieron poco: <strong>+3 aciertos</strong>.
+      Los de la parte media subieron <strong>+19</strong>, y los de la parte media-alta, <strong>+25</strong>.</p>
+      <p>Los mejores subieron solo +6, porque ya estaban cerca del máximo de 120.</p></div></div>
+
+    <div class="step" data-s="6"><div class="card"><span class="n">6 · Las calificaciones altas se multiplicaron</span>
+      <p>En 2025, <strong>1,441 personas</strong> obtuvieron 110 aciertos o más.
+      En 2026 fueron <strong>8,013</strong> — más de cinco veces esa cantidad, con casi los mismos lugares
+      disponibles.</p>
+      <p>Las calificaciones perfectas (120 de 120) pasaron de 4 a 14.</p></div></div>
+
+    <div class="step" data-s="7"><div class="card"><span class="n">7 · Cuánta gente en cada acierto</span>
+      <p>En la parte alta de la escala, cada acierto adicional concentró a cientos de personas.
+      Con exactamente 115 aciertos hubo <strong>855 aspirantes en 2026</strong>; en 2025 habían sido 137.</p>
+      <p>El puntaje mínimo para entrar a Medicina en CU quedó en <strong>117 de 120</strong>.</p></div></div>
+
+    <div class="step" data-s="8"><div class="card"><span class="n">8 · Carrera por carrera: un año normal</span>
+      <p>Cada punto es una carrera. Muestra cuánto cambió la calificación de sus propios aspirantes
+      entre 2024 y 2025, los dos años presenciales.</p>
+      <p>El cambio promedio fue de <strong>+0.5 aciertos</strong>. Ninguna carrera cambió más de 8.</p></div></div>
+
+    <div class="step" data-s="9"><div class="card"><span class="n">9 · Carrera por carrera: el año en línea</span>
+      <p>El mismo punto de comparación, ahora entre 2025 y 2026: el cambio promedio fue de
+      <strong>+16 aciertos</strong>, y las 107 carreras subieron.</p>
+      <p><strong>104 de 107</strong> superaron el cambio máximo observado en un año normal.</p></div></div>
+
+    <div class="step" data-s="10"><div class="card"><span class="n">10 · Los exámenes cancelados</span>
+      <p>En 2024 se cancelaron 9 exámenes; en 2025, 3. En 2026 se cancelaron
+      <strong>3,020</strong>, por conductas contrarias a la convocatoria según la UNAM.</p>
+      <p>En las carreras más competidas se canceló el doble que en las demás. Solo en Medicina
+      de Ciudad Universitaria: 516 exámenes.</p></div></div>
+
+    <div class="step" data-s="11"><div class="card"><span class="n">11 · El mismo puntaje valió menos</span>
+      <p>Una persona con <strong>96 aciertos</strong> superaba al 95% de los aspirantes en 2024 y 2025.</p>
+      <p>En 2026, ese mismo puntaje superaba al <strong>78%</strong>. Su posición bajó sin que su
+      examen cambiara.</p></div></div>
+
+    <div class="step" data-s="12"><div class="card"><span class="n">12 · Un resultado inesperado</span>
+      <p>Los puntajes mínimos para entrar alcanzaron niveles récord. Aun así, la UNAM seleccionó a
+      <strong>17,005 aspirantes</strong>, un 17% más que el año anterior.</p>
+      <p>Medido contra los aspirantes de su propio año, entrar fue un poco más accesible que antes,
+      aunque se necesitaran más aciertos.</p></div></div>
+
+    <div class="step" data-s="13"><div class="card"><span class="n">13 · Dónde está el caso hoy</span>
+      <p>La propia UNAM reconoció un aumento irregular de aciertos, formó una comisión técnica y
+      <strong>suspendió provisionalmente las inscripciones</strong> el 24 de julio.</p>
+      <p>Un dato pendiente: los exámenes cancelados no tienen calificación publicada, así que todo
+      lo mostrado aquí proviene de resultados que la UNAM dejó en pie.</p></div></div>
+
+  </div>
+</div>
+
+<div class="outro">
+  <div class="outro-in">
+    <h2>Explora los datos por tu cuenta</h2>
+    <p>El explorador interactivo permite revisar cualquier carrera, calcular qué alcanzaba un
+    puntaje en cada año y ver el mapa completo del cambio de 2026.</p>
+    <a class="cta" href="https://pzape.github.io/unam-admision-2026/">Abrir el explorador →</a>
+    <div class="foot">
+      <p><strong>Método y datos.</strong> Resultados publicados por DGAE-UNAM para los concursos 2024, 2025 y
+      2026 (modalidad escolarizada; 504,100 registros de aspirantes). Los conteos cuadran con los
+      totales publicados en cada página oficial de resultados.</p>
+      <p><strong>Fuentes de contexto:</strong>
+      <a href="https://www.gaceta.unam.mx/la-unam-realiza-la-aplicacion-en-linea-de-su-examen-de-admision-para-el-ingreso-a-licenciatura-2026/">Gaceta UNAM</a> ·
+      <a href="https://www.dgcs.unam.mx/boletin/bdboletin/2026_427bis.html">DGCS-UNAM — boletín oficial: suspensión provisional de inscripciones</a> ·
+      <a href="https://www.elimparcial.com/mexico/2026/07/22/unam-investigara-examen-de-admision-2026-por-aumento-irregular-de-aciertos/">El Imparcial</a> ·
+      <a href="https://www.elfinanciero.com.mx/nacional/2026/07/21/que-sabemos-de-los-resultados-del-examen-de-la-unam-y-por-que-se-dice-que-hubo-trampa/">El Financiero</a> ·
+      <a href="https://www.infobae.com/mexico/2026/07/22/rector-de-la-unam-solicita-revision-de-resultados-de-examen-de-ingreso-tras-posibles-trampas-de-aspirantes/">Infobae</a></p>
+      <p><strong>Autoría.</strong> Análisis y visualización: Pedro Zape (github.com/pzape) · julio de 2026 ·
+      Datos públicos de DGAE-UNAM. © 2026, todos los derechos reservados sobre el análisis, el texto
+      y el diseño; los datos oficiales pertenecen a sus fuentes.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const D = {"nat":{"2024":{"n":139285,"hist2":[0.0007,0.0,0.0,0.0,0.0,0.0007,0.0014,0.0036,0.0043,0.0273,0.0768,0.1903,0.4695,0.957,1.545,2.3333,3.0305,3.892,4.3637,4.7141,4.8928,4.9417,4.7952,4.6818,4.4219,4.2015,3.9681,3.6644,3.3198,3.1554,3.0219,2.8395,2.5954,2.4016,2.2537,2.006,1.899,1.8631,1.6879,1.5587,1.4718,1.3361,1.3454,1.115,1.1128,1.0209,0.9549,0.8723,0.7969,0.7381,0.6878,0.6045,0.5665,0.4358,0.4028,0.3109,0.2061,0.1364,0.0811,0.0201,0.0043],"cum":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.2,0.3,0.5,0.8,1.2,1.7,2.4,3.3,4.3,5.6,7.0,8.6,10.5,12.5,14.6,16.9,19.2,21.6,24.0,26.5,29.0,31.4,33.9,36.2,38.6,40.9,43.2,45.3,47.5,49.5,51.6,53.5,55.4,57.2,58.9,60.5,62.1,63.7,65.2,66.7,68.1,69.5,70.8,72.1,73.3,74.5,75.7,76.8,77.8,78.8,79.8,80.7,81.6,82.5,83.4,84.2,85.0,85.8,86.5,87.3,87.9,88.6,89.3,89.9,90.5,91.0,91.6,92.2,92.7,93.2,93.7,94.1,94.6,95.0,95.4,95.8,96.2,96.5,96.9,97.2,97.5,97.8,98.1,98.4,98.6,98.8,99.0,99.2,99.4,99.6,99.7,99.8,99.8,99.9,99.9,100.0,100.0,100.0],"tail":[505,453,431,411,419,370,325,282,281,280,216,217,159,128,107,83,68,45,23,5,6]},"2025":{"n":149433,"hist2":[0.0007,0.0,0.0,0.0007,0.0007,0.0,0.0,0.0013,0.008,0.0201,0.0629,0.1854,0.3982,0.7642,1.3933,2.1648,3.0442,3.6645,4.3772,4.576,5.0257,5.0163,4.9126,4.7091,4.4441,4.3444,3.9777,3.6973,3.4276,3.2349,2.9418,2.7524,2.723,2.4345,2.2525,2.128,1.8945,1.7814,1.6797,1.6409,1.4167,1.2909,1.2547,1.1604,1.0533,1.064,0.9523,0.8693,0.8285,0.7134,0.6719,0.5889,0.5722,0.4899,0.429,0.342,0.2596,0.1967,0.1184,0.0448,0.0027],"cum":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.2,0.3,0.5,0.7,1.0,1.4,2.1,2.8,3.8,5.0,6.5,8.0,9.8,11.7,13.8,16.1,18.4,20.7,23.1,25.7,28.2,30.7,33.2,35.6,38.0,40.3,42.6,44.8,47.0,49.1,51.1,53.1,55.0,56.8,58.5,60.2,61.9,63.5,64.9,66.4,67.8,69.1,70.5,71.9,73.1,74.3,75.5,76.6,77.7,78.7,79.6,80.6,81.5,82.4,83.2,84.0,84.8,85.7,86.4,87.1,87.7,88.4,89.1,89.6,90.3,90.8,91.4,91.9,92.4,92.9,93.4,93.9,94.3,94.7,95.2,95.6,95.9,96.3,96.6,97.0,97.2,97.5,97.8,98.1,98.4,98.6,98.8,99.0,99.2,99.4,99.5,99.6,99.7,99.8,99.9,100.0,100.0,100.0],"tail":[539,465,427,453,434,421,369,363,326,315,258,253,187,201,157,137,101,76,51,16,4]},"2026":{"n":138406,"hist2":[0.1329,0.0542,0.0405,0.0361,0.0361,0.0332,0.0325,0.034,0.039,0.047,0.0679,0.1633,0.3215,0.5441,0.893,1.2507,1.6921,2.0259,2.2492,2.4826,2.5707,2.6314,2.6784,2.6039,2.6307,2.4919,2.4269,2.32,2.3865,2.3431,2.2723,2.255,2.2282,2.1379,2.2318,2.1964,2.1596,2.2159,2.1415,2.2109,2.2239,2.2542,2.3814,2.2875,2.437,2.4197,2.3995,2.4529,2.3865,2.4558,2.3901,2.3453,2.2904,2.174,2.0035,1.893,1.6748,1.302,0.6466,0.263,0.0101],"cum":[0.0,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.3,0.3,0.4,0.4,0.4,0.4,0.4,0.4,0.5,0.5,0.5,0.6,0.6,0.7,0.9,1.0,1.3,1.6,2.0,2.5,3.0,3.7,4.5,5.4,6.4,7.4,8.5,9.7,10.9,12.2,13.4,14.7,16.0,17.4,18.7,20.1,21.3,22.7,24.0,25.3,26.5,27.8,29.0,30.2,31.4,32.5,33.8,34.9,36.1,37.3,38.4,39.5,40.6,41.8,42.9,44.0,45.1,46.2,47.3,48.4,49.5,50.6,51.7,52.7,53.8,55.0,56.0,57.1,58.2,59.3,60.4,61.5,62.6,63.8,65.0,66.2,67.3,68.5,69.7,70.9,72.1,73.3,74.5,75.7,76.9,78.2,79.3,80.6,81.8,83.0,84.2,85.4,86.6,87.7,88.9,90.0,91.1,92.2,93.2,94.2,95.2,96.1,97.0,97.8,98.5,99.1,99.6,99.7,99.9,100.0],"tail":[1703,1605,1642,1604,1570,1600,1535,1474,1402,1371,1301,1319,1200,1118,947,855,662,233,212,152,14]}},"risk":[{"c":"10100035","dBase":-1,"dOnline":20,"cr25":0.0,"cr26":2.42,"a":1,"asp":1614,"k":"Actuaria","p":"Facultad De Ciencias"},{"c":"10102005","dBase":2,"dOnline":18,"cr25":0.0,"cr26":2.2,"a":1,"asp":773,"k":"Actuaria","p":"Fes Acatlán"},{"c":"10200015","dBase":1,"dOnline":18,"cr25":0.02,"cr26":1.75,"a":1,"asp":4730,"k":"Arquitectura","p":"Facultad De Arquitectura"},{"c":"10202005","dBase":1,"dOnline":17,"cr25":0.0,"cr26":1.35,"a":1,"asp":1479,"k":"Arquitectura","p":"Fes Acatlán"},{"c":"10204005","dBase":2,"dOnline":18,"cr25":0.0,"cr26":1.18,"a":1,"asp":1869,"k":"Arquitectura","p":"Fes Aragón"},{"c":"10300015","dBase":1,"dOnline":13,"cr25":0.0,"cr26":2.6,"a":1,"asp":308,"k":"Arquitectura De Paisaje","p":"Facultad De Arquitectura"},{"c":"10400035","dBase":-4,"dOnline":15,"cr25":0.0,"cr26":2.05,"a":1,"asp":1270,"k":"Ciencias De La Computacion","p":"Facultad De Ciencias"},{"c":"10504005","dBase":2,"dOnline":13,"cr25":0.0,"cr26":2.31,"a":1,"asp":822,"k":"Diseño Industrial","p":"Fes Aragón"},{"c":"10600035","dBase":-1,"dOnline":11,"cr25":0.0,"cr26":1.14,"a":1,"asp":876,"k":"Fisica","p":"Facultad De Ciencias"},{"c":"10700115","dBase":0,"dOnline":16,"cr25":0.0,"cr26":1.4,"a":1,"asp":1501,"k":"Ingenieria Civil","p":"Facultad De Ingeniería"},{"c":"10702005","dBase":1,"dOnline":18,"cr25":0.0,"cr26":0.93,"a":1,"asp":647,"k":"Ingenieria Civil","p":"Fes Acatlán"},{"c":"10704005","dBase":2,"dOnline":17,"cr25":0.0,"cr26":0.64,"a":1,"asp":777,"k":"Ingenieria Civil","p":"Fes Aragón"},{"c":"10900115","dBase":0,"dOnline":15,"cr25":0.0,"cr26":1.63,"a":1,"asp":1468,"k":"Ingenieria Electrica Electronica","p":"Facultad De Ingeniería"},{"c":"10904005","dBase":3,"dOnline":16,"cr25":0.0,"cr26":1.52,"a":1,"asp":592,"k":"Ingenieria Electrica Electronica","p":"Fes Aragón"},{"c":"11000115","dBase":0,"dOnline":14,"cr25":0.0,"cr26":2.05,"a":1,"asp":2925,"k":"Ingenieria En Computacion","p":"Facultad De Ingeniería"},{"c":"11004005","dBase":1,"dOnline":12,"cr25":0.0,"cr26":1.78,"a":1,"asp":1689,"k":"Ingenieria En Computacion","p":"Fes Aragón"},{"c":"11100115","dBase":8,"dOnline":18,"cr25":0.0,"cr26":1.76,"a":1,"asp":227,"k":"Ingenieria En Telecomunicaciones","p":"Facultad De Ingeniería"},{"c":"11400115","dBase":1,"dOnline":19,"cr25":0.0,"cr26":1.45,"a":1,"asp":1176,"k":"Ingenieria Industrial","p":"Facultad De Ingeniería"},{"c":"11401005","dBase":0,"dOnline":12,"cr25":0.0,"cr26":0.89,"a":1,"asp":451,"k":"Ingenieria Industrial","p":"Fes Cuautitlán"},{"c":"11404005","dBase":0,"dOnline":15,"cr25":0.0,"cr26":1.81,"a":1,"asp":662,"k":"Ingenieria Industrial","p":"Fes Aragón"},{"c":"11500115","dBase":1,"dOnline":16,"cr25":0.0,"cr26":1.5,"a":1,"asp":2131,"k":"Ingenieria Mecanica","p":"Facultad De Ingeniería"},{"c":"11504005","dBase":3,"dOnline":18,"cr25":0.0,"cr26":1.24,"a":1,"asp":967,"k":"Ingenieria Mecanica","p":"Fes Aragón"},{"c":"11601005","dBase":4,"dOnline":10,"cr25":0.0,"cr26":1.29,"a":1,"asp":698,"k":"Ingenieria Mecanica Electrica","p":"Fes Cuautitlán"},{"c":"11700115","dBase":3,"dOnline":21,"cr25":0.0,"cr26":0.75,"a":1,"asp":531,"k":"Ingenieria Petrolera","p":"Facultad De Ingeniería"},{"c":"11800055","dBase":-1,"dOnline":11,"cr25":0.0,"cr26":1.71,"a":1,"asp":645,"k":"Ingenieria Quimica","p":"Facultad De Química"},{"c":"11801005","dBase":1,"dOnline":13,"cr25":0.0,"cr26":1.41,"a":1,"asp":284,"k":"Ingenieria Quimica","p":"Fes Cuautitlán"},{"c":"11805005","dBase":4,"dOnline":13,"cr25":0.0,"cr26":1.54,"a":1,"asp":390,"k":"Ingenieria Quimica","p":"Fes Zaragoza"},{"c":"12102005","dBase":1,"dOnline":12,"cr25":0.0,"cr26":0.42,"a":1,"asp":475,"k":"Matematicas Aplicadas Y Computacion","p":"Fes Acatlán"},{"c":"12200035","dBase":-3,"dOnline":11,"cr25":0.0,"cr26":1.07,"a":1,"asp":374,"k":"Matematicas","p":"Facultad De Ciencias"},{"c":"12300015","dBase":0,"dOnline":28,"cr25":0.0,"cr26":3.2,"a":1,"asp":125,"k":"Urbanismo","p":"Facultad De Arquitectura"},{"c":"12700175","dBase":7,"dOnline":10,"cr25":0.0,"cr26":0.0,"a":1,"asp":132,"k":"Ciencias De La Tierra","p":"Escuela Nacional De Ciencias De La Tierra"},{"c":"13001005","dBase":0,"dOnline":16,"cr25":0.0,"cr26":1.01,"a":1,"asp":397,"k":"Ing. En Telecomunicaciones, Sistemas Y Electronica","p":"Fes Cuautitlán"},{"c":"13400035","dBase":3,"dOnline":15,"cr25":0.0,"cr26":2.73,"a":1,"asp":293,"k":"Fisica Biomedica","p":"Facultad De Ciencias"},{"c":"13600035","dBase":7,"dOnline":10,"cr25":0.0,"cr26":1.6,"a":1,"asp":187,"k":"Matematicas Aplicadas","p":"Facultad De Ciencias"},{"c":"13700115","dBase":4,"dOnline":11,"cr25":0.0,"cr26":2.12,"a":1,"asp":189,"k":"Ingenieria Ambiental","p":"Facultad De Ingeniería"},{"c":"13900115","dBase":1,"dOnline":13,"cr25":0.0,"cr26":3.75,"a":1,"asp":1333,"k":"Ingenieria Aeroespacial","p":"Facultad De Ingeniería"},{"c":"20100035","dBase":1,"dOnline":17,"cr25":0.0,"cr26":1.66,"a":2,"asp":1504,"k":"Biologia","p":"Facultad De Ciencias"},{"c":"20103005","dBase":-1,"dOnline":14,"cr25":0.0,"cr26":0.78,"a":2,"asp":770,"k":"Biologia","p":"Fes Iztacala"},{"c":"20105005","dBase":2,"dOnline":13,"cr25":0.0,"cr26":1.1,"a":2,"asp":816,"k":"Biologia","p":"Fes Zaragoza"},{"c":"20200145","dBase":1,"dOnline":26,"cr25":0.0,"cr26":2.88,"a":2,"asp":3060,"k":"Cirujano Dentista","p":"Facultad De Odontología"},{"c":"20203005","dBase":0,"dOnline":25,"cr25":0.0,"cr26":1.49,"a":2,"asp":2884,"k":"Cirujano Dentista","p":"Fes Iztacala"},{"c":"20205005","dBase":1,"dOnline":23,"cr25":0.0,"cr26":1.81,"a":2,"asp":2648,"k":"Cirujano Dentista","p":"Fes Zaragoza"},{"c":"20300095","dBase":0,"dOnline":18,"cr25":0.0,"cr26":2.38,"a":2,"asp":2021,"k":"Enfermeria Y Obstetricia","p":"Facultad De Enfermeria Y Obstetricia"},{"c":"20401005","dBase":-1,"dOnline":11,"cr25":0.0,"cr26":0.95,"a":2,"asp":315,"k":"Ingenieria Agricola","p":"Fes Cuautitlán"},{"c":"20501005","dBase":1,"dOnline":15,"cr25":0.0,"cr26":1.53,"a":2,"asp":459,"k":"Ingenieria En Alimentos","p":"Fes Cuautitlán"},{"c":"20700165","dBase":-1,"dOnline":19,"cr25":0.0,"cr26":1.57,"a":2,"asp":4210,"k":"Medicina Veterinaria Y Zootecnia","p":"Facultad De Medicina Veterinaria Y Zootecnia"},{"c":"20701005","dBase":0,"dOnline":20,"cr25":0.0,"cr26":1.13,"a":2,"asp":2479,"k":"Medicina Veterinaria Y Zootecnia","p":"Fes Cuautitlán"},{"c":"20800125","dBase":1,"dOnline":23,"cr25":0.0,"cr26":3.14,"a":2,"asp":16411,"k":"Medico Cirujano","p":"Facultad De Medicina"},{"c":"20803005","dBase":0,"dOnline":28,"cr25":0.0,"cr26":2.49,"a":2,"asp":6434,"k":"Medico Cirujano","p":"Fes Iztacala"},{"c":"20805005","dBase":1,"dOnline":27,"cr25":0.0,"cr26":2.09,"a":2,"asp":5063,"k":"Medico Cirujano","p":"Fes Zaragoza"},{"c":"20903005","dBase":-1,"dOnline":20,"cr25":0.0,"cr26":0.94,"a":2,"asp":320,"k":"Optometria","p":"Fes Iztacala"},{"c":"21000195","dBase":0,"dOnline":14,"cr25":0.0,"cr26":1.63,"a":2,"asp":4360,"k":"Psicologia","p":"Facultad De Psicología"},{"c":"21003005","dBase":1,"dOnline":14,"cr25":0.0,"cr26":1.18,"a":2,"asp":2458,"k":"Psicologia","p":"Fes Iztacala"},{"c":"21005005","dBase":0,"dOnline":13,"cr25":0.0,"cr26":1.01,"a":2,"asp":2762,"k":"Psicologia","p":"Fes Zaragoza"},{"c":"21100055","dBase":0,"dOnline":16,"cr25":0.0,"cr26":2.0,"a":2,"asp":450,"k":"Quimica","p":"Facultad De Química"},{"c":"21101005","dBase":0,"dOnline":10,"cr25":0.0,"cr26":0.0,"a":2,"asp":145,"k":"Quimica","p":"Fes Cuautitlán"},{"c":"21200055","dBase":-4,"dOnline":19,"cr25":0.0,"cr26":0.9,"a":2,"asp":557,"k":"Quimica De Alimentos","p":"Facultad De Química"},{"c":"21300055","dBase":-1,"dOnline":20,"cr25":0.0,"cr26":1.39,"a":2,"asp":2509,"k":"Quimica Farmaceutico Biologica","p":"Facultad De Química"},{"c":"21305005","dBase":-1,"dOnline":17,"cr25":0.0,"cr26":1.09,"a":2,"asp":1556,"k":"Quimica Farmaceutico Biologica","p":"Fes Zaragoza"},{"c":"21401005","dBase":1,"dOnline":17,"cr25":0.0,"cr26":0.81,"a":2,"asp":248,"k":"Quimica Industrial","p":"Fes Cuautitlán"},{"c":"21801005","dBase":-2,"dOnline":15,"cr25":0.0,"cr26":0.76,"a":2,"asp":397,"k":"Bioquimica Diagnostica","p":"Fes Cuautitlán"},{"c":"21901005","dBase":-2,"dOnline":17,"cr25":0.0,"cr26":0.38,"a":2,"asp":260,"k":"Farmacia","p":"Fes Cuautitlán"},{"c":"22000095","dBase":0,"dOnline":20,"cr25":0.0,"cr26":3.32,"a":2,"asp":1477,"k":"Enfermeria","p":"Facultad De Enfermeria Y Obstetricia"},{"c":"22003005","dBase":0,"dOnline":18,"cr25":0.0,"cr26":1.24,"a":2,"asp":1857,"k":"Enfermeria","p":"Fes Iztacala"},{"c":"22005005","dBase":-1,"dOnline":17,"cr25":0.0,"cr26":1.62,"a":2,"asp":2841,"k":"Enfermeria","p":"Fes Zaragoza"},{"c":"22106005","dBase":-2,"dOnline":13,"cr25":0.0,"cr26":1.29,"a":2,"asp":465,"k":"Fisioterapia","p":"Escuela Nal. De Estudios Sup. Unidad León"},{"c":"22206005","dBase":1,"dOnline":24,"cr25":0.0,"cr26":1.24,"a":2,"asp":1049,"k":"Odontologia","p":"Escuela Nal. De Estudios Sup. Unidad León"},{"c":"22705005","dBase":1,"dOnline":19,"cr25":0.0,"cr26":1.15,"a":2,"asp":1735,"k":"Nutriologia","p":"Fes Zaragoza"},{"c":"30100065","dBase":0,"dOnline":23,"cr25":0.0,"cr26":1.77,"a":3,"asp":7250,"k":"Administracion","p":"Facultad De Contaduría Y Administración"},{"c":"30101005","dBase":0,"dOnline":18,"cr25":0.0,"cr26":0.91,"a":3,"asp":1098,"k":"Administracion","p":"Fes Cuautitlán"},{"c":"30200045","dBase":-1,"dOnline":20,"cr25":0.0,"cr26":1.55,"a":3,"asp":1682,"k":"Ciencias De La Comunicacion","p":"Facultad De Ciencias Políticas Y Sociales"},{"c":"30300045","dBase":0,"dOnline":16,"cr25":0.0,"cr26":1.57,"a":3,"asp":699,"k":"Ciencias Politicas Y Admon Publica","p":"Facultad De Ciencias Políticas Y Sociales"},{"c":"30302005","dBase":-1,"dOnline":22,"cr25":0.0,"cr26":2.11,"a":3,"asp":332,"k":"Ciencias Politicas Y Admon Publica","p":"Fes Acatlán"},{"c":"30400065","dBase":0,"dOnline":22,"cr25":0.0,"cr26":1.81,"a":3,"asp":5189,"k":"Contaduria","p":"Facultad De Contaduría Y Administración"},{"c":"30401005","dBase":2,"dOnline":16,"cr25":0.0,"cr26":1.82,"a":3,"asp":991,"k":"Contaduria","p":"Fes Cuautitlán"},{"c":"30500075","dBase":-1,"dOnline":22,"cr25":0.0,"cr26":2.46,"a":3,"asp":6142,"k":"Derecho","p":"Facultad De Derecho"},{"c":"30502005","dBase":0,"dOnline":21,"cr25":0.0,"cr26":1.34,"a":3,"asp":1934,"k":"Derecho","p":"Fes Acatlán"},{"c":"30504005","dBase":-1,"dOnline":22,"cr25":0.0,"cr26":1.23,"a":3,"asp":2929,"k":"Derecho","p":"Fes Aragón"},{"c":"30600085","dBase":0,"dOnline":21,"cr25":0.0,"cr26":1.69,"a":3,"asp":2016,"k":"Economia","p":"Facultad De Economía"},{"c":"30602005","dBase":2,"dOnline":16,"cr25":0.0,"cr26":1.77,"a":3,"asp":623,"k":"Economia","p":"Fes Acatlán"},{"c":"30604005","dBase":1,"dOnline":18,"cr25":0.0,"cr26":1.33,"a":3,"asp":750,"k":"Economia","p":"Fes Aragón"},{"c":"30801005","dBase":-1,"dOnline":15,"cr25":0.0,"cr26":1.55,"a":3,"asp":258,"k":"Informatica","p":"Fes Cuautitlán"},{"c":"31000045","dBase":1,"dOnline":20,"cr25":0.0,"cr26":1.61,"a":3,"asp":1177,"k":"Relaciones Internacionales","p":"Facultad De Ciencias Políticas Y Sociales"},{"c":"31002005","dBase":-1,"dOnline":24,"cr25":0.0,"cr26":2.01,"a":3,"asp":945,"k":"Relaciones Internacionales","p":"Fes Acatlán"},{"c":"31004005","dBase":0,"dOnline":23,"cr25":0.0,"cr26":1.81,"a":3,"asp":1323,"k":"Relaciones Internacionales","p":"Fes Aragón"},{"c":"31100045","dBase":3,"dOnline":16,"cr25":0.0,"cr26":1.28,"a":3,"asp":234,"k":"Sociologia","p":"Facultad De Ciencias Políticas Y Sociales"},{"c":"31102005","dBase":-1,"dOnline":14,"cr25":0.0,"cr26":0.67,"a":3,"asp":149,"k":"Sociologia","p":"Fes Acatlán"},{"c":"31104005","dBase":1,"dOnline":20,"cr25":0.0,"cr26":2.92,"a":3,"asp":171,"k":"Sociologia","p":"Fes Aragón"},{"c":"31200155","dBase":0,"dOnline":11,"cr25":0.0,"cr26":1.27,"a":3,"asp":786,"k":"Trabajo Social","p":"Escuela Nacional De Trabajo Social"},{"c":"31502005","dBase":0,"dOnline":16,"cr25":0.0,"cr26":1.45,"a":3,"asp":896,"k":"Comunicacion","p":"Fes Acatlán"},{"c":"31604005","dBase":0,"dOnline":15,"cr25":0.09,"cr26":1.45,"a":3,"asp":1175,"k":"Comunicacion Y Periodismo","p":"Fes Aragón"},{"c":"31900045","dBase":5,"dOnline":9,"cr25":0.0,"cr26":0.85,"a":3,"asp":355,"k":"Antropologia","p":"Facultad De Ciencias Políticas Y Sociales"},{"c":"40100025","dBase":0,"dOnline":9,"cr25":0.0,"cr26":0.95,"a":4,"asp":1794,"k":"Artes Visuales","p":"Facultad De Artes Y Diseño"},{"c":"40500025","dBase":-1,"dOnline":11,"cr25":0.0,"cr26":1.48,"a":4,"asp":1483,"k":"Diseño Y Comunicacion Visual","p":"Facultad De Artes Y Diseño"},{"c":"40501005","dBase":0,"dOnline":11,"cr25":0.0,"cr26":1.15,"a":4,"asp":694,"k":"Diseño Y Comunicacion Visual","p":"Fes Cuautitlán"},{"c":"40602005","dBase":1,"dOnline":8,"cr25":0.0,"cr26":1.22,"a":4,"asp":1310,"k":"Diseño Grafico","p":"Fes Acatlán"},{"c":"40802005","dBase":-3,"dOnline":14,"cr25":0.0,"cr26":0.47,"a":4,"asp":213,"k":"Enseñanza De Ingles","p":"Fes Acatlán"},{"c":"41100105","dBase":0,"dOnline":9,"cr25":0.0,"cr26":0.6,"a":4,"asp":335,"k":"Filosofia","p":"Facultad De Filosofía Y Letras"},{"c":"41200105","dBase":3,"dOnline":4,"cr25":0.0,"cr26":1.39,"a":4,"asp":361,"k":"Historia","p":"Facultad De Filosofía Y Letras"},{"c":"41400105","dBase":-2,"dOnline":4,"cr25":0.0,"cr26":0.0,"a":4,"asp":202,"k":"Lengua Y Literaturas Hispanicas","p":"Facultad De Filosofía Y Letras"},{"c":"42000105","dBase":-2,"dOnline":9,"cr25":0.0,"cr26":1.69,"a":4,"asp":415,"k":"Literatura Dramatica Y Teatro","p":"Facultad De Filosofía Y Letras"},{"c":"42100105","dBase":-1,"dOnline":14,"cr25":0.0,"cr26":2.15,"a":4,"asp":1626,"k":"Pedagogia","p":"Facultad De Filosofía Y Letras"},{"c":"42102005","dBase":0,"dOnline":13,"cr25":0.0,"cr26":1.28,"a":4,"asp":1012,"k":"Pedagogia","p":"Fes Acatlán"},{"c":"42104005","dBase":0,"dOnline":14,"cr25":0.0,"cr26":2.14,"a":4,"asp":1591,"k":"Pedagogia","p":"Fes Aragón"},{"c":"43407005","dBase":0,"dOnline":9,"cr25":0.0,"cr26":0.68,"a":4,"asp":146,"k":"Arte Y Diseño","p":"Escuela Nal. De Estudios Sup. Unidad Morelia"},{"c":"43600135","dBase":1,"dOnline":10,"cr25":0.0,"cr26":1.14,"a":4,"asp":704,"k":"Teatro Y Actuacion","p":"Facultad De Música"},{"c":"44000425","dBase":-1,"dOnline":14,"cr25":0.0,"cr26":0.91,"a":4,"asp":438,"k":"Traduccion","p":"Escuela Nacional De Lenguas, Lingüística Y Traducción"}]};
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const YC = () => ({2024: css('--y24'), 2025: css('--y25'), 2026: css('--y26')});
+const fmt = n => n.toLocaleString('es-MX');
+const NS = 'http://www.w3.org/2000/svg';
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const stage = document.getElementById('stageIn');
+const note = document.getElementById('stageNote');
+
+/* ---------- shared curve chart ---------- */
+function curveChart(opts) {
+  // opts: {years:[..], mix:null|[w25,w26], tailFrom:null|110, medMarks:bool}
+  stage.replaceChildren();
+  const W = 880, H = 380, m = {t: 24, r: 18, b: 42, l: 48};
+  const ymax = 5.6;
+  const X = b => m.l + (b * 2) / 120 * (W - m.l - m.r);
+  const Xs = s => m.l + s / 120 * (W - m.l - m.r);
+  const Y = v => m.t + (1 - v / ymax) * (H - m.t - m.b);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Distribución de calificaciones del examen por año'}, stage);
+  for (let g = 0; g <= 4; g++) {
+    const v = ymax * g / 4;
+    el('line', {x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: css('--line'), 'stroke-width': 1}, svg);
+    el('text', {x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end', fill: css('--muted')}, svg).textContent = v.toFixed(1) + '%';
+  }
+  for (let s = 0; s <= 120; s += 20)
+    el('text', {x: Xs(s), y: H - 14, 'text-anchor': 'middle', fill: css('--muted')}, svg).textContent = s;
+  el('text', {x: W - m.r, y: H - 14, 'text-anchor': 'end', fill: css('--muted'), 'font-size': 12}, svg).textContent = 'aciertos';
+  el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: css('--axis'), 'stroke-width': 1}, svg);
+  const H2 = y => D.nat[y].hist2;
+  const path = (arr, color, wdt) => {
+    let d = '';
+    arr.forEach((v, b) => d += (b ? ' L' : 'M') + ` ${X(b)} ${Y(v)}`);
+    return el('path', {d, fill: 'none', stroke: color, 'stroke-width': wdt, 'stroke-linejoin': 'round'}, svg);
+  };
+  if (opts.mix) {
+    const [w5, w6] = opts.mix;
+    const arr = H2(2025).map((v, i) => v * w5 + H2(2026)[i] * w6);
+    path(H2(2024), css('--axis'), 1.5);
+    const c = w6 > 0.5 ? css('--y26') : css('--y25');
+    let area = `M ${X(0)} ${Y(0)}`;
+    arr.forEach((v, b) => area += ` L ${X(b)} ${Y(v)}`);
+    area += ` L ${X(60)} ${Y(0)} Z`;
+    el('path', {d: area, fill: c, opacity: .1}, svg);
+    path(arr, c, 3);
+    el('text', {x: W - m.r - 8, y: m.t + 24, 'text-anchor': 'end', 'font-size': 28, 'font-weight': 800,
+      fill: c}, svg).textContent = w6 >= 1 ? '2026' : (w6 <= 0 ? '2025' : '2025 → 2026');
+  } else {
+    for (const y of opts.years) {
+      if (opts.tailFrom) {
+        // shade tail area for this year
+        const from = opts.tailFrom;
+        let area = `M ${Xs(from)} ${Y(0)}`;
+        for (let b = Math.floor(from / 2); b <= 60; b++) area += ` L ${X(b)} ${Y(H2(y)[b])}`;
+        area += ` L ${Xs(120)} ${Y(0)} Z`;
+        el('path', {d: area, fill: YC()[y], opacity: .28}, svg);
+      }
+      path(H2(y), YC()[y], y === 2026 ? 2.8 : 2.2);
+    }
+    if (opts.years.length >= 2 && !opts.tailFrom) {
+      el('text', {x: Xs(41), y: Y(H2(2025)[21]) - 12, 'font-weight': 750, fill: css('--y25-deep')}, svg)
+        .textContent = opts.years.includes(2026) ? '2024–25' : '2024 y 2025';
+    }
+    if (opts.medMarks) {
+      for (const [y, med] of [[2025, 52], [2026, 71]]) {
+        if (!opts.years.includes(y)) continue;
+        el('line', {x1: Xs(med), x2: Xs(med), y1: m.t, y2: Y(0), stroke: YC()[y], 'stroke-width': 1.2,
+          'stroke-dasharray': '3 4', opacity: .7}, svg);
+        el('text', {x: Xs(med) + 5, y: m.t + 14, fill: YC()[y], 'font-weight': 750, 'font-size': 13}, svg)
+          .textContent = 'mitad: ' + med;
+      }
+    }
+    if (opts.tailFrom) {
+      el('line', {x1: Xs(opts.tailFrom), x2: Xs(opts.tailFrom), y1: m.t, y2: Y(0), stroke: css('--ink2'),
+        'stroke-width': 1.2, 'stroke-dasharray': '3 4'}, svg);
+      el('text', {x: Xs(opts.tailFrom) - 6, y: m.t + 14, 'text-anchor': 'end', fill: css('--ink2'),
+        'font-weight': 750}, svg).textContent = opts.tailFrom + '+ aciertos';
+      const t25 = D.nat[2025].tail.slice(10).reduce((a, b) => a + b, 0);
+      const t26 = D.nat[2026].tail.slice(10).reduce((a, b) => a + b, 0);
+      el('text', {x: Xs(113), y: Y(2.5), 'font-weight': 800, 'font-size': 20, fill: css('--y26-deep')}, svg)
+        .textContent = fmt(t26);
+      el('text', {x: Xs(113), y: Y(2.5) + 20, 'font-size': 13, fill: css('--y26-deep')}, svg).textContent = 'personas en 2026';
+      el('text', {x: Xs(113), y: Y(2.5) + 44, 'font-weight': 800, 'font-size': 16, fill: css('--y25-deep')}, svg)
+        .textContent = fmt(t25);
+      el('text', {x: Xs(113), y: Y(2.5) + 62, 'font-size': 13, fill: css('--y25-deep')}, svg).textContent = 'en 2025';
+    }
+  }
+}
+
+/* ---------- big numbers ---------- */
+function bigNums(rows) {
+  stage.replaceChildren();
+  const box = document.createElement('div'); box.className = 'bignum';
+  for (const r of rows) {
+    const d = document.createElement('div'); d.className = 'row';
+    const v = document.createElement('div'); v.className = 'v' + (r.cls ? ' ' + r.cls : ''); v.textContent = r.v;
+    const l = document.createElement('div'); l.className = 'l'; l.textContent = r.l;
+    d.appendChild(v); d.appendChild(l); box.appendChild(d);
+  }
+  stage.appendChild(box);
+}
+
+/* ---------- dumbbells ---------- */
+function pctlChart() {
+  stage.replaceChildren();
+  const P = [10, 25, 50, 75, 90, 99];
+  const names = {10: 'parte baja (p10)', 25: 'cuarto inferior (p25)', 50: 'a la mitad (p50)',
+    75: 'parte media-alta (p75)', 90: 'entre el mejor 10% (p90)', 99: 'entre el mejor 1% (p99)'};
+  const val = (y, p) => { const c = D.nat[y].cum; for (let s = 0; s <= 120; s++) if (c[s] >= p) return s; return 120; };
+  const W = 880, rowH = 52, m = {t: 10, r: 74, b: 34, l: 205};
+  const H = m.t + P.length * rowH + m.b;
+  const lo = 30, hi = 120;
+  const X = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Aciertos por posición entre todos los aspirantes, tres años'}, stage);
+  for (let s = 30; s <= 120; s += 15) {
+    el('line', {x1: X(s), x2: X(s), y1: m.t, y2: H - m.b, stroke: css('--line'), 'stroke-width': 1}, svg);
+    el('text', {x: X(s), y: H - 10, 'text-anchor': 'middle', fill: css('--muted')}, svg).textContent = s;
+  }
+  P.forEach((p, i) => {
+    const cy = m.t + i * rowH + rowH / 2;
+    const v25 = val(2025, p), v26 = val(2026, p);
+    el('text', {x: m.l - 12, y: cy + 4, 'text-anchor': 'end', fill: css('--ink2'), 'font-weight': 650,
+      'font-size': 13}, svg).textContent = names[p];
+    el('line', {x1: X(v25), x2: X(v26), y1: cy, y2: cy, stroke: css('--axis'), 'stroke-width': 2.5}, svg);
+    el('circle', {cx: X(v25), cy, r: 5.5, fill: YC()[2025], stroke: '#fff', 'stroke-width': 2}, svg);
+    el('circle', {cx: X(v26), cy, r: 6.5, fill: YC()[2026], stroke: '#fff', 'stroke-width': 2}, svg);
+    const d = v26 - v25;
+    el('text', {x: X(v26) + 13, y: cy + 5, 'font-weight': 800, fill: css('--y26-deep'), 'font-size': 15}, svg)
+      .textContent = '+' + d;
+  });
+  note.textContent = 'Verde: 2025 · Naranja: 2026. Cada renglón es una posición al ordenar a todos los aspirantes por calificación.';
+}
+
+/* ---------- tail zoom bars ---------- */
+function tailZoom() {
+  stage.replaceChildren();
+  const W = 880, H = 400, m = {t: 30, r: 18, b: 42, l: 56};
+  const scores = []; for (let s = 108; s <= 120; s++) scores.push(s);
+  const vmax = 1750;
+  const bw = (W - m.l - m.r) / scores.length;
+  const Y = v => m.t + (1 - v / vmax) * (H - m.t - m.b);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Personas con cada calificación alta, 2025 contra 2026'}, stage);
+  for (let g = 0; g <= 3; g++) {
+    const v = Math.round(vmax * g / 3 / 50) * 50;
+    el('line', {x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: css('--line'), 'stroke-width': 1}, svg);
+    el('text', {x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end', fill: css('--muted')}, svg).textContent = fmt(v);
+  }
+  scores.forEach((s, i) => {
+    const x0 = m.l + i * bw;
+    const v25 = D.nat[2025].tail[s - 100], v26 = D.nat[2026].tail[s - 100];
+    el('rect', {x: x0 + bw * .12, y: Y(v25), width: bw * .33, height: Math.max(Y(0) - Y(v25), 1.5), rx: 3,
+      fill: YC()[2025]}, svg);
+    el('rect', {x: x0 + bw * .5, y: Y(v26), width: bw * .33, height: Math.max(Y(0) - Y(v26), 1.5), rx: 3,
+      fill: YC()[2026]}, svg);
+    el('text', {x: x0 + bw / 2, y: H - 14, 'text-anchor': 'middle', fill: s === 117 ? css('--crit') : css('--muted'),
+      'font-weight': s === 117 ? 800 : 400}, svg).textContent = s;
+  });
+  el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: css('--axis'), 'stroke-width': 1}, svg);
+  // annotate 115 and cut 117
+  const i115 = scores.indexOf(115), x115 = m.l + i115 * bw + bw * .66;
+  el('text', {x: x115, y: Y(D.nat[2026].tail[15]) - 10, 'text-anchor': 'middle', 'font-weight': 800,
+    fill: css('--y26-deep'), 'font-size': 15}, svg).textContent = '855';
+  const i117 = scores.indexOf(117), x117 = m.l + i117 * bw + bw / 2;
+  el('line', {x1: x117, x2: x117, y1: m.t, y2: Y(0), stroke: css('--crit'), 'stroke-width': 1.2,
+    'stroke-dasharray': '4 4', opacity: .8}, svg);
+  el('text', {x: x117, y: m.t - 8, 'text-anchor': 'middle', fill: css('--crit'), 'font-weight': 750,
+    'font-size': 12.5}, svg).textContent = 'mínimo para Medicina CU: 117';
+  note.textContent = 'Personas con cada calificación exacta (verde: 2025 · naranja: 2026), de 108 a 120 aciertos.';
+}
+
+/* ---------- scatter ---------- */
+function scatter(online) {
+  stage.replaceChildren();
+  const col = online ? css('--y26') : css('--y24');
+  const colDeep = online ? css('--y26-deep') : '#1d4ed8';
+  const W = 880, H = 420, m = {t: 24, r: 20, b: 46, l: 54};
+  const x0 = -6, x1 = 30, y1v = 3.5;
+  const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+  const Y = v => m.t + (1 - v / y1v) * (H - m.t - m.b);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': online ? 'Cambio por carrera entre 2025 y 2026' : 'Cambio por carrera entre 2024 y 2025'}, stage);
+  for (let g = 0; g <= 3.5; g += 0.5) {
+    el('line', {x1: m.l, x2: W - m.r, y1: Y(g), y2: Y(g), stroke: css('--line'), 'stroke-width': 1}, svg);
+    el('text', {x: m.l - 8, y: Y(g) + 4, 'text-anchor': 'end', fill: css('--ink2'), 'font-size': 12}, svg)
+      .textContent = g.toFixed(1) + '%';
+  }
+  for (let s = -5; s <= 30; s += 5) {
+    el('line', {x1: X(s), x2: X(s), y1: m.t, y2: Y(0), stroke: css('--line'), 'stroke-width': 1}, svg);
+    el('text', {x: X(s), y: H - 26, 'text-anchor': 'middle', fill: css('--ink2'), 'font-size': 12}, svg)
+      .textContent = (s > 0 ? '+' : '') + s;
+  }
+  el('text', {x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle', fill: css('--ink2'),
+    'font-weight': 700, 'font-size': 12.5}, svg).textContent = 'Cambio en la calificación media de sus aspirantes (aciertos)';
+  el('text', {x: 14, y: m.t - 8, fill: css('--ink2'), 'font-weight': 700, 'font-size': 12.5}, svg)
+    .textContent = 'Exámenes cancelados (%)';
+  el('line', {x1: X(0), x2: X(0), y1: m.t, y2: Y(0), stroke: css('--axis'), 'stroke-width': 1.5}, svg);
+  el('line', {x1: X(8), x2: X(8), y1: m.t, y2: Y(0), stroke: css('--crit'), 'stroke-width': 1.5,
+    'stroke-dasharray': '5 4', opacity: .8}, svg);
+  el('text', {x: X(8) + 6, y: m.t + 12, fill: css('--crit'), 'font-weight': 750, 'font-size': 12}, svg)
+    .textContent = '+8 · cambio máximo en un año normal';
+  el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: css('--axis'), 'stroke-width': 1}, svg);
+  const R = a => Math.max(4, Math.sqrt(a) / 9);
+  for (const r of D.risk) {
+    const dx = online ? r.dOnline : r.dBase;
+    const cy = online ? r.cr26 : r.cr25;
+    el('circle', {cx: X(dx), cy: Y(Math.min(cy, y1v)), r: R(r.asp), fill: col, 'fill-opacity': .5,
+      stroke: colDeep, 'stroke-width': 1.5}, svg);
+  }
+  note.textContent = online
+    ? 'De 2025 a 2026 (examen en línea): las 107 carreras a la derecha del cero; 104 más allá de la línea roja.'
+    : 'De 2024 a 2025 (examen presencial): las 107 carreras agrupadas alrededor del cero.';
+}
+
+/* ---------- timeline ---------- */
+function timelineStage() {
+  stage.replaceChildren();
+  const box = document.createElement('div'); box.className = 'timeline-stage';
+  const ul = document.createElement('ul');
+  const items = [
+    ['17 de julio', 'Se publican los resultados. Comienzan las quejas por puntajes inusuales.', false],
+    ['21–22 de julio', 'El rector ordena un informe especial y una comisión técnica. Se reporta la cancelación de ~2% de los exámenes.', true],
+    ['24 de julio', 'La UNAM suspende provisionalmente las inscripciones de nuevo ingreso (boletín oficial DGCS).', true],
+  ];
+  for (const [d, t, hot] of items) {
+    const li = document.createElement('li'); if (hot) li.className = 'hot';
+    const sd = document.createElement('span'); sd.className = 'd'; sd.textContent = d;
+    li.appendChild(sd); li.appendChild(document.createTextNode(t)); ul.appendChild(li);
+  }
+  box.appendChild(ul); stage.appendChild(box);
+  note.textContent = '';
+}
+
+/* ---------- states ---------- */
+const STATES = {
+  1: () => { bigNums([
+        {v: '167,094', l: 'aspirantes en 2026'},
+        {v: '14,316', l: 'lugares disponibles', cls: 'dim'},
+        {v: '1 de cada 10', l: 'obtiene un lugar', cls: 'hot'}]); note.textContent = ''; },
+  2: () => { curveChart({years: [2024, 2025]}); note.textContent = 'Porcentaje de aspirantes con cada calificación. Azul: 2024 · Verde: 2025.'; },
+  3: () => { curveChart({years: [2024, 2025]}); note.textContent = 'Mayo–junio de 2026: el examen se contesta desde casa por primera vez.'; },
+  4: () => { curveChart({mix: [0, 1]}); note.textContent = 'La curva de 2026 (naranja) comparada con la silueta de los años anteriores (gris).'; },
+  5: () => { pctlChart(); },
+  6: () => { curveChart({years: [2025, 2026], tailFrom: 110}); note.textContent = 'Zona sombreada: aspirantes con 110 aciertos o más, en 2025 y en 2026.'; },
+  7: () => { tailZoom(); },
+  8: () => { scatter(false); },
+  9: () => { scatter(true); },
+  10: () => { bigNums([
+        {v: '9 · 3', l: 'exámenes cancelados en 2024 y 2025', cls: 'dim'},
+        {v: '3,020', l: 'exámenes cancelados en 2026', cls: 'hot'},
+        {v: '516', l: 'solo en Medicina de Ciudad Universitaria (3.1% de sus aspirantes)'}]); note.textContent = ''; },
+  11: () => { bigNums([
+        {v: '96 aciertos', l: 'el mismo resultado en el examen'},
+        {v: 'superaba al 95%', l: 'de los aspirantes en 2024 y en 2025', cls: 'dim'},
+        {v: 'superaba al 78%', l: 'de los aspirantes en 2026', cls: 'hot'}]); note.textContent = ''; },
+  12: () => { bigNums([
+        {v: '117 de 120', l: 'puntaje mínimo para entrar a Medicina CU en 2026', cls: 'hot'},
+        {v: '17,005', l: 'seleccionados en 2026 (14,582 en 2025: un 17% más)'},
+        ]); note.textContent = 'Más aciertos exigidos y, al mismo tiempo, más lugares otorgados.'; },
+  13: () => { timelineStage(); },
+};
+
+let current = -1;
+function setState(s) { if (s !== current) { current = s; STATES[s](); } }
+const steps = [...document.querySelectorAll('.step')];
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) if (e.isIntersecting) setState(+e.target.dataset.s);
+}, {rootMargin: '-45% 0px -45% 0px'});
+steps.forEach(s => io.observe(s));
+
+// scroll-linked morph between steps 3 and 4 (skip when reduced motion)
+if (!reduced) {
+  const s4 = document.querySelector('.step[data-s="4"]');
+  addEventListener('scroll', () => {
+    if (current !== 3 && current !== 4) return;
+    const r = s4.getBoundingClientRect();
+    const vh = innerHeight;
+    const p = Math.max(0, Math.min(1, 1 - (r.top - vh * 0.1) / (vh * 0.8)));
+    if (p > 0 && p < 1) { current = 3.5; curveChart({mix: [1 - p, p]}); }
+  }, {passive: true});
+}
+setState(1);
+</script>
+
+</body>
+</html>
