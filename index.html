@@ -967,7 +967,6 @@ function showProfile(code) {
       const tasa = (s.sel / s.asp * 100).toFixed(1);
       rows.textContent = `aspirante típico: ${s.med ?? '—'} aciertos · ${fmt(s.asp)} aspirantes · ` +
         `${fmt(s.o)} lugares · ${fmt(s.sel)} seleccionados (${tasa}%)` +
-        ` · con 110 o más: ${fmt(s.h110 ?? 0)}` +
         (s.C ? ` · ${fmt(s.C)} cancelados` : '');
       card.appendChild(rows);
     } else {
@@ -996,6 +995,15 @@ function showProfile(code) {
   const ttp = document.createElement('div'); ttp.className = 'tt'; cc.appendChild(ttp);
   host.appendChild(cc);
   drawProfileChart(chartHost, cc, d, ttp);
+  // aspirantes con 110 o más — sección propia
+  const hc = document.createElement('div'); hc.className = 'chart-card';
+  const ht1 = document.createElement('p'); ht1.className = 'chart-title'; ht1.textContent = 'Aspirantes con 110 aciertos o más';
+  const ht2 = document.createElement('p'); ht2.className = 'chart-sub';
+  ht2.textContent = 'Cuántos aspirantes de esta carrera obtuvieron 110 o más cada año. Esta señal sale directamente de las calificaciones publicadas y no depende de qué exámenes se cancelaron.';
+  hc.appendChild(ht1); hc.appendChild(ht2);
+  const hh = document.createElement('div'); hc.appendChild(hh);
+  host.appendChild(hc);
+  drawH110(hh, d);
   // cuánta gente en cada acierto, cerca del corte
   const cz = document.createElement('div'); cz.className = 'chart-card';
   const z1 = document.createElement('p'); z1.className = 'chart-title'; z1.textContent = 'Cuánta gente en cada acierto, cerca del corte';
@@ -1127,6 +1135,28 @@ function drawCutZoom(hostDiv, card, d, tt) {
       'stroke-dasharray': '4 4', opacity: .85}, svg);
     el('text', {x: x + 4, y: m.t + 10 + yi * 14, fill: YC()[y], 'font-weight': 750, 'font-size': 11.5}, svg)
       .textContent = 'corte ' + String(y).slice(2) + ': ' + c;
+  });
+}
+
+function drawH110(hostDiv, d) {
+  const years = YEARS.filter(y => d.y[y]);
+  const W = 900, rowH = 58, m = {t: 8, r: 210, b: 10, l: 82};
+  const H = m.t + years.length * rowH + m.b;
+  const vmax = Math.max(1, ...years.map(y => d.y[y].h110 ?? 0));
+  const X = v => m.l + v / vmax * (W - m.l - m.r);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Aspirantes de esta carrera con 110 aciertos o más, por año'}, hostDiv);
+  years.forEach((y, i) => {
+    const s = d.y[y];
+    const n = s.h110 ?? 0;
+    const pct = s.pre ? n / s.pre * 100 : 0;
+    const cy = m.t + i * rowH + rowH / 2;
+    el('text', {x: m.l - 14, y: cy + 6, 'text-anchor': 'end', 'font-weight': 800, 'font-size': 17,
+      fill: YC()[y]}, svg).textContent = y;
+    el('rect', {x: m.l, y: cy - 13, width: Math.max(X(n) - m.l, 3), height: 26, rx: 6,
+      fill: YC()[y]}, svg);
+    el('text', {x: X(n) + 12, y: cy + 6, 'font-weight': 800, 'font-size': 16, fill: css('--ink')}, svg)
+      .textContent = fmt(n) + (n === 1 ? ' aspirante' : ' aspirantes') + (n ? ` (${pct.toFixed(1)}%)` : '');
   });
 }
 
