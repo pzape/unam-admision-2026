@@ -187,18 +187,25 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
       <p>En las carreras más competidas se canceló el doble que en las demás. Solo en Medicina
       de Ciudad Universitaria: 516 exámenes.</p></div></div>
 
-    <div class="step" data-s="11"><div class="card"><span class="n">11 · El mismo puntaje valió menos</span>
+    <div class="step" data-s="11"><div class="card"><span class="n">11 · Una segunda señal</span>
+      <p>Las cancelaciones muestran los casos que la UNAM detectó. Las calificaciones publicadas dan
+      otra señal, independiente: cuántos aspirantes de cada carrera obtuvieron <strong>110 aciertos o
+      más</strong>. En Medicina CU pasaron de 460 a <strong>1,904</strong>.</p>
+      <p>Esta señal también aparece en carreras con pocas cancelaciones: en Psicología de FES Zaragoza
+      pasaron de 4 a 76.</p></div></div>
+
+    <div class="step" data-s="12"><div class="card"><span class="n">12 · El mismo puntaje valió menos</span>
       <p>Una persona con <strong>96 aciertos</strong> superaba al 95% de los aspirantes en 2024 y 2025.</p>
       <p>En 2026, ese mismo puntaje superaba al <strong>78%</strong>. Su posición bajó sin que su
       examen cambiara.</p></div></div>
 
-    <div class="step" data-s="12"><div class="card"><span class="n">12 · Un resultado inesperado</span>
+    <div class="step" data-s="13"><div class="card"><span class="n">13 · Un resultado inesperado</span>
       <p>Los puntajes mínimos para entrar alcanzaron niveles récord. Aun así, la UNAM seleccionó a
       <strong>17,005 aspirantes</strong>, un 17% más que el año anterior.</p>
       <p>Medido contra los aspirantes de su propio año, entrar fue un poco más accesible que antes,
       aunque se necesitaran más aciertos.</p></div></div>
 
-    <div class="step" data-s="13"><div class="card"><span class="n">13 · Dónde está el caso hoy</span>
+    <div class="step" data-s="14"><div class="card"><span class="n">14 · Dónde está el caso hoy</span>
       <p>La propia UNAM reconoció un aumento irregular de aciertos, formó una comisión técnica y
       <strong>suspendió provisionalmente las inscripciones</strong> el 24 de julio.</p>
       <p>Un dato pendiente: los exámenes cancelados no tienen calificación publicada, así que todo
@@ -471,6 +478,36 @@ function timelineStage() {
   note.textContent = '';
 }
 
+function bars110() {
+  stage.replaceChildren();
+  const rows = [
+    ['Medicina · Ciudad Universitaria', 460, 1904],
+    ['Medicina · FES Iztacala', 96, 755],
+    ['Odontología · Ciudad Universitaria', 19, 241],
+    ['Psicología · FES Zaragoza', 4, 76],
+  ];
+  const W = 880, rowH = 76, m = {t: 6, r: 90, b: 30, l: 10};
+  const H = m.t + rows.length * rowH + m.b;
+  const vmax = 2000, barX0 = 300;
+  const X = v => barX0 + v / vmax * (W - barX0 - m.r);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Aspirantes con 110 aciertos o más por carrera, 2025 contra 2026'}, stage);
+  rows.forEach(([name, v25, v26], i) => {
+    const cy = m.t + i * rowH + rowH / 2;
+    el('text', {x: barX0 - 12, y: cy + 4, 'text-anchor': 'end', 'font-weight': 700,
+      fill: css('--ink'), 'font-size': 13.5}, svg).textContent = name;
+    el('rect', {x: barX0, y: cy - 22, width: Math.max(X(v25) - barX0, 2), height: 16, rx: 4,
+      fill: css('--y25')}, svg);
+    el('text', {x: X(v25) + 8, y: cy - 9, 'font-weight': 700, fill: css('--y25-deep'),
+      'font-size': 12.5}, svg).textContent = fmt(v25) + ' en 2025';
+    el('rect', {x: barX0, y: cy + 4, width: Math.max(X(v26) - barX0, 2), height: 16, rx: 4,
+      fill: css('--y26')}, svg);
+    el('text', {x: X(v26) + 8, y: cy + 17, 'font-weight': 800, fill: css('--y26-deep'),
+      'font-size': 13}, svg).textContent = fmt(v26) + ' en 2026';
+  });
+  note.textContent = 'Aspirantes de cada carrera con 110 aciertos o más (verde: 2025 · naranja: 2026).';
+}
+
 /* ---------- states ---------- */
 const STATES = {
   1: () => { bigNums([
@@ -489,15 +526,16 @@ const STATES = {
         {v: '9 · 3', l: 'exámenes cancelados en 2024 y 2025', cls: 'dim'},
         {v: '3,020', l: 'exámenes cancelados en 2026', cls: 'hot'},
         {v: '516', l: 'solo en Medicina de Ciudad Universitaria (3.1% de sus aspirantes)'}]); note.textContent = ''; },
-  11: () => { bigNums([
+  11: () => { bars110(); },
+  12: () => { bigNums([
         {v: '96 aciertos', l: 'el mismo resultado en el examen'},
         {v: 'superaba al 95%', l: 'de los aspirantes en 2024 y en 2025', cls: 'dim'},
         {v: 'superaba al 78%', l: 'de los aspirantes en 2026', cls: 'hot'}]); note.textContent = ''; },
-  12: () => { bigNums([
+  13: () => { bigNums([
         {v: '117 de 120', l: 'puntaje mínimo para entrar a Medicina CU en 2026', cls: 'hot'},
         {v: '17,005', l: 'seleccionados en 2026 (14,582 en 2025: un 17% más)'},
         ]); note.textContent = 'Más aciertos exigidos y, al mismo tiempo, más lugares otorgados.'; },
-  13: () => { timelineStage(); },
+  14: () => { timelineStage(); },
 };
 
 let current = -1;
