@@ -19,6 +19,9 @@
   --y24: #2563eb; --y24-deep: #1d4ed8; --y25: #059669; --y25-deep: #047857;
   --y26: #ea580c; --y26-deep: #c2410c; --y26-soft: rgba(234,88,12,.10);
   --crit: #dc2626; --good: #047857;
+  --a1: #7c3aed; --a2: #db2777; --a3: #0891b2; --a4: #b45309;
+  --a1-soft: rgba(124,58,237,.10); --a2-soft: rgba(219,39,119,.10);
+  --a3-soft: rgba(8,145,178,.10); --a4-soft: rgba(180,83,9,.10);
   --shadow: 0 1px 2px rgba(16,18,35,.05), 0 10px 30px rgba(16,18,35,.07);
 }
 * { box-sizing: border-box; }
@@ -105,6 +108,10 @@ legend { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; co
 .seg input:checked + label { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
 .seg input#yy2026:checked + label, .seg input#tSel26:checked + label { border-color: var(--y26); color: var(--y26-deep); background: var(--y26-soft); }
 .chk input:checked + label { border-color: var(--ink2); color: var(--ink); background: var(--card); }
+#areaSelM input#ma1:checked + label { border-color: var(--a1); color: var(--a1); background: var(--a1-soft); }
+#areaSelM input#ma2:checked + label { border-color: var(--a2); color: var(--a2); background: var(--a2-soft); }
+#areaSelM input#ma3:checked + label { border-color: var(--a3); color: var(--a3); background: var(--a3-soft); }
+#areaSelM input#ma4:checked + label { border-color: var(--a4); color: var(--a4); background: var(--a4-soft); }
 .seg input:focus-visible + label, .chk input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 0 0 12px; }
 circle.dot { cursor: pointer; }
@@ -332,7 +339,7 @@ a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-r
 
     <div class="chart-card" id="cardMap">
       <p class="chart-title">Cuánto subió cada carrera vs. cuántos exámenes le cancelaron</p>
-      <p class="chart-sub">Un punto por carrera · tamaño = aspirantes 2026 · explora con el cursor o con Tab.</p>
+      <p class="chart-sub">Un punto por carrera · el color indica el área, igual que los filtros de abajo · tamaño = aspirantes 2026 · explora con el cursor o con Tab.</p>
       <div class="controls">
         <fieldset id="transSel">
           <legend>Transición</legend>
@@ -761,8 +768,9 @@ function drawMap() {
     const dx = online ? r.dOnline : r.dBase;
     const cy = mode110 ? (online ? r.s26 : r.s25) : (online ? r.cr26 : r.cr25);
     const asp = d.y[2026].asp;
+    const ac = css('--a' + d.a);
     const node = el('circle', {class: 'dot', cx: X(dx), cy: Y(Math.min(cy, y1v)), r: R(asp),
-      fill: col, 'fill-opacity': .5, stroke: colDeep, 'stroke-width': 1.5, tabindex: 0, role: 'img',
+      fill: ac, 'fill-opacity': .55, stroke: ac, 'stroke-width': 1.5, tabindex: 0, role: 'img',
       'aria-label': `${d.k}, ${d.p}. Subida ${dx >= 0 ? 'más' : 'menos'} ${Math.abs(dx)} aciertos. Con 110 o más: ${r.n25} en 2025 y ${r.n26} en 2026. Cancelaciones 2026: ${r.cr26}%.`}, svg);
     hoverable(node, card, tt, () => setTip(tt, d.k, `${d.p} · Área ${d.a} (${AREAS[d.a]})`, [
       {text: `Aspirante típico: ${d.y[2024].med} → ${d.y[2025].med} → ${d.y[2026].med} aciertos`},
