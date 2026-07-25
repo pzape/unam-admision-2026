@@ -474,7 +474,6 @@ a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-r
     <div class="results-list" id="searchResults" role="listbox" aria-label="Resultados de búsqueda"></div>
 
     <div id="profile"></div>
-    <div class="tt" id="ttProf"></div>
   </section>
 
   <div class="foot">
@@ -973,8 +972,9 @@ function showProfile(code) {
   }
   cc.appendChild(leg);
   const chartHost = document.createElement('div'); cc.appendChild(chartHost);
+  const ttp = document.createElement('div'); ttp.className = 'tt'; cc.appendChild(ttp);
   host.appendChild(cc);
-  drawProfileChart(chartHost, cc, d);
+  drawProfileChart(chartHost, cc, d, ttp);
   // siblings
   const sibs = Object.entries(D.progs).filter(([c2, d2]) => d2.k === d.k && c2 !== code);
   if (sibs.length) {
@@ -990,8 +990,7 @@ function showProfile(code) {
   }
   host.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
 }
-function drawProfileChart(hostDiv, card, d) {
-  const tt = document.getElementById('ttProf');
+function drawProfileChart(hostDiv, card, d, tt) {
   const W = 900, H = 320, m = {t: 18, r: 18, b: 40, l: 48};
   const years = YEARS.filter(y => d.y[y] && d.y[y].h5.length);
   const ymax = Math.max(8, ...years.flatMap(y => d.y[y].h5)) * 1.12;
