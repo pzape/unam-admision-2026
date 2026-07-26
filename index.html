@@ -1087,7 +1087,7 @@ function showProfile(code) {
   const cc = document.createElement('div'); cc.className = 'chart-card'; cc.id = 'cardProf';
   const t1 = document.createElement('p'); t1.className = 'chart-title'; t1.textContent = 'Calificaciones de sus aspirantes, por año';
   const t2 = document.createElement('p'); t2.className = 'chart-sub';
-  t2.textContent = 'Porcentaje de aspirantes de esta carrera en cada rango de 5 aciertos. Las líneas punteadas marcan el puntaje de corte de cada año.';
+  t2.textContent = 'Porcentaje de aspirantes de esta carrera en cada rango de 5 aciertos. Las líneas punteadas de color marcan el puntaje de corte de cada año; la zona sombreada, a los aspirantes con 110 aciertos o más en 2025 y 2026.';
   cc.appendChild(t1); cc.appendChild(t2);
   const leg = document.createElement('div'); leg.className = 'legend';
   for (const y of YEARS) {
@@ -1161,6 +1161,19 @@ function drawProfileChart(hostDiv, card, d, tt) {
   for (let s = 0; s <= 120; s += 20)
     el('text', {x: Xs(s), y: H - 14, 'text-anchor': 'middle', fill: css('--muted'), 'font-size': 12}, svg).textContent = s;
   el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: css('--axis'), 'stroke-width': 1}, svg);
+  // zona sombreada: aspirantes con 110 o más, como en la historia
+  for (const y of years) {
+    if (y === 2024) continue;
+    const arr = d.y[y].h5;
+    let area = `M ${Xs(110)} ${Y(0)}`;
+    for (let i = 22; i < arr.length; i++) area += ` L ${X(i)} ${Y(arr[i])}`;
+    area += ` L ${Xs(120)} ${Y(0)} Z`;
+    el('path', {d: area, fill: YC()[y], opacity: y === 2026 ? .3 : .22, stroke: 'none'}, svg);
+  }
+  el('line', {x1: Xs(110), x2: Xs(110), y1: m.t, y2: Y(0), stroke: css('--ink2'), 'stroke-width': 1.2,
+    'stroke-dasharray': '3 4', opacity: .8}, svg);
+  el('text', {x: Xs(110) - 6, y: m.t + 14, 'text-anchor': 'end', fill: css('--ink2'), 'font-weight': 750,
+    'font-size': 12}, svg).textContent = '110+';
   for (const y of years) {
     const arr = d.y[y].h5;
     let path = '';
