@@ -407,8 +407,8 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
     </div>
 
     <div class="chart-card" id="cardTop">
-      <p class="chart-title">Las 12 carreras que más subieron: sus tres años</p>
-      <p class="chart-sub">Calificación del aspirante típico en 2024, 2025 y 2026.</p>
+      <p class="chart-title">Las carreras que más subieron: sus tres años</p>
+      <p class="chart-sub">Las 12 con mayor salto 2025→2026 dentro de las áreas seleccionadas arriba · calificación del aspirante típico en 2024, 2025 y 2026.</p>
       <div class="legend">
         <span><span class="dotm" style="background:var(--y24)"></span>2024</span>
         <span><span class="dotm" style="background:var(--y25)"></span>2025</span>
@@ -891,7 +891,8 @@ function drawMap() {
 function drawTop12() {
   const host = document.getElementById('chartTop'); host.replaceChildren();
   const card = document.getElementById('cardTop'), tt = document.getElementById('ttTop');
-  const rows = [...D.risk].sort((a, b) => b.dOnline - a.dOnline).slice(0, 12);
+  const rows = [...D.risk].filter(r => mapState.areas.has(D.progs[r.c].a))
+    .sort((a, b) => b.dOnline - a.dOnline).slice(0, 12);
   const W = 900, rowH = 45, m = {t: 6, r: 62, b: 32, l: 265};
   const H = m.t + rows.length * rowH + m.b;
   const lo = 40, hi = 110;
@@ -962,6 +963,7 @@ document.getElementById('transSel').addEventListener('change', () => {
 document.getElementById('areaSelM').addEventListener('change', () => {
   mapState.areas = new Set([1, 2, 3, 4].filter(a => document.getElementById('ma' + a).checked));
   drawMap();
+  drawTop12();
 });
 document.getElementById('ySel').addEventListener('change', () => {
   mapState.ymode = document.getElementById('y110').checked ? 'e110' : 'cancel';
