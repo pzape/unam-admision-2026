@@ -375,7 +375,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 
     <div class="chart-card" id="cardMap">
       <p class="chart-title">Cuánto subió cada carrera vs. cuántos exámenes le cancelaron</p>
-      <p class="chart-sub">Un punto por carrera · el color indica el área, igual que los filtros de abajo · tamaño = aspirantes 2026 · explora con el cursor o con Tab.</p>
+      <p class="chart-sub">Un punto por carrera · el color indica el área, igual que los filtros de abajo · tamaño = aspirantes 2026 · haz clic en un punto para abrir el perfil de esa carrera · doble clic en una pastilla de área para verla sola.</p>
       <div class="controls">
         <fieldset id="transSel">
           <legend>Transición</legend>
@@ -865,14 +865,22 @@ function drawMap() {
     const asp = d.y[2026].asp;
     const ac = css('--a' + d.a);
     const node = el('circle', {class: 'dot', cx: X(dx), cy: Y(Math.min(cy, y1v)), r: R(asp),
-      fill: ac, 'fill-opacity': .55, stroke: ac, 'stroke-width': 1.5, tabindex: 0, role: 'img',
-      'aria-label': `${d.k}, ${d.p}. Subida ${dx >= 0 ? 'más' : 'menos'} ${Math.abs(dx)} aciertos. Con 110 o más: ${r.n25} en 2025 y ${r.n26} en 2026. Cancelaciones 2026: ${r.cr26}%.`}, svg);
+      fill: ac, 'fill-opacity': .55, stroke: ac, 'stroke-width': 1.5, tabindex: 0, role: 'button',
+      'aria-label': `${d.k}, ${d.p}. Subida ${dx >= 0 ? 'más' : 'menos'} ${Math.abs(dx)} aciertos. Con 110 o más: ${r.n25} en 2025 y ${r.n26} en 2026. Cancelaciones 2026: ${r.cr26}%. Presiona Enter para abrir su perfil.`}, svg);
     hoverable(node, card, tt, () => setTip(tt, d.k, `${d.p} · Área ${d.a} (${AREAS[d.a]})`, [
       {text: `Aspirante típico: ${d.y[2024].med} → ${d.y[2025].med} → ${d.y[2026].med} aciertos`},
       {text: `Subida ${online ? '2025→26' : '2024→25'}: ${dx >= 0 ? '+' : ''}${dx} aciertos`},
       {text: `Con 110 o más: ${fmt(r.n25)} en 2025 → ${fmt(r.n26)} en 2026 (${r.s26}%)`},
       {text: `Exámenes cancelados ${online ? '2026' : '2025'}: ${online ? r.cr26 : r.cr25}%`},
       {text: `Aspirantes 2026: ${fmt(asp)} · corte: ${d.y[2026].corte}`}]));
+    const abrir = () => {
+      showTab('buscar');
+      showProfile(r.c);
+      document.getElementById('searchBox').value = d.k + ' — ' + d.p;
+      document.getElementById('searchResults').replaceChildren();
+    };
+    node.addEventListener('click', abrir);
+    node.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); abrir(); } });
   }
   const lgx = W - 175, lgy = m.t + 8;
   el('text', {x: lgx, y: lgy, fill: css('--ink2'), 'font-weight': 700, 'font-size': 12}, svg).textContent = 'Tamaño = aspirantes';
@@ -968,6 +976,17 @@ document.getElementById('areaSelM').addEventListener('change', () => {
 document.getElementById('ySel').addEventListener('change', () => {
   mapState.ymode = document.getElementById('y110').checked ? 'e110' : 'cancel';
   drawMap();
+});
+[1, 2, 3, 4].forEach(a => {
+  const lab = document.querySelector('label[for="ma' + a + '"]');
+  lab.addEventListener('dblclick', ev => {
+    ev.preventDefault();
+    const solo = mapState.areas.size === 1 && mapState.areas.has(a);
+    [1, 2, 3, 4].forEach(b => document.getElementById('ma' + b).checked = solo || b === a);
+    mapState.areas = new Set(solo ? [1, 2, 3, 4] : [a]);
+    drawMap();
+    drawTop12();
+  });
 });
 
 /* ============ CALCULADORA ============ */
