@@ -1174,8 +1174,13 @@ function showProfile(code) {
     ht1.textContent = 'Aspirantes con ' + thr + ' aciertos o más';
     drawThresholdBars(hh, d, thr);
     const p25 = shareGE(2025, thr), p26 = shareGE(2026, thr);
-    bridge.textContent = (p25 === null || p26 === null) ? '' :
-      `Con ${thr} aciertos o más estabas entre el mejor ${p25.toFixed(1)}% de esta carrera en 2025; en 2026, entre el mejor ${p26.toFixed(1)}%.`;
+    if (p25 === null || p26 === null) bridge.textContent = '';
+    else if (p25 < 50 && p26 < 50)
+      bridge.textContent = `Con ${thr} aciertos o más estabas entre el mejor ${p25.toFixed(1)}% de esta carrera en 2025; en 2026, entre el mejor ${p26.toFixed(1)}%.`;
+    else if (thr === 0)
+      bridge.textContent = 'Umbral en 0: se cuenta a todos los aspirantes que presentaron el examen. Sube el umbral para comparar.';
+    else
+      bridge.textContent = `El ${p25.toFixed(1)}% de los aspirantes de esta carrera alcanzó este umbral en 2025; en 2026 lo alcanzó el ${p26.toFixed(1)}%.`;
     chartHost.replaceChildren();
     drawProfileChart(chartHost, cc, d, ttp, thr);
   };
