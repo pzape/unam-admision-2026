@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Pedro Zape (github.com/pzape)">
+<meta name="description" content="Descriptor de datos: microdatos de los resultados públicos del Concurso de Selección a Licenciatura de la UNAM, ciclos 2024–2026, con métodos de recolección y validación técnica.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nota técnica · Resultados del Concurso de Selección UNAM 2024–2026: descriptor de datos">
+<meta property="og:description" content="Métodos de recolección, verificación de integridad y validación estadística de 504,100 registros públicos de admisión, con la primera aplicación en línea del examen (2026).">
+<meta property="og:locale" content="es_MX">
+<title>Nota técnica · Descriptor de datos UNAM 2024–2026</title>
+<style>
+:root { color-scheme: light;
+  --bg: #f6f7fb; --surface: #fff; --ink: #101223; --ink2: #3f4557; --muted: #6a7186;
+  --line: #e7eaf2; --brand: #4f46e5; --brand-soft: #eef0fe; --y26: #ea580c;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { font: 15.5px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); margin: 0; -webkit-font-smoothing: antialiased; }
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(246,247,251,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.topbar-in { max-width: 860px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+.topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
+.topbar b { font-weight: 800; }
+.topbar a { margin-left: auto; color: var(--brand); font-weight: 650; text-decoration: none; }
+.wrap { max-width: 800px; margin: 0 auto; padding: 44px 22px 90px; }
+.kicker { display: inline-block; background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px; }
+h1 { font-size: clamp(24px, 4vw, 34px); line-height: 1.2; font-weight: 800; letter-spacing: -.02em; margin: 0 0 10px; text-wrap: balance; }
+.meta { font-size: 13.5px; color: var(--muted); margin-bottom: 28px; }
+h2 { font-size: 19px; font-weight: 750; margin: 36px 0 8px; letter-spacing: -.01em; }
+h3 { font-size: 15.5px; font-weight: 750; margin: 20px 0 4px; }
+p, li { color: var(--ink2); }
+p { margin: 10px 0; }
+strong { color: var(--ink); }
+.abstract { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; margin: 22px 0; }
+.abstract p { margin: 6px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 14px 0; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); font-weight: 750; padding: 8px 12px 6px 0; border-bottom: 1.5px solid var(--line); }
+td { padding: 7px 12px 7px 0; border-bottom: 1px solid var(--line); color: var(--ink2); }
+td.num, th.num { text-align: right; }
+code { background: var(--brand-soft); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
+.refs li { margin: 8px 0; font-size: 14px; }
+a { color: var(--brand); }
+.foot { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); line-height: 1.7; }
+.foot a { color: var(--ink2); }
+</style>
+</head>
+<body>
+<!-- Análisis y autoría: Pedro Zape · github.com/pzape · julio 2026 -->
+<div class="topbar"><div class="topbar-in">
+  <span class="dot"></span><b>Admisión UNAM</b><span style="color:var(--muted)">2024–2026</span>
+  <a href="https://pzape.github.io/unam-admision-2026/">Explorador interactivo →</a>
+</div></div>
+
+<div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
+  <span class="kicker">Nota técnica · Descriptor de datos</span>
+  <h1>Resultados públicos del Concurso de Selección a Licenciatura de la UNAM, 2024–2026: un conjunto de microdatos con validación técnica</h1>
+  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.0 · 28 de julio de 2026</p>
+
+  <div class="abstract">
+    <h3 style="margin-top:0">Resumen</h3>
+    <p>Se presenta un conjunto de microdatos construido a partir de los resultados oficiales del Concurso
+    de Selección a nivel licenciatura de la UNAM (sistema escolarizado) para los ciclos 2024, 2025 y 2026:
+    504,100 registros de aspirantes provenientes de 530 páginas oficiales de resultados, con calificación
+    (0–120 aciertos), estatus publicado y carrera-plantel, junto con los agregados por programa (oferta,
+    aspirantes, examinados, corte y seleccionados). El ciclo 2026 corresponde a la primera aplicación en
+    línea del examen; los ciclos 2024–2025, de aplicación presencial, resultan estadísticamente casi
+    indistinguibles entre sí (D de Kolmogorov–Smirnov = 0.0095) y constituyen una referencia natural de
+    estabilidad frente al cambio observado en 2026 (D = 0.2820). El conjunto conserva la URL de origen de
+    cada registro, supera verificaciones de conciliación en las 530 páginas y se acompaña de herramientas
+    interactivas de consulta. Su propósito es permitir el análisis independiente y reproducible de un
+    episodio de interés público en la medición educativa.</p>
+  </div>
+
+  <h2>1. Antecedentes y contexto</h2>
+  <p>La aplicación remota de exámenes de alto impacto plantea riesgos documentados de seguridad y equidad
+  (Langenfeld, 2020), y la evidencia empírica sobre cursos en línea muestra diferencias de comportamiento
+  según las condiciones de supervisión (Dendir &amp; Maxwell, 2020). La literatura sobre seguridad de
+  exámenes describe métodos estadísticos para caracterizar irregularidades a nivel agregado (Cizek, 1999;
+  Wollack &amp; Fremer, 2013), y la comparabilidad de calificaciones entre aplicaciones distintas de un
+  instrumento es objeto de la teoría de equiparación (Kolen &amp; Brennan, 2014).</p>
+  <p>En 2026, la UNAM aplicó por primera vez en línea el examen de su Concurso de Selección a licenciatura
+  (23 de mayo–10 de junio, conforme al calendario oficial <em>Primer Ingreso 2026-2027</em> de la DGAE;
+  resultados publicados el 17 de julio). En los días posteriores a la publicación, la universidad informó
+  la cancelación de exámenes por conductas contrarias a la Convocatoria y la suspensión provisional de las
+  inscripciones (boletín DGCS 2026/427bis). Este descriptor documenta un conjunto de datos que permite
+  estudiar el episodio con los registros oficiales, sin acceso privilegiado de ningún tipo.</p>
+
+  <h2>2. Métodos</h2>
+  <h3>2.1. Fuente</h3>
+  <p>Páginas oficiales de resultados de la DGAE (<code>dgae.unam.mx/Licenciatura{año}/resultados/</code>).
+  Cada página carrera-plantel publica (i) un encabezado con Oferta, Aspirantes, Presentaron Examen,
+  Aciertos Mínimos y Seleccionados, y (ii) la tabla completa de aspirantes: número de comprobante,
+  aciertos y estatus (S = seleccionado; N = no presentó; C = cancelado; sin letra = no seleccionado).</p>
+  <h3>2.2. Recolección</h3>
+  <p>Descarga secuencial de las 530 páginas (170 de 2024, 175 de 2025, 185 de 2026) mediante sesión de
+  navegador, con reintentos ante errores transitorios; sin fallas de descarga. Fechas de recolección:
+  24–25 de julio de 2026. El análisis sintáctico extrae el encabezado mediante expresión regular y la
+  tabla mediante recorrido del DOM; los registros conservan la URL de origen.</p>
+  <h3>2.3. Procesamiento</h3>
+  <p>Normalización a dos tablas por ciclo (resumen por carrera-plantel; microdatos de aspirantes) en CSV
+  codificado en UTF-8. No se imputan valores; el único registro con calificación no numérica (un valor
+  "E" en 2025) se conserva en el archivo y se excluye de los cálculos distribucionales.</p>
+  <h3>2.4. Consideraciones éticas</h3>
+  <p>Los datos son exclusivamente los publicados por la institución para consulta abierta. Los números de
+  comprobante son identificadores pseudónimos asignados por la propia fuente; el conjunto no añade ningún
+  dato personal, no incorpora fuentes externas vinculables y no permite —ni se intentó— la
+  reidentificación de personas.</p>
+
+  <h2>3. Registros de datos</h2>
+  <h3>3.1. Archivos</h3>
+  <table>
+    <thead><tr><th>Archivo</th><th class="num">Filas</th><th>Contenido</th></tr></thead>
+    <tbody>
+      <tr><td><code>unam2024_summary.csv</code></td><td class="num">170</td><td>agregados por carrera-plantel, ciclo 2024</td></tr>
+      <tr><td><code>unam2025_summary.csv</code></td><td class="num">175</td><td>ídem, 2025</td></tr>
+      <tr><td><code>unam2026_summary.csv</code></td><td class="num">185</td><td>ídem, 2026</td></tr>
+      <tr><td><code>unam2024_aspirantes.csv</code></td><td class="num">162,463</td><td>microdatos de aspirantes, 2024</td></tr>
+      <tr><td><code>unam2025_aspirantes.csv</code></td><td class="num">174,543</td><td>ídem, 2025</td></tr>
+      <tr><td><code>unam2026_aspirantes.csv</code></td><td class="num">167,094</td><td>ídem, 2026</td></tr>
+    </tbody>
+  </table>
+  <h3>3.2. Diccionario</h3>
+  <p><strong>Microdatos:</strong> <code>codigo</code> (identificador carrera-plantel de 8 dígitos, asignado
+  por la DGAE); <code>area</code> (1–4); <code>carrera</code>; <code>plantel</code>;
+  <code>comprobante</code> (identificador pseudónimo del aspirante dentro de su programa);
+  <code>aciertos</code> (0–120; vacío para estatus N y C); <code>estatus</code> (S/N/C/vacío).
+  <strong>Resumen:</strong> los cinco campos del encabezado oficial más <code>codigo</code>,
+  <code>area</code>, <code>carrera</code>, <code>plantel</code> y <code>url</code> de origen.</p>
+  <h3>3.3. Cobertura y unidad de análisis</h3>
+  <p>La unidad es el registro de aspirante en un programa; cada aspirante aparece bajo un único programa
+  por ciclo. Los identificadores no son vinculables entre ciclos, por lo que el conjunto no soporta
+  seguimiento longitudinal de personas.</p>
+
+  <h2>4. Validación técnica</h2>
+  <h3>4.1. Conciliación con la fuente</h3>
+  <p>En 530 de 530 páginas, el número de filas recolectadas coincide con el valor "Aspirantes" del
+  encabezado. En la totalidad de las páginas, todo registro con aciertos ≥ "Aciertos Mínimos" presenta
+  estatus S.</p>
+  <h3>4.2. Discrepancia interna de la fuente</h3>
+  <p>La suma de "Seleccionados" de los encabezados excede el conteo de filas S en ~2.3% (2026: 17,005
+  contra 16,617). Se verificó contra el HTML original: ambas cifras son oficiales. Se documenta como
+  propiedad de la fuente.</p>
+  <h3>4.3. Estabilidad de la línea base</h3>
+  <p>Entre 2024 y 2025 (n = 139,285 y 149,433 examinados): medianas 52 y 52 (IC95 [52, 52] en ambos);
+  medias 56.1 y 56.4; desviaciones estándar 19.7 y 19.7; percentil 90 en 86 en ambos; D de
+  Kolmogorov–Smirnov = 0.0095. Con estos tamaños muestrales incluso esa diferencia es formalmente
+  significativa (D crítico a α = 0.001: 0.0073), por lo que el criterio informativo es la magnitud: la
+  distancia 2025–2026 es treinta veces mayor.</p>
+  <h3>4.4. El cambio de 2026</h3>
+  <p>D(2025, 2026) = 0.2820; mediana 71 (IC95 [71, 71]); media 71.1; desviación estándar 25.2. Cambio por
+  percentil respecto de 2025: p10 +3, p25 +8, p50 +19, p75 +25, p90 +19, p99 +6. Proporción de registros
+  con 110+ aciertos: 0.76% en 2024 (IC95 [0.71, 0.81]), 0.96% en 2025 (IC95 [0.92, 1.02]), 5.79% en 2026
+  (IC95 [5.67, 5.91]).</p>
+  <h3>4.5. Generalidad por programa</h3>
+  <p>En las 107 combinaciones carrera-plantel con ≥ 100 examinados en los tres ciclos, el cambio de
+  mediana 2024→2025 promedió +0.5 aciertos (rango −4 a +8) y el cambio 2025→2026 promedió +16.0 (rango
+  +4 a +28), positivo en 107 de 107 (prueba de signos: p = 2⁻¹⁰⁷ ≈ 6×10⁻³³). 104 de 107 exceden el máximo
+  del rango del periodo de referencia. El cambio positivo se observa en las cuatro áreas académicas.</p>
+  <h3>4.6. Registros con estatus C</h3>
+  <p>9 (2024), 3 (2025) y 3,020 (2026), distribuidos en 133 de 175 programas en 2026; tasa de 1.95% en
+  programas con corte ≥ 100 contra 1.02% en programas con corte &lt; 70. Correlaciones por programa
+  (n = 107): cambio de mediana vs. tasa C, r = 0.30 (IC95 [0.12, 0.46]); cambio en proporción 110+ vs.
+  tasa C, r = 0.42 (IC95 [0.25, 0.56]).</p>
+  <h3>4.7. Hipótesis de composición</h3>
+  <p>El volumen (162,463 / 174,543 / 167,094 registros) y la proporción de estatus N (14.0% / 14.2% /
+  15.1%) varían poco entre ciclos; los 13 programas incorporados en 2026 concentran 1.3% de los
+  aspirantes con media inferior a la general (65.5 contra 71.2), y su exclusión no altera 4.4–4.5.</p>
+
+  <h2>5. Notas de uso</h2>
+  <p><strong>5.1. Límite de identificación.</strong> Los datos no permiten discriminar entre cambios en
+  las propiedades psicométricas del instrumento y cambios en las condiciones de sustentación; esa
+  distinción requiere información a nivel reactivo o estudios de equiparación no públicos (Kolen &amp;
+  Brennan, 2014). Los análisis que asuman dificultad constante deben declararlo como supuesto.</p>
+  <p><strong>5.2. Registros C.</strong> Carecen de calificación publicada; toda estadística distribucional
+  los excluye, y las magnitudes descritas provienen únicamente de resultados que la fuente mantuvo
+  publicados.</p>
+  <p><strong>5.3. Nivel de inferencia.</strong> El conjunto describe distribuciones y programas; no
+  soporta caracterización alguna de aspirantes individuales.</p>
+  <p><strong>5.4. Vigencia.</strong> Los archivos reflejan el estado de la fuente en las fechas de
+  recolección; el episodio estaba bajo revisión institucional a la fecha de esta versión, y publicaciones
+  posteriores de la DGAE podrían modificar los registros.</p>
+  <p><strong>5.5. Reproducción.</strong> Las cifras de la sección 4 son reconstruibles con operaciones
+  estándar sobre los archivos; las <a href="https://pzape.github.io/unam-admision-2026/">herramientas
+  interactivas del sitio</a> permiten explorar distribuciones por programa, umbrales alternativos al 110+
+  y comparativos por plantel.</p>
+
+  <h2>6. Disponibilidad</h2>
+  <p>Las herramientas interactivas de consulta son públicas en
+  <a href="https://pzape.github.io/unam-admision-2026/">pzape.github.io/unam-admision-2026</a>. Los
+  archivos de datos y el detalle del procedimiento de recolección se comparten a solicitud, con fines de
+  verificación o investigación, a través del perfil
+  <a href="https://github.com/pzape">github.com/pzape</a>. Toda cifra de esta nota es, en cualquier caso,
+  reconstruible directamente desde las páginas oficiales de la DGAE citadas en la sección 2.</p>
+
+  <h2>Referencias</h2>
+  <ul class="refs">
+    <li>Cizek, G. J. (1999). <em>Cheating on Tests: How to Do It, Detect It, and Prevent It</em>. Lawrence Erlbaum Associates.</li>
+    <li>Dendir, S., &amp; Maxwell, R. S. (2020). Cheating in online courses: Evidence from online proctoring. <em>Computers in Human Behavior Reports</em>, 2, 100033. https://doi.org/10.1016/j.chbr.2020.100033</li>
+    <li>Kolen, M. J., &amp; Brennan, R. L. (2014). <em>Test Equating, Scaling, and Linking: Methods and Practices</em> (3.ª ed.). Springer.</li>
+    <li>Langenfeld, T. (2020). Internet-based proctored assessment: Security and fairness issues. <em>Educational Measurement: Issues and Practice</em>, 39(3), 24–27. https://doi.org/10.1111/emip.12359</li>
+    <li>Wollack, J. A., &amp; Fremer, J. J. (Eds.) (2013). <em>Handbook of Test Security</em>. Routledge.</li>
+  </ul>
+
+  <div class="foot">
+    <p><strong>Documentos relacionados:</strong>
+    <a href="https://pzape.github.io/unam-admision-2026/">Explorador interactivo</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/historia.html">La historia, paso a paso</a></p>
+    <p><strong>Autoría.</strong> Análisis y redacción: Pedro Zape (github.com/pzape) · © 2026, todos los
+    derechos reservados sobre el análisis, el texto y el diseño; los datos oficiales pertenecen a sus
+    fuentes.</p>
+  </div>
+</div>
+<script>console.info('%cNota técnica · Pedro Zape · github.com/pzape', 'color:#4f46e5;font-weight:bold');</script>
+</body>
+</html>
