@@ -13,3 +13,5 @@ datos incrustados, sin dependencias externas.
 
 Datos: resultados publicados por DGAE-UNAM (504,100 registros de aspirantes). Los datos oficiales
 pertenecen a sus fuentes; el análisis, el texto y el diseño son de Pedro Zape.
+
+Elaborado con asistencia de IA (Claude, de Anthropic) bajo dirección y verificación del autor.
