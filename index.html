@@ -182,10 +182,21 @@ input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .ycard.c24 { border-top-color: var(--y24); }
 .ycard.c25 { border-top-color: var(--y25); }
 .ycard.c26 { border-top-color: var(--y26); }
-.ycard.c21, .ycard.c22, .ycard.c23 { border-top-color: #94a3b8; }
-#panel-buscar .year-cards { grid-template-columns: repeat(3, 1fr); }
-@media (min-width: 900px) { #panel-buscar .year-cards { grid-template-columns: repeat(6, 1fr); } }
-@media (max-width: 680px) { #panel-buscar .year-cards { grid-template-columns: 1fr 1fr; } }
+.ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; box-shadow: var(--shadow); overflow-x: auto; margin-top: 14px; }
+.ytable { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.ytable th, .ytable td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ytable thead th { font-size: 13px; font-weight: 800; color: var(--ink); border-bottom: 1.5px solid var(--axis); }
+.ytable thead th small { display: block; font-size: 9.5px; font-weight: 800; color: var(--y26-deep); text-transform: uppercase; letter-spacing: .07em; }
+.ytable .ysw { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; }
+.ytable td:first-child, .ytable th:first-child { text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 750; }
+.ytable tr.corte td { font-weight: 800; font-size: 15.5px; }
+.ytable tbody tr:last-child td { border-bottom: none; }
+.ytable th:last-child, .ytable td:last-child { background: var(--y26-soft); }
+@media (min-width: 900px) {
+  .buscar-sticky .ytable { font-size: 12px; }
+  .buscar-sticky .ytable th, .buscar-sticky .ytable td { padding: 4px 10px; }
+  .buscar-sticky .ytable tr.corte td { font-size: 13.5px; }
+}
 .ycard .yy { font-size: 12px; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
 .ycard .big { font-size: 26px; font-weight: 800; margin-top: 4px; letter-spacing: -.02em; }
 .ycard .rows { font-size: 12.5px; color: var(--ink2); margin-top: 6px; line-height: 1.65; }
@@ -300,7 +311,9 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
       <p class="chart-sub">Porcentaje de aspirantes que presentaron el examen en cada puntaje. Presiona
       "Ver la transición" para animar el cambio de año en año.</p>
       <div class="legend">
-        <span><span class="sw" style="background:#94a3b8"></span>2021–23 · presencial</span>
+        <span><span class="sw" style="background:#a3aebf"></span>2021</span>
+        <span><span class="sw" style="background:#64748b"></span>2022</span>
+        <span><span class="sw" style="background:#475569"></span>2023 · presenciales</span>
         <span><span class="sw" style="background:var(--y24)"></span>2024 · presencial</span>
         <span><span class="sw" style="background:var(--y25)"></span>2025 · presencial</span>
         <span><span class="sw" style="background:var(--y26)"></span>2026 · en línea</span>
@@ -322,7 +335,9 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
       <p class="chart-title">La fila de aspirantes: cuántos aciertos tenía cada posición</p>
       <p class="chart-sub">Cada renglón es una posición en la fila nacional; los puntos muestran los aciertos necesarios para estar ahí cada año.</p>
       <div class="legend">
-        <span><span class="dotm" style="background:#94a3b8"></span>2021–23</span>
+        <span><span class="dotm" style="background:#a3aebf"></span>2021</span>
+        <span><span class="dotm" style="background:#64748b"></span>2022</span>
+        <span><span class="dotm" style="background:#475569"></span>2023</span>
         <span><span class="dotm" style="background:var(--y24)"></span>2024</span>
         <span><span class="dotm" style="background:var(--y25)"></span>2025</span>
         <span><span class="dotm" style="background:var(--y26)"></span>2026</span>
@@ -382,15 +397,15 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
     <h1>¿<span class="grad">Dónde</span> se concentró la anomalía?</h1>
     <p class="dek">Cada punto es una carrera. Hacia la derecha: cuánto subió la calificación del aspirante
     típico de esa carrera de un año al siguiente. Hacia arriba: de cada 100 exámenes, cuántos terminaron
-    cancelados. Cambia de año para ver el antes y el después.</p>
+    cancelados. Recorre las cinco transiciones de año: cuatro comparaciones presenciales y el salto de 2026.</p>
 
     <div class="tiles">
-      <div class="tile"><div class="k">Subida en un año normal</div><div class="v">+0.5</div>
-        <div class="s">Promedio 2024→2025, cuando el examen fue presencial. Rango: −4 a +8.</div></div>
+      <div class="tile"><div class="k">Subida en un año presencial</div><div class="v">−0.1</div>
+        <div class="s">Promedio de las cuatro transiciones presenciales (2021→2025, 425 comparaciones). Ninguna superó +8.</div></div>
       <div class="tile"><div class="k">Subida con examen en línea</div><div class="v"><span class="hot">+16.0</span></div>
-        <div class="s">Promedio 2025→2026: treinta y dos veces el cambio normal. Las 107 carreras subieron.</div></div>
+        <div class="s">Promedio 2025→2026. En los cuatro años presenciales el cambio típico fue de −0.1. Las 107 carreras subieron.</div></div>
       <div class="tile"><div class="k">Más allá de lo normal</div><div class="v"><span class="dim">+8 →</span> <span class="hot">104</span></div>
-        <div class="s">Carreras que superaron en 2026 el máximo cambio visto en el año normal: 104 de 107.</div></div>
+        <div class="s">Carreras que superaron en 2026 el máximo cambio visto en cuatro años presenciales (+8): 104 de 107.</div></div>
     </div>
 
     <div class="chart-card" id="cardMap">
@@ -399,8 +414,11 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
       <div class="controls">
         <fieldset id="transSel">
           <legend>Transición</legend>
-          <span class="seg"><input type="radio" name="trans" id="tSel24" value="base"><label for="tSel24">2024 → 2025 (año normal)</label></span>
-          <span class="seg"><input type="radio" name="trans" id="tSel26" value="online" checked><label for="tSel26">2025 → 2026 (en línea)</label></span>
+          <span class="seg"><input type="radio" name="trans" id="tSel21" value="2122"><label for="tSel21">21→22</label></span>
+          <span class="seg"><input type="radio" name="trans" id="tSel22" value="2223"><label for="tSel22">22→23</label></span>
+          <span class="seg"><input type="radio" name="trans" id="tSel23" value="2324"><label for="tSel23">23→24</label></span>
+          <span class="seg"><input type="radio" name="trans" id="tSel24" value="2425"><label for="tSel24">24→25</label></span>
+          <span class="seg"><input type="radio" name="trans" id="tSel26" value="2526" checked><label for="tSel26">25→26 · en línea</label></span>
         </fieldset>
         <fieldset id="ySel">
           <legend>Eje vertical</legend>
@@ -418,8 +436,8 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
       <p class="live-note" id="liveNote" aria-live="polite"></p>
       <div id="chartMap"></div>
       <div class="tt" id="ttMap"></div>
-      <p class="caption">La línea punteada marca +8: la mayor subida que cualquier carrera registró entre
-      2024 y 2025. El eje vertical ofrece dos señales que se complementan: los exámenes cancelados
+      <p class="caption">La línea punteada marca +8: la mayor subida que cualquier carrera registró en las cuatro
+      transiciones presenciales (2021→2025). El eje vertical ofrece dos señales que se complementan: los exámenes cancelados
       muestran los casos que la UNAM detectó, y el porcentaje de aspirantes con 110 aciertos o más
       muestra dónde los resultados publicados son inusualmente altos — esta segunda señal no depende de
       la vigilancia. Las dos apuntan, en general, a las mismas carreras. Una calificación alta no prueba
@@ -427,9 +445,12 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
     </div>
 
     <div class="chart-card" id="cardTop">
-      <p class="chart-title">Las carreras que más subieron: sus tres años</p>
-      <p class="chart-sub">Las 12 con mayor salto 2025→2026 dentro de las áreas seleccionadas arriba · calificación del aspirante típico en 2024, 2025 y 2026.</p>
+      <p class="chart-title">Las carreras que más subieron: sus seis años</p>
+      <p class="chart-sub">Las 12 con mayor salto 2025→2026 dentro de las áreas seleccionadas arriba · calificación del aspirante típico de 2021 a 2026.</p>
       <div class="legend">
+        <span><span class="dotm" style="background:#a3aebf"></span>2021</span>
+        <span><span class="dotm" style="background:#64748b"></span>2022</span>
+        <span><span class="dotm" style="background:#475569"></span>2023</span>
         <span><span class="dotm" style="background:var(--y24)"></span>2024</span>
         <span><span class="dotm" style="background:var(--y25)"></span>2025</span>
         <span><span class="dotm" style="background:var(--y26)"></span>2026</span>
@@ -639,7 +660,7 @@ const YEARS = [2024, 2025, 2026];
 const ALLYEARS = [2021, 2022, 2023, 2024, 2025, 2026];
 const AREAS = {1: 'Físico-Mat. e Ingenierías', 2: 'Biológicas y Salud', 3: 'Ciencias Sociales', 4: 'Humanidades y Artes'};
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-const YC = () => ({2024: css('--y24'), 2025: css('--y25'), 2026: css('--y26')});
+const YC = () => ({2021: '#a3aebf', 2022: '#64748b', 2023: '#475569', 2024: css('--y24'), 2025: css('--y25'), 2026: css('--y26')});
 const fmt = n => n.toLocaleString('es-MX');
 const NS = 'http://www.w3.org/2000/svg';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -739,7 +760,7 @@ function drawDistCurve(state) {
     bins[2026].forEach((v, b) => area += ` L ${X(b)} ${Y(v)}`);
     area += ` L ${X(60)} ${Y(0)} Z`;
     el('path', {d: area, fill: css('--y26-soft'), stroke: 'none'}, svg);
-    for (const y of [2021, 2022, 2023]) path(bins[y], '#94a3b8', 1.3);
+    for (const y of [2021, 2022, 2023]) path(bins[y], YC()[y], 1.3);
     path(bins[2024], YC()[2024], 2.2);
     path(bins[2025], YC()[2025], 2.2);
     path(bins[2026], YC()[2026], 2.8);
@@ -818,9 +839,11 @@ function drawPctl() {
     const d = v26 - v25;
     el('text', {x: X(v26) + 12, y: cy + 4, 'font-weight': 750, fill: css('--y26-deep'), 'font-size': 13}, svg).textContent = (d >= 0 ? '+' : '') + d;
     const g = el('rect', {x: m.l, y: cy - rowH / 2, width: W - m.l - m.r, height: rowH, fill: 'transparent', tabindex: 0, role: 'img',
-      'aria-label': `${names[p]}: 2021–2023 ${vBase.join(', ')}; 2024 ${v24}, 2025 ${v25}, 2026 ${v26} aciertos.`}, svg);
+      'aria-label': `${names[p]}: 2021 ${vBase[0]}, 2022 ${vBase[1]}, 2023 ${vBase[2]}, 2024 ${v24}, 2025 ${v25}, 2026 ${v26} aciertos.`}, svg);
     hoverable(g, card, tt, () => setTip(tt, names[p], null, [
-      {color: '#94a3b8', text: `2021–2023: ${vBase.join(' · ')} aciertos`},
+      {color: '#a3aebf', text: `2021: ${vBase[0]} aciertos`},
+      {color: '#64748b', text: `2022: ${vBase[1]} aciertos`},
+      {color: '#475569', text: `2023: ${vBase[2]} aciertos`},
       {color: YC()[2024], text: `2024: ${v24} aciertos`},
       {color: YC()[2025], text: `2025: ${v25} aciertos`},
       {color: YC()[2026], text: `2026: ${v26} aciertos (${d >= 0 ? '+' : ''}${d})`}]));
@@ -858,16 +881,18 @@ function drawCancelHist() {
 }
 
 /* ============ MAPA ============ */
-const mapState = {trans: 'online', areas: new Set([1, 2, 3, 4]), ymode: 'cancel'};
+const TRANSITIONS = {'2122': [2021, 2022], '2223': [2022, 2023], '2324': [2023, 2024], '2425': [2024, 2025], '2526': [2025, 2026]};
+const mapState = {trans: '2526', areas: new Set([1, 2, 3, 4]), ymode: 'cancel'};
 function drawMap() {
   const host = document.getElementById('chartMap'); host.replaceChildren();
   const card = document.getElementById('cardMap'), tt = document.getElementById('ttMap');
-  const online = mapState.trans === 'online';
+  const [ty0, ty1] = TRANSITIONS[mapState.trans];
+  const online = ty1 === 2026;
   const col = online ? css('--y26') : css('--y24');
   const colDeep = online ? css('--y26-deep') : css('--y24-deep');
   const W = 900, H = 430, m = {t: 20, r: 20, b: 46, l: 54};
   const mode110 = mapState.ymode === 'e110';
-  const x0 = -6, x1 = 30, y1v = mode110 ? 16 : 3.5;
+  const x0 = -12, x1 = 30, y1v = mode110 ? 16 : 3.5;
   const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
   const Y = v => m.t + (1 - v / y1v) * (H - m.t - m.b);
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'group', 'aria-label': 'Dispersión: subida de calificación típica contra cancelaciones'}, host);
@@ -875,7 +900,7 @@ function drawMap() {
     el('line', {x1: m.l, x2: W - m.r, y1: Y(g), y2: Y(g), stroke: css('--line'), 'stroke-width': 1}, svg);
     el('text', {x: m.l - 8, y: Y(g) + 4, 'text-anchor': 'end', fill: css('--ink2'), 'font-size': 12}, svg).textContent = (mode110 ? g.toFixed(0) : g.toFixed(1)) + '%';
   }
-  for (let s = -5; s <= 30; s += 5) {
+  for (let s = -10; s <= 30; s += 5) {
     el('line', {x1: X(s), x2: X(s), y1: m.t, y2: Y(0), stroke: css('--line'), 'stroke-width': 1}, svg);
     el('text', {x: X(s), y: H - 26, 'text-anchor': 'middle', fill: css('--ink2'), 'font-size': 12}, svg).textContent = (s > 0 ? '+' : '') + s;
   }
@@ -884,24 +909,29 @@ function drawMap() {
   el('text', {x: 14, y: m.t - 6, fill: css('--ink2'), 'font-weight': 700, 'font-size': 12.5}, svg).textContent = mode110 ? 'Con 110+ aciertos (%)' : 'Cancelados (%)';
   el('line', {x1: X(0), x2: X(0), y1: m.t, y2: Y(0), stroke: css('--axis'), 'stroke-width': 1.5}, svg);
   el('line', {x1: X(8), x2: X(8), y1: m.t, y2: Y(0), stroke: css('--crit'), 'stroke-width': 1.5, 'stroke-dasharray': '5 4', opacity: .8}, svg);
-  el('text', {x: X(8) + 6, y: m.t + 12, fill: css('--crit'), 'font-weight': 700, 'font-size': 12}, svg).textContent = '+8 · lo máximo en un año normal';
+  el('text', {x: X(8) + 6, y: m.t + 12, fill: css('--crit'), 'font-weight': 700, 'font-size': 12}, svg).textContent = '+8 · lo máximo en cualquier año presencial (2021–2025)';
   el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: css('--axis'), 'stroke-width': 1}, svg);
   const R = a => Math.max(4, Math.sqrt(a) / 9);
-  const shown = D.risk.filter(r => mapState.areas.has(D.progs[r.c].a));
+  const shown = D.risk.filter(r => {
+    const d = D.progs[r.c];
+    return mapState.areas.has(d.a) && d.y[ty0] && d.y[ty1] &&
+      d.y[ty0].med != null && d.y[ty1].med != null && d.y[ty0].pre >= 100 && d.y[ty1].pre >= 100;
+  });
   for (const r of shown) {
     const d = D.progs[r.c];
-    const dx = online ? r.dOnline : r.dBase;
-    const cy = mode110 ? (online ? r.s26 : r.s25) : (online ? r.cr26 : r.cr25);
+    const s1 = d.y[ty1];
+    const dx = s1.med - d.y[ty0].med;
+    const cy = mode110 ? +(100 * s1.h110 / s1.pre).toFixed(1) : +(100 * s1.C / s1.asp).toFixed(2);
     const asp = d.y[2026].asp;
     const ac = css('--a' + d.a);
     const node = el('circle', {class: 'dot', cx: X(dx), cy: Y(Math.min(cy, y1v)), r: R(asp),
       fill: ac, 'fill-opacity': .55, stroke: ac, 'stroke-width': 1.5, tabindex: 0, role: 'button',
-      'aria-label': `${d.k}, ${d.p}. Subida ${dx >= 0 ? 'más' : 'menos'} ${Math.abs(dx)} aciertos. Con 110 o más: ${r.n25} en 2025 y ${r.n26} en 2026. Cancelaciones 2026: ${r.cr26}%. Presiona Enter para abrir su perfil.`}, svg);
+      'aria-label': `${d.k}, ${d.p}. Subida ${ty0} a ${ty1}: ${dx >= 0 ? 'más' : 'menos'} ${Math.abs(dx)} aciertos. Con 110 o más en ${ty1}: ${s1.h110}. Cancelaciones ${ty1}: ${(100 * s1.C / s1.asp).toFixed(2)}%. Presiona Enter para abrir su perfil.`}, svg);
     hoverable(node, card, tt, () => setTip(tt, d.k, `${d.p} · Área ${d.a} (${AREAS[d.a]})`, [
-      {text: `Aspirante típico: ${d.y[2024].med} → ${d.y[2025].med} → ${d.y[2026].med} aciertos`},
-      {text: `Subida ${online ? '2025→26' : '2024→25'}: ${dx >= 0 ? '+' : ''}${dx} aciertos`},
-      {text: `Con 110 o más: ${fmt(r.n25)} en 2025 → ${fmt(r.n26)} en 2026 (${r.s26}%)`},
-      {text: `Exámenes cancelados ${online ? '2026' : '2025'}: ${online ? r.cr26 : r.cr25}%`},
+      {text: `Aspirante típico: ${ALLYEARS.filter(y => d.y[y] && d.y[y].med != null).map(y => d.y[y].med).join(' → ')} aciertos`},
+      {text: `Subida ${ty0}→${ty1}: ${dx >= 0 ? '+' : ''}${dx} aciertos`},
+      {text: `Con 110 o más en ${ty1}: ${fmt(s1.h110)} (${(100 * s1.h110 / s1.pre).toFixed(1)}%)`},
+      {text: `Exámenes cancelados ${ty1}: ${(100 * s1.C / s1.asp).toFixed(2)}%`},
       {text: `Aspirantes 2026: ${fmt(asp)} · corte: ${d.y[2026].corte}`}]));
     const abrir = () => {
       showTab('buscar');
@@ -918,11 +948,11 @@ function drawMap() {
     el('circle', {cx: lgx + 12, cy: lgy + 20 + i * 26, r: R(n), fill: 'none', stroke: css('--ink2'), 'stroke-width': 1.2}, svg);
     el('text', {x: lgx + 34, y: lgy + 24 + i * 26, fill: css('--ink2'), 'font-size': 12}, svg).textContent = lab;
   });
-  const dxs = shown.map(r => online ? r.dOnline : r.dBase);
+  const dxs = shown.map(r => D.progs[r.c].y[ty1].med - D.progs[r.c].y[ty0].med);
   const mean = dxs.reduce((a, b) => a + b, 0) / (dxs.length || 1);
   const beyond = dxs.filter(v => v > 8).length;
   document.getElementById('liveNote').textContent =
-    `Mostrando ${online ? '2025→2026 (examen en línea)' : '2024→2025 (año normal)'} · ${shown.length} carreras · ` +
+    `Mostrando ${ty0}→${ty1} ${online ? '(examen en línea)' : '(año presencial)'} · ${shown.length} carreras · ` +
     `subida promedio ${mean >= 0 ? '+' : ''}${mean.toFixed(1)} aciertos · ${beyond} por encima de lo normal (+8) · ` +
     `eje vertical: ${mode110 ? 'porcentaje de sus aspirantes con 110 aciertos o más' : 'porcentaje de exámenes cancelados'}.`;
 }
@@ -933,10 +963,10 @@ function drawTop12() {
     .sort((a, b) => b.dOnline - a.dOnline).slice(0, 12);
   const W = 900, rowH = 45, m = {t: 6, r: 62, b: 32, l: 265};
   const H = m.t + rows.length * rowH + m.b;
-  const lo = 40, hi = 110;
+  const lo = 30, hi = 110;
   const X = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r);
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'group', 'aria-label': 'Calificación típica por año, doce carreras con mayor salto'}, host);
-  for (let s = 40; s <= 110; s += 10) {
+  for (let s = 30; s <= 110; s += 10) {
     el('line', {x1: X(s), x2: X(s), y1: m.t, y2: H - m.b, stroke: css('--line'), 'stroke-width': 1}, svg);
     el('text', {x: X(s), y: H - 10, 'text-anchor': 'middle', fill: css('--muted')}, svg).textContent = s;
   }
@@ -948,14 +978,16 @@ function drawTop12() {
     el('text', {x: m.l - 12, y: cy + 14, 'text-anchor': 'end', fill: css('--muted'), 'font-size': 11.5}, svg)
       .textContent = d.p.length > 34 ? d.p.slice(0, 33) + '…' : d.p;
     const g = el('g', {tabindex: 0, role: 'img',
-      'aria-label': `${d.k}, ${d.p}. Típico 2024 ${d.y[2024].med}, 2025 ${d.y[2025].med}, 2026 ${d.y[2026].med}.`}, svg);
+      'aria-label': `${d.k}, ${d.p}. Típico por año: ${ALLYEARS.filter(y => d.y[y] && d.y[y].med != null).map(y => `${y}: ${d.y[y].med}`).join(', ')}.`}, svg);
     el('line', {x1: X(d.y[2025].med), x2: X(d.y[2026].med), y1: cy, y2: cy, stroke: css('--axis'), 'stroke-width': 2}, g);
-    for (const [y, rr] of [[2024, 4.5], [2025, 4.5], [2026, 5.5]])
+    for (const [y, rr] of [[2021, 3.5], [2022, 3.5], [2023, 3.5], [2024, 4.5], [2025, 4.5], [2026, 5.5]]) {
+      if (!d.y[y] || d.y[y].med == null) continue;
       el('circle', {cx: X(d.y[y].med), cy, r: rr, fill: YC()[y], stroke: css('--surface'), 'stroke-width': 2}, g);
+    }
     el('text', {x: X(d.y[2026].med) + 12, y: cy + 4, 'font-weight': 750, fill: css('--y26-deep'), 'font-size': 13}, svg)
       .textContent = '+' + r.dOnline;
     hoverable(g, card, tt, () => setTip(tt, d.k, d.p, [
-      {text: `Aspirante típico: ${d.y[2024].med} → ${d.y[2025].med} → ${d.y[2026].med} aciertos`},
+      {text: `Aspirante típico: ${ALLYEARS.filter(y => d.y[y] && d.y[y].med != null).map(y => d.y[y].med).join(' → ')} aciertos`},
       {text: `Subida normal: ${r.dBase >= 0 ? '+' : ''}${r.dBase} · en línea: +${r.dOnline}`},
       {text: `Cancelados 2026: ${r.cr26}%`}]));
   });
@@ -995,7 +1027,7 @@ document.querySelectorAll('#fullTable th button').forEach(btn => {
   });
 });
 document.getElementById('transSel').addEventListener('change', () => {
-  mapState.trans = document.getElementById('tSel26').checked ? 'online' : 'base';
+  mapState.trans = document.querySelector('#transSel input[name="trans"]:checked').value;
   drawMap();
 });
 document.getElementById('areaSelM').addEventListener('change', () => {
@@ -1114,44 +1146,50 @@ function showProfile(code) {
   chipA.style.fontWeight = '700';
   head.appendChild(chipA);
   headHost.appendChild(head);
-  // year cards
-  const yc = document.createElement('div'); yc.className = 'year-cards';
+  // resumen por año: tabla de métricas (seis concursos)
+  const twp = document.createElement('div'); twp.className = 'ytable-wrap';
+  const tbl = document.createElement('table'); tbl.className = 'ytable';
+  const thead = document.createElement('thead'); const hr = document.createElement('tr');
+  hr.appendChild(document.createElement('th'));
   for (const y of ALLYEARS) {
-    const card = document.createElement('div'); card.className = 'ycard c' + String(y).slice(2);
-    const yy = document.createElement('div'); yy.className = 'yy'; yy.textContent = y + (y === 2026 ? ' · en línea' : ' · presencial'); card.appendChild(yy);
-    if (d.y[y]) {
-      const s = d.y[y];
-      const big = document.createElement('div'); big.className = 'big'; big.textContent = 'corte ' + s.corte; card.appendChild(big);
-      const rows = document.createElement('div'); rows.className = 'rows';
-      const tasa = (s.sel / s.asp * 100).toFixed(1);
-      rows.textContent = y < 2024
-        ? `típico: ${s.med ?? '—'} · ${fmt(s.asp)} aspirantes · ${fmt(s.sel)} sel. (${tasa}%)` +
-          (s.C ? ` · ${fmt(s.C)} cancelados` : '')
-        : `aspirante típico: ${s.med ?? '—'} aciertos · ${fmt(s.asp)} aspirantes · ` +
-          `${fmt(s.o)} lugares · ${fmt(s.sel)} seleccionados (${tasa}%)` +
-          (s.C ? ` · ${fmt(s.C)} cancelados` : '');
-      card.appendChild(rows);
-    } else {
-      const big = document.createElement('div'); big.className = 'big'; big.textContent = '—'; card.appendChild(big);
-      const rows = document.createElement('div'); rows.className = 'rows'; rows.textContent = 'No se ofreció este año.'; card.appendChild(rows);
-    }
-    yc.appendChild(card);
+    const th = document.createElement('th'); th.className = 'num';
+    const sw = document.createElement('span'); sw.className = 'ysw'; sw.style.background = YC()[y]; th.appendChild(sw);
+    th.appendChild(document.createTextNode(String(y)));
+    if (y === 2026) { const em = document.createElement('small'); em.textContent = 'en línea'; th.appendChild(em); }
+    hr.appendChild(th);
   }
-  headHost.appendChild(yc);
+  thead.appendChild(hr); tbl.appendChild(thead);
+  const tbody = document.createElement('tbody');
+  const METRICS = [
+    ['Corte', s => String(s.corte), 'corte'],
+    ['Aspirante típico', s => s.med != null ? String(s.med) : '—', null],
+    ['Aspirantes', s => fmt(s.asp), null],
+    ['Lugares', s => fmt(s.o), null],
+    ['Seleccionados', s => `${fmt(s.sel)} (${(s.sel / s.asp * 100).toFixed(1)}%)`, null],
+    ['Cancelados', s => fmt(s.C), null],
+  ];
+  for (const [label, get, cls] of METRICS) {
+    const tr = document.createElement('tr'); if (cls) tr.className = cls;
+    const td0 = document.createElement('td'); td0.textContent = label; tr.appendChild(td0);
+    for (const y of ALLYEARS) {
+      const td = document.createElement('td'); td.className = 'num';
+      if (d.y[y]) td.textContent = get(d.y[y]);
+      else { td.textContent = '—'; td.title = 'No se ofreció este año'; }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  tbl.appendChild(tbody);
+  twp.appendChild(tbl);
+  headHost.appendChild(twp);
   // distribution chart
   const cc = document.createElement('div'); cc.className = 'chart-card'; cc.id = 'cardProf';
   const t1 = document.createElement('p'); t1.className = 'chart-title'; t1.textContent = 'Calificaciones de sus aspirantes, por año';
   const t2 = document.createElement('p'); t2.className = 'chart-sub';
-  t2.textContent = 'Porcentaje de aspirantes de esta carrera en cada rango de 5 aciertos. Las líneas punteadas de color marcan el puntaje de corte de cada año; la zona sombreada, a los aspirantes en o por encima del umbral que elijas abajo (2025 y 2026). Las líneas grises delgadas son los años presenciales 2021–2023.';
+  t2.textContent = 'Porcentaje de aspirantes de esta carrera en cada rango de 5 aciertos. Las líneas punteadas de color marcan el puntaje de corte de cada año; la zona sombreada, a los aspirantes en o por encima del umbral que elijas abajo (2025 y 2026). Las líneas delgadas en tonos de gris son los años presenciales: 2021 (claro), 2022 y 2023 (oscuro).';
   cc.appendChild(t1); cc.appendChild(t2);
   const leg = document.createElement('div'); leg.className = 'legend';
-  if ([2021, 2022, 2023].some(y => d.y[y])) {
-    const s0 = document.createElement('span');
-    const sw0 = document.createElement('span'); sw0.className = 'sw'; sw0.style.background = '#94a3b8';
-    s0.appendChild(sw0); s0.appendChild(document.createTextNode('2021–23'));
-    leg.appendChild(s0);
-  }
-  for (const y of YEARS) {
+  for (const y of ALLYEARS) {
     if (!d.y[y]) continue;
     const s = document.createElement('span');
     const sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = YC()[y];
@@ -1226,13 +1264,7 @@ function showProfile(code) {
   const z2 = document.createElement('p'); z2.className = 'chart-sub'; z2.textContent = 'Aspirantes de esta carrera con cada calificación exacta, alrededor del puntaje de corte. Las líneas punteadas marcan el corte de cada año: quienes quedan a la izquierda de la línea no alcanzaron lugar ese año.';
   cz.appendChild(z1); cz.appendChild(z2);
   const legz = document.createElement('div'); legz.className = 'legend';
-  if ([2021, 2022, 2023].some(y => d.y[y] && d.tw.c[y])) {
-    const s0 = document.createElement('span');
-    const sw0 = document.createElement('span'); sw0.className = 'sw'; sw0.style.background = '#94a3b8';
-    s0.appendChild(sw0); s0.appendChild(document.createTextNode('2021–23'));
-    legz.appendChild(s0);
-  }
-  for (const y of YEARS) {
+  for (const y of ALLYEARS) {
     if (!d.y[y]) continue;
     const s = document.createElement('span');
     const sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = YC()[y];
