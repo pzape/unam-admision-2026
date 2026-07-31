@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Pedro Zape (github.com/pzape)">
-<meta name="description" content="Descriptor de datos: microdatos de los resultados públicos del Concurso de Selección a Licenciatura de la UNAM, ciclos 2024–2026, con métodos de recolección y validación técnica.">
+<meta name="description" content="Descriptor de datos: microdatos de los resultados públicos del Concurso de Selección a Licenciatura de la UNAM, ciclos 2021–2026, con métodos de recolección y validación técnica.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nota técnica · Resultados del Concurso de Selección UNAM 2024–2026: descriptor de datos">
-<meta property="og:description" content="Métodos de recolección, verificación de integridad y validación estadística de 504,100 registros públicos de admisión, con la primera aplicación en línea del examen (2026).">
+<meta property="og:title" content="Nota técnica · Resultados del Concurso de Selección UNAM 2021–2026: descriptor de datos">
+<meta property="og:description" content="Métodos de recolección, verificación de integridad y validación estadística de 1,027,716 registros públicos de admisión de seis ciclos, con la primera aplicación en línea del examen (2026).">
 <meta property="og:locale" content="es_MX">
-<title>Nota técnica · Descriptor de datos UNAM 2024–2026</title>
+<title>Nota técnica · Descriptor de datos UNAM 2021–2026</title>
 <style>
 :root { color-scheme: light;
   --bg: #f6f7fb; --surface: #fff; --ink: #101223; --ink2: #3f4557; --muted: #6a7186;
@@ -48,28 +48,29 @@ a { color: var(--brand); }
 <body>
 <!-- Análisis y autoría: Pedro Zape · github.com/pzape · julio 2026 -->
 <div class="topbar"><div class="topbar-in">
-  <span class="dot"></span><b>Admisión UNAM</b><span style="color:var(--muted)">2024–2026</span>
+  <span class="dot"></span><b>Admisión UNAM</b><span style="color:var(--muted)">2021–2026</span>
   <a href="https://pzape.github.io/unam-admision-2026/">Explorador interactivo →</a>
 </div></div>
 
 <div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
   <span class="kicker">Nota técnica · Descriptor de datos</span>
-  <h1>Resultados públicos del Concurso de Selección a Licenciatura de la UNAM, 2024–2026: un conjunto de microdatos con validación técnica</h1>
-  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.0 · 28 de julio de 2026</p>
+  <h1>Resultados públicos del Concurso de Selección a Licenciatura de la UNAM, 2021–2026: un conjunto de microdatos con validación técnica</h1>
+  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.1 · 31 de julio de 2026 (v1.0: 28 de julio, ciclos 2024–2026; v1.1 amplía la serie a 2021–2023)</p>
 
   <div class="abstract">
     <h3 style="margin-top:0">Resumen</h3>
     <p>Se presenta un conjunto de microdatos construido a partir de los resultados oficiales del Concurso
-    de Selección a nivel licenciatura de la UNAM (sistema escolarizado) para los ciclos 2024, 2025 y 2026:
-    504,100 registros de aspirantes provenientes de 530 páginas oficiales de resultados, con calificación
-    (0–120 aciertos), estatus publicado y carrera-plantel, junto con los agregados por programa (oferta,
-    aspirantes, examinados, corte y seleccionados). El ciclo 2026 corresponde a la primera aplicación en
-    línea del examen; los ciclos 2024–2025, de aplicación presencial, resultan estadísticamente casi
-    indistinguibles entre sí (D de Kolmogorov–Smirnov = 0.0095) y constituyen una referencia natural de
-    estabilidad frente al cambio observado en 2026 (D = 0.2820). El conjunto conserva la URL de origen de
-    cada registro, supera verificaciones de conciliación en las 530 páginas y se acompaña de herramientas
-    interactivas de consulta. Su propósito es permitir el análisis independiente y reproducible de un
-    episodio de interés público en la medición educativa.</p>
+    de Selección a nivel licenciatura de la UNAM (sistema escolarizado) para los ciclos 2021 a 2026:
+    1,027,716 registros de aspirantes provenientes de 1,021 páginas oficiales de resultados, con
+    calificación (0–120 aciertos), estatus publicado y carrera-plantel, junto con los agregados por
+    programa (oferta, aspirantes, examinados, corte y seleccionados). El ciclo 2026 corresponde a la
+    primera aplicación en línea del examen; los cinco ciclos presenciales 2021–2025 resultan
+    estadísticamente casi indistinguibles entre sí (D de Kolmogorov–Smirnov ≤ 0.0314 entre cualquier par)
+    y constituyen una referencia natural de estabilidad frente al cambio observado en 2026 (D = 0.2820,
+    nueve veces la mayor distancia entre ciclos presenciales). El conjunto conserva la URL de origen de
+    cada registro, supera verificaciones de conciliación en las 1,021 páginas y se acompaña de
+    herramientas interactivas de consulta. Su propósito es permitir el análisis independiente y
+    reproducible de un episodio de interés público en la medición educativa.</p>
   </div>
 
   <h2>1. Antecedentes y contexto</h2>
@@ -93,14 +94,18 @@ a { color: var(--brand); }
   Aciertos Mínimos y Seleccionados, y (ii) la tabla completa de aspirantes: número de comprobante,
   aciertos y estatus (S = seleccionado; N = no presentó; C = cancelado; sin letra = no seleccionado).</p>
   <h3>2.2. Recolección</h3>
-  <p>Descarga secuencial de las 530 páginas (170 de 2024, 175 de 2025, 185 de 2026) mediante sesión de
-  navegador, con reintentos ante errores transitorios; sin fallas de descarga. Fechas de recolección:
-  24–25 de julio de 2026. El análisis sintáctico extrae el encabezado mediante expresión regular y la
-  tabla mediante recorrido del DOM; los registros conservan la URL de origen.</p>
+  <p>Descarga secuencial de las 1,021 páginas (159 de 2021, 163 de 2022, 169 de 2023, 170 de 2024,
+  175 de 2025 y 185 de 2026) mediante sesión de navegador, con reintentos ante errores transitorios; sin
+  fallas de descarga. Fechas de recolección: 24–25 de julio de 2026 (ciclos 2024–2026) y 31 de julio de
+  2026 (ciclos 2021–2023; el año 2021 es el más antiguo publicado en el sitio de la DGAE). El análisis
+  sintáctico extrae el encabezado mediante expresión regular y la tabla mediante recorrido del DOM; los
+  registros conservan la URL de origen.</p>
   <h3>2.3. Procesamiento</h3>
   <p>Normalización a dos tablas por ciclo (resumen por carrera-plantel; microdatos de aspirantes) en CSV
-  codificado en UTF-8. No se imputan valores; el único registro con calificación no numérica (un valor
-  "E" en 2025) se conserva en el archivo y se excluye de los cálculos distribucionales.</p>
+  codificado en UTF-8. No se imputan valores. Tres particularidades de la fuente se conservan en los
+  archivos y se excluyen de los cálculos distribucionales: los registros sin calificación y sin letra de
+  estatus (entre 374 y 623 por ciclo), un valor no numérico ("E", 2025) y un registro de 2023 con
+  estatus S sin calificación publicada.</p>
   <h3>2.4. Consideraciones éticas</h3>
   <p>Los datos son exclusivamente los publicados por la institución para consulta abierta. Los números de
   comprobante son identificadores pseudónimos asignados por la propia fuente; el conjunto no añade ningún
@@ -112,10 +117,16 @@ a { color: var(--brand); }
   <table>
     <thead><tr><th>Archivo</th><th class="num">Filas</th><th>Contenido</th></tr></thead>
     <tbody>
-      <tr><td><code>unam2024_summary.csv</code></td><td class="num">170</td><td>agregados por carrera-plantel, ciclo 2024</td></tr>
+      <tr><td><code>unam2021_summary.csv</code></td><td class="num">159</td><td>agregados por carrera-plantel, ciclo 2021</td></tr>
+      <tr><td><code>unam2022_summary.csv</code></td><td class="num">163</td><td>ídem, 2022</td></tr>
+      <tr><td><code>unam2023_summary.csv</code></td><td class="num">169</td><td>ídem, 2023</td></tr>
+      <tr><td><code>unam2024_summary.csv</code></td><td class="num">170</td><td>ídem, 2024</td></tr>
       <tr><td><code>unam2025_summary.csv</code></td><td class="num">175</td><td>ídem, 2025</td></tr>
       <tr><td><code>unam2026_summary.csv</code></td><td class="num">185</td><td>ídem, 2026</td></tr>
-      <tr><td><code>unam2024_aspirantes.csv</code></td><td class="num">162,463</td><td>microdatos de aspirantes, 2024</td></tr>
+      <tr><td><code>unam2021_aspirantes.csv</code></td><td class="num">167,432</td><td>microdatos de aspirantes, 2021</td></tr>
+      <tr><td><code>unam2022_aspirantes.csv</code></td><td class="num">177,780</td><td>ídem, 2022</td></tr>
+      <tr><td><code>unam2023_aspirantes.csv</code></td><td class="num">178,404</td><td>ídem, 2023</td></tr>
+      <tr><td><code>unam2024_aspirantes.csv</code></td><td class="num">162,463</td><td>ídem, 2024</td></tr>
       <tr><td><code>unam2025_aspirantes.csv</code></td><td class="num">174,543</td><td>ídem, 2025</td></tr>
       <tr><td><code>unam2026_aspirantes.csv</code></td><td class="num">167,094</td><td>ídem, 2026</td></tr>
     </tbody>
@@ -134,38 +145,49 @@ a { color: var(--brand); }
 
   <h2>4. Validación técnica</h2>
   <h3>4.1. Conciliación con la fuente</h3>
-  <p>En 530 de 530 páginas, el número de filas recolectadas coincide con el valor "Aspirantes" del
+  <p>En 1,021 de 1,021 páginas, el número de filas recolectadas coincide con el valor "Aspirantes" del
   encabezado. En la totalidad de las páginas, todo registro con aciertos ≥ "Aciertos Mínimos" presenta
-  estatus S.</p>
+  estatus S. En los ciclos 2021 y 2022 el encabezado omite el sufijo de modalidad presente de 2023 en
+  adelante; la identidad carrera-plantel se confirmó mediante el código de programa, estable entre
+  ciclos y verificado contra los encabezados publicados.</p>
   <h3>4.2. Discrepancia interna de la fuente</h3>
   <p>La suma de "Seleccionados" de los encabezados excede el conteo de filas S en ~2.3% (2026: 17,005
   contra 16,617). Se verificó contra el HTML original: ambas cifras son oficiales. Se documenta como
   propiedad de la fuente.</p>
   <h3>4.3. Estabilidad de la línea base</h3>
-  <p>Entre 2024 y 2025 (n = 139,285 y 149,433 examinados): medianas 52 y 52 (IC95 [52, 52] en ambos);
-  medias 56.1 y 56.4; desviaciones estándar 19.7 y 19.7; percentil 90 en 86 en ambos; D de
-  Kolmogorov–Smirnov = 0.0095. Con estos tamaños muestrales incluso esa diferencia es formalmente
-  significativa (D crítico a α = 0.001: 0.0073), por lo que el criterio informativo es la magnitud: la
-  distancia 2025–2026 es treinta veces mayor.</p>
+  <p>Los cinco ciclos presenciales (n = 140,446 / 153,592 / 152,860 / 139,285 / 149,433 examinados en
+  2021–2025) son notablemente estables: medianas 52, 51, 52, 52 y 52 (IC95 puntual en el valor central en
+  los cinco casos); medias 56.1, 54.9, 56.1, 56.1 y 56.4; desviaciones estándar entre 18.6 y 19.7;
+  percentil 90 entre 82 y 86. Las distancias de Kolmogorov–Smirnov entre ciclos consecutivos son 0.0314,
+  0.0275, 0.0171 y 0.0095, y ningún par de ciclos presenciales excede D = 0.0314. Con estos tamaños
+  muestrales incluso esas diferencias son formalmente significativas, por lo que el criterio informativo
+  es la magnitud: la distancia 2025–2026 (D = 0.2820) es nueve veces la mayor distancia observada entre
+  cualesquiera dos ciclos presenciales en cinco años.</p>
   <h3>4.4. El cambio de 2026</h3>
   <p>D(2025, 2026) = 0.2820; mediana 71 (IC95 [71, 71]); media 71.1; desviación estándar 25.2. Cambio por
   percentil respecto de 2025: p10 +3, p25 +8, p50 +19, p75 +25, p90 +19, p99 +6. Proporción de registros
-  con 110+ aciertos: 0.76% en 2024 (IC95 [0.71, 0.81]), 0.96% en 2025 (IC95 [0.92, 1.02]), 5.79% en 2026
-  (IC95 [5.67, 5.91]).</p>
+  con 110+ aciertos por ciclo: 0.68% (2021, IC95 [0.64, 0.72]), 0.54% (2022, [0.51, 0.58]), 0.57%
+  (2023, [0.53, 0.60]), 0.76% (2024, [0.71, 0.81]), 0.96% (2025, [0.92, 1.02]) y 5.79% (2026,
+  [5.67, 5.91]): cinco ciclos por debajo de 1% y un salto de seis tantos en 2026.</p>
   <h3>4.5. Generalidad por programa</h3>
-  <p>En las 107 combinaciones carrera-plantel con ≥ 100 examinados en los tres ciclos, el cambio de
-  mediana 2024→2025 promedió +0.5 aciertos (rango −4 a +8) y el cambio 2025→2026 promedió +16.0 (rango
-  +4 a +28), positivo en 107 de 107 (prueba de signos: p = 2⁻¹⁰⁷ ≈ 6×10⁻³³). 104 de 107 exceden el máximo
-  del rango del periodo de referencia. El cambio positivo se observa en las cuatro áreas académicas.</p>
+  <p>En las cuatro transiciones presenciales (2021→2022 a 2024→2025), sobre 425 comparaciones
+  carrera-plantel con ≥ 100 examinados en ambos ciclos, el cambio de mediana promedió −0.1 aciertos
+  (promedios por transición: −1.2, +0.9, −0.5 y +0.5; rango conjunto −11 a +8): ninguna combinación
+  superó +8 aciertos en cuatro años. El cambio 2025→2026 promedió +16.0 (rango +4 a +28), positivo en
+  las 107 combinaciones con ≥ 100 examinados en los ciclos 2024–2026 (prueba de signos: p = 2⁻¹⁰⁷ ≈
+  6×10⁻³³); 104 de 107 exceden el máximo histórico de las cuatro transiciones de referencia. El cambio
+  positivo se observa en las cuatro áreas académicas.</p>
   <h3>4.6. Registros con estatus C</h3>
-  <p>9 (2024), 3 (2025) y 3,020 (2026), distribuidos en 133 de 175 programas en 2026; tasa de 1.95% en
+  <p>37 (2021), 20 (2022), 5 (2023), 9 (2024), 3 (2025) y 3,020 (2026) —el máximo presencial fue 37—,
+  distribuidos en 133 de 175 programas en 2026; tasa de 1.95% en
   programas con corte ≥ 100 contra 1.02% en programas con corte &lt; 70. Correlaciones por programa
   (n = 107): cambio de mediana vs. tasa C, r = 0.30 (IC95 [0.12, 0.46]); cambio en proporción 110+ vs.
   tasa C, r = 0.42 (IC95 [0.25, 0.56]).</p>
   <h3>4.7. Hipótesis de composición</h3>
-  <p>El volumen (162,463 / 174,543 / 167,094 registros) y la proporción de estatus N (14.0% / 14.2% /
-  15.1%) varían poco entre ciclos; los 13 programas incorporados en 2026 concentran 1.3% de los
-  aspirantes con media inferior a la general (65.5 contra 71.2), y su exclusión no altera 4.4–4.5.</p>
+  <p>El volumen (167,432 / 177,780 / 178,404 / 162,463 / 174,543 / 167,094 registros) y la proporción
+  de estatus N (13.2%–15.7%, con 15.1% en 2026) se mantienen en rangos estrechos sin patrón asociado al
+  cambio de modalidad; los 13 programas incorporados en 2026 concentran 1.3% de los aspirantes con media
+  inferior a la general (65.5 contra 71.2), y su exclusión no altera 4.4–4.5.</p>
 
   <h2>5. Notas de uso</h2>
   <p><strong>5.1. Límite de identificación.</strong> Los datos no permiten discriminar entre cambios en
