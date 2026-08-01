@@ -248,9 +248,14 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 .pl-tile[aria-pressed="true"] { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
 .pl-tile[aria-pressed="true"] small { color: var(--brand); opacity: .75; }
 .pl-tile:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.pl-expand-acts { display: flex; gap: 16px; margin: 0 0 8px; }
+.pl-expand-acts button { all: unset; cursor: pointer; font-size: 12.5px; font-weight: 700; color: var(--brand); }
+.pl-expand-acts button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.pl-scroll { max-height: 560px; overflow-y: auto; padding-right: 6px; }
+.count-chip { color: var(--brand); font-weight: 750; }
 .plrow { border-bottom: 1px solid var(--line); }
 .plrow:last-child { border-bottom: none; }
-.plrow-head { all: unset; cursor: pointer; display: grid; grid-template-columns: 250px 1fr 76px 18px; gap: 12px; align-items: center; width: 100%; box-sizing: border-box; padding: 10px 6px; border-radius: 10px; }
+.plrow-head { all: unset; cursor: pointer; display: grid; grid-template-columns: 250px 1fr 76px; gap: 12px; align-items: center; width: 100%; box-sizing: border-box; padding: 10px 6px; border-radius: 10px; }
 .plrow-head:hover { background: var(--brand-soft); }
 .plrow-head:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
 .plrow-name { font-size: 13.5px; font-weight: 700; color: var(--ink); line-height: 1.35; }
@@ -271,7 +276,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 .subrow .sr-bar.hot { background: var(--y26); opacity: .8; }
 .subrow .sr-val { font-weight: 750; text-align: right; color: var(--ink2); font-variant-numeric: tabular-nums; }
 @media (max-width: 700px) {
-  .plrow-head { grid-template-columns: 1fr 70px 16px; }
+  .plrow-head { grid-template-columns: 1fr 70px; }
   .plrow-barwrap { display: none; }
   .subrow { grid-template-columns: 1fr 62px; padding-left: 18px; }
   .subrow .sr-barwrap { display: none; }
@@ -1643,15 +1648,30 @@ function renderPlanteles() {
     document.getElementById('searchBox').value = d.k + ' — ' + d.p;
     document.getElementById('searchResults').replaceChildren();
   };
+  const toggles = [];
+  const acts = document.createElement('div'); acts.className = 'pl-expand-acts';
+  const mkAct = (label, open) => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+    b.addEventListener('click', () => toggles.forEach(t => t(open)));
+    acts.appendChild(b);
+  };
+  mkAct('Expandir todas', true); mkAct('Contraer todas', false);
+  host.appendChild(acts);
+  const list = document.createElement('div'); list.className = 'pl-scroll';
+  host.appendChild(list);
   for (const g of rows) {
     const wrap = document.createElement('div'); wrap.className = 'plrow';
     const head = document.createElement('button'); head.type = 'button'; head.className = 'plrow-head';
     head.setAttribute('aria-expanded', 'false');
     const val = lensA ? g.sub : g.s26;
+    const nTxt = g.n + (g.n === 1 ? ' carrera' : ' carreras');
     const nm = document.createElement('span'); nm.className = 'plrow-name';
     nm.appendChild(document.createTextNode(g.name));
     const sm = document.createElement('small');
-    sm.textContent = (g.tipo === 'CU' ? 'Ciudad Universitaria' : g.tipo + (g.pl !== g.name ? ' · ' + g.pl : '')) + ' · ' + g.n + (g.n === 1 ? ' carrera' : ' carreras');
+    sm.appendChild(document.createTextNode(
+      (g.tipo === 'CU' ? 'Ciudad Universitaria' : g.tipo + (g.pl !== g.name ? ' · ' + g.pl : '')) + ' · '));
+    const chip = document.createElement('span'); chip.className = 'count-chip'; chip.textContent = '▸ ' + nTxt;
+    sm.appendChild(chip);
     nm.appendChild(document.createElement('br')); nm.appendChild(sm);
     const bw = document.createElement('span'); bw.className = 'plrow-barwrap';
     const bar = document.createElement('span'); bar.className = 'plrow-bar';
@@ -1661,8 +1681,7 @@ function renderPlanteles() {
     if (lensA) { const mk = document.createElement('span'); mk.className = 'mark8'; mk.style.left = (8 / axisMax * 100) + '%'; bw.appendChild(mk); }
     const vv = document.createElement('span'); vv.className = 'plrow-val';
     vv.textContent = lensA ? '+' + g.sub.toFixed(1) : g.s26.toFixed(1) + '%';
-    const ch = document.createElement('span'); ch.className = 'plrow-chev'; ch.textContent = '▸';
-    head.appendChild(nm); head.appendChild(bw); head.appendChild(vv); head.appendChild(ch);
+    head.appendChild(nm); head.appendChild(bw); head.appendChild(vv);
     head.setAttribute('aria-label', `${g.name}, ${g.pl}. ` +
       (lensA ? `Subida típica ponderada: más ${g.sub.toFixed(1)} aciertos.`
              : `Con ${plState.score} o más: ${g.s26.toFixed(1)}% de sus aspirantes en 2026.`) +
@@ -1687,12 +1706,14 @@ function renderPlanteles() {
       sb.addEventListener('click', () => abrir(c));
       subs.appendChild(sb);
     }
-    head.addEventListener('click', () => {
-      subs.hidden = !subs.hidden;
-      ch.textContent = subs.hidden ? '▸' : '▾';
-      head.setAttribute('aria-expanded', String(!subs.hidden));
-    });
-    wrap.appendChild(head); wrap.appendChild(subs); host.appendChild(wrap);
+    const setOpen = open => {
+      subs.hidden = !open;
+      chip.textContent = (open ? '▾ ' : '▸ ') + nTxt;
+      head.setAttribute('aria-expanded', String(open));
+    };
+    toggles.push(setOpen);
+    head.addEventListener('click', () => setOpen(subs.hidden));
+    wrap.appendChild(head); wrap.appendChild(subs); list.appendChild(wrap);
   }
   document.getElementById('plNote').textContent = rows.length === 0
     ? 'Selecciona al menos un plantel en el mosaico.'
