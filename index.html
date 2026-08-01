@@ -191,6 +191,7 @@ input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .ytable td:first-child, .ytable th:first-child { text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 750; }
 .ytable tr.corte td { font-weight: 800; font-size: 15.5px; }
 .ytable tbody tr:last-child td { border-bottom: none; }
+.ytable tr.detalle td { white-space: pre-line; font-size: 12px; line-height: 1.4; color: var(--muted); }
 .ytable th:last-child, .ytable td:last-child { background: var(--y26-soft); }
 @media (min-width: 900px) {
   .buscar-sticky .ytable { font-size: 12px; }
@@ -537,7 +538,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
           <tr class="corte"><td>De cada 100, debajo de ti</td>
             <td class="num" id="p21"></td><td class="num" id="p22"></td><td class="num" id="p23"></td>
             <td class="num" id="p24"></td><td class="num" id="p25"></td><td class="num" id="p26"></td></tr>
-          <tr><td>Exacto · presentaron</td>
+          <tr class="detalle"><td>Exacto · presentaron</td>
             <td class="num" id="s21"></td><td class="num" id="s22"></td><td class="num" id="s23"></td>
             <td class="num" id="s24"></td><td class="num" id="s25"></td><td class="num" id="s26"></td></tr>
         </tbody>
@@ -1079,7 +1080,7 @@ function renderCalc() {
     const cum = D.nat[y].cum[Math.min(120, Math.max(0, score))];
     document.getElementById('p' + String(y).slice(2)).textContent = String(Math.round(cum));
     document.getElementById('s' + String(y).slice(2)).textContent =
-      `${cum.toFixed(1)}% de ${fmt(D.nat[y].n)}`;
+      `${cum.toFixed(1)}%\nde ${fmt(D.nat[y].n)}`;
   }
   const progs = Object.values(D.progs).filter(d => d.y[year] && calcState.areas.has(d.a))
     .map(d => ({k: d.k, p: d.p, a: d.a, c: d.y[year].corte, n: d.y[year].asp, s: d.y[year].sel}));
