@@ -136,7 +136,7 @@ td .hot { color: var(--y26-deep); font-weight: 700; }
 .marg-ok { color: var(--good); font-weight: 700; }
 .marg-no { color: var(--y26-deep); font-weight: 700; }
 .tbl-wrap { overflow-x: auto; }
-.tbl-scroll { max-height: 460px; overflow-y: auto; border: 1px solid var(--line); border-radius: 12px; padding: 0 14px; background: var(--surface); }
+.tbl-scroll { max-height: 460px; overflow-y: auto; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; padding: 0 14px; background: var(--surface); }
 .tbl-scroll th { position: sticky; top: 0; background: var(--surface); z-index: 1; }
 details { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; }
 summary { cursor: pointer; font-weight: 700; color: var(--ink2); font-size: 14px; }
@@ -236,6 +236,7 @@ details.dd > summary::-webkit-details-marker { display: none; }
 details.dd > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 .dd-menu { position: absolute; top: calc(100% + 8px); left: 0; z-index: 15; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 16px; min-width: 280px; max-height: 330px; overflow-y: auto; }
+.dd-search { width: 100%; margin: 0 0 10px; padding: 8px 12px; font: 600 13.5px system-ui, sans-serif; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 10px; }
 .dd-menu label { display: flex; gap: 9px; align-items: center; font-size: 14px; padding: 5px 0; cursor: pointer; }
 .dd-menu input { accent-color: var(--brand); width: 16px; height: 16px; }
 .dd-actions { display: flex; gap: 12px; margin-bottom: 8px; }
@@ -285,8 +286,9 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
     Los resultados publicados — 1,027,716 registros de seis años (2021–2026) — muestran lo que cambió: el aspirante
     típico sacó 19 aciertos más, los puntajes de élite se multiplicaron por seis y hubo 3,020 exámenes
     cancelados donde antes había menos de diez.</p>
-    <p class="fineprint">Datos: DGAE-UNAM (2021–2026) · análisis del 24 de julio de 2026, ampliado el 31 de julio con 2021–2023 · la propia UNAM
-    revisa estos resultados y suspendió inscripciones el 24 de julio.</p>
+    <p class="fineprint">Datos: DGAE-UNAM (2021–2026) · análisis del 24 de julio de 2026, ampliado el 31 de julio con 2021–2023 · la UNAM suspendió
+    inscripciones el 24 de julio y su comisión técnica recomendó el 31 de julio un examen de control
+    presencial cuyos resultados definirán los lugares.</p>
     <p style="margin-top:14px"><a href="https://pzape.github.io/unam-admision-2026/historia.html" style="font-weight:700">➜ Ver esta historia narrada paso a paso</a></p>
 
     <div class="tiles">
@@ -465,7 +467,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 
     <details>
       <summary>Tabla completa (107 carreras, ordenable)</summary>
-      <div class="tbl-wrap">
+      <div class="tbl-scroll">
         <table id="fullTable">
           <caption>Calificación típica por año y cancelaciones. Haz clic en un encabezado para ordenar.</caption>
           <thead><tr>
@@ -628,8 +630,15 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
         <fieldset id="lensSel">
           <legend>Medida</legend>
           <span class="seg"><input type="radio" name="lens" id="lensSub" value="sub" checked><label for="lensSub">Subida de calificación típica</label></span>
-          <span class="seg"><input type="radio" name="lens" id="lens110" value="e110"><label for="lens110">Aspirantes con 110+</label></span>
+          <span class="seg"><input type="radio" name="lens" id="lens110" value="e110"><label for="lens110">Aspirantes con <span id="lensThrVal">110</span>+</label></span>
         </fieldset>
+      </div>
+      <div class="slider-row" id="scoreRow" hidden>
+        <label for="plScore">Umbral de aciertos: <strong id="plScoreVal">110</strong></label>
+        <div class="slider-wrap">
+          <input type="range" id="plScore" min="0" max="115" step="5" value="110">
+          <div class="notch" style="left:95.65%">110</div>
+        </div>
       </div>
       <div class="slider-row">
         <label for="devSlider">Recorre el nivel de desviación, de menor a mayor</label>
@@ -1511,7 +1520,12 @@ function plantelDe(p) {
   return {pl: 'Ciudad Universitaria', tipo: 'CU'};
 }
 const PL_ORDER = {CU: 0, FES: 1, ENES: 2, Otro: 3};
-function plantelGroups() {
+function cntGE(d, y, t) {
+  const s = d.y[y]; if (!s || !s.h5.length) return 0;
+  if (t === 110) return s.h110;
+  return Math.round(s.h5.slice(Math.max(0, Math.floor(t / 5))).reduce((a, b) => a + b, 0) / 100 * s.pre);
+}
+function plantelGroups(t) {
   const g = {};
   for (const r of D.risk) {
     const d = D.progs[r.c];
@@ -1521,7 +1535,7 @@ function plantelGroups() {
     const y5 = d.y[2025], y6 = d.y[2026], gr = g[d.p];
     gr.n++; gr.asp += y6.asp;
     gr.subs.push(r.dOnline); gr.w.push(y6.pre);
-    gr.h25 += r.n25; gr.h26 += r.n26; gr.p25 += y5.pre; gr.p26 += y6.pre;
+    gr.h25 += cntGE(d, 2025, t); gr.h26 += cntGE(d, 2026, t); gr.p25 += y5.pre; gr.p26 += y6.pre;
     gr.C += Math.round(r.cr26 * y6.asp / 100);
   }
   return Object.values(g).map(gr => ({...gr,
@@ -1531,18 +1545,21 @@ function plantelGroups() {
     cr: gr.C / gr.asp * 100}));
 }
 let PLG = null, PL_LIST = null;
-const plState = {sel: null, lens: 'sub', thr: 28};
+const plState = {sel: null, lens: 'sub', thr: 28, score: 110};
 function buildDD() {
-  PLG = plantelGroups();
+  PLG = plantelGroups(plState.score);
   PL_LIST = [...new Set(PLG.map(g => g.pl))].sort((a, b) =>
     PL_ORDER[PLG.find(g => g.pl === a).tipo] - PL_ORDER[PLG.find(g => g.pl === b).tipo] || a.localeCompare(b));
   plState.sel = new Set(PL_LIST);
   const menu = document.getElementById('ddMenu');
+  const search = document.createElement('input'); search.type = 'search'; search.className = 'dd-search';
+  search.placeholder = 'Escribe para filtrar…'; search.setAttribute('aria-label', 'Filtrar planteles');
+  menu.appendChild(search);
   const acts = document.createElement('div'); acts.className = 'dd-actions';
   const bAll = document.createElement('button'); bAll.textContent = 'Todos'; bAll.type = 'button';
   const bNone = document.createElement('button'); bNone.textContent = 'Ninguno'; bNone.type = 'button';
   acts.appendChild(bAll); acts.appendChild(bNone); menu.appendChild(acts);
-  const boxes = [];
+  const boxes = [], labs = [];
   for (const pl of PL_LIST) {
     const lab = document.createElement('label');
     const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = true; cb.value = pl;
@@ -1552,19 +1569,26 @@ function buildDD() {
     });
     boxes.push(cb);
     lab.appendChild(cb); lab.appendChild(document.createTextNode(pl));
+    labs.push([lab, norm(pl)]);
     menu.appendChild(lab);
   }
   bAll.addEventListener('click', () => { plState.sel = new Set(PL_LIST); boxes.forEach(b => b.checked = true); renderPlanteles(); });
   bNone.addEventListener('click', () => { plState.sel = new Set(); boxes.forEach(b => b.checked = false); renderPlanteles(); });
+  search.addEventListener('input', () => {
+    const q = norm(search.value.trim());
+    for (const [lab, txt] of labs) lab.style.display = !q || txt.includes(q) ? '' : 'none';
+  });
 }
 function sliderSetup() {
   const s = document.getElementById('devSlider');
   const lensA = plState.lens === 'sub';
-  s.min = lensA ? 4 : 0; s.max = lensA ? 28 : 14; s.step = 0.5; s.value = s.max;
+  const maxS = lensA ? 28 : Math.max(2, Math.ceil(Math.max(1, ...PLG.map(g => g.s26))));
+  s.min = lensA ? 4 : 0; s.max = maxS; s.step = 0.5; s.value = s.max;
   plState.thr = +s.max;
   const notch = document.getElementById('devNotch');
   notch.style.display = lensA ? '' : 'none';
   if (lensA) notch.style.left = ((8 - 4) / (28 - 4) * 100) + '%';
+  document.getElementById('scoreRow').hidden = lensA;
 }
 function renderPlanteles() {
   const lensA = plState.lens === 'sub';
@@ -1575,12 +1599,12 @@ function renderPlanteles() {
   const card = document.getElementById('cardPl'), tt = document.getElementById('ttPl');
   const W = 900, rowH = 46, m = {t: 8, r: 84, b: 34, l: 272};
   const H = m.t + rows.length * rowH + m.b;
-  const lo = 0, hi = lensA ? 30 : 15;
+  const lo = 0, hi = lensA ? 30 : Math.max(2, Math.ceil(Math.max(1, ...rows.map(g => g.s26)) * 1.08));
   const X = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r);
   const thr = plState.thr;
   const svg = el('svg', {viewBox: `0 0 ${W} ${Math.max(H, 130)}`, role: 'group',
     'aria-label': 'Desviación por facultad o escuela, según la medida elegida'}, host);
-  const gstep = lensA ? 5 : 3;
+  const gstep = lensA ? 5 : Math.max(1, Math.ceil(hi / 5));
   for (let s2 = lo; s2 <= hi; s2 += gstep) {
     el('line', {x1: X(s2), x2: X(s2), y1: m.t, y2: H - m.b, stroke: css('--line'), 'stroke-width': 1}, svg);
     el('text', {x: X(s2), y: H - 12, 'text-anchor': 'middle', fill: css('--muted'), 'font-size': 12}, svg)
@@ -1602,7 +1626,7 @@ function renderPlanteles() {
     el('text', {x: m.l - 12, y: cy + 13, 'text-anchor': 'end', fill: css('--muted'), 'font-size': 11}, svg)
       .textContent = g.tipo + (g.pl !== g.name ? ' · ' + g.pl : '') + ' · ' + g.n + (g.n === 1 ? ' carrera' : ' carreras');
     const hit = el('g', {tabindex: 0, role: 'img',
-      'aria-label': `${g.name}, plantel ${g.pl}. Subida ponderada más ${g.sub.toFixed(1)} aciertos, rango ${g.min} a ${g.max}. Con 110 o más: ${g.s25.toFixed(1)}% en 2025 y ${g.s26.toFixed(1)}% en 2026.`}, svg);
+      'aria-label': `${g.name}, plantel ${g.pl}. Subida ponderada más ${g.sub.toFixed(1)} aciertos, rango ${g.min} a ${g.max}. Con ${plState.score} o más: ${g.s25.toFixed(1)}% en 2025 y ${g.s26.toFixed(1)}% en 2026.`}, svg);
     if (lensA) {
       el('line', {x1: X(Math.max(g.min, 0)), x2: X(g.max), y1: cy, y2: cy, stroke: cMain, 'stroke-width': 2, opacity: .45}, hit);
       el('circle', {cx: X(g.sub), cy, r: 6.5, fill: cMain, stroke: css('--surface'), 'stroke-width': 2}, hit);
@@ -1618,11 +1642,11 @@ function renderPlanteles() {
     hoverable(hit, card, tt, () => setTip(tt, g.name, g.tipo + ' · ' + g.pl, [
       {text: `${g.n} carrera${g.n === 1 ? '' : 's'} en el análisis · ${fmt(g.asp)} aspirantes 2026`},
       {text: `Subida típica ponderada: +${g.sub.toFixed(1)} (rango ${g.min >= 0 ? '+' : ''}${g.min} a +${g.max})`},
-      {text: `Con 110 o más: ${g.s25.toFixed(1)}% (2025) → ${g.s26.toFixed(1)}% (2026)`},
+      {text: `Con ${plState.score} o más: ${g.s25.toFixed(1)}% (2025) → ${g.s26.toFixed(1)}% (2026)`},
       {text: `Exámenes cancelados 2026: ${g.cr.toFixed(1)}%`}]));
   });
   const note2 = document.getElementById('devNote');
-  const unit = lensA ? `subida hasta +${(+thr).toFixed(1)} aciertos` : `hasta ${(+thr).toFixed(1)}% de aspirantes con 110+ en 2026`;
+  const unit = lensA ? `subida hasta +${(+thr).toFixed(1)} aciertos` : `hasta ${(+thr).toFixed(1)}% de aspirantes con ${plState.score}+ en 2026`;
   let extra = '';
   if (lensA) extra = thr > 8 ? ' Ya rebasaste +8, el cambio máximo que cualquier carrera tuvo en un año normal.'
     : ' En un año normal, ninguna carrera pasó de +8.';
@@ -1637,7 +1661,7 @@ function renderPlanteles() {
       const ev = document.createElement('span'); ev.className = 'ev'; ev.textContent = '+' + r.dOnline;
       const ek = document.createElement('span'); ek.className = 'ek'; ek.textContent = d.k;
       const ep = document.createElement('span'); ep.className = 'ep';
-      ep.textContent = `${d.p} · con 110+: ${fmt(r.n25)} → ${fmt(r.n26)}`;
+      ep.textContent = `${d.p} · con ${plState.score}+: ${fmt(cntGE(d, 2025, plState.score))} → ${fmt(cntGE(d, 2026, plState.score))}`;
       b.appendChild(ev); b.appendChild(ek); b.appendChild(ep);
       b.addEventListener('click', () => {
         showTab('buscar');
@@ -1660,6 +1684,13 @@ function drawPlanteles() {
     });
     document.getElementById('devSlider').addEventListener('input', ev => {
       plState.thr = +ev.target.value; renderPlanteles();
+    });
+    document.getElementById('plScore').addEventListener('input', ev => {
+      plState.score = +ev.target.value;
+      document.getElementById('plScoreVal').textContent = String(plState.score);
+      document.getElementById('lensThrVal').textContent = String(plState.score);
+      PLG = plantelGroups(plState.score);
+      sliderSetup(); renderPlanteles();
     });
     sliderSetup();
   }
