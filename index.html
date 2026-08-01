@@ -237,12 +237,45 @@ details.dd > summary:focus-visible { outline: 2px solid var(--brand); outline-of
 details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 .dd-menu { position: absolute; top: calc(100% + 8px); left: 0; z-index: 15; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 16px; min-width: 280px; max-height: 330px; overflow-y: auto; }
 .dd-search { width: 100%; margin: 0 0 10px; padding: 8px 12px; font: 600 13.5px system-ui, sans-serif; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 10px; }
-.pl-pills { display: flex; gap: 7px; flex-wrap: wrap; max-width: 640px; }
-.pl-pills button { all: unset; cursor: pointer; padding: 7px 14px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 650; color: var(--ink2); background: var(--surface); transition: border-color .12s, color .12s, background .12s; }
-.pl-pills button:hover { border-color: var(--axis); }
-.pl-pills button[aria-pressed="true"] { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
-.pl-pills button.acts { color: var(--brand); border-style: dashed; font-weight: 700; }
-.pl-pills button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+#plSel { width: 100%; }
+.pl-acts { display: flex; gap: 16px; margin-bottom: 8px; }
+.pl-acts button { all: unset; cursor: pointer; font-size: 12.5px; font-weight: 700; color: var(--brand); }
+.pl-acts button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.pl-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; width: 100%; }
+.pl-tile { all: unset; cursor: pointer; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); text-align: center; font-size: 13px; font-weight: 700; color: var(--ink2); transition: border-color .12s, color .12s, background .12s; }
+.pl-tile:hover { border-color: var(--axis); }
+.pl-tile small { display: block; font-weight: 600; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.pl-tile[aria-pressed="true"] { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+.pl-tile[aria-pressed="true"] small { color: var(--brand); opacity: .75; }
+.pl-tile:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.plrow { border-bottom: 1px solid var(--line); }
+.plrow:last-child { border-bottom: none; }
+.plrow-head { all: unset; cursor: pointer; display: grid; grid-template-columns: 250px 1fr 76px 18px; gap: 12px; align-items: center; width: 100%; box-sizing: border-box; padding: 10px 6px; border-radius: 10px; }
+.plrow-head:hover { background: var(--brand-soft); }
+.plrow-head:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.plrow-name { font-size: 13.5px; font-weight: 700; color: var(--ink); line-height: 1.35; }
+.plrow-name small { font-weight: 600; font-size: 11px; color: var(--muted); }
+.plrow-barwrap { position: relative; height: 16px; background: var(--card); border-radius: 8px; }
+.plrow-bar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; background: var(--axis); }
+.plrow-bar.hot { background: var(--y26); }
+.mark8 { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--crit); opacity: .6; border-radius: 1px; }
+.plrow-val { font-weight: 800; font-size: 13.5px; color: var(--y26-deep); text-align: right; font-variant-numeric: tabular-nums; }
+.plrow-chev { color: var(--muted); font-size: 12px; }
+.plrow-subs { padding: 2px 0 10px; }
+.subrow { all: unset; cursor: pointer; display: grid; grid-template-columns: 226px 1fr 76px; gap: 12px; align-items: center; width: 100%; box-sizing: border-box; padding: 6px 6px 6px 30px; font-size: 12.5px; border-radius: 8px; }
+.subrow:hover { background: var(--brand-soft); }
+.subrow:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.subrow .sr-name { color: var(--ink2); font-weight: 650; }
+.subrow .sr-barwrap { position: relative; height: 10px; background: var(--card); border-radius: 6px; }
+.subrow .sr-bar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; background: var(--axis); }
+.subrow .sr-bar.hot { background: var(--y26); opacity: .8; }
+.subrow .sr-val { font-weight: 750; text-align: right; color: var(--ink2); font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) {
+  .plrow-head { grid-template-columns: 1fr 70px 16px; }
+  .plrow-barwrap { display: none; }
+  .subrow { grid-template-columns: 1fr 62px; padding-left: 18px; }
+  .subrow .sr-barwrap { display: none; }
+}
 .dd-menu label { display: flex; gap: 9px; align-items: center; font-size: 14px; padding: 5px 0; cursor: pointer; }
 .dd-menu input { accent-color: var(--brand); width: 16px; height: 16px; }
 .dd-actions { display: flex; gap: 12px; margin-bottom: 8px; }
@@ -618,8 +651,8 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
     <span class="hero-eyebrow">Facultades, escuelas y planteles</span>
     <h1>¿Dónde se <span class="grad">desvió más</span>?</h1>
     <p class="dek">Comparación de la desviación de 2026 entre facultades y escuelas, agrupadas por su
-    plantel. Activa o desactiva planteles con las pastillas (doble clic para ver solo uno), cambia la medida
-    y usa el control deslizante para recorrer de la menor desviación a la mayor.</p>
+    plantel. Activa o desactiva planteles en el mosaico (doble clic para ver solo uno), cambia la medida y
+    haz clic en cada facultad o escuela para desplegar sus carreras.</p>
 
     <div class="tiles">
       <div class="tile"><div class="k">Mayor subida</div><div class="v"><span class="hot">+26</span></div>
@@ -632,11 +665,12 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 
     <div class="chart-card" id="cardPl">
       <p class="chart-title">Desviación por facultad o escuela</p>
-      <p class="chart-sub">Cada renglón es una facultad o escuela; debajo del nombre se indica su plantel. Ordenadas de mayor a menor según la medida elegida.</p>
+      <p class="chart-sub">Cada renglón es una facultad o escuela, ordenadas de mayor a menor según la medida elegida. Haz clic en un renglón para desplegar sus carreras; clic en una carrera abre su perfil.</p>
       <div class="controls">
         <fieldset id="plSel">
           <legend>Planteles · doble clic en uno para verlo solo</legend>
-          <div class="pl-pills" id="plPills"></div>
+          <div class="pl-acts" id="plActs"></div>
+          <div class="pl-tiles" id="plPills"></div>
         </fieldset>
         <fieldset id="lensSel">
           <legend>Medida</legend>
@@ -651,14 +685,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
           <div class="notch" style="left:95.65%">110</div>
         </div>
       </div>
-      <div class="slider-row">
-        <label for="devSlider">Recorre el nivel de desviación, de menor a mayor</label>
-        <div class="slider-wrap">
-          <input type="range" id="devSlider" min="4" max="28" step="0.5" value="28" aria-describedby="devNote">
-          <div class="notch" id="devNotch">+8</div>
-        </div>
-        <p class="live-note" id="devNote" aria-live="polite"></p>
-      </div>
+      <p class="live-note" id="plNote" aria-live="polite"></p>
       <div id="chartPl"></div>
       <div class="tt" id="ttPl"></div>
       <p class="caption">La subida se calcula con las carreras de cada facultad o escuela que tuvieron al
@@ -666,13 +693,6 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
       entre sus carreras. Describe facultades y planteles, no personas.</p>
     </div>
 
-    <h2>Carreras extremas</h2>
-    <p>Las carreras con mayor y menor desviación dentro de los planteles seleccionados. Toca una para
-    abrir su perfil en el buscador.</p>
-    <div class="extremes">
-      <div class="ext-col"><h3>Las 10 que más se desviaron</h3><div id="extTop"></div></div>
-      <div class="ext-col"><h3>Las 10 que menos</h3><div id="extBot"></div></div>
-    </div>
   </section>
 
   <div class="foot">
@@ -1550,9 +1570,9 @@ function plantelGroups(t) {
     const d = D.progs[r.c];
     const info = plantelDe(d.p);
     if (!g[d.p]) g[d.p] = {name: info.tipo === 'FES' || info.tipo === 'ENES' ? info.pl : d.p,
-      pl: info.pl, tipo: info.tipo, subs: [], w: [], asp: 0, n: 0, h25: 0, h26: 0, p25: 0, p26: 0, C: 0};
+      pl: info.pl, tipo: info.tipo, codes: [], subs: [], w: [], asp: 0, n: 0, h25: 0, h26: 0, p25: 0, p26: 0, C: 0};
     const y5 = d.y[2025], y6 = d.y[2026], gr = g[d.p];
-    gr.n++; gr.asp += y6.asp;
+    gr.n++; gr.asp += y6.asp; gr.codes.push(r.c);
     gr.subs.push(r.dOnline); gr.w.push(y6.pre);
     gr.h25 += cntGE(d, 2025, t); gr.h26 += cntGE(d, 2026, t); gr.p25 += y5.pre; gr.p26 += y6.pre;
     gr.C += Math.round(r.cr26 * y6.asp / 100);
@@ -1564,25 +1584,31 @@ function plantelGroups(t) {
     cr: gr.C / gr.asp * 100}));
 }
 let PLG = null, PL_LIST = null;
-const plState = {sel: null, lens: 'sub', thr: 28, score: 110};
+const RISK_BY_C = new Map(D.risk.map(r => [r.c, r]));
+const plState = {sel: null, lens: 'sub', score: 110};
 function buildDD() {
   PLG = plantelGroups(plState.score);
   PL_LIST = [...new Set(PLG.map(g => g.pl))].sort((a, b) =>
     PL_ORDER[PLG.find(g => g.pl === a).tipo] - PL_ORDER[PLG.find(g => g.pl === b).tipo] || a.localeCompare(b));
   plState.sel = new Set(PL_LIST);
+  const acts = document.getElementById('plActs');
   const host = document.getElementById('plPills');
   const btns = new Map();
   const paint = () => { for (const [pl, b] of btns) b.setAttribute('aria-pressed', String(plState.sel.has(pl))); };
   const mkAct = (label, fn) => {
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'acts'; b.textContent = label;
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = label;
     b.addEventListener('click', () => { fn(); paint(); renderPlanteles(); });
-    host.appendChild(b);
+    acts.appendChild(b);
   };
   mkAct('Todos', () => { plState.sel = new Set(PL_LIST); });
   mkAct('Ninguno', () => { plState.sel = new Set(); });
   for (const pl of PL_LIST) {
-    const b = document.createElement('button'); b.type = 'button'; b.textContent = pl;
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'pl-tile';
     b.setAttribute('aria-pressed', 'true');
+    b.appendChild(document.createTextNode(pl));
+    const nc = PLG.filter(g => g.pl === pl).reduce((a, g) => a + g.n, 0);
+    const sm = document.createElement('small'); sm.textContent = nc + (nc === 1 ? ' carrera' : ' carreras');
+    b.appendChild(sm);
     b.addEventListener('click', () => {
       if (plState.sel.has(pl)) plState.sel.delete(pl); else plState.sel.add(pl);
       paint(); renderPlanteles();
@@ -1598,98 +1624,81 @@ function buildDD() {
   }
 }
 function sliderSetup() {
-  const s = document.getElementById('devSlider');
-  const lensA = plState.lens === 'sub';
-  const maxS = lensA ? 28 : Math.max(2, Math.ceil(Math.max(1, ...PLG.map(g => g.s26))));
-  s.min = lensA ? 4 : 0; s.max = maxS; s.step = 0.5; s.value = s.max;
-  plState.thr = +s.max;
-  const notch = document.getElementById('devNotch');
-  notch.style.display = lensA ? '' : 'none';
-  if (lensA) notch.style.left = ((8 - 4) / (28 - 4) * 100) + '%';
-  document.getElementById('scoreRow').hidden = lensA;
+  document.getElementById('scoreRow').hidden = plState.lens === 'sub';
 }
 function renderPlanteles() {
   const lensA = plState.lens === 'sub';
   const rows = PLG.filter(g => plState.sel.has(g.pl)).sort((a, b) => (lensA ? b.sub - a.sub : b.s26 - a.s26));
   const host = document.getElementById('chartPl'); host.replaceChildren();
-  const card = document.getElementById('cardPl'), tt = document.getElementById('ttPl');
-  const W = 900, rowH = 46, m = {t: 8, r: 84, b: 34, l: 272};
-  const H = m.t + rows.length * rowH + m.b;
-  const lo = 0, hi = lensA ? 30 : Math.max(2, Math.ceil(Math.max(1, ...rows.map(g => g.s26)) * 1.08));
-  const X = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r);
-  const thr = plState.thr;
-  const svg = el('svg', {viewBox: `0 0 ${W} ${Math.max(H, 130)}`, role: 'group',
-    'aria-label': 'Desviación por facultad o escuela, según la medida elegida'}, host);
-  const gstep = lensA ? 5 : Math.max(1, Math.ceil(hi / 5));
-  for (let s2 = lo; s2 <= hi; s2 += gstep) {
-    el('line', {x1: X(s2), x2: X(s2), y1: m.t, y2: H - m.b, stroke: css('--line'), 'stroke-width': 1}, svg);
-    el('text', {x: X(s2), y: H - 12, 'text-anchor': 'middle', fill: css('--muted'), 'font-size': 12}, svg)
-      .textContent = lensA ? (s2 > 0 ? '+' : '') + s2 : s2 + '%';
-  }
-  if (lensA) el('line', {x1: X(8), x2: X(8), y1: m.t, y2: H - m.b, stroke: css('--crit'),
-    'stroke-width': 1.4, 'stroke-dasharray': '5 4', opacity: .7}, svg);
-  let shown = 0;
-  rows.forEach((g, i) => {
-    const cy = m.t + i * rowH + rowH / 2;
-    const val = lensA ? g.sub : g.s26;
-    const active = val <= thr + 1e-9;
-    if (active) shown++;
-    const cMain = active ? css('--y26') : css('--axis');
-    const cDeep = active ? css('--y26-deep') : css('--muted');
-    el('text', {x: m.l - 12, y: cy - 2, 'text-anchor': 'end', 'font-weight': 700,
-      fill: active ? css('--ink') : css('--muted'), 'font-size': 13}, svg)
-      .textContent = g.name.length > 34 ? g.name.slice(0, 33) + '…' : g.name;
-    el('text', {x: m.l - 12, y: cy + 13, 'text-anchor': 'end', fill: css('--muted'), 'font-size': 11}, svg)
-      .textContent = g.tipo + (g.pl !== g.name ? ' · ' + g.pl : '') + ' · ' + g.n + (g.n === 1 ? ' carrera' : ' carreras');
-    const hit = el('g', {tabindex: 0, role: 'img',
-      'aria-label': `${g.name}, plantel ${g.pl}. Subida ponderada más ${g.sub.toFixed(1)} aciertos, rango ${g.min} a ${g.max}. Con ${plState.score} o más: ${g.s25.toFixed(1)}% en 2025 y ${g.s26.toFixed(1)}% en 2026.`}, svg);
-    if (lensA) {
-      el('line', {x1: X(Math.max(g.min, 0)), x2: X(g.max), y1: cy, y2: cy, stroke: cMain, 'stroke-width': 2, opacity: .45}, hit);
-      el('circle', {cx: X(g.sub), cy, r: 6.5, fill: cMain, stroke: css('--surface'), 'stroke-width': 2}, hit);
-      el('text', {x: X(g.max) + 12, y: cy + 4.5, 'font-weight': 800, fill: cDeep, 'font-size': 13}, hit)
-        .textContent = '+' + g.sub.toFixed(1);
-    } else {
-      el('line', {x1: X(g.s25), x2: X(g.s26), y1: cy, y2: cy, stroke: css('--axis'), 'stroke-width': 2}, hit);
-      el('circle', {cx: X(g.s25), cy, r: 4.5, fill: active ? css('--y25') : css('--axis'), stroke: css('--surface'), 'stroke-width': 2}, hit);
-      el('circle', {cx: X(g.s26), cy, r: 6, fill: cMain, stroke: css('--surface'), 'stroke-width': 2}, hit);
-      el('text', {x: X(g.s26) + 11, y: cy + 4.5, 'font-weight': 800, fill: cDeep, 'font-size': 13}, hit)
-        .textContent = g.s26.toFixed(1) + '%';
-    }
-    hoverable(hit, card, tt, () => setTip(tt, g.name, g.tipo + ' · ' + g.pl, [
-      {text: `${g.n} carrera${g.n === 1 ? '' : 's'} en el análisis · ${fmt(g.asp)} aspirantes 2026`},
-      {text: `Subida típica ponderada: +${g.sub.toFixed(1)} (rango ${g.min >= 0 ? '+' : ''}${g.min} a +${g.max})`},
-      {text: `Con ${plState.score} o más: ${g.s25.toFixed(1)}% (2025) → ${g.s26.toFixed(1)}% (2026)`},
-      {text: `Exámenes cancelados 2026: ${g.cr.toFixed(1)}%`}]));
-  });
-  const note2 = document.getElementById('devNote');
-  const unit = lensA ? `subida hasta +${(+thr).toFixed(1)} aciertos` : `hasta ${(+thr).toFixed(1)}% de aspirantes con ${plState.score}+ en 2026`;
-  let extra = '';
-  if (lensA) extra = thr > 8 ? ' Ya rebasaste +8, el cambio máximo que cualquier carrera tuvo en un año normal.'
-    : ' En un año normal, ninguna carrera pasó de +8.';
-  note2.textContent = `Con color: facultades y escuelas con ${unit} — ${shown} de ${rows.length}.` + extra;
-  const sel = plState.sel;
-  const cars = D.risk.filter(r => sel.has(plantelDe(D.progs[r.c].p).pl));
-  const mk = (hostId, list) => {
-    const h2 = document.getElementById(hostId); h2.replaceChildren();
-    for (const r of list) {
-      const d = D.progs[r.c];
-      const b = document.createElement('button');
-      const ev = document.createElement('span'); ev.className = 'ev'; ev.textContent = '+' + r.dOnline;
-      const ek = document.createElement('span'); ek.className = 'ek'; ek.textContent = d.k;
-      const ep = document.createElement('span'); ep.className = 'ep';
-      ep.textContent = `${d.p} · con ${plState.score}+: ${fmt(cntGE(d, 2025, plState.score))} → ${fmt(cntGE(d, 2026, plState.score))}`;
-      b.appendChild(ev); b.appendChild(ek); b.appendChild(ep);
-      b.addEventListener('click', () => {
-        showTab('buscar');
-        showProfile(r.c);
-        document.getElementById('searchBox').value = d.k + ' — ' + d.p;
-        document.getElementById('searchResults').replaceChildren();
-      });
-      h2.appendChild(b);
-    }
+  const axisMax = lensA ? Math.max(10, Math.ceil(Math.max(0, ...rows.map(g => g.sub)) * 1.1))
+                        : Math.max(2, Math.ceil(Math.max(1, ...rows.map(g => g.s26)) * 1.1));
+  const carVal = c => {
+    const d = D.progs[c];
+    return lensA ? RISK_BY_C.get(c).dOnline : 100 * cntGE(d, 2026, plState.score) / d.y[2026].pre;
   };
-  mk('extTop', [...cars].sort((a, b) => b.dOnline - a.dOnline).slice(0, 10));
-  mk('extBot', [...cars].sort((a, b) => a.dOnline - b.dOnline).slice(0, 10));
+  const abrir = c => {
+    const d = D.progs[c];
+    showTab('buscar');
+    showProfile(c);
+    document.getElementById('searchBox').value = d.k + ' — ' + d.p;
+    document.getElementById('searchResults').replaceChildren();
+  };
+  for (const g of rows) {
+    const wrap = document.createElement('div'); wrap.className = 'plrow';
+    const head = document.createElement('button'); head.type = 'button'; head.className = 'plrow-head';
+    head.setAttribute('aria-expanded', 'false');
+    const val = lensA ? g.sub : g.s26;
+    const nm = document.createElement('span'); nm.className = 'plrow-name';
+    nm.appendChild(document.createTextNode(g.name));
+    const sm = document.createElement('small');
+    sm.textContent = (g.tipo === 'CU' ? 'Ciudad Universitaria' : g.tipo + (g.pl !== g.name ? ' · ' + g.pl : '')) + ' · ' + g.n + (g.n === 1 ? ' carrera' : ' carreras');
+    nm.appendChild(document.createElement('br')); nm.appendChild(sm);
+    const bw = document.createElement('span'); bw.className = 'plrow-barwrap';
+    const bar = document.createElement('span'); bar.className = 'plrow-bar';
+    bar.style.width = Math.min(100, Math.max(1, val / axisMax * 100)) + '%';
+    if (!lensA || val > 8) bar.classList.add('hot');
+    bw.appendChild(bar);
+    if (lensA) { const mk = document.createElement('span'); mk.className = 'mark8'; mk.style.left = (8 / axisMax * 100) + '%'; bw.appendChild(mk); }
+    const vv = document.createElement('span'); vv.className = 'plrow-val';
+    vv.textContent = lensA ? '+' + g.sub.toFixed(1) : g.s26.toFixed(1) + '%';
+    const ch = document.createElement('span'); ch.className = 'plrow-chev'; ch.textContent = '▸';
+    head.appendChild(nm); head.appendChild(bw); head.appendChild(vv); head.appendChild(ch);
+    head.setAttribute('aria-label', `${g.name}, ${g.pl}. ` +
+      (lensA ? `Subida típica ponderada: más ${g.sub.toFixed(1)} aciertos.`
+             : `Con ${plState.score} o más: ${g.s26.toFixed(1)}% de sus aspirantes en 2026.`) +
+      ` ${g.n} carrera${g.n === 1 ? '' : 's'}. Presiona para desplegar sus carreras.`);
+    const subs = document.createElement('div'); subs.className = 'plrow-subs'; subs.hidden = true;
+    for (const c of [...g.codes].sort((a, b) => carVal(b) - carVal(a))) {
+      const d = D.progs[c];
+      const v = carVal(c);
+      const sb = document.createElement('button'); sb.type = 'button'; sb.className = 'subrow';
+      const sn = document.createElement('span'); sn.className = 'sr-name'; sn.textContent = d.k;
+      const sbw = document.createElement('span'); sbw.className = 'sr-barwrap';
+      const sbar = document.createElement('span'); sbar.className = 'sr-bar';
+      sbar.style.width = Math.min(100, Math.max(1, v / axisMax * 100)) + '%';
+      if (!lensA || v > 8) sbar.classList.add('hot');
+      sbw.appendChild(sbar);
+      const sv = document.createElement('span'); sv.className = 'sr-val';
+      sv.textContent = lensA ? (v >= 0 ? '+' : '') + v : v.toFixed(1) + '%';
+      sb.appendChild(sn); sb.appendChild(sbw); sb.appendChild(sv);
+      sb.setAttribute('aria-label', `${d.k}. ` +
+        (lensA ? `Subida ${v >= 0 ? 'más' : 'menos'} ${Math.abs(v)} aciertos.`
+               : `Con ${plState.score} o más: ${v.toFixed(1)}% en 2026.`) + ' Abre su perfil.');
+      sb.addEventListener('click', () => abrir(c));
+      subs.appendChild(sb);
+    }
+    head.addEventListener('click', () => {
+      subs.hidden = !subs.hidden;
+      ch.textContent = subs.hidden ? '▸' : '▾';
+      head.setAttribute('aria-expanded', String(!subs.hidden));
+    });
+    wrap.appendChild(head); wrap.appendChild(subs); host.appendChild(wrap);
+  }
+  document.getElementById('plNote').textContent = rows.length === 0
+    ? 'Selecciona al menos un plantel en el mosaico.'
+    : `${rows.length} facultades y escuelas · ` +
+      (lensA ? 'subida típica ponderada 2025→2026' : `porcentaje de aspirantes con ${plState.score}+ en 2026`) +
+      ' · haz clic en un renglón para desplegar sus carreras.';
 }
 function drawPlanteles() {
   if (!PLG) {
@@ -1697,9 +1706,6 @@ function drawPlanteles() {
     document.getElementById('lensSel').addEventListener('change', () => {
       plState.lens = document.getElementById('lens110').checked ? 'e110' : 'sub';
       sliderSetup(); renderPlanteles();
-    });
-    document.getElementById('devSlider').addEventListener('input', ev => {
-      plState.thr = +ev.target.value; renderPlanteles();
     });
     document.getElementById('plScore').addEventListener('input', ev => {
       plState.score = +ev.target.value;
