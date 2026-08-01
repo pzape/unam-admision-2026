@@ -429,7 +429,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
         <fieldset id="ySel">
           <legend>Eje vertical</legend>
           <span class="seg"><input type="radio" name="ym" id="yCancel" value="cancel" checked><label for="yCancel">Exámenes cancelados</label></span>
-          <span class="seg"><input type="radio" name="ym" id="y110" value="e110"><label for="y110">Aspirantes con 110+</label></span>
+          <span class="seg"><input type="radio" name="ym" id="y110" value="e110"><label for="y110">Aspirantes con <span id="mapThrVal">110</span>+</label></span>
         </fieldset>
         <fieldset id="areaSelM">
           <legend>Áreas</legend>
@@ -439,13 +439,20 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
           <span class="chk"><input type="checkbox" id="ma4" value="4" checked><label for="ma4">4 Humanidades</label></span>
         </fieldset>
       </div>
+      <div class="slider-row" id="mapScoreRow" hidden>
+        <label for="mapScore">Umbral de aciertos: <strong id="mapScoreVal">110</strong></label>
+        <div class="slider-wrap">
+          <input type="range" id="mapScore" min="0" max="115" step="5" value="110">
+          <div class="notch" style="left:95.65%">110</div>
+        </div>
+      </div>
       <p class="live-note" id="liveNote" aria-live="polite"></p>
       <div id="chartMap"></div>
       <div class="tt" id="ttMap"></div>
       <p class="caption">La línea punteada marca +8: la mayor subida que cualquier carrera registró en las cuatro
       transiciones presenciales (2021→2025). El eje vertical ofrece dos señales que se complementan: los exámenes cancelados
-      muestran los casos que la UNAM detectó, y el porcentaje de aspirantes con 110 aciertos o más
-      muestra dónde los resultados publicados son inusualmente altos — esta segunda señal no depende de
+      muestran los casos que la UNAM detectó, y el porcentaje de aspirantes con el umbral
+      de aciertos que elijas (110 por defecto) muestra dónde los resultados publicados son inusualmente altos — esta segunda señal no depende de
       la vigilancia. Las dos apuntan, en general, a las mismas carreras. Una calificación alta no prueba
       nada sobre una persona en particular; estos datos describen carreras, no individuos.</p>
     </div>
@@ -916,7 +923,7 @@ function drawCancelHist() {
 
 /* ============ MAPA ============ */
 const TRANSITIONS = {'2122': [2021, 2022], '2223': [2022, 2023], '2324': [2023, 2024], '2425': [2024, 2025], '2526': [2025, 2026]};
-const mapState = {trans: '2526', areas: new Set([1, 2, 3, 4]), ymode: 'cancel'};
+const mapState = {trans: '2526', areas: new Set([1, 2, 3, 4]), ymode: 'cancel', score: 110};
 function drawMap() {
   const host = document.getElementById('chartMap'); host.replaceChildren();
   const card = document.getElementById('cardMap'), tt = document.getElementById('ttMap');
@@ -926,11 +933,17 @@ function drawMap() {
   const colDeep = online ? css('--y26-deep') : css('--y24-deep');
   const W = 900, H = 430, m = {t: 20, r: 20, b: 46, l: 54};
   const mode110 = mapState.ymode === 'e110';
-  const x0 = -12, x1 = 30, y1v = mode110 ? 16 : 3.5;
+  const shown = D.risk.filter(r => {
+    const d = D.progs[r.c];
+    return mapState.areas.has(d.a) && d.y[ty0] && d.y[ty1] &&
+      d.y[ty0].med != null && d.y[ty1].med != null && d.y[ty0].pre >= 100 && d.y[ty1].pre >= 100;
+  });
+  const shareT = r => 100 * cntGE(D.progs[r.c], ty1, mapState.score) / D.progs[r.c].y[ty1].pre;
+  const x0 = -12, x1 = 30, y1v = mode110 ? Math.max(2, Math.ceil(Math.max(1, ...shown.map(shareT)) * 1.08)) : 3.5;
   const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
   const Y = v => m.t + (1 - v / y1v) * (H - m.t - m.b);
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'group', 'aria-label': 'Dispersión: subida de calificación típica contra cancelaciones'}, host);
-  for (let g = 0; g <= y1v; g += (mode110 ? 4 : 0.5)) {
+  for (let g = 0; g <= y1v; g += (mode110 ? Math.max(1, Math.ceil(y1v / 5)) : 0.5)) {
     el('line', {x1: m.l, x2: W - m.r, y1: Y(g), y2: Y(g), stroke: css('--line'), 'stroke-width': 1}, svg);
     el('text', {x: m.l - 8, y: Y(g) + 4, 'text-anchor': 'end', fill: css('--ink2'), 'font-size': 12}, svg).textContent = (mode110 ? g.toFixed(0) : g.toFixed(1)) + '%';
   }
@@ -940,31 +953,26 @@ function drawMap() {
   }
   el('text', {x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle', fill: css('--ink2'), 'font-weight': 700, 'font-size': 12.5}, svg)
     .textContent = 'Subida de la calificación del aspirante típico (aciertos)';
-  el('text', {x: 14, y: m.t - 6, fill: css('--ink2'), 'font-weight': 700, 'font-size': 12.5}, svg).textContent = mode110 ? 'Con 110+ aciertos (%)' : 'Cancelados (%)';
+  el('text', {x: 14, y: m.t - 6, fill: css('--ink2'), 'font-weight': 700, 'font-size': 12.5}, svg).textContent = mode110 ? `Con ${mapState.score}+ aciertos (%)` : 'Cancelados (%)';
   el('line', {x1: X(0), x2: X(0), y1: m.t, y2: Y(0), stroke: css('--axis'), 'stroke-width': 1.5}, svg);
   el('line', {x1: X(8), x2: X(8), y1: m.t, y2: Y(0), stroke: css('--crit'), 'stroke-width': 1.5, 'stroke-dasharray': '5 4', opacity: .8}, svg);
   el('text', {x: X(8) + 6, y: m.t + 12, fill: css('--crit'), 'font-weight': 700, 'font-size': 12}, svg).textContent = '+8 · lo máximo en cualquier año presencial (2021–2025)';
   el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: css('--axis'), 'stroke-width': 1}, svg);
   const R = a => Math.max(4, Math.sqrt(a) / 9);
-  const shown = D.risk.filter(r => {
-    const d = D.progs[r.c];
-    return mapState.areas.has(d.a) && d.y[ty0] && d.y[ty1] &&
-      d.y[ty0].med != null && d.y[ty1].med != null && d.y[ty0].pre >= 100 && d.y[ty1].pre >= 100;
-  });
   for (const r of shown) {
     const d = D.progs[r.c];
     const s1 = d.y[ty1];
     const dx = s1.med - d.y[ty0].med;
-    const cy = mode110 ? +(100 * s1.h110 / s1.pre).toFixed(1) : +(100 * s1.C / s1.asp).toFixed(2);
+    const cy = mode110 ? +(100 * cntGE(d, ty1, mapState.score) / s1.pre).toFixed(1) : +(100 * s1.C / s1.asp).toFixed(2);
     const asp = d.y[2026].asp;
     const ac = css('--a' + d.a);
     const node = el('circle', {class: 'dot', cx: X(dx), cy: Y(Math.min(cy, y1v)), r: R(asp),
       fill: ac, 'fill-opacity': .55, stroke: ac, 'stroke-width': 1.5, tabindex: 0, role: 'button',
-      'aria-label': `${d.k}, ${d.p}. Subida ${ty0} a ${ty1}: ${dx >= 0 ? 'más' : 'menos'} ${Math.abs(dx)} aciertos. Con 110 o más en ${ty1}: ${s1.h110}. Cancelaciones ${ty1}: ${(100 * s1.C / s1.asp).toFixed(2)}%. Presiona Enter para abrir su perfil.`}, svg);
+      'aria-label': `${d.k}, ${d.p}. Subida ${ty0} a ${ty1}: ${dx >= 0 ? 'más' : 'menos'} ${Math.abs(dx)} aciertos. Con ${mapState.score} o más en ${ty1}: ${cntGE(d, ty1, mapState.score)}. Cancelaciones ${ty1}: ${(100 * s1.C / s1.asp).toFixed(2)}%. Presiona Enter para abrir su perfil.`}, svg);
     hoverable(node, card, tt, () => setTip(tt, d.k, `${d.p} · Área ${d.a} (${AREAS[d.a]})`, [
       {text: `Aspirante típico: ${ALLYEARS.filter(y => d.y[y] && d.y[y].med != null).map(y => d.y[y].med).join(' → ')} aciertos`},
       {text: `Subida ${ty0}→${ty1}: ${dx >= 0 ? '+' : ''}${dx} aciertos`},
-      {text: `Con 110 o más en ${ty1}: ${fmt(s1.h110)} (${(100 * s1.h110 / s1.pre).toFixed(1)}%)`},
+      {text: `Con ${mapState.score} o más en ${ty1}: ${fmt(cntGE(d, ty1, mapState.score))} (${(100 * cntGE(d, ty1, mapState.score) / s1.pre).toFixed(1)}%)`},
       {text: `Exámenes cancelados ${ty1}: ${(100 * s1.C / s1.asp).toFixed(2)}%`},
       {text: `Aspirantes 2026: ${fmt(asp)} · corte: ${d.y[2026].corte}`}]));
     const abrir = () => {
@@ -988,7 +996,7 @@ function drawMap() {
   document.getElementById('liveNote').textContent =
     `Mostrando ${ty0}→${ty1} ${online ? '(examen en línea)' : '(año presencial)'} · ${shown.length} carreras · ` +
     `subida promedio ${mean >= 0 ? '+' : ''}${mean.toFixed(1)} aciertos · ${beyond} por encima de lo normal (+8) · ` +
-    `eje vertical: ${mode110 ? 'porcentaje de sus aspirantes con 110 aciertos o más' : 'porcentaje de exámenes cancelados'}.`;
+    `eje vertical: ${mode110 ? `porcentaje de sus aspirantes con ${mapState.score} aciertos o más` : 'porcentaje de exámenes cancelados'}.`;
 }
 function drawTop12() {
   const host = document.getElementById('chartTop'); host.replaceChildren();
@@ -1071,6 +1079,13 @@ document.getElementById('areaSelM').addEventListener('change', () => {
 });
 document.getElementById('ySel').addEventListener('change', () => {
   mapState.ymode = document.getElementById('y110').checked ? 'e110' : 'cancel';
+  document.getElementById('mapScoreRow').hidden = mapState.ymode !== 'e110';
+  drawMap();
+});
+document.getElementById('mapScore').addEventListener('input', ev => {
+  mapState.score = +ev.target.value;
+  document.getElementById('mapScoreVal').textContent = String(mapState.score);
+  document.getElementById('mapThrVal').textContent = String(mapState.score);
   drawMap();
 });
 [1, 2, 3, 4].forEach(a => {
