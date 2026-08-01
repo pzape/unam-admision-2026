@@ -207,10 +207,12 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
       aunque se necesitaran más aciertos.</p></div></div>
 
     <div class="step" data-s="14"><div class="card"><span class="n">14 · Dónde está el caso hoy</span>
-      <p>La propia UNAM reconoció un aumento irregular de aciertos, formó una comisión técnica y
-      <strong>suspendió provisionalmente las inscripciones</strong> el 24 de julio.</p>
-      <p>Un dato pendiente: los exámenes cancelados no tienen calificación publicada, así que todo
-      lo mostrado aquí proviene de resultados que la UNAM dejó en pie.</p></div></div>
+      <p>La UNAM reconoció un aumento irregular de aciertos, suspendió las inscripciones y, el
+      <strong>31 de julio</strong>, su comisión técnica recomendó aplicar un <strong>examen de control
+      presencial</strong>, con versiones múltiples; los lugares se asignarán con los resultados de ese
+      nuevo examen.</p>
+      <p>Serán convocados los seleccionados y quienes alcanzaron los puntajes de corte de 2021 a 2026.
+      Todo lo mostrado aquí proviene de los resultados publicados del examen original.</p></div></div>
 
   </div>
 </div>
@@ -226,7 +228,8 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
       2026 (modalidad escolarizada; 1,027,716 registros de aspirantes, 2021–2026). Los conteos cuadran con los
       totales publicados en cada página oficial de resultados.</p>
       <p><strong>Fuentes de contexto:</strong>
-      <a href="https://www.gaceta.unam.mx/la-unam-realiza-la-aplicacion-en-linea-de-su-examen-de-admision-para-el-ingreso-a-licenciatura-2026/">Gaceta UNAM</a> ·
+      <a href="https://www.gaceta.unam.mx/recibe-el-rector-lomeli-las-recomendaciones-de-la-comision-tecnica-para-revisar-el-proceso-de-ingreso-a-la-licenciatura-2026-2027-1-de-la-unam/">Gaceta UNAM — recomendaciones de la comisión técnica (31 de julio)</a> ·
+      <a href="https://www.gaceta.unam.mx/la-unam-realiza-la-aplicacion-en-linea-de-su-examen-de-admision-para-el-ingreso-a-licenciatura-2026/">Gaceta UNAM — aplicación en línea del examen</a> ·
       <a href="https://www.dgcs.unam.mx/boletin/bdboletin/2026_427bis.html">DGCS-UNAM — boletín oficial: suspensión provisional de inscripciones</a> ·
       <a href="https://www.elimparcial.com/mexico/2026/07/22/unam-investigara-examen-de-admision-2026-por-aumento-irregular-de-aciertos/">El Imparcial</a> ·
       <a href="https://www.elfinanciero.com.mx/nacional/2026/07/21/que-sabemos-de-los-resultados-del-examen-de-la-unam-y-por-que-se-dice-que-hubo-trampa/">El Financiero</a> ·
@@ -471,6 +474,7 @@ function timelineStage() {
     ['17 de julio', 'Se publican los resultados. Comienzan las quejas por puntajes inusuales.', false],
     ['21–22 de julio', 'El rector ordena un informe especial y una comisión técnica. Se reporta la cancelación de ~2% de los exámenes.', true],
     ['24 de julio', 'La UNAM suspende provisionalmente las inscripciones de nuevo ingreso (boletín oficial DGCS).', true],
+    ['31 de julio', 'La comisión técnica recomienda un examen de control presencial; los lugares se asignarán con sus resultados (Gaceta UNAM).', true],
   ];
   for (const [d, t, hot] of items) {
     const li = document.createElement('li'); if (hot) li.className = 'hot';
