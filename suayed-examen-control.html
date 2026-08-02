@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://pzape.github.io/unam-admision-2026/suayed-examen-control.html">
+<meta name="author" content="Pedro Zape (github.com/pzape)">
+<meta name="description" content="Si el examen de control aplicara también al SUAyED (modalidad Abierta), estos serían los criterios: revisa tu caso carrera por carrera con los cortes 2021–2026.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Examen de control y SUAyED · Admisión UNAM 2026">
+<meta property="og:description" content="La UNAM no ha precisado si el examen de control incluye al SUAyED. Esta herramienta aplica los criterios publicados, de forma condicional, a los cortes de la modalidad Abierta.">
+<meta property="og:locale" content="es_MX">
+<title>Examen de control y SUAyED · Admisión UNAM 2026</title>
+<style>
+:root { color-scheme: light;
+  --bg: #f6f7fb; --surface: #fff; --ink: #101223; --ink2: #3f4557; --muted: #6a7186;
+  --line: #e7eaf2; --axis: #a7aec1; --card: #f0f2f9;
+  --brand: #4f46e5; --brand-soft: #eef0fe;
+  --y21: #a3aebf; --y22: #64748b; --y23: #475569;
+  --y24: #2563eb; --y25: #059669; --y26: #ea580c; --y26-deep: #c2410c; --y26-soft: rgba(234,88,12,.10);
+  --good: #047857; --crit: #dc2626; --warn: #b45309; --warn-soft: rgba(180,83,9,.10);
+  --shadow: 0 1px 2px rgba(16,18,35,.05), 0 10px 30px rgba(16,18,35,.07);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { font: 15.5px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); margin: 0; -webkit-font-smoothing: antialiased; }
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(246,247,251,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.topbar-in { max-width: 860px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+.topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
+.topbar b { font-weight: 800; }
+.topbar a { margin-left: auto; color: var(--brand); font-weight: 650; text-decoration: none; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 40px 22px 90px; }
+.kicker { display: inline-block; background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px; }
+h1 { font-size: clamp(26px, 4.6vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 0 0 12px; text-wrap: balance; }
+h1 .grad { background: linear-gradient(90deg, var(--brand), var(--y26)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dek { font-size: 16.5px; line-height: 1.6; color: var(--ink2); margin: 0 0 22px; }
+a { color: var(--brand); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px 16px; box-shadow: var(--shadow); margin: 18px 0; position: relative; }
+.chart-title { font-weight: 750; font-size: 15px; margin: 0 0 2px; }
+.chart-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 18px; }
+.results-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 300px; overflow-y: auto; }
+.results-list button { all: unset; cursor: pointer; padding: 10px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.results-list button:hover { border-color: var(--brand); background: var(--brand-soft); }
+.rl-k { font-weight: 700; }
+.rl-p { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.sel-head h2 { font-size: 20px; font-weight: 800; letter-spacing: -.015em; margin: 16px 0 6px; }
+.chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink2); font-size: 12.5px; font-weight: 650; }
+.detail-lnk { display: inline-block; margin-left: 10px; font-size: 13px; font-weight: 700; }
+.ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; overflow-x: auto; margin-top: 14px; }
+.ytable { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.ytable th, .ytable td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ytable thead th { font-size: 13px; font-weight: 800; color: var(--ink); border-bottom: 1.5px solid var(--axis); }
+.ytable thead th small { display: block; font-size: 9.5px; font-weight: 800; color: var(--y26-deep); text-transform: uppercase; letter-spacing: .07em; }
+.ytable .ysw { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; }
+.ytable td:first-child, .ytable th:first-child { text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 750; }
+.ytable tr.corte td { font-weight: 800; font-size: 15px; }
+.ytable tbody tr:last-child td { border-bottom: none; }
+.ytable th:last-child, .ytable td:last-child { background: var(--y26-soft); }
+.note { background: var(--card); border-radius: 12px; padding: 14px 18px; font-size: 13.5px; line-height: 1.6; margin: 20px 0; color: var(--ink2); }
+.note b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; color: var(--brand); }
+.warnbox { background: var(--warn-soft); border: 1.5px solid var(--warn); border-radius: 14px; padding: 14px 18px; font-size: 14px; line-height: 1.6; margin: 0 0 20px; color: var(--ink2); }
+.warnbox b { color: var(--warn); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.foot { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); line-height: 1.7; }
+.foot a { color: var(--ink2); }
+svg { display: block; width: 100%; height: auto; }
+svg text { font-family: system-ui, sans-serif; font-size: 13px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 2px 0 10px; font-weight: 600; }
+.legend .sw { display: inline-block; width: 14px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.slider-row { margin: 16px 0 6px; }
+.slider-row > label { font-weight: 700; font-size: 13.5px; }
+.slider-wrap { position: relative; margin: 12px 0 4px; }
+.slider-wrap input[type=range] { width: 100%; accent-color: var(--y26); }
+.notch { position: absolute; top: -8px; transform: translateX(-50%); font-size: 11px; font-weight: 800; color: var(--crit); pointer-events: none; }
+.notch::after { content: ""; display: block; width: 2px; height: 12px; background: var(--crit); margin: 1px auto 0; border-radius: 2px; }
+.live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 8px 0 0; }
+.tt { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 24px rgba(16,18,35,.25); opacity: 0; z-index: 5; font-variant-numeric: tabular-nums; max-width: 300px; }
+.tt b { display: block; margin-bottom: 2px; }
+.tt .row { display: flex; align-items: center; gap: 6px; }
+.tt .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+
+.verdict { border-radius: 14px; padding: 16px 20px; margin: 18px 0 6px; font-size: 15px; line-height: 1.55; border: 1.5px solid; }
+.verdict b { display: block; font-size: 17px; margin-bottom: 5px; line-height: 1.35; }
+.verdict.ok { background: rgba(4,120,87,.08); border-color: var(--good); }
+.verdict.ok b { color: var(--good); }
+.verdict.no { background: rgba(220,38,38,.07); border-color: var(--crit); }
+.verdict.no b { color: var(--crit); }
+.score-row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
+.score-row label { font-weight: 750; font-size: 15px; }
+input[type=range] { flex: 1; min-width: 200px; accent-color: var(--brand); height: 30px; }
+input[type=number] { width: 104px; font: 800 22px/1.2 system-ui, sans-serif; color: var(--ink); appearance: textfield; -moz-appearance: textfield; background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 7px 8px; text-align: center; font-variant-numeric: tabular-nums; }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+</style>
+</head>
+<body>
+<!-- Análisis y autoría: Pedro Zape · github.com/pzape · agosto 2026 -->
+<div class="topbar"><div class="topbar-in">
+  <span class="dot"></span><b>Admisión UNAM</b><span style="color:var(--muted)">SUAyED · 2021–2026</span>
+  <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">Buscador SUAyED →</a>
+</div></div>
+
+<div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
+  <span class="kicker">SUAyED · Modalidad Abierta · escenario condicional</span>
+  <h1>¿Y si el <span class="grad">examen de control</span> también aplicara al SUAyED?</h1>
+
+  <div class="warnbox"><b>Importante: la UNAM no ha precisado si el examen de control incluye al SUAyED.</b>
+  La recomendación de la comisión técnica (31 de julio) se refiere al proceso de ingreso 2026-2027/1 sin
+  distinguir modalidades. El SUAyED compartió convocatoria, examen en línea y ventana de aplicación con el
+  sistema escolarizado, por lo que el escenario es plausible — pero <strong>no está confirmado</strong>.
+  Esta herramienta muestra qué pasaría <em>si</em> los criterios publicados se aplicaran igual a la
+  modalidad Abierta. La convocatoria oficial del examen de control definirá quiénes participan.</div>
+
+  <p class="dek">Elige tu carrera del SUAyED, escribe tus aciertos de 2026 y revisa cómo quedarías bajo los
+  dos criterios publicados: seleccionados de 2026 y puntajes de corte históricos de 2021 a 2026.</p>
+
+  <div class="chart-card">
+    <label class="visually-hidden" for="ctrlSearch">Buscar carrera o plantel</label>
+    <input type="search" id="ctrlSearch" placeholder="Busca tu carrera — por ejemplo: Psicología, Derecho, Contaduría…" autocomplete="off">
+    <div class="results-list" id="ctrlResults"></div>
+    <div id="ctrlSel" class="sel-head" hidden>
+      <h2 id="ctrlName"></h2>
+      <span class="chip" id="ctrlPlantel"></span>
+      <a id="ctrlDetail" class="detail-lnk" href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">Ver el detalle de esta carrera →</a>
+    </div>
+    <div class="score-row">
+      <label for="ctrlNum">Tus aciertos en 2026 <span style="color:var(--muted);font-weight:500">(de 120)</span></label>
+      <input type="range" id="ctrlRange" min="0" max="120" value="100" step="1" aria-label="Aciertos, control deslizante">
+      <input type="number" id="ctrlNum" min="0" max="120" value="100" step="1" aria-label="Aciertos, campo numérico">
+    </div>
+    <div class="verdict" id="ctrlVerdict" aria-live="polite" hidden></div>
+    <div id="ctrlTable"></div>
+  </div>
+
+  <div class="note"><b>De dónde salen estos criterios</b>
+  El 31 de julio de 2026, la comisión técnica designada por la UNAM recomendó aplicar un examen de control
+  presencial y convocar a él a quienes resultaron seleccionados y a quienes alcanzaron los puntajes de
+  corte históricos del periodo 2021–2026
+  (<a href="https://www.gaceta.unam.mx/recibe-el-rector-lomeli-las-recomendaciones-de-la-comision-tecnica-para-revisar-el-proceso-de-ingreso-a-la-licenciatura-2026-2027-1-de-la-unam/">Gaceta UNAM</a>).
+  Aquí esos criterios se aplican, de forma condicional, a los cortes oficiales de la modalidad Abierta.
+  Si tu examen fue cancelado, tu resultado no está publicado y esta herramienta no puede evaluarlo.</div>
+
+  <div class="foot">
+    <p><strong>Alcance.</strong> Datos de la modalidad Abierta del SUAyED (las páginas oficiales de resultados no
+    publican por separado la modalidad a Distancia). Concursos 2021–2026, mismo examen y ventana que el sistema
+    escolarizado conforme a la convocatoria oficial.</p>
+    <p><strong>Documentos relacionados:</strong>
+    <a href="https://pzape.github.io/unam-admision-2026/">Explorador (escolarizado)</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/historia.html">La historia</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">Buscador de carreras SUAyED</a></p>
+    <p><strong>Autoría.</strong> Análisis y herramienta: Pedro Zape (github.com/pzape) · agosto de 2026 ·
+    Datos públicos de DGAE-UNAM. Elaborado con asistencia de IA (Claude, de Anthropic) bajo dirección
+    y verificación del autor. © 2026, todos los derechos reservados sobre el análisis, el texto y el
+    diseño; los datos oficiales pertenecen a sus fuentes. Estadísticas de visita agregadas y anónimas,
+    sin cookies (GoatCounter).</p>
+  </div>
+</div>
+<script data-goatcounter="https://pedrozape.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+<script>
+// Análisis y autoría: Pedro Zape · github.com/pzape · datos públicos DGAE-UNAM
+const __AUTORIA__ = 'Pedro Zape | github.com/pzape | 2026';
+const DC = {"21000196":{"k":"PSICOLOGIA","p":"FACULTAD DE PSICOLOGÍA","a":2,"y":{"2021":71,"2022":69,"2023":73,"2024":73,"2025":78,"2026":93}},"30100066":{"k":"ADMINISTRACION","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","a":3,"y":{"2021":75,"2022":76,"2023":67,"2024":76,"2025":78,"2026":101}},"30200046":{"k":"CIENCIAS DE LA COMUNICACION","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","a":3,"y":{"2021":55,"2022":60,"2023":55,"2024":65,"2025":66,"2026":90}},"30300046":{"k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","a":3,"y":{"2021":50,"2022":43,"2023":52,"2024":50,"2025":57,"2026":70}},"30400066":{"k":"CONTADURIA","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","a":3,"y":{"2021":69,"2022":72,"2023":72,"2024":75,"2025":75,"2026":97}},"30500076":{"k":"DERECHO","p":"FACULTAD DE DERECHO","a":3,"y":{"2021":56,"2022":59,"2023":54,"2024":54,"2025":58,"2026":62}},"30502006":{"k":"DERECHO","p":"FES ACATLÁN","a":3,"y":{"2021":48,"2022":47,"2023":42,"2024":50,"2025":47,"2026":52}},"30504006":{"k":"DERECHO","p":"FES ARAGÓN","a":3,"y":{"2021":55,"2022":55,"2023":51,"2024":50,"2025":53,"2026":70}},"30600086":{"k":"ECONOMIA","p":"FACULTAD DE ECONOMÍA","a":3,"y":{"2021":59,"2022":65,"2023":60,"2024":55,"2025":65,"2026":86}},"30604006":{"k":"ECONOMIA","p":"FES ARAGÓN","a":3,"y":{"2021":53,"2022":46,"2023":40,"2024":53,"2025":57,"2026":68}},"30700106":{"k":"GEOGRAFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","a":3,"y":{"2021":44,"2022":59,"2023":58,"2024":50,"2025":52,"2026":60}},"31000046":{"k":"RELACIONES INTERNACIONALES","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","a":3,"y":{"2021":60,"2022":62,"2023":60,"2024":65,"2025":79,"2026":96}},"31002006":{"k":"RELACIONES INTERNACIONALES","p":"FES ACATLÁN","a":3,"y":{"2021":50,"2022":40,"2023":40,"2024":50,"2025":47,"2026":58}},"31004006":{"k":"RELACIONES INTERNACIONALES","p":"FES ARAGÓN","a":3,"y":{"2021":53,"2022":52,"2023":47,"2024":50,"2025":52,"2026":73}},"31100046":{"k":"SOCIOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","a":3,"y":{"2021":41,"2022":50,"2023":47,"2024":50,"2025":50,"2026":66}},"31200156":{"k":"TRABAJO SOCIAL","p":"ESCUELA NACIONAL DE TRABAJO SOCIAL","a":3,"y":{"2021":59,"2022":60,"2023":52,"2024":56,"2025":59,"2026":73}},"41100106":{"k":"FILOSOFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","a":4,"y":{"2021":79,"2022":80,"2023":75,"2024":80,"2025":77,"2026":87}},"41200106":{"k":"HISTORIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","a":4,"y":{"2021":72,"2022":75,"2023":70,"2024":65,"2025":74,"2026":84}},"41400106":{"k":"LENGUA Y LITERATURAS HISPANICAS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","a":4,"y":{"2021":60,"2022":61,"2023":45,"2024":50,"2025":55,"2026":55}},"41700106":{"k":"LENGUA Y LITERATURAS MODERNAS (LETRAS INGLESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","a":4,"y":{"2021":56,"2022":73,"2023":56,"2024":58,"2025":59,"2026":69}},"42100106":{"k":"PEDAGOGIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","a":4,"y":{"2021":62,"2022":64,"2023":63,"2024":70,"2025":68,"2026":101}}};
+const YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
+const YCOL = {2021: '#a3aebf', 2022: '#64748b', 2023: '#475569', 2024: '#2563eb', 2025: '#059669', 2026: '#ea580c'};
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const fmt = n => n.toLocaleString('es-MX');
+const INDEX = Object.entries(DC).map(([c, d]) => ({c, d, txt: norm(d.k + ' ' + d.p)}));
+const ctrlState = {code: null, score: 100};
+function ctrlSearchRender(q) {
+  const host = document.getElementById('ctrlResults'); host.replaceChildren();
+  const nq = norm(q.trim());
+  if (nq.length < 2) return;
+  const terms = nq.split(/\s+/);
+  for (const h of INDEX.filter(x => terms.every(t => x.txt.includes(t))).slice(0, 8)) {
+    const b = document.createElement('button');
+    const k = document.createElement('span'); k.className = 'rl-k'; k.textContent = h.d.k + ' — ' + h.d.p;
+    const p = document.createElement('span'); p.className = 'rl-p'; p.textContent = 'corte 2026: ' + h.d.y[2026];
+    b.appendChild(k); b.appendChild(p);
+    b.addEventListener('click', () => {
+      ctrlState.code = h.c;
+      document.getElementById('ctrlSearch').value = h.d.k + ' — ' + h.d.p;
+      host.replaceChildren();
+      renderControl();
+    });
+    host.appendChild(b);
+  }
+}
+function renderControl() {
+  const v = document.getElementById('ctrlVerdict');
+  const tHost = document.getElementById('ctrlTable');
+  const selBox = document.getElementById('ctrlSel');
+  if (!ctrlState.code) { v.hidden = true; tHost.replaceChildren(); selBox.hidden = true; return; }
+  const d = DC[ctrlState.code];
+  selBox.hidden = false;
+  document.getElementById('ctrlName').textContent = d.k;
+  document.getElementById('ctrlPlantel').textContent = d.p + ' · Área ' + d.a + ' · SUAyED Abierta';
+  document.getElementById('ctrlDetail').href = 'https://pzape.github.io/unam-admision-2026/suayed-buscador.html?c=' + ctrlState.code;
+  const s = ctrlState.score;
+  const yrs = YEARS.filter(y => y in d.y);
+  const missing = YEARS.filter(y => !(y in d.y));
+  const reached = yrs.filter(y => s >= d.y[y]);
+  const sel26 = s >= d.y[2026];
+  v.hidden = false;
+  v.replaceChildren();
+  v.className = 'verdict ' + (reached.length ? 'ok' : 'no');
+  const tit = document.createElement('b');
+  const body = document.createElement('span');
+  if (sel26) {
+    tit.textContent = `Con ${s} aciertos quedaste seleccionado en 2026; si la medida incluye al SUAyED, serías convocado.`;
+    body.textContent = `Tu puntaje alcanza el corte 2026 de esta carrera (${d.y[2026]}). El primer grupo que la comisión ` +
+      `recomienda convocar es el de quienes resultaron seleccionados. Recuerda: no está confirmado que el examen de ` +
+      `control aplique al SUAyED.`;
+  } else if (reached.length) {
+    tit.textContent = `Con ${s} aciertos alcanzas cortes históricos; si la medida incluye al SUAyED, quedarías convocado.`;
+    body.textContent = `No alcanzaste el corte 2026 (${d.y[2026]}), pero tu puntaje iguala o supera el corte de ` +
+      `${reached.length === 1 ? 'un año' : reached.length + ' años'} del periodo 2021–2026 (${reached.join(', ')}). ` +
+      `Ese es el segundo grupo de la recomendación. Recuerda: no está confirmado que la medida aplique al SUAyED.`;
+  } else if (yrs.length === 1) {
+    tit.textContent = `Con ${s} aciertos no se alcanza el corte de esta carrera.`;
+    body.textContent = `Esta carrera se ofreció por primera vez en 2026 en la modalidad Abierta, de modo que el único corte ` +
+      `del periodo es el de 2026 (${d.y[2026]}). Bajo los criterios publicados, este puntaje no quedaría convocado ` +
+      `aunque la medida incluyera al SUAyED.`;
+  } else {
+    tit.textContent = `Con ${s} aciertos no se alcanza ningún corte 2021–2026 de esta carrera.`;
+    body.textContent = `El corte más bajo del periodo en esta carrera fue ${Math.min(...yrs.map(y => d.y[y]))}. ` +
+      `Bajo los dos criterios publicados, este puntaje no quedaría convocado aunque la medida incluyera al SUAyED.`;
+  }
+  if (missing.length && yrs.length > 1) {
+    body.textContent += ` Nota: esta carrera no se ofertó en ${missing.join(', ')}; el criterio histórico solo puede ` +
+      `aplicarse a los años en que existió.`;
+  }
+  v.appendChild(tit); v.appendChild(body);
+  tHost.replaceChildren();
+  const twp = document.createElement('div'); twp.className = 'ytable-wrap';
+  const tbl = document.createElement('table'); tbl.className = 'ytable';
+  const thead = document.createElement('thead'); const hr = document.createElement('tr');
+  hr.appendChild(document.createElement('th'));
+  for (const y of YEARS) {
+    const th = document.createElement('th'); th.className = 'num';
+    const sw = document.createElement('span'); sw.className = 'ysw'; sw.style.background = YCOL[y]; th.appendChild(sw);
+    th.appendChild(document.createTextNode(String(y)));
+    if (y === 2026) { const em = document.createElement('small'); em.textContent = 'en línea'; th.appendChild(em); }
+    hr.appendChild(th);
+  }
+  thead.appendChild(hr); tbl.appendChild(thead);
+  const tb = document.createElement('tbody');
+  const tr1 = document.createElement('tr'); tr1.className = 'corte';
+  const c0 = document.createElement('td'); c0.textContent = 'Corte'; tr1.appendChild(c0);
+  const tr2 = document.createElement('tr');
+  const c20 = document.createElement('td'); c20.textContent = '¿Lo alcanzas?'; tr2.appendChild(c20);
+  for (const y of YEARS) {
+    const td1 = document.createElement('td'); td1.className = 'num';
+    const td2 = document.createElement('td'); td2.className = 'num';
+    if (y in d.y) {
+      td1.textContent = String(d.y[y]);
+      const met = s >= d.y[y];
+      td2.textContent = met ? '✓ sí' : '✗ no';
+      td2.style.color = met ? 'var(--good)' : 'var(--crit)';
+      td2.style.fontWeight = '750';
+    } else {
+      td1.textContent = '—'; td2.textContent = '—';
+      td1.title = 'No se ofreció este año'; td2.title = 'No se ofreció este año';
+    }
+    tr1.appendChild(td1); tr2.appendChild(td2);
+  }
+  tb.appendChild(tr1); tb.appendChild(tr2); tbl.appendChild(tb);
+  twp.appendChild(tbl); tHost.appendChild(twp);
+}
+document.getElementById('ctrlSearch').addEventListener('input', ev => ctrlSearchRender(ev.target.value));
+const rg = document.getElementById('ctrlRange'), num = document.getElementById('ctrlNum');
+const setS = raw => {
+  ctrlState.score = Math.max(0, Math.min(120, +raw || 0));
+  rg.value = ctrlState.score; num.value = ctrlState.score;
+  renderControl();
+};
+rg.addEventListener('input', () => setS(rg.value));
+num.addEventListener('input', () => { if (num.value !== '') setS(num.value); });
+const qc = new URLSearchParams(location.search).get('c');
+if (qc && DC[qc]) {
+  ctrlState.code = qc;
+  document.getElementById('ctrlSearch').value = DC[qc].k + ' — ' + DC[qc].p;
+} else {
+  const psi = INDEX.find(x => x.txt.includes('psicologia'));
+  if (psi) { ctrlState.code = psi.c; document.getElementById('ctrlSearch').value = psi.d.k + ' — ' + psi.d.p; }
+}
+renderControl();
+console.info('%cExamen de control y SUAyED · Pedro Zape · github.com/pzape', 'color:#4f46e5;font-weight:bold');
+</script>
+</body>
+</html>
