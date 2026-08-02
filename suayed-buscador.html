@@ -56,6 +56,21 @@ input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; colo
 .ctrl-card:hover { background: var(--brand-soft); }
 .chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink2); font-size: 12.5px; font-weight: 650; }
 .detail-lnk { display: inline-block; margin-left: 10px; font-size: 13px; font-weight: 700; }
+.buscar-sticky { scroll-margin-top: 60px; }
+@media (min-width: 900px) {
+  .buscar-sticky {
+    position: sticky; top: 48px; z-index: 10; background: var(--bg);
+    padding: 8px 8px 12px; margin: 0 -8px;
+    box-shadow: 0 10px 14px -12px rgba(16,18,35,.22);
+  }
+  .buscar-sticky .sel-head { margin-top: 10px; }
+  .buscar-sticky .ytable { font-size: 12px; }
+  .buscar-sticky .ytable th, .buscar-sticky .ytable td { padding: 4px 10px; }
+  .buscar-sticky .ytable tr.corte td { font-size: 13.5px; }
+  .buscar-sticky .ctrl-card { padding: 7px 14px; }
+  .buscar-sticky .ctrl-card .cb { font-size: 20px; }
+  .buscar-sticky .ctrl-card .cs { display: none; }
+}
 .ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; overflow-x: auto; margin-top: 14px; }
 .ytable { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
 .ytable th, .ytable td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -104,7 +119,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   aspirante típico pasó de 55 a 69 aciertos, los puntajes de 110+ se multiplicaron por diez y aparecieron
   93 exámenes cancelados donde antes había entre cero y tres. Busca una carrera y revisa sus seis años.</p>
 
-  <div class="chart-card">
+  <div class="buscar-sticky" id="buscarSticky">
     <label class="visually-hidden" for="sBox">Buscar carrera o plantel</label>
     <input type="search" id="sBox" placeholder="Busca una carrera — por ejemplo: Psicología, Derecho, Trabajo Social…" autocomplete="off">
     <div class="results-list" id="sRes"></div>
