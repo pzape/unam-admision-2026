@@ -72,13 +72,14 @@ input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; colo
   .buscar-sticky .ctrl-card .cs { display: none; }
 }
 .ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; overflow-x: auto; margin-top: 14px; }
-.ytable { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
-.ytable th, .ytable td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
-.ytable thead th { font-size: 13px; font-weight: 800; color: var(--ink); border-bottom: 1.5px solid var(--axis); }
-.ytable thead th small { display: block; font-size: 9.5px; font-weight: 800; color: var(--y26-deep); text-transform: uppercase; letter-spacing: .07em; }
-.ytable .ysw { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; }
-.ytable td:first-child, .ytable th:first-child { text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 750; }
-.ytable tr.corte td { font-weight: 800; font-size: 15px; }
+.ytable { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.ytable th, .ytable td { padding: 6px 5px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ytable thead th { font-size: 11.5px; font-weight: 800; color: var(--ink); border-bottom: 1.5px solid var(--axis); }
+.ytable thead th small { display: block; font-size: 9px; font-weight: 800; color: var(--y26-deep); text-transform: uppercase; letter-spacing: .05em; }
+.ytable .ysw { display: inline-block; width: 8px; height: 8px; border-radius: 2.5px; margin-right: 4px; }
+.ytable td:first-child, .ytable th:first-child { text-align: left; font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 750; }
+.ytable tr.corte td { font-weight: 800; font-size: 14px; }
+.ytable .selp { display: block; font-size: 10px; color: var(--muted); font-weight: 650; line-height: 1.2; }
 .ytable tbody tr:last-child td { border-bottom: none; }
 .ytable th:last-child, .ytable td:last-child { background: var(--y26-soft); }
 .ytable .col-nov { background: var(--card); }
@@ -265,15 +266,22 @@ function renderControl() {
   }
   v.appendChild(tit); v.appendChild(body);
   tHost.replaceChildren();
+  const eds = [];
+  for (const y of YEARS) {
+    if (y in d.may) eds.push({y, conc: 'may', c: d.may[y], lab: 'may ' + String(y).slice(2), online: y === 2026});
+    if (d.nov && y in d.nov) eds.push({y, conc: 'nov', c: d.nov[y], lab: 'nov ' + String(y).slice(2), online: y === 2025});
+  }
   const twp = document.createElement('div'); twp.className = 'ytable-wrap';
   const tbl = document.createElement('table'); tbl.className = 'ytable';
   const thead = document.createElement('thead'); const hr = document.createElement('tr');
   hr.appendChild(document.createElement('th'));
-  for (const y of YEARS) {
+  for (const ed of eds) {
     const th = document.createElement('th'); th.className = 'num';
-    const sw = document.createElement('span'); sw.className = 'ysw'; sw.style.background = YCOL[y]; th.appendChild(sw);
-    th.appendChild(document.createTextNode(String(y)));
-    if (y === 2026) { const em = document.createElement('small'); em.textContent = 'en línea'; th.appendChild(em); }
+    if (ed.conc === 'nov') th.classList.add('col-nov');
+    if (ed.online) th.classList.add('col-online');
+    const sw = document.createElement('span'); sw.className = 'ysw'; sw.style.background = YCOL[ed.y]; th.appendChild(sw);
+    th.appendChild(document.createTextNode(ed.lab));
+    if (ed.online) { const em = document.createElement('small'); em.textContent = 'en línea'; th.appendChild(em); }
     hr.appendChild(th);
   }
   thead.appendChild(hr); tbl.appendChild(thead);
@@ -282,51 +290,27 @@ function renderControl() {
   const c0 = document.createElement('td'); c0.textContent = 'Corte'; tr1.appendChild(c0);
   const tr2 = document.createElement('tr');
   const c20 = document.createElement('td'); c20.textContent = '¿Lo alcanzas?'; tr2.appendChild(c20);
-  for (const y of YEARS) {
+  for (const ed of eds) {
     const td1 = document.createElement('td'); td1.className = 'num';
     const td2 = document.createElement('td'); td2.className = 'num';
-    if (y in d.may) {
-      td1.textContent = String(d.may[y]);
-      const met = s >= d.may[y];
-      td2.textContent = met ? '✓ sí' : '✗ no';
-      td2.style.color = met ? 'var(--good)' : 'var(--crit)';
-      td2.style.fontWeight = '750';
-    } else {
-      td1.textContent = '—'; td2.textContent = '—';
-      td1.title = 'No se ofreció este año'; td2.title = 'No se ofreció este año';
-    }
+    if (ed.conc === 'nov') { td1.classList.add('col-nov'); td2.classList.add('col-nov'); }
+    if (ed.online) { td1.classList.add('col-online'); td2.classList.add('col-online'); }
+    td1.textContent = String(ed.c);
+    const met = s >= ed.c;
+    td2.textContent = met ? '✓' : '✗';
+    td2.setAttribute('aria-label', met ? 'sí' : 'no');
+    td2.style.color = met ? 'var(--good)' : 'var(--crit)';
+    td2.style.fontWeight = '800';
     tr1.appendChild(td1); tr2.appendChild(td2);
   }
   tb.appendChild(tr1); tb.appendChild(tr2); tbl.appendChild(tb);
   twp.appendChild(tbl); tHost.appendChild(twp);
   if (d.nov) {
     const cap = document.createElement('p');
-    cap.style.cssText = 'font-size:12.5px;color:var(--muted);margin:12px 0 0';
-    cap.textContent = 'Referencia: cortes del concurso de noviembre de esta carrera (2021–2025; noviembre 2025 fue en línea). ' +
-      'La recomendación habla de cortes históricos sin precisar concurso; la convocatoria oficial definirá cuáles cuentan.';
+    cap.style.cssText = 'font-size:12px;color:var(--muted);margin:10px 0 0';
+    cap.textContent = 'Columnas grises: concurso de noviembre (referencia; noviembre 2025 fue en línea). El veredicto de arriba ' +
+      'usa los cortes del concurso de mayo–junio; la convocatoria oficial definirá si los cortes de noviembre cuentan.';
     tHost.appendChild(cap);
-    const twp2 = document.createElement('div'); twp2.className = 'ytable-wrap';
-    const tbl2 = document.createElement('table'); tbl2.className = 'ytable';
-    const th2 = document.createElement('thead'); const hr2 = document.createElement('tr');
-    hr2.appendChild(document.createElement('th'));
-    const NYEARS = [2021, 2022, 2023, 2024, 2025];
-    for (const y of NYEARS) {
-      const th = document.createElement('th'); th.className = 'num';
-      th.appendChild(document.createTextNode(String(y)));
-      if (y === 2025) { const em = document.createElement('small'); em.textContent = 'en línea'; th.appendChild(em); }
-      hr2.appendChild(th);
-    }
-    th2.appendChild(hr2); tbl2.appendChild(th2);
-    const tb2 = document.createElement('tbody');
-    const trn = document.createElement('tr'); trn.className = 'corte';
-    const cn0 = document.createElement('td'); cn0.textContent = 'Corte nov.'; trn.appendChild(cn0);
-    for (const y of NYEARS) {
-      const td = document.createElement('td'); td.className = 'num';
-      td.textContent = y in d.nov ? String(d.nov[y]) : '—';
-      trn.appendChild(td);
-    }
-    tb2.appendChild(trn); tbl2.appendChild(tb2);
-    twp2.appendChild(tbl2); tHost.appendChild(twp2);
   }
 }
 document.getElementById('ctrlSearch').addEventListener('input', ev => ctrlSearchRender(ev.target.value));
