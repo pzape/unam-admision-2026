@@ -175,7 +175,15 @@ input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .results-list .rl-k { font-weight: 700; }
 .results-list .rl-p { color: var(--muted); font-size: 12.5px; }
 .chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink2); font-size: 12.5px; font-weight: 650; margin-right: 6px; }
-.profile-head { margin: 24px 0 4px; }
+.profile-head { margin: 24px 0 4px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.ph-left { min-width: 240px; }
+.ctrl-card { display: block; text-decoration: none; background: var(--surface); border: 1.5px solid var(--brand); border-radius: 14px; padding: 10px 16px; max-width: 250px; box-shadow: var(--shadow); }
+.ctrl-card .ck { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); font-weight: 800; }
+.ctrl-card .cb { display: inline-block; font-size: 26px; font-weight: 800; color: var(--ink); letter-spacing: -.02em; margin-top: 2px; }
+.ctrl-card .cs { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; }
+.ctrl-card .cl { display: block; font-size: 12.5px; font-weight: 750; color: var(--brand); margin-top: 5px; }
+.ctrl-card:hover { background: var(--brand-soft); }
+@media (min-width: 900px) { .buscar-sticky .ctrl-card { padding: 7px 14px; } .buscar-sticky .ctrl-card .cb { font-size: 20px; } .buscar-sticky .ctrl-card .cs { display: none; } }
 .profile-head h3 { font-size: 24px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 6px; }
 .year-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
 .ycard { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); border-top: 4px solid var(--axis); }
@@ -1218,14 +1226,30 @@ function showProfile(code) {
   const host = document.getElementById('profile'); host.replaceChildren();
   const headHost = document.getElementById('profileHead'); headHost.replaceChildren();
   const head = document.createElement('div'); head.className = 'profile-head';
-  const h3 = document.createElement('h3'); h3.textContent = d.k; head.appendChild(h3);
+  const phLeft = document.createElement('div'); phLeft.className = 'ph-left';
+  const h3 = document.createElement('h3'); h3.textContent = d.k; phLeft.appendChild(h3);
   const chipP = document.createElement('span'); chipP.className = 'chip'; chipP.textContent = d.p;
-  head.appendChild(chipP);
+  phLeft.appendChild(chipP);
   const chipA = document.createElement('span'); chipA.className = 'chip';
   chipA.textContent = 'Área ' + d.a + ' · ' + AREAS[d.a];
   chipA.style.color = 'var(--a' + d.a + ')'; chipA.style.background = 'var(--a' + d.a + '-soft)';
   chipA.style.fontWeight = '700';
-  head.appendChild(chipA);
+  phLeft.appendChild(chipA);
+  head.appendChild(phLeft);
+  const cYrs = ALLYEARS.filter(y => d.y[y]);
+  if (cYrs.length) {
+    const minC = Math.min(...cYrs.map(y => d.y[y].corte));
+    const minY = cYrs.find(y => d.y[y].corte === minC);
+    const cc2 = document.createElement('a'); cc2.className = 'ctrl-card';
+    cc2.href = 'https://pzape.github.io/unam-admision-2026/examen-control.html?c=' + code;
+    cc2.setAttribute('aria-label', `Examen de control: ${minC} aciertos mínimos según los criterios recomendados (corte más bajo del periodo, ${minY}). Abre la herramienta para revisar tu caso.`);
+    const ck = document.createElement('span'); ck.className = 'ck'; ck.textContent = 'Examen de control'; cc2.appendChild(ck);
+    const cb = document.createElement('span'); cb.className = 'cb'; cb.textContent = String(minC); cc2.appendChild(cb);
+    const cs = document.createElement('span'); cs.className = 'cs';
+    cs.textContent = `aciertos mínimos según la recomendación (corte más bajo del periodo: ${minY})`; cc2.appendChild(cs);
+    const cl = document.createElement('span'); cl.className = 'cl'; cl.textContent = '¿Te tocaría el examen? →'; cc2.appendChild(cl);
+    head.appendChild(cc2);
+  }
   headHost.appendChild(head);
   // resumen por año: tabla de métricas (seis concursos)
   const twp = document.createElement('div'); twp.className = 'ytable-wrap';
@@ -1757,6 +1781,12 @@ const INIT = {
   plant() { drawPlanteles(); },
 };
 drawn.historia = true; INIT.historia();
+const qc0 = new URLSearchParams(location.search).get('c');
+if (qc0 && D.progs[qc0]) {
+  showTab('buscar');
+  showProfile(qc0);
+  document.getElementById('searchBox').value = D.progs[qc0].k + ' — ' + D.progs[qc0].p;
+}
 console.info('%c' + __AUTORIA__ + ' — ' + 'Explorador UNAM 2024-2026', 'color:#4f46e5;font-weight:bold');
 </script>
 

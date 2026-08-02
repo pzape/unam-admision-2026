@@ -43,6 +43,7 @@ input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; colo
 .rl-p { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
 .sel-head h2 { font-size: 20px; font-weight: 800; letter-spacing: -.015em; margin: 16px 0 6px; }
 .chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink2); font-size: 12.5px; font-weight: 650; }
+.detail-lnk { display: inline-block; margin-left: 10px; font-size: 13px; font-weight: 700; }
 .score-row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
 .score-row label { font-weight: 750; font-size: 15px; }
 input[type=range] { flex: 1; min-width: 200px; accent-color: var(--brand); height: 30px; }
@@ -92,6 +93,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     <div id="ctrlSel" class="sel-head" hidden>
       <h2 id="ctrlName"></h2>
       <span class="chip" id="ctrlPlantel"></span>
+      <a id="ctrlDetail" class="detail-lnk" href="https://pzape.github.io/unam-admision-2026/">Ver el detalle de esta carrera en el buscador →</a>
     </div>
     <div class="score-row">
       <label for="ctrlNum">Tus aciertos en 2026 <span style="color:var(--muted);font-weight:500">(de 120)</span></label>
@@ -163,6 +165,7 @@ function renderControl() {
   selBox.hidden = false;
   document.getElementById('ctrlName').textContent = d.k;
   document.getElementById('ctrlPlantel').textContent = d.p + ' · Área ' + d.a;
+  document.getElementById('ctrlDetail').href = 'https://pzape.github.io/unam-admision-2026/?c=' + ctrlState.code;
   const s = ctrlState.score;
   const yrs = YEARS.filter(y => y in d.y);
   const missing = YEARS.filter(y => !(y in d.y));
@@ -243,8 +246,14 @@ const setS = raw => {
 };
 rg.addEventListener('input', () => setS(rg.value));
 num.addEventListener('input', () => { if (num.value !== '') setS(num.value); });
-const med0 = INDEX.find(x => x.txt.includes('medico cirujano') && x.txt.includes('facultad de medicina'));
-if (med0) { ctrlState.code = med0.c; document.getElementById('ctrlSearch').value = med0.d.k + ' — ' + med0.d.p; }
+const qc = new URLSearchParams(location.search).get('c');
+if (qc && DC[qc]) {
+  ctrlState.code = qc;
+  document.getElementById('ctrlSearch').value = DC[qc].k + ' — ' + DC[qc].p;
+} else {
+  const med0 = INDEX.find(x => x.txt.includes('medico cirujano') && x.txt.includes('facultad de medicina'));
+  if (med0) { ctrlState.code = med0.c; document.getElementById('ctrlSearch').value = med0.d.k + ' — ' + med0.d.p; }
+}
 renderControl();
 console.info('%c¿Te tocaría el examen de control? · Pedro Zape · github.com/pzape', 'color:#4f46e5;font-weight:bold');
 </script>
