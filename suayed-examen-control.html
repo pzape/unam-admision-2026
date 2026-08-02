@@ -39,7 +39,12 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px 16px; box-shadow: var(--shadow); margin: 18px 0; position: relative; }
 .chart-title { font-weight: 750; font-size: 15px; margin: 0 0 2px; }
 .chart-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
-input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 18px; }
+input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 48px 13px 18px; }
+input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.search-wrap { position: relative; }
+.clear-btn { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border: none; border-radius: 50%; background: var(--card); color: var(--ink2); font-size: 19px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+.clear-btn:hover { background: var(--brand-soft); color: var(--brand); }
+.clear-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .results-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 300px; overflow-y: auto; }
 .results-list button { all: unset; cursor: pointer; padding: 10px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
 .results-list button:hover { border-color: var(--brand); background: var(--brand-soft); }
@@ -109,6 +114,12 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
 .seg input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
 #concSel { border: none; margin: 12px 0 0; padding: 0; display: flex; gap: 7px; }
 .mod-sel { border: none; margin: 0 0 10px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
+.sibs-h { font-size: 15px; font-weight: 750; margin: 18px 0 8px; }
+.sibs { display: flex; gap: 8px; flex-wrap: wrap; }
+.sibs button { all: unset; cursor: pointer; padding: 7px 14px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--line); font-size: 13px; font-weight: 650; color: var(--ink2); }
+.sibs button:hover { border-color: var(--brand); color: var(--brand); }
+.sibs button:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.sibs button b { color: var(--brand); font-weight: 750; }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 8px 0 0; }
 .tt { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 24px rgba(16,18,35,.25); opacity: 0; z-index: 5; font-variant-numeric: tabular-nums; max-width: 300px; }
 .tt b { display: block; margin-bottom: 2px; }
@@ -157,7 +168,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
       <span class="seg"><input type="radio" name="modf" id="modDi" value="A distancia"><label for="modDi">A distancia</label></span>
     </fieldset>
     <label class="visually-hidden" for="ctrlSearch">Buscar carrera o plantel</label>
-    <input type="search" id="ctrlSearch" placeholder="Busca tu carrera — por ejemplo: Psicología, Derecho, Contaduría…" autocomplete="off">
+    <div class="search-wrap">
+      <input type="search" id="ctrlSearch" placeholder="Busca tu carrera — por ejemplo: Psicología, Derecho, Contaduría…" autocomplete="off">
+      <button type="button" class="clear-btn" id="ctrlClear" hidden aria-label="Borrar búsqueda">×</button>
+    </div>
     <div class="results-list" id="ctrlResults"></div>
     <div id="ctrlSel" class="sel-head" hidden>
       <h2 id="ctrlName"></h2>
@@ -223,6 +237,7 @@ function ctrlSearchRender(q) {
     b.addEventListener('click', () => {
       ctrlState.code = h.c;
       document.getElementById('ctrlSearch').value = h.d.k + ' — ' + h.d.p;
+      document.getElementById('ctrlClear').hidden = false;
       host.replaceChildren();
       renderControl();
     });
@@ -321,7 +336,17 @@ function renderControl() {
     tHost.appendChild(cap);
   }
 }
-document.getElementById('ctrlSearch').addEventListener('input', ev => ctrlSearchRender(ev.target.value));
+document.getElementById('ctrlSearch').addEventListener('input', ev => {
+  document.getElementById('ctrlClear').hidden = ev.target.value === '';
+  ctrlSearchRender(ev.target.value);
+});
+document.getElementById('ctrlClear').addEventListener('click', () => {
+  const sb = document.getElementById('ctrlSearch');
+  sb.value = '';
+  document.getElementById('ctrlClear').hidden = true;
+  document.getElementById('ctrlResults').replaceChildren();
+  sb.focus();
+});
 document.getElementById('modSel').addEventListener('change', () => {
   ctrlState.modf = document.querySelector('#modSel input[name="modf"]:checked').value;
   ctrlSearchRender(document.getElementById('ctrlSearch').value);
@@ -339,6 +364,7 @@ if (qc && !DC[qc]) qc = DC['d' + qc] ? 'd' + qc : (DC['a' + qc] ? 'a' + qc : qc)
 if (qc && DC[qc]) {
   ctrlState.code = qc;
   document.getElementById('ctrlSearch').value = DC[qc].k + ' — ' + DC[qc].p + ' · ' + DC[qc].mod;
+  document.getElementById('ctrlClear').hidden = false;
 } else if (qc) {
   const nt = document.getElementById('ctrlNotice');
   nt.hidden = false;
@@ -346,7 +372,7 @@ if (qc && DC[qc]) {
     'control no le aplicaría. Busca aquí cualquier otra carrera del SUAyED para revisar un caso.';
 } else {
   const psi = INDEX.find(x => x.txt.includes('psicologia'));
-  if (psi) { ctrlState.code = psi.c; document.getElementById('ctrlSearch').value = psi.d.k + ' — ' + psi.d.p + ' · ' + psi.d.mod; }
+  if (psi) { ctrlState.code = psi.c; document.getElementById('ctrlSearch').value = psi.d.k + ' — ' + psi.d.p + ' · ' + psi.d.mod; document.getElementById('ctrlClear').hidden = false; }
 }
 renderControl();
 console.info('%cExamen de control y SUAyED · Pedro Zape · github.com/pzape', 'color:#4f46e5;font-weight:bold');

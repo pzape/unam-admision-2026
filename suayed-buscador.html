@@ -39,7 +39,12 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px 16px; box-shadow: var(--shadow); margin: 18px 0; position: relative; }
 .chart-title { font-weight: 750; font-size: 15px; margin: 0 0 2px; }
 .chart-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
-input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 18px; }
+input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 48px 13px 18px; }
+input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.search-wrap { position: relative; }
+.clear-btn { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border: none; border-radius: 50%; background: var(--card); color: var(--ink2); font-size: 19px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+.clear-btn:hover { background: var(--brand-soft); color: var(--brand); }
+.clear-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .results-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 300px; overflow-y: auto; }
 .results-list button { all: unset; cursor: pointer; padding: 10px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
 .results-list button:hover { border-color: var(--brand); background: var(--brand-soft); }
@@ -147,7 +152,10 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
       <span class="seg"><input type="radio" name="modf" id="modDi" value="A distancia"><label for="modDi">A distancia</label></span>
     </fieldset>
     <label class="visually-hidden" for="sBox">Buscar carrera o plantel</label>
-    <input type="search" id="sBox" placeholder="Busca una carrera — por ejemplo: Psicología, Derecho, Trabajo Social…" autocomplete="off">
+    <div class="search-wrap">
+      <input type="search" id="sBox" placeholder="Busca una carrera — por ejemplo: Psicología, Derecho, Trabajo Social…" autocomplete="off">
+      <button type="button" class="clear-btn" id="sClear" hidden aria-label="Borrar búsqueda">×</button>
+    </div>
     <div class="results-list" id="sRes"></div>
     <div id="selHead" class="sel-head" hidden>
       <div class="sh-left">
@@ -277,6 +285,7 @@ function searchRender(q) {
     b.addEventListener('click', () => {
       state.code = h.c;
       document.getElementById('sBox').value = h.d.k + ' — ' + h.d.p + ' · ' + h.d.mod;
+      document.getElementById('sClear').hidden = false;
       host.replaceChildren();
       render();
     });
@@ -603,7 +612,17 @@ function render() {
     sh.appendChild(b);
   }
 }
-document.getElementById('sBox').addEventListener('input', ev => searchRender(ev.target.value));
+document.getElementById('sBox').addEventListener('input', ev => {
+  document.getElementById('sClear').hidden = ev.target.value === '';
+  searchRender(ev.target.value);
+});
+document.getElementById('sClear').addEventListener('click', () => {
+  const sb = document.getElementById('sBox');
+  sb.value = '';
+  document.getElementById('sClear').hidden = true;
+  document.getElementById('sRes').replaceChildren();
+  sb.focus();
+});
 document.getElementById('modSel').addEventListener('change', () => {
   state.modf = document.querySelector('#modSel input[name="modf"]:checked').value;
   searchRender(document.getElementById('sBox').value);
@@ -615,10 +634,10 @@ document.getElementById('thrSlider').addEventListener('input', ev => {
 });
 let qc = new URLSearchParams(location.search).get('c');
 if (qc && !SD[qc]) qc = SD['d' + qc] ? 'd' + qc : (SD['a' + qc] ? 'a' + qc : qc);
-if (qc && SD[qc]) { state.code = qc; document.getElementById('sBox').value = SD[qc].k + ' — ' + SD[qc].p + ' · ' + SD[qc].mod; }
+if (qc && SD[qc]) { state.code = qc; document.getElementById('sBox').value = SD[qc].k + ' — ' + SD[qc].p + ' · ' + SD[qc].mod; document.getElementById('sClear').hidden = false; }
 else {
   const psi = INDEX.find(x => x.d.mod === 'A distancia' && x.txt.includes('psicologia'));
-  if (psi) { state.code = psi.c; document.getElementById('sBox').value = psi.d.k + ' — ' + psi.d.p + ' · ' + psi.d.mod; }
+  if (psi) { state.code = psi.c; document.getElementById('sBox').value = psi.d.k + ' — ' + psi.d.p + ' · ' + psi.d.mod; document.getElementById('sClear').hidden = false; }
 }
 render();
 console.info('%cBuscador SUAyED · Pedro Zape · github.com/pzape', 'color:#4f46e5;font-weight:bold');
