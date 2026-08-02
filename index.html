@@ -1303,7 +1303,7 @@ function showProfile(code) {
   const cc = document.createElement('div'); cc.className = 'chart-card'; cc.id = 'cardProf';
   const t1 = document.createElement('p'); t1.className = 'chart-title'; t1.textContent = 'Calificaciones de sus aspirantes, por año';
   const t2 = document.createElement('p'); t2.className = 'chart-sub';
-  t2.textContent = 'Porcentaje de aspirantes de esta carrera en cada rango de 5 aciertos. Las líneas punteadas de color marcan el puntaje de corte de cada año; la zona sombreada, a los aspirantes en o por encima del umbral que elijas abajo (2025 y 2026). Las líneas delgadas en tonos de gris son los años presenciales: 2021 (claro), 2022 y 2023 (oscuro).';
+  t2.textContent = 'Porcentaje de aspirantes de esta carrera en cada rango de 5 aciertos. La línea punteada vertical marca el corte más reciente; pasa el cursor sobre una curva, o haz clic para fijarla, y verás el corte de ese año. La zona sombreada corresponde a los aspirantes en o por encima del umbral que elijas abajo (2025 y 2026). Las líneas delgadas en tonos de gris son los años presenciales: 2021 (claro), 2022 y 2023 (oscuro).';
   cc.appendChild(t1); cc.appendChild(t2);
   const leg = document.createElement('div'); leg.className = 'legend';
   for (const y of ALLYEARS) {
@@ -1450,32 +1450,46 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     const baseW = y === 2026 ? 2.8 : (y < 2024 ? 1.3 : 2.2);
     const p = el('path', {d: path, fill: 'none', stroke: col, 'stroke-width': baseW, 'stroke-linejoin': 'round'}, svg);
     const cx = Xs(d.y[y].corte);
-    const baseCO = y >= 2024 ? .7 : 0;
+    const isLast = y === years[years.length - 1];
+    const baseCO = isLast ? .7 : 0;
+    const baseLO = isLast ? 1 : 0;
     const cl = el('line', {x1: cx, x2: cx, y1: m.t, y2: Y(0), stroke: col, 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: baseCO}, svg);
-    const clab = el('text', {x: Math.min(cx + 4, 800), y: Y(0) - 8, fill: col, 'font-weight': 750, 'font-size': 11.5, opacity: 0}, svg);
+    const flip = cx > 760;
+    const clab = el('text', {x: flip ? cx - 4 : cx + 4, 'text-anchor': flip ? 'end' : 'start', y: Y(0) - 8, fill: col, 'font-weight': 750, 'font-size': 11.5, opacity: baseLO}, svg);
     clab.textContent = `corte ${y}: ${d.y[y].corte}`;
-    curveEls.push({y, p, cl, clab, baseW, baseCO, dd: path});
+    curveEls.push({y, p, cl, clab, baseW, baseCO, baseLO, dd: path});
   }
-  const resetCurves = () => curveEls.forEach(c => {
-    c.p.setAttribute('opacity', 1); c.p.setAttribute('stroke-width', c.baseW);
-    c.cl.setAttribute('opacity', c.baseCO); c.clab.setAttribute('opacity', 0);
+  let pinned = -1;
+  const hiCurve = k => curveEls.forEach((c2, j) => {
+    c2.p.setAttribute('opacity', j === k ? 1 : .18);
+    c2.p.setAttribute('stroke-width', j === k ? Math.max(c2.baseW, 3.2) : c2.baseW);
+    c2.cl.setAttribute('opacity', j === k ? .9 : 0);
+    c2.clab.setAttribute('opacity', j === k ? 1 : 0);
   });
+  const resetCurves = () => {
+    if (pinned >= 0) { hiCurve(pinned); return; }
+    curveEls.forEach(c => {
+      c.p.setAttribute('opacity', 1); c.p.setAttribute('stroke-width', c.baseW);
+      c.cl.setAttribute('opacity', c.baseCO); c.clab.setAttribute('opacity', c.baseLO);
+    });
+  };
   curveEls.forEach((c, k) => {
     const hit = el('path', {d: c.dd, fill: 'none', stroke: '#000', 'stroke-opacity': 0,
-      'stroke-width': 12, tabindex: 0, role: 'img',
-      'aria-label': `Curva ${c.y}: pasa el cursor o enfoca para resaltarla junto con su corte.`}, svg);
+      'stroke-width': 12, tabindex: 0, role: 'button',
+      'aria-label': `Curva ${c.y}: pasa el cursor para resaltarla o haz clic para fijarla junto con su corte.`}, svg);
     hit.style.pointerEvents = 'stroke';
-    const on = () => curveEls.forEach((c2, j) => {
-      c2.p.setAttribute('opacity', j === k ? 1 : .18);
-      c2.p.setAttribute('stroke-width', j === k ? Math.max(c2.baseW, 3.2) : c2.baseW);
-      c2.cl.setAttribute('opacity', j === k ? .9 : 0);
-      c2.clab.setAttribute('opacity', j === k ? 1 : 0);
-    });
-    hit.addEventListener('mouseenter', on);
+    hit.style.cursor = 'pointer';
+    const toggle = () => { pinned = pinned === k ? -1 : k; resetCurves(); };
+    hit.addEventListener('mouseenter', () => hiCurve(k));
     hit.addEventListener('mouseleave', resetCurves);
-    hit.addEventListener('focus', on);
+    hit.addEventListener('focus', () => hiCurve(k));
     hit.addEventListener('blur', resetCurves);
+    hit.addEventListener('click', ev => { ev.stopPropagation(); toggle(); });
+    hit.addEventListener('keydown', ev => {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); }
+    });
   });
+  svg.addEventListener('click', () => { if (pinned >= 0) { pinned = -1; resetCurves(); } });
   const cross = el('line', {y1: m.t, y2: Y(0), stroke: css('--axis'), 'stroke-width': 1, opacity: 0}, svg);
   svg.addEventListener('mousemove', ev => {
     const r = svg.getBoundingClientRect();
