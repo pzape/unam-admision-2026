@@ -101,6 +101,9 @@ svg { display: block; width: 100%; height: auto; }
 svg text { font-family: system-ui, sans-serif; font-size: 13px; }
 .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 2px 0 10px; font-weight: 600; }
 .legend .sw { display: inline-block; width: 14px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.legend .leg-btn { cursor: pointer; padding: 3px 9px; margin: -3px -4px; border-radius: 9px; }
+.legend .leg-btn:hover { background: #eef1f7; }
+.legend .leg-btn.sel { background: #e8edf6; box-shadow: inset 0 0 0 1.5px #64748b; }
 .slider-row { margin: 16px 0 6px; }
 .slider-row > label { font-weight: 700; font-size: 13.5px; }
 .slider-wrap { position: relative; margin: 12px 0 4px; }
@@ -407,6 +410,9 @@ function drawCurves(d) {
     curveEls.push({ed, p, cl, clab, baseW, baseCO, baseLO, dd: path});
   }
   let pinned = -1, hovered = -1;
+  const legChips = [];
+  const legSync = () => legChips.forEach(o => o.sp.classList.toggle('sel', o.k === pinned));
+  const togglePin = k2 => { pinned = pinned === k2 ? -1 : k2; resetCurves(); };
   const hiCurve = k => curveEls.forEach((c2, j) => {
     c2.p.setAttribute('opacity', j === k ? 1 : .15);
     c2.p.setAttribute('stroke-width', j === k ? Math.max(c2.baseW, 3.2) : c2.baseW);
@@ -414,6 +420,7 @@ function drawCurves(d) {
     c2.clab.setAttribute('opacity', j === k ? 1 : 0);
   });
   const resetCurves = () => {
+    legSync();
     if (pinned >= 0) { hiCurve(pinned); return; }
     curveEls.forEach(c => {
       c.p.setAttribute('opacity', 1); c.p.setAttribute('stroke-width', c.baseW);
@@ -426,7 +433,7 @@ function drawCurves(d) {
       'aria-label': `Curva ${c.ed.full}: pasa el cursor para resaltarla o haz clic para fijarla junto con su corte.`}, svg);
     hit.style.pointerEvents = 'stroke';
     hit.style.cursor = 'pointer';
-    const toggle = () => { pinned = pinned === k ? -1 : k; resetCurves(); };
+    const toggle = () => togglePin(k);
     hit.addEventListener('mouseenter', () => { hovered = k; hiCurve(k); });
     hit.addEventListener('mouseleave', () => { hovered = -1; resetCurves(); });
     hit.addEventListener('focus', () => { hovered = k; hiCurve(k); });
@@ -459,13 +466,22 @@ function drawCurves(d) {
   });
   svg.addEventListener('mouseleave', () => { tt.style.opacity = 0; cross.setAttribute('opacity', 0); });
   const leg = document.getElementById('curveLegend'); leg.replaceChildren();
-  for (const ed of eds) {
+  eds.forEach((ed, k) => {
     const sp = document.createElement('span');
     const sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = edColor(ed);
     if (ed.conc === 'nov') sw.style.opacity = '.65';
     sp.appendChild(sw); sp.appendChild(document.createTextNode(ed.lab + (ed.online ? ' · en línea' : '')));
+    sp.classList.add('leg-btn');
+    sp.setAttribute('role', 'button'); sp.tabIndex = 0;
+    sp.setAttribute('aria-label', `Resaltar la curva ${ed.full}; clic para fijarla.`);
+    sp.addEventListener('mouseenter', () => { hovered = k; hiCurve(k); });
+    sp.addEventListener('mouseleave', () => { hovered = -1; resetCurves(); });
+    sp.addEventListener('click', ev => { ev.stopPropagation(); togglePin(k); });
+    sp.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(k); } });
+    legChips.push({sp, k});
     leg.appendChild(sp);
-  }
+  });
+  legSync();
 }
 function drawBars(d) {
   const host = document.getElementById('barsHost'); host.replaceChildren();
@@ -577,7 +593,9 @@ function drawZoom(d) {
   const serZ = eds.map(() => ({bars: []}));
   let pinnedZ = -1, hoveredZ = -1;
   const actZ = () => hoveredZ >= 0 ? hoveredZ : pinnedZ;
+  const legChipsZ = [];
   const applyZoom = () => {
+    legChipsZ.forEach(o => o.sp.classList.toggle('sel', o.k === pinnedZ));
     const a = actZ();
     serZ.forEach((se, j) => {
       const op = a < 0 || j === a ? 1 : .25;
@@ -651,12 +669,22 @@ function drawZoom(d) {
   svg.addEventListener('click', () => { if (pinnedZ >= 0) { pinnedZ = -1; applyZoom(); } });
   applyZoom();
   const leg = document.getElementById('zoomLegend'); leg.replaceChildren();
-  for (const ed of eds) {
+  const togglePinZ = k2 => { pinnedZ = pinnedZ === k2 ? -1 : k2; applyZoom(); };
+  eds.forEach((ed, k) => {
     const sp = document.createElement('span');
     const sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = edColor(ed);
     sp.appendChild(sw); sp.appendChild(document.createTextNode(ed.full + (ed.online ? ' · en línea' : '')));
+    sp.classList.add('leg-btn');
+    sp.setAttribute('role', 'button'); sp.tabIndex = 0;
+    sp.setAttribute('aria-label', `Resaltar las barras de ${ed.full}; clic para fijarlas.`);
+    sp.addEventListener('mouseenter', () => { hoveredZ = k; applyZoom(); });
+    sp.addEventListener('mouseleave', () => { hoveredZ = -1; applyZoom(); });
+    sp.addEventListener('click', ev => { ev.stopPropagation(); togglePinZ(k); });
+    sp.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePinZ(k); } });
+    legChipsZ.push({sp, k});
     leg.appendChild(sp);
-  }
+  });
+  applyZoom();
 }
 function render() {
   if (!state.code) return;
@@ -735,6 +763,10 @@ else {
   if (psi) { state.code = psi.c; document.getElementById('sBox').value = psi.d.k + ' — ' + psi.d.p + ' · ' + psi.d.mod; document.getElementById('sClear').hidden = false; }
 }
 render();
+document.addEventListener('touchstart', ev => {
+  if (!(ev.target instanceof Element) || !ev.target.closest('svg'))
+    document.querySelectorAll('.tt').forEach(t => t.style.opacity = 0);
+}, {passive: true});
 console.info('%cBuscador SUAyED · Pedro Zape · github.com/pzape', 'color:#4f46e5;font-weight:bold');
 </script>
 </body>

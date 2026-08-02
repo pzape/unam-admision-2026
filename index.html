@@ -77,6 +77,9 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 2px 0 10px; align-items: center; font-weight: 600; }
 .legend .sw { display: inline-block; width: 14px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
 .legend .dotm { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 6px; }
+.legend .leg-btn { cursor: pointer; padding: 3px 9px; margin: -3px -4px; border-radius: 9px; }
+.legend .leg-btn:hover { background: #eef1f7; }
+.legend .leg-btn.sel { background: #e8edf6; box-shadow: inset 0 0 0 1.5px #64748b; }
 .tt {
   position: absolute; pointer-events: none; background: var(--ink); color: #fff;
   border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55;
@@ -1460,6 +1463,9 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     curveEls.push({y, p, cl, clab, baseW, baseCO, baseLO, dd: path});
   }
   let pinned = -1, hovered = -1;
+  const legChips = [];
+  const legSync = () => legChips.forEach(o => o.sp.classList.toggle('sel', o.k === pinned));
+  const togglePin = k2 => { pinned = pinned === k2 ? -1 : k2; resetCurves(); };
   const hiCurve = k => curveEls.forEach((c2, j) => {
     c2.p.setAttribute('opacity', j === k ? 1 : .18);
     c2.p.setAttribute('stroke-width', j === k ? Math.max(c2.baseW, 3.2) : c2.baseW);
@@ -1467,6 +1473,7 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     c2.clab.setAttribute('opacity', j === k ? 1 : 0);
   });
   const resetCurves = () => {
+    legSync();
     if (pinned >= 0) { hiCurve(pinned); return; }
     curveEls.forEach(c => {
       c.p.setAttribute('opacity', 1); c.p.setAttribute('stroke-width', c.baseW);
@@ -1479,7 +1486,7 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
       'aria-label': `Curva ${c.y}: pasa el cursor para resaltarla o haz clic para fijarla junto con su corte.`}, svg);
     hit.style.pointerEvents = 'stroke';
     hit.style.cursor = 'pointer';
-    const toggle = () => { pinned = pinned === k ? -1 : k; resetCurves(); };
+    const toggle = () => togglePin(k);
     hit.addEventListener('mouseenter', () => { hovered = k; hiCurve(k); });
     hit.addEventListener('mouseleave', () => { hovered = -1; resetCurves(); });
     hit.addEventListener('focus', () => { hovered = k; hiCurve(k); });
@@ -1496,6 +1503,20 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     });
   });
   svg.addEventListener('click', () => { if (pinned >= 0) { pinned = -1; resetCurves(); } });
+  [...card.querySelectorAll('.legend span')].forEach(sp => {
+    if (sp.classList.contains('sw')) return;
+    const k = years.indexOf(parseInt(sp.textContent, 10));
+    if (k < 0) return;
+    legChips.push({sp, k});
+    sp.classList.add('leg-btn');
+    sp.setAttribute('role', 'button'); sp.tabIndex = 0;
+    sp.setAttribute('aria-label', `Resaltar la curva ${years[k]}; clic para fijarla.`);
+    sp.onmouseenter = () => { hovered = k; hiCurve(k); };
+    sp.onmouseleave = () => { hovered = -1; resetCurves(); };
+    sp.onclick = ev => { ev.stopPropagation(); togglePin(k); };
+    sp.onkeydown = ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(k); } };
+  });
+  legSync();
   const cross = el('line', {y1: m.t, y2: Y(0), stroke: css('--axis'), 'stroke-width': 1, opacity: 0}, svg);
   svg.addEventListener('mousemove', ev => {
     const r = svg.getBoundingClientRect();
@@ -1538,7 +1559,9 @@ function drawCutZoom(hostDiv, card, d, tt) {
   const serZ = years.map(() => ({bars: []}));
   let pinnedZ = -1, hoveredZ = -1;
   const actZ = () => hoveredZ >= 0 ? hoveredZ : pinnedZ;
+  const legChipsZ = [];
   const applyZoom = () => {
+    legChipsZ.forEach(o => o.sp.classList.toggle('sel', o.k === pinnedZ));
     const a = actZ();
     serZ.forEach((se, j) => {
       const op = a < 0 || j === a ? 1 : .25;
@@ -1615,6 +1638,20 @@ function drawCutZoom(hostDiv, card, d, tt) {
     serZ[yi].clab.textContent = 'corte ' + String(y).slice(2) + ': ' + c;
   });
   svg.addEventListener('click', () => { if (pinnedZ >= 0) { pinnedZ = -1; applyZoom(); } });
+  const togglePinZ = k2 => { pinnedZ = pinnedZ === k2 ? -1 : k2; applyZoom(); };
+  [...card.querySelectorAll('.legend span')].forEach(sp => {
+    if (sp.classList.contains('sw')) return;
+    const k = years.indexOf(parseInt(sp.textContent, 10));
+    if (k < 0) return;
+    legChipsZ.push({sp, k});
+    sp.classList.add('leg-btn');
+    sp.setAttribute('role', 'button'); sp.tabIndex = 0;
+    sp.setAttribute('aria-label', `Resaltar las barras de ${years[k]}; clic para fijarlas.`);
+    sp.onmouseenter = () => { hoveredZ = k; applyZoom(); };
+    sp.onmouseleave = () => { hoveredZ = -1; applyZoom(); };
+    sp.onclick = ev => { ev.stopPropagation(); togglePinZ(k); };
+    sp.onkeydown = ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePinZ(k); } };
+  });
   applyZoom();
 }
 
@@ -1890,6 +1927,10 @@ if (qc0 && D.progs[qc0]) {
   showProfile(qc0);
   document.getElementById('searchBox').value = D.progs[qc0].k + ' — ' + D.progs[qc0].p;
 }
+document.addEventListener('touchstart', ev => {
+  if (!(ev.target instanceof Element) || !ev.target.closest('svg'))
+    document.querySelectorAll('.tt').forEach(t => t.style.opacity = 0);
+}, {passive: true});
 console.info('%c' + __AUTORIA__ + ' — ' + 'Explorador UNAM 2024-2026', 'color:#4f46e5;font-weight:bold');
 </script>
 
