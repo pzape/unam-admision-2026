@@ -56,7 +56,7 @@ a { color: var(--brand); }
 <div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
   <span class="kicker">Nota técnica · Descriptor de datos</span>
   <h1>Resultados públicos del Concurso de Selección a Licenciatura de la UNAM, 2021–2026: un conjunto de microdatos con validación técnica</h1>
-  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.2 · 31 de julio de 2026 (v1.0: 28 de julio, ciclos 2024–2026; v1.1: serie ampliada a 2021–2023; v1.2: recomendaciones de la comisión técnica)</p>
+  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.3 · 2 de agosto de 2026 (v1.0: 28 de julio, ciclos 2024–2026; v1.1: serie ampliada a 2021–2023; v1.2: recomendaciones de la comisión técnica; v1.3: réplica en el SUAyED)</p>
 
   <div class="abstract">
     <h3 style="margin-top:0">Resumen</h3>
@@ -70,7 +70,9 @@ a { color: var(--brand); }
     y constituyen una referencia natural de estabilidad frente al cambio observado en 2026 (D = 0.2820,
     nueve veces la mayor distancia entre ciclos presenciales). El conjunto conserva la URL de origen de
     cada registro, supera verificaciones de conciliación en las 1,021 páginas y se acompaña de
-    herramientas interactivas de consulta. Su propósito es permitir el análisis independiente y
+    herramientas interactivas de consulta. Una serie complementaria de la modalidad Abierta del SUAyED
+    (47,363 registros de 126 páginas, 2021–2026) reproduce el patrón de 2026 en una población
+    independiente (sección 4.8). Su propósito es permitir el análisis independiente y
     reproducible de un episodio de interés público en la medición educativa.</p>
   </div>
 
@@ -106,7 +108,9 @@ a { color: var(--brand); }
   fallas de descarga. Fechas de recolección: 24–25 de julio de 2026 (ciclos 2024–2026) y 31 de julio de
   2026 (ciclos 2021–2023; el año 2021 es el más antiguo publicado en el sitio de la DGAE). El análisis
   sintáctico extrae el encabezado mediante expresión regular y la tabla mediante recorrido del DOM; los
-  registros conservan la URL de origen.</p>
+  registros conservan la URL de origen. La serie complementaria de la modalidad Abierta del SUAyED
+  (126 páginas: 21 por ciclo, índices propios de la fuente) se recolectó con el mismo procedimiento el
+  25 de julio (ciclos 2024–2026) y el 2 de agosto de 2026 (ciclos 2021–2023), también sin fallas.</p>
   <h3>2.3. Procesamiento</h3>
   <p>Normalización a dos tablas por ciclo (resumen por carrera-plantel; microdatos de aspirantes) en CSV
   codificado en UTF-8. No se imputan valores. Tres particularidades de la fuente se conservan en los
@@ -138,6 +142,9 @@ a { color: var(--brand); }
       <tr><td><code>unam2026_aspirantes.csv</code></td><td class="num">167,094</td><td>ídem, 2026</td></tr>
     </tbody>
   </table>
+  <p>Se acompañan de doce archivos análogos de la modalidad Abierta del SUAyED
+  (<code>unam{2021–2026}_abierta_{summary,aspirantes}.csv</code>; 47,363 registros de aspirantes), con el
+  mismo diccionario y las mismas verificaciones de conciliación (126 de 126 páginas).</p>
   <h3>3.2. Diccionario</h3>
   <p><strong>Microdatos:</strong> <code>codigo</code> (identificador carrera-plantel de 8 dígitos, asignado
   por la DGAE); <code>area</code> (1–4); <code>carrera</code>; <code>plantel</code>;
@@ -196,6 +203,18 @@ a { color: var(--brand); }
   cambio de modalidad; los 13 programas incorporados en 2026 concentran 1.3% de los aspirantes con media
   inferior a la general (65.5 contra 71.2), y su exclusión no altera 4.4–4.5.</p>
 
+  <h3>4.8. Réplica en una población independiente (SUAyED, modalidad Abierta)</h3>
+  <p>La convocatoria del concurso cubrió en un mismo proceso al sistema escolarizado y al SUAyED, con el
+  mismo examen en línea y la misma ventana de aplicación
+  (<a href="https://repositorio.dgae.unam.mx/Licenciatura2026/convocatoria_licenciatura2026.pdf">convocatoria oficial, DGAE</a>). En la modalidad Abierta (4,761–6,322 examinados
+  por ciclo) el patrón de 2026 se reproduce: medianas 55, 54, 53, 55 y 55 en 2021–2025 y 69 en 2026; la
+  proporción con 110+ aciertos, nunca superior a 0.23% en cinco ciclos presenciales, alcanza 2.36% en
+  2026 (149 de 6,322; IC95 [2.01, 2.76]); los registros con estatus C pasan de entre 0 y 3 por ciclo a
+  93. Las distancias de Kolmogorov–Smirnov replican la estructura: ningún par de ciclos presenciales
+  excede D = 0.0552, contra D = 0.2609 entre 2025 y 2026. Al tratarse de una población con registros y
+  programas propios, esta serie funciona como réplica independiente del fenómeno documentado en las
+  secciones 4.3–4.5.</p>
+
   <h2>5. Notas de uso</h2>
   <p><strong>5.1. Límite de identificación.</strong> Los datos no permiten discriminar entre cambios en
   las propiedades psicométricas del instrumento y cambios en las condiciones de sustentación; esa
@@ -215,7 +234,8 @@ a { color: var(--brand); }
   <p><strong>5.5. Reproducción.</strong> Las cifras de la sección 4 son reconstruibles con operaciones
   estándar sobre los archivos; las <a href="https://pzape.github.io/unam-admision-2026/">herramientas
   interactivas del sitio</a> permiten explorar distribuciones por programa, umbrales alternativos al 110+
-  y comparativos por plantel.</p>
+  y comparativos por plantel, e incluyen herramientas específicas para la modalidad Abierta del
+  SUAyED.</p>
 
   <h2>6. Disponibilidad</h2>
   <p>Las herramientas interactivas de consulta son públicas en
