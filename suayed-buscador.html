@@ -71,7 +71,7 @@ input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; colo
   .buscar-sticky .ctrl-card .cb { font-size: 20px; }
   .buscar-sticky .ctrl-card .cs { display: none; }
 }
-.ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px; overflow-x: auto; margin-top: 14px; }
+.ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px 12px; overflow-x: auto; margin-top: 14px; }
 .ytable { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
 .ytable th, .ytable td { padding: 6px 5px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
 .ytable thead th { font-size: 11.5px; font-weight: 800; color: var(--ink); border-bottom: 1.5px solid var(--axis); }
@@ -274,7 +274,6 @@ function metricTable(d) {
     const th = document.createElement('th'); th.className = 'num';
     if (ed.conc === 'nov') th.classList.add('col-nov');
     if (ed.online) th.classList.add('col-online');
-    const sw = document.createElement('span'); sw.className = 'ysw'; sw.style.background = edColor(ed); th.appendChild(sw);
     th.appendChild(document.createTextNode(ed.lab));
     if (ed.online) { const em = document.createElement('small'); em.textContent = 'en línea'; th.appendChild(em); }
     hr.appendChild(th);
