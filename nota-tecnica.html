@@ -56,7 +56,7 @@ a { color: var(--brand); }
 <div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
   <span class="kicker">Nota técnica · Descriptor de datos</span>
   <h1>Resultados públicos del Concurso de Selección a Licenciatura de la UNAM, 2021–2026: un conjunto de microdatos con validación técnica</h1>
-  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.3 · 2 de agosto de 2026 (v1.0: 28 de julio, ciclos 2024–2026; v1.1: serie ampliada a 2021–2023; v1.2: recomendaciones de la comisión técnica; v1.3: réplica en el SUAyED)</p>
+  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.4 · 2 de agosto de 2026 (v1.0: 28 de julio, ciclos 2024–2026; v1.1: serie ampliada a 2021–2023; v1.2: recomendaciones de la comisión técnica; v1.3: réplica en el SUAyED; v1.4: modalidad a distancia y concursos de noviembre)</p>
 
   <div class="abstract">
     <h3 style="margin-top:0">Resumen</h3>
@@ -72,7 +72,11 @@ a { color: var(--brand); }
     cada registro, supera verificaciones de conciliación en las 1,021 páginas y se acompaña de
     herramientas interactivas de consulta. Una serie complementaria de la modalidad Abierta del SUAyED
     (47,363 registros de 126 páginas, 2021–2026) reproduce el patrón de 2026 en una población
-    independiente (sección 4.8). Su propósito es permitir el análisis independiente y
+    independiente (sección 4.8). Las series de la modalidad a distancia (174,433 registros de 194
+    páginas, incluido el segundo concurso anual, publicado en noviembre) extienden la comparación: la
+    edición de noviembre de 2025, que conforme a su convocatoria fue la primera aplicación en línea del
+    examen, ya presentaba el mismo patrón seis meses antes del concurso de 2026 (sección 4.9). El
+    propósito del conjunto es permitir el análisis independiente y
     reproducible de un episodio de interés público en la medición educativa.</p>
   </div>
 
@@ -215,6 +219,36 @@ a { color: var(--brand); }
   programas propios, esta serie funciona como réplica independiente del fenómeno documentado en las
   secciones 4.3–4.5.</p>
 
+  <h3>4.9. La modalidad a distancia y el concurso de noviembre: una aplicación en línea previa</h3>
+  <p>El SUAyED comprende una segunda modalidad, a distancia, que participa en el concurso de mayo–junio
+  y cuenta además con un segundo concurso anual, cuyos resultados se publican en noviembre. Ambas series
+  se recolectaron y conciliaron con el procedimiento de la sección 2 (mayo: 2021–2026; noviembre:
+  2021–2025; 174,433 registros de 194 páginas). El concurso de mayo reproduce lo descrito en 4.8:
+  medianas de 53 a 55 en los ciclos presenciales 2021–2025 y 66 en 2026; la proporción de examinados con
+  110+ aciertos, que no superó 0.13% en ningún ciclo presencial, alcanza 2.32% en 2026 (234 de 10,087;
+  IC95 [2.04, 2.63]); los registros con estatus C pasan de entre 0 y 6 por ciclo a 134.</p>
+  <p>El concurso de noviembre aporta un antecedente que las versiones previas de esta nota no habían
+  recogido. No se trata de un hallazgo de este trabajo: la información es pública desde su publicación
+  original, aunque no parece haber recibido una atención comparable a la que generó el concurso de mayo
+  de 2026. Conforme a las convocatorias oficiales, el examen de noviembre de 2024 fue una "prueba
+  escrita que deberá realizarse de manera presencial"
+  (<a href="https://repositorio.dgae.unam.mx/Noviembre2024/convocatoria_noviembre2024.pdf">convocatoria
+  de noviembre de 2024, DGAE</a>), mientras que el de noviembre de 2025 se aplicó en línea, del 5 al 9
+  de noviembre de 2025
+  (<a href="https://repositorio.dgae.unam.mx/Noviembre2025/convocatoria_noviembre2025.pdf">convocatoria
+  de noviembre de 2025, DGAE</a>). La primera aplicación en línea del examen de selección no ocurrió,
+  por tanto, en mayo de 2026, sino seis meses antes y en una población más pequeña. Los datos de esa
+  edición muestran el mismo cambio: la mediana, de 53 a 55 entre 2021 y 2024, sube a 58; los examinados
+  con 110+ aciertos, entre 11 y 25 por edición presencial (0.10%–0.29%), llegan a 184 (1.14% de 16,070;
+  IC95 [0.99, 1.32]); los registros con estatus C, que fueron 3, 2, 1 y 0, llegan a 98. Las distancias
+  de Kolmogorov–Smirnov entre ediciones presenciales no exceden D = 0.068; las de cada edición
+  presencial frente a la edición en línea van de 0.085 a 0.127.</p>
+  <p>Con estas series, el conjunto cubre cuatro aplicaciones en línea del examen (escolarizado 2026,
+  Abierta 2026, a distancia 2026 y a distancia noviembre de 2025), sobre poblaciones distintas, y
+  diecinueve aplicaciones presenciales. El patrón descrito —aumento de la cola alta, reaparición de
+  registros con estatus C y desplazamiento de la mediana— aparece en las cuatro aplicaciones en línea y
+  en ninguna de las diecinueve presenciales.</p>
+
   <h2>5. Notas de uso</h2>
   <p><strong>5.1. Límite de identificación.</strong> Los datos no permiten discriminar entre cambios en
   las propiedades psicométricas del instrumento y cambios en las condiciones de sustentación; esa
@@ -234,8 +268,8 @@ a { color: var(--brand); }
   <p><strong>5.5. Reproducción.</strong> Las cifras de la sección 4 son reconstruibles con operaciones
   estándar sobre los archivos; las <a href="https://pzape.github.io/unam-admision-2026/">herramientas
   interactivas del sitio</a> permiten explorar distribuciones por programa, umbrales alternativos al 110+
-  y comparativos por plantel, e incluyen herramientas específicas para la modalidad Abierta del
-  SUAyED.</p>
+  y comparativos por plantel, e incluyen herramientas específicas para el SUAyED, con sus dos
+  modalidades (abierta y a distancia) y los dos concursos anuales.</p>
 
   <h2>6. Disponibilidad</h2>
   <p>Las herramientas interactivas de consulta son públicas en
