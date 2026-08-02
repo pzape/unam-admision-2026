@@ -385,18 +385,42 @@ function drawCurves(d) {
     el('line', {x1: Xs(thr), x2: Xs(thr), y1: m.t, y2: Y(0), stroke: '#3f4557', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
     el('text', {x: Xs(thr) - 6, y: m.t + 14, 'text-anchor': 'end', fill: '#3f4557', 'font-weight': 750, 'font-size': 12}, svg).textContent = thr + '+';
   }
+  const curveEls = [];
   for (const ed of eds) {
     const arr = ed.v.h5;
     let path = '';
     arr.forEach((v, i) => path += (i ? ' L' : 'M') + ` ${X(i)} ${Y(v)}`);
-    el('path', {d: path, fill: 'none', stroke: edColor(ed), 'stroke-width': ed.online ? 2.8 : (ed.y < 2024 ? 1.2 : 1.8),
+    const col = edColor(ed);
+    const baseW = ed.online ? 2.8 : (ed.y < 2024 ? 1.2 : 1.8);
+    const p = el('path', {d: path, fill: 'none', stroke: col, 'stroke-width': baseW,
       'stroke-dasharray': edDash(ed), 'stroke-linejoin': 'round'}, svg);
-  }
-  for (const ed of eds.filter(e2 => e2.online)) {
     const cx = Xs(ed.v.c);
-    el('line', {x1: cx, x2: cx, y1: m.t, y2: Y(0), stroke: edColor(ed), 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .7}, svg);
-    el('text', {x: cx + 4, y: m.t + 14, fill: edColor(ed), 'font-weight': 750, 'font-size': 11.5}, svg).textContent = 'corte ' + ed.lab;
+    const baseCO = ed.online ? .7 : 0;
+    const cl = el('line', {x1: cx, x2: cx, y1: m.t, y2: Y(0), stroke: col, 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: baseCO}, svg);
+    const clab = el('text', {x: Math.min(cx + 4, 800), y: ed.online ? m.t + 14 : Y(0) - 8, fill: col, 'font-weight': 750, 'font-size': 11.5, opacity: ed.online ? 1 : 0}, svg);
+    clab.textContent = 'corte ' + ed.lab + (ed.online ? '' : ': ' + ed.v.c);
+    curveEls.push({ed, p, cl, clab, baseW, baseCO, baseLO: ed.online ? 1 : 0, dd: path});
   }
+  const resetCurves = () => curveEls.forEach(c => {
+    c.p.setAttribute('opacity', 1); c.p.setAttribute('stroke-width', c.baseW);
+    c.cl.setAttribute('opacity', c.baseCO); c.clab.setAttribute('opacity', c.baseLO);
+  });
+  curveEls.forEach((c, k) => {
+    const hit = el('path', {d: c.dd, fill: 'none', stroke: '#000', 'stroke-opacity': 0,
+      'stroke-width': 12, tabindex: 0, role: 'img',
+      'aria-label': `Curva ${c.ed.full}: pasa el cursor o enfoca para resaltarla junto con su corte.`}, svg);
+    hit.style.pointerEvents = 'stroke';
+    const on = () => curveEls.forEach((c2, j) => {
+      c2.p.setAttribute('opacity', j === k ? 1 : .15);
+      c2.p.setAttribute('stroke-width', j === k ? Math.max(c2.baseW, 3.2) : c2.baseW);
+      c2.cl.setAttribute('opacity', j === k ? .9 : 0);
+      c2.clab.setAttribute('opacity', j === k ? 1 : 0);
+    });
+    hit.addEventListener('mouseenter', on);
+    hit.addEventListener('mouseleave', resetCurves);
+    hit.addEventListener('focus', on);
+    hit.addEventListener('blur', resetCurves);
+  });
   const cross = el('line', {y1: m.t, y2: Y(0), stroke: '#a7aec1', 'stroke-width': 1, opacity: 0}, svg);
   svg.addEventListener('mousemove', ev => {
     const r = svg.getBoundingClientRect();

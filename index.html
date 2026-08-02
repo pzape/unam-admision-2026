@@ -1441,16 +1441,41 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     el('text', {x: Xs(thr) - 6, y: m.t + 14, 'text-anchor': 'end', fill: css('--ink2'), 'font-weight': 750,
       'font-size': 12}, svg).textContent = thr + '+';
   }
+  const curveEls = [];
   for (const y of years) {
     const arr = d.y[y].h5;
     let path = '';
     arr.forEach((v, i) => path += (i ? ' L' : 'M') + ` ${X(i)} ${Y(v)}`);
-    el('path', {d: path, fill: 'none', stroke: YC()[y] || '#94a3b8', 'stroke-width': y === 2026 ? 2.8 : (y < 2024 ? 1.3 : 2.2), 'stroke-linejoin': 'round'}, svg);
-    if (y >= 2024) {
-      const cx = Xs(d.y[y].corte);
-      el('line', {x1: cx, x2: cx, y1: m.t, y2: Y(0), stroke: YC()[y], 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .7}, svg);
-    }
+    const col = YC()[y] || '#94a3b8';
+    const baseW = y === 2026 ? 2.8 : (y < 2024 ? 1.3 : 2.2);
+    const p = el('path', {d: path, fill: 'none', stroke: col, 'stroke-width': baseW, 'stroke-linejoin': 'round'}, svg);
+    const cx = Xs(d.y[y].corte);
+    const baseCO = y >= 2024 ? .7 : 0;
+    const cl = el('line', {x1: cx, x2: cx, y1: m.t, y2: Y(0), stroke: col, 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: baseCO}, svg);
+    const clab = el('text', {x: Math.min(cx + 4, 800), y: Y(0) - 8, fill: col, 'font-weight': 750, 'font-size': 11.5, opacity: 0}, svg);
+    clab.textContent = `corte ${y}: ${d.y[y].corte}`;
+    curveEls.push({y, p, cl, clab, baseW, baseCO, dd: path});
   }
+  const resetCurves = () => curveEls.forEach(c => {
+    c.p.setAttribute('opacity', 1); c.p.setAttribute('stroke-width', c.baseW);
+    c.cl.setAttribute('opacity', c.baseCO); c.clab.setAttribute('opacity', 0);
+  });
+  curveEls.forEach((c, k) => {
+    const hit = el('path', {d: c.dd, fill: 'none', stroke: '#000', 'stroke-opacity': 0,
+      'stroke-width': 12, tabindex: 0, role: 'img',
+      'aria-label': `Curva ${c.y}: pasa el cursor o enfoca para resaltarla junto con su corte.`}, svg);
+    hit.style.pointerEvents = 'stroke';
+    const on = () => curveEls.forEach((c2, j) => {
+      c2.p.setAttribute('opacity', j === k ? 1 : .18);
+      c2.p.setAttribute('stroke-width', j === k ? Math.max(c2.baseW, 3.2) : c2.baseW);
+      c2.cl.setAttribute('opacity', j === k ? .9 : 0);
+      c2.clab.setAttribute('opacity', j === k ? 1 : 0);
+    });
+    hit.addEventListener('mouseenter', on);
+    hit.addEventListener('mouseleave', resetCurves);
+    hit.addEventListener('focus', on);
+    hit.addEventListener('blur', resetCurves);
+  });
   const cross = el('line', {y1: m.t, y2: Y(0), stroke: css('--axis'), 'stroke-width': 1, opacity: 0}, svg);
   svg.addEventListener('mousemove', ev => {
     const r = svg.getBoundingClientRect();
