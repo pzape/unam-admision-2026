@@ -213,7 +213,10 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
       presencial</strong>, con versiones múltiples; los lugares se asignarán con los resultados de ese
       nuevo examen.</p>
       <p>Serán convocados los seleccionados y quienes alcanzaron los puntajes de corte de 2021 a 2026.
-      Todo lo mostrado aquí proviene de los resultados publicados del examen original.</p></div></div>
+      Todo lo mostrado aquí proviene de los resultados publicados del examen original.</p>
+      <p>Un antecedente pasó casi inadvertido: el examen de noviembre de 2025 del SUAyED a distancia ya se
+      había aplicado en línea —fue la primera aplicación en línea del examen de selección— y sus resultados,
+      públicos desde entonces, mostraban el mismo patrón.</p></div></div>
 
   </div>
 </div>
@@ -236,7 +239,9 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
       <a href="https://www.elfinanciero.com.mx/nacional/2026/07/21/que-sabemos-de-los-resultados-del-examen-de-la-unam-y-por-que-se-dice-que-hubo-trampa/">El Financiero</a> ·
       <a href="https://www.infobae.com/mexico/2026/07/22/rector-de-la-unam-solicita-revision-de-resultados-de-examen-de-ingreso-tras-posibles-trampas-de-aspirantes/">Infobae</a></p>
       <p><strong>Documentación:</strong> <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica — descriptor de datos, métodos y validación</a> ·
-      <a href="https://pzape.github.io/unam-admision-2026/examen-control.html">¿Te tocaría el examen de control?</a></p>
+      <a href="https://pzape.github.io/unam-admision-2026/examen-control.html">¿Te tocaría el examen de control?</a> ·
+      <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">SUAyED: buscador de carreras</a> ·
+      <a href="https://pzape.github.io/unam-admision-2026/suayed-examen-control.html">SUAyED: examen de control</a></p>
     <p><strong>Autoría.</strong> Análisis y visualización: Pedro Zape (github.com/pzape) · julio de 2026 ·
       Datos públicos de DGAE-UNAM. Elaborado con asistencia de IA (Claude, de Anthropic) bajo dirección
       y verificación del autor. © 2026, todos los derechos reservados sobre el análisis, el texto
@@ -473,6 +478,7 @@ function timelineStage() {
   const box = document.createElement('div'); box.className = 'timeline-stage';
   const ul = document.createElement('ul');
   const items = [
+    ['5–9 de noviembre de 2025', 'El SUAyED a distancia aplica en línea el examen de su segundo concurso: la primera aplicación en línea del examen de selección. Sus resultados ya mostraban el patrón de 2026, casi sin atención pública.', false],
     ['17 de julio', 'Se publican los resultados. Comienzan las quejas por puntajes inusuales.', false],
     ['21–22 de julio', 'El rector ordena un informe especial y una comisión técnica. Se reporta la cancelación de ~2% de los exámenes.', true],
     ['24 de julio', 'La UNAM suspende provisionalmente las inscripciones de nuevo ingreso (boletín oficial DGCS).', true],
