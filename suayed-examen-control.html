@@ -108,6 +108,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
 .seg input:checked + label { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
 .seg input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
 #concSel { border: none; margin: 12px 0 0; padding: 0; display: flex; gap: 7px; }
+.mod-sel { border: none; margin: 0 0 10px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 8px 0 0; }
 .tt { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 24px rgba(16,18,35,.25); opacity: 0; z-index: 5; font-variant-numeric: tabular-nums; max-width: 300px; }
 .tt b { display: block; margin-bottom: 2px; }
@@ -149,6 +150,12 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   dos criterios publicados: seleccionados de 2026 y puntajes de corte históricos de 2021 a 2026.</p>
 
   <div class="chart-card">
+    <fieldset class="mod-sel" id="modSel">
+      <legend class="visually-hidden">Modalidad del SUAyED</legend>
+      <span class="seg"><input type="radio" name="modf" id="modAll" value="all" checked><label for="modAll">Ambas modalidades</label></span>
+      <span class="seg"><input type="radio" name="modf" id="modAb" value="Abierta"><label for="modAb">Abierta</label></span>
+      <span class="seg"><input type="radio" name="modf" id="modDi" value="A distancia"><label for="modDi">A distancia</label></span>
+    </fieldset>
     <label class="visually-hidden" for="ctrlSearch">Buscar carrera o plantel</label>
     <input type="search" id="ctrlSearch" placeholder="Busca tu carrera — por ejemplo: Psicología, Derecho, Contaduría…" autocomplete="off">
     <div class="results-list" id="ctrlResults"></div>
@@ -202,13 +209,13 @@ const YCOL = {2021: '#a3aebf', 2022: '#64748b', 2023: '#475569', 2024: '#2563eb'
 const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const fmt = n => n.toLocaleString('es-MX');
 const INDEX = Object.entries(DC).map(([c, d]) => ({c, d, txt: norm(d.k + ' ' + d.p + ' ' + d.mod)}));
-const ctrlState = {code: null, score: 100};
+const ctrlState = {code: null, score: 100, modf: 'all'};
 function ctrlSearchRender(q) {
   const host = document.getElementById('ctrlResults'); host.replaceChildren();
   const nq = norm(q.trim());
   if (nq.length < 2) return;
   const terms = nq.split(/\s+/);
-  for (const h of INDEX.filter(x => terms.every(t => x.txt.includes(t))).slice(0, 8)) {
+  for (const h of INDEX.filter(x => (ctrlState.modf === 'all' || x.d.mod === ctrlState.modf) && terms.every(t => x.txt.includes(t))).slice(0, 8)) {
     const b = document.createElement('button');
     const k = document.createElement('span'); k.className = 'rl-k'; k.textContent = h.d.k + ' — ' + h.d.p;
     const p = document.createElement('span'); p.className = 'rl-p'; p.textContent = h.d.mod + ' · corte 2026: ' + h.d.may[2026];
@@ -315,6 +322,10 @@ function renderControl() {
   }
 }
 document.getElementById('ctrlSearch').addEventListener('input', ev => ctrlSearchRender(ev.target.value));
+document.getElementById('modSel').addEventListener('change', () => {
+  ctrlState.modf = document.querySelector('#modSel input[name="modf"]:checked').value;
+  ctrlSearchRender(document.getElementById('ctrlSearch').value);
+});
 const rg = document.getElementById('ctrlRange'), num = document.getElementById('ctrlNum');
 const setS = raw => {
   ctrlState.score = Math.max(0, Math.min(120, +raw || 0));

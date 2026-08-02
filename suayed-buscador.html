@@ -108,6 +108,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
 .seg input:checked + label { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
 .seg input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
 #concSel { border: none; margin: 12px 0 0; padding: 0; display: flex; gap: 7px; }
+.mod-sel { border: none; margin: 0 0 10px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 8px 0 0; }
 .tt { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 24px rgba(16,18,35,.25); opacity: 0; z-index: 5; font-variant-numeric: tabular-nums; max-width: 300px; }
 .tt b { display: block; margin-bottom: 2px; }
@@ -133,6 +134,12 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   carrera y revisa cada convocatoria de cada año.</p>
 
   <div class="buscar-sticky" id="buscarSticky">
+    <fieldset class="mod-sel" id="modSel">
+      <legend class="visually-hidden">Modalidad del SUAyED</legend>
+      <span class="seg"><input type="radio" name="modf" id="modAll" value="all" checked><label for="modAll">Ambas modalidades</label></span>
+      <span class="seg"><input type="radio" name="modf" id="modAb" value="Abierta"><label for="modAb">Abierta</label></span>
+      <span class="seg"><input type="radio" name="modf" id="modDi" value="A distancia"><label for="modDi">A distancia</label></span>
+    </fieldset>
     <label class="visually-hidden" for="sBox">Buscar carrera o plantel</label>
     <input type="search" id="sBox" placeholder="Busca una carrera — por ejemplo: Psicología, Derecho, Trabajo Social…" autocomplete="off">
     <div class="results-list" id="sRes"></div>
@@ -223,7 +230,7 @@ const NS = 'http://www.w3.org/2000/svg';
 const fmt = n => n.toLocaleString('es-MX');
 const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const INDEX = Object.entries(SD).map(([c, d]) => ({c, d, txt: norm(d.k + ' ' + d.p + ' ' + d.mod)}));
-const state = {code: null, thr: 110};
+const state = {code: null, thr: 110, modf: 'all'};
 function el(tag, attrs, parent) {
   const e = document.createElementNS(NS, tag);
   for (const k in attrs) e.setAttribute(k, attrs[k]);
@@ -249,7 +256,7 @@ function searchRender(q) {
   const nq = norm(q.trim());
   if (nq.length < 2) return;
   const terms = nq.split(/\s+/);
-  for (const h of INDEX.filter(x => terms.every(t => x.txt.includes(t))).slice(0, 9)) {
+  for (const h of INDEX.filter(x => (state.modf === 'all' || x.d.mod === state.modf) && terms.every(t => x.txt.includes(t))).slice(0, 9)) {
     const b = document.createElement('button');
     const k = document.createElement('span'); k.className = 'rl-k'; k.textContent = h.d.k + ' — ' + h.d.p;
     const may26 = h.d.s.may && h.d.s.may.y[2026];
@@ -568,6 +575,10 @@ function render() {
   drawZoom(d);
 }
 document.getElementById('sBox').addEventListener('input', ev => searchRender(ev.target.value));
+document.getElementById('modSel').addEventListener('change', () => {
+  state.modf = document.querySelector('#modSel input[name="modf"]:checked').value;
+  searchRender(document.getElementById('sBox').value);
+});
 document.getElementById('thrSlider').addEventListener('input', ev => {
   state.thr = +ev.target.value;
   document.getElementById('thrVal').textContent = String(state.thr);
