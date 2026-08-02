@@ -109,6 +109,12 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
 .seg input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
 #concSel { border: none; margin: 12px 0 0; padding: 0; display: flex; gap: 7px; }
 .mod-sel { border: none; margin: 0 0 10px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
+.sibs-h { font-size: 15px; font-weight: 750; margin: 18px 0 8px; }
+.sibs { display: flex; gap: 8px; flex-wrap: wrap; }
+.sibs button { all: unset; cursor: pointer; padding: 7px 14px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--line); font-size: 13px; font-weight: 650; color: var(--ink2); }
+.sibs button:hover { border-color: var(--brand); color: var(--brand); }
+.sibs button:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.sibs button b { color: var(--brand); font-weight: 750; }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 8px 0 0; }
 .tt { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 24px rgba(16,18,35,.25); opacity: 0; z-index: 5; font-variant-numeric: tabular-nums; max-width: 300px; }
 .tt b { display: block; margin-bottom: 2px; }
@@ -157,6 +163,11 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
       <p class="ctrl-na" id="ctrlNa" hidden></p>
     </div>
     <div id="tblHost"></div>
+  </div>
+
+  <div id="sibsWrap" hidden>
+    <h2 class="sibs-h">La misma carrera en otra modalidad o plantel</h2>
+    <div class="sibs" id="sibsHost"></div>
   </div>
 
   <div class="chart-card" id="curveCard">
@@ -573,6 +584,24 @@ function render() {
   drawBars(d);
   drawFila(d);
   drawZoom(d);
+  const sibs = INDEX.filter(x => x.d.k === d.k && x.c !== state.code);
+  const sw = document.getElementById('sibsWrap');
+  const sh = document.getElementById('sibsHost');
+  sh.replaceChildren();
+  sw.hidden = sibs.length === 0;
+  for (const x of sibs) {
+    const b = document.createElement('button');
+    b.appendChild(document.createTextNode(x.d.p + ' · '));
+    const bb = document.createElement('b'); bb.textContent = x.d.mod; b.appendChild(bb);
+    b.setAttribute('aria-label', `${x.d.k} en ${x.d.p}, modalidad ${x.d.mod}. Abre su perfil.`);
+    b.addEventListener('click', () => {
+      state.code = x.c;
+      document.getElementById('sBox').value = x.d.k + ' — ' + x.d.p + ' · ' + x.d.mod;
+      render();
+      document.getElementById('buscarSticky').scrollIntoView({block: 'start'});
+    });
+    sh.appendChild(b);
+  }
 }
 document.getElementById('sBox').addEventListener('input', ev => searchRender(ev.target.value));
 document.getElementById('modSel').addEventListener('change', () => {
