@@ -54,6 +54,7 @@ input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; colo
 .ctrl-card .cs { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; }
 .ctrl-card .cl { display: block; font-size: 12.5px; font-weight: 750; color: var(--brand); margin-top: 5px; }
 .ctrl-card:hover { background: var(--brand-soft); }
+.ctrl-na { max-width: 250px; font-size: 12px; color: var(--muted); background: var(--card); border-radius: 12px; padding: 10px 14px; margin: 0; }
 .chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink2); font-size: 12.5px; font-weight: 650; }
 .detail-lnk { display: inline-block; margin-left: 10px; font-size: 13px; font-weight: 700; }
 .buscar-sticky { scroll-margin-top: 60px; }
@@ -156,6 +157,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
       <span class="chip" id="ctrlPlantel"></span>
       <a id="ctrlDetail" class="detail-lnk" href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">Ver el detalle de esta carrera →</a>
     </div>
+    <p class="live-note" id="ctrlNotice" hidden style="background:var(--warn-soft);border:1px solid var(--warn)"></p>
     <div class="score-row">
       <label for="ctrlNum">Tus aciertos en 2026 <span style="color:var(--muted);font-weight:500">(de 120)</span></label>
       <input type="range" id="ctrlRange" min="0" max="120" value="100" step="1" aria-label="Aciertos, control deslizante">
@@ -325,9 +327,14 @@ const qc = new URLSearchParams(location.search).get('c');
 if (qc && DC[qc]) {
   ctrlState.code = qc;
   document.getElementById('ctrlSearch').value = DC[qc].k + ' — ' + DC[qc].p + ' · ' + DC[qc].mod;
+} else if (qc) {
+  const nt = document.getElementById('ctrlNotice');
+  nt.hidden = false;
+  nt.textContent = 'La carrera del enlace no participó en el concurso de mayo–junio 2026, por lo que el examen de ' +
+    'control no le aplicaría. Busca aquí cualquier otra carrera del SUAyED para revisar un caso.';
 } else {
   const psi = INDEX.find(x => x.txt.includes('psicologia'));
-  if (psi) { ctrlState.code = psi.c; document.getElementById('ctrlSearch').value = psi.d.k + ' — ' + psi.d.p; }
+  if (psi) { ctrlState.code = psi.c; document.getElementById('ctrlSearch').value = psi.d.k + ' — ' + psi.d.p + ' · ' + psi.d.mod; }
 }
 renderControl();
 console.info('%cExamen de control y SUAyED · Pedro Zape · github.com/pzape', 'color:#4f46e5;font-weight:bold');

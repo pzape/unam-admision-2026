@@ -54,6 +54,7 @@ input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; colo
 .ctrl-card .cs { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; }
 .ctrl-card .cl { display: block; font-size: 12.5px; font-weight: 750; color: var(--brand); margin-top: 5px; }
 .ctrl-card:hover { background: var(--brand-soft); }
+.ctrl-na { max-width: 250px; font-size: 12px; color: var(--muted); background: var(--card); border-radius: 12px; padding: 10px 14px; margin: 0; }
 .chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink2); font-size: 12.5px; font-weight: 650; }
 .detail-lnk { display: inline-block; margin-left: 10px; font-size: 13px; font-weight: 700; }
 .buscar-sticky { scroll-margin-top: 60px; }
@@ -146,6 +147,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
         <span class="cs" id="ctrlMinSub"></span>
         <span class="cl">¿Te tocaría? (no confirmado para SUAyED) →</span>
       </a>
+      <p class="ctrl-na" id="ctrlNa" hidden></p>
     </div>
     <div id="tblHost"></div>
   </div>
@@ -534,7 +536,9 @@ function render() {
   document.getElementById('selName').textContent = d.k;
   document.getElementById('selPlantel').textContent = d.p + ' · Área ' + d.a + ' · SUAyED ' + d.mod;
   const ctrl = document.getElementById('selCtrl');
-  if (d.s.may) {
+  const na = document.getElementById('ctrlNa');
+  if (d.s.may && d.s.may.y[2026]) {
+    if (na) na.hidden = true;
     ctrl.hidden = false;
     ctrl.href = 'https://pzape.github.io/unam-admision-2026/suayed-examen-control.html?c=' + state.code;
     const cYrs = [2021, 2022, 2023, 2024, 2025, 2026].filter(y => d.s.may.y[y]);
@@ -543,7 +547,13 @@ function render() {
     document.getElementById('ctrlMin').textContent = String(minC);
     document.getElementById('ctrlMinSub').textContent = `aciertos mínimos según la recomendación (corte más bajo del concurso mayo–junio: ${minY})`;
     ctrl.setAttribute('aria-label', `Examen de control: ${minC} aciertos mínimos según los criterios recomendados (corte más bajo, ${minY}); no confirmado para SUAyED.`);
-  } else { ctrl.hidden = true; }
+  } else {
+    ctrl.hidden = true;
+    if (na) {
+      na.hidden = false;
+      na.textContent = 'Examen de control: no aplica — esta carrera no se ofertó en el concurso de mayo–junio 2026.';
+    }
+  }
   metricTable(d);
   drawCurves(d);
   drawBars(d);

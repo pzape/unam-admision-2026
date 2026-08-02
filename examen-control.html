@@ -45,6 +45,8 @@ input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; colo
 .sel-head h2 { font-size: 20px; font-weight: 800; letter-spacing: -.015em; margin: 16px 0 6px; }
 .chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink2); font-size: 12.5px; font-weight: 650; }
 .detail-lnk { display: inline-block; margin-left: 10px; font-size: 13px; font-weight: 700; }
+.live-note { font-size: 13.5px; color: var(--ink2); border-radius: 10px; padding: 10px 14px; margin: 14px 0 0; }
+:root { --warn: #b45309; --warn-soft: rgba(180,83,9,.10); }
 .score-row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
 .score-row label { font-weight: 750; font-size: 15px; }
 input[type=range] { flex: 1; min-width: 200px; accent-color: var(--brand); height: 30px; }
@@ -96,6 +98,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
       <span class="chip" id="ctrlPlantel"></span>
       <a id="ctrlDetail" class="detail-lnk" href="https://pzape.github.io/unam-admision-2026/">Ver el detalle de esta carrera en el buscador →</a>
     </div>
+    <p class="live-note" id="ctrlNotice" hidden style="background:var(--warn-soft);border:1px solid var(--warn)"></p>
     <div class="score-row">
       <label for="ctrlNum">Tus aciertos en 2026 <span style="color:var(--muted);font-weight:500">(de 120)</span></label>
       <input type="range" id="ctrlRange" min="0" max="120" value="112" step="1" aria-label="Aciertos, control deslizante">
@@ -251,6 +254,11 @@ const qc = new URLSearchParams(location.search).get('c');
 if (qc && DC[qc]) {
   ctrlState.code = qc;
   document.getElementById('ctrlSearch').value = DC[qc].k + ' — ' + DC[qc].p;
+} else if (qc) {
+  const nt = document.getElementById('ctrlNotice');
+  nt.hidden = false;
+  nt.textContent = 'La carrera del enlace no participó en el concurso 2026 (no se ofertó ese año), por lo que el ' +
+    'examen de control no le aplica. Busca aquí cualquier otra carrera para revisar un caso.';
 } else {
   const med0 = INDEX.find(x => x.txt.includes('medico cirujano') && x.txt.includes('facultad de medicina'));
   if (med0) { ctrlState.code = med0.c; document.getElementById('ctrlSearch').value = med0.d.k + ' — ' + med0.d.p; }

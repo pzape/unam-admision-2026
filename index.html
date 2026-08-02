@@ -184,6 +184,9 @@ input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .ctrl-card .cs { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; }
 .ctrl-card .cl { display: block; font-size: 12.5px; font-weight: 750; color: var(--brand); margin-top: 5px; }
 .ctrl-card:hover { background: var(--brand-soft); }
+.ctrl-card.na { border-color: var(--line); }
+.ctrl-card.na .ck { color: var(--muted); }
+div.ctrl-card.na:hover { background: var(--surface); }
 @media (min-width: 900px) { .buscar-sticky .ctrl-card { padding: 7px 14px; } .buscar-sticky .ctrl-card .cb { font-size: 20px; } .buscar-sticky .ctrl-card .cs { display: none; } }
 .profile-head h3 { font-size: 24px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 6px; }
 .year-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
@@ -1239,8 +1242,8 @@ function showProfile(code) {
   chipA.style.fontWeight = '700';
   phLeft.appendChild(chipA);
   head.appendChild(phLeft);
-  const cYrs = ALLYEARS.filter(y => d.y[y]);
-  if (cYrs.length) {
+  if (d.y[2026]) {
+    const cYrs = ALLYEARS.filter(y => d.y[y]);
     const minC = Math.min(...cYrs.map(y => d.y[y].corte));
     const minY = cYrs.find(y => d.y[y].corte === minC);
     const cc2 = document.createElement('a'); cc2.className = 'ctrl-card';
@@ -1251,6 +1254,12 @@ function showProfile(code) {
     const cs = document.createElement('span'); cs.className = 'cs';
     cs.textContent = `aciertos mínimos según la recomendación (corte más bajo del periodo: ${minY})`; cc2.appendChild(cs);
     const cl = document.createElement('span'); cl.className = 'cl'; cl.textContent = '¿Te tocaría el examen? →'; cc2.appendChild(cl);
+    head.appendChild(cc2);
+  } else {
+    const cc2 = document.createElement('div'); cc2.className = 'ctrl-card na';
+    const ck = document.createElement('span'); ck.className = 'ck'; ck.textContent = 'Examen de control'; cc2.appendChild(ck);
+    const cs = document.createElement('span'); cs.className = 'cs';
+    cs.textContent = 'No aplica: esta carrera no se ofertó en el concurso 2026, así que nadie presentó su examen este año.'; cc2.appendChild(cs);
     head.appendChild(cc2);
   }
   headHost.appendChild(head);
