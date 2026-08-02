@@ -1378,7 +1378,7 @@ function showProfile(code) {
   // cuánta gente en cada acierto, cerca del corte
   const cz = document.createElement('div'); cz.className = 'chart-card';
   const z1 = document.createElement('p'); z1.className = 'chart-title'; z1.textContent = 'Cuánta gente en cada acierto, cerca del corte';
-  const z2 = document.createElement('p'); z2.className = 'chart-sub'; z2.textContent = 'Aspirantes de esta carrera con cada calificación exacta, alrededor del puntaje de corte. Las líneas punteadas marcan el corte de cada año: quienes quedan a la izquierda de la línea no alcanzaron lugar ese año.';
+  const z2 = document.createElement('p'); z2.className = 'chart-sub'; z2.textContent = 'Aspirantes de esta carrera con cada calificación exacta, alrededor del puntaje de corte. La línea punteada marca el corte más reciente; pasa el cursor sobre las barras de un año, o tócalas, para resaltarlo con su corte, y haz clic para fijarlo. Quienes quedan a la izquierda de la línea de corte no alcanzaron lugar ese año.';
   cz.appendChild(z1); cz.appendChild(z2);
   const legz = document.createElement('div'); legz.className = 'legend';
   for (const y of ALLYEARS) {
@@ -1459,7 +1459,7 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     clab.textContent = `corte ${y}: ${d.y[y].corte}`;
     curveEls.push({y, p, cl, clab, baseW, baseCO, baseLO, dd: path});
   }
-  let pinned = -1;
+  let pinned = -1, hovered = -1;
   const hiCurve = k => curveEls.forEach((c2, j) => {
     c2.p.setAttribute('opacity', j === k ? 1 : .18);
     c2.p.setAttribute('stroke-width', j === k ? Math.max(c2.baseW, 3.2) : c2.baseW);
@@ -1480,13 +1480,19 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     hit.style.pointerEvents = 'stroke';
     hit.style.cursor = 'pointer';
     const toggle = () => { pinned = pinned === k ? -1 : k; resetCurves(); };
-    hit.addEventListener('mouseenter', () => hiCurve(k));
-    hit.addEventListener('mouseleave', resetCurves);
-    hit.addEventListener('focus', () => hiCurve(k));
-    hit.addEventListener('blur', resetCurves);
+    hit.addEventListener('mouseenter', () => { hovered = k; hiCurve(k); });
+    hit.addEventListener('mouseleave', () => { hovered = -1; resetCurves(); });
+    hit.addEventListener('focus', () => { hovered = k; hiCurve(k); });
+    hit.addEventListener('blur', () => { hovered = -1; resetCurves(); });
     hit.addEventListener('click', ev => { ev.stopPropagation(); toggle(); });
     hit.addEventListener('keydown', ev => {
       if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); }
+    });
+    let tMoved = false;
+    hit.addEventListener('touchstart', () => { tMoved = false; }, {passive: true});
+    hit.addEventListener('touchmove', () => { tMoved = true; }, {passive: true});
+    hit.addEventListener('touchend', ev => {
+      if (!tMoved) { ev.preventDefault(); ev.stopPropagation(); toggle(); }
     });
   });
   svg.addEventListener('click', () => { if (pinned >= 0) { pinned = -1; resetCurves(); } });
@@ -1496,8 +1502,9 @@ function drawProfileChart(hostDiv, card, d, tt, thr) {
     const px = (ev.clientX - r.left) / r.width * W;
     const i = Math.max(0, Math.min(24, Math.floor((px - m.l) / (W - m.l - m.r) * 24)));
     cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('opacity', .8);
+    const act = hovered >= 0 ? hovered : pinned;
     setTip(tt, `Aciertos ${i * 5}–${i * 5 + 4}`, null,
-      years.map(y => ({color: YC()[y] || '#94a3b8', text: `${y}: ${d.y[y].h5[i].toFixed(1)}% de sus aspirantes`})));
+      (act >= 0 ? [years[act]] : years).map(y => ({color: YC()[y] || '#94a3b8', text: `${y}: ${d.y[y].h5[i].toFixed(1)}% de sus aspirantes`})));
     const cr = card.getBoundingClientRect();
     placeTip(card, tt, ev.clientX - cr.left, ev.clientY - cr.top);
   });
@@ -1528,42 +1535,87 @@ function drawCutZoom(hostDiv, card, d, tt) {
   });
   el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: css('--axis'), 'stroke-width': 1}, svg);
   const nY = years.length, sub = gw * 0.84 / nY;
+  const serZ = years.map(() => ({bars: []}));
+  let pinnedZ = -1, hoveredZ = -1;
+  const actZ = () => hoveredZ >= 0 ? hoveredZ : pinnedZ;
+  const applyZoom = () => {
+    const a = actZ();
+    serZ.forEach((se, j) => {
+      const op = a < 0 || j === a ? 1 : .25;
+      se.bars.forEach(b => b.setAttribute('opacity', op));
+      if (se.cl) {
+        const on = a >= 0 ? j === a : j === nY - 1;
+        se.cl.setAttribute('opacity', on ? .85 : 0);
+        se.clab.setAttribute('opacity', on ? 1 : 0);
+      }
+    });
+  };
   scores.forEach((s, i) => {
     const x0 = m.l + i * gw + gw * 0.08;
     years.forEach((y, yi) => {
       const v = tw.c[y][i];
-      if (v > 0) el('rect', {x: x0 + yi * sub, y: Y(v), width: Math.max(sub * 0.88, 1.2),
-        height: Math.max(Y(0) - Y(v), 1), rx: Math.min(2.5, sub * 0.3), fill: YC()[y] || '#94a3b8'}, svg);
+      if (v > 0) serZ[yi].bars.push(el('rect', {x: x0 + yi * sub, y: Y(v), width: Math.max(sub * 0.88, 1.2),
+        height: Math.max(Y(0) - Y(v), 1), rx: Math.min(2.5, sub * 0.3), fill: YC()[y] || '#94a3b8'}, svg));
     });
     const col = el('rect', {x: m.l + i * gw, y: m.t, width: gw, height: Y(0) - m.t, fill: 'transparent',
       tabindex: 0, role: 'img',
       'aria-label': `${s} aciertos: ` + years.map(y => `${y}: ${tw.c[y][i]}`).join(', ') + ' aspirantes.'}, svg);
-    const show = (px, py) => {
-      setTip(tt, `${s} aciertos exactos`, null, years.map(y => ({color: YC()[y] || '#94a3b8',
+    col.style.cursor = 'pointer';
+    const siAt = cx2 => {
+      const r = svg.getBoundingClientRect();
+      const px = (cx2 - r.left) / r.width * W;
+      const rel = px - x0;
+      if (rel < 0 || rel >= sub * nY) return -1;
+      const si = Math.floor(rel / sub);
+      return tw.c[years[si]][i] > 0 ? si : -1;
+    };
+    const show = (px, py, a) => {
+      setTip(tt, `${s} aciertos exactos`, null, (a >= 0 ? [years[a]] : years).map(y => ({color: YC()[y] || '#94a3b8',
         text: `${y}: ${fmt(tw.c[y][i])} aspirante${tw.c[y][i] === 1 ? '' : 's'}` +
           (d.y[y].corte === s ? ' · corte de este año' : '')})));
       placeTip(card, tt, px, py);
     };
     col.addEventListener('mousemove', ev => {
+      const r = svg.getBoundingClientRect();
+      const py = (ev.clientY - r.top) / r.height * H;
+      const s2 = siAt(ev.clientX);
+      hoveredZ = (s2 >= 0 && py >= Y(tw.c[years[s2]][i]) - 8) ? s2 : -1;
+      applyZoom();
       const cr = card.getBoundingClientRect();
-      show(ev.clientX - cr.left, ev.clientY - cr.top);
+      show(ev.clientX - cr.left, ev.clientY - cr.top, actZ());
     });
     col.addEventListener('focus', () => {
       const cr = card.getBoundingClientRect(), sr = col.getBoundingClientRect();
-      show(sr.left - cr.left + sr.width / 2, sr.top - cr.top + 30);
+      show(sr.left - cr.left + sr.width / 2, sr.top - cr.top + 30, actZ());
     });
-    col.addEventListener('mouseleave', () => tt.style.opacity = 0);
+    col.addEventListener('mouseleave', () => { hoveredZ = -1; applyZoom(); tt.style.opacity = 0; });
     col.addEventListener('blur', () => tt.style.opacity = 0);
+    const toggleZ = s2 => { pinnedZ = (s2 >= 0 && pinnedZ !== s2) ? s2 : -1; applyZoom(); };
+    col.addEventListener('click', ev => { ev.stopPropagation(); toggleZ(hoveredZ >= 0 ? hoveredZ : siAt(ev.clientX)); });
+    let tMoved = false;
+    col.addEventListener('touchstart', () => { tMoved = false; }, {passive: true});
+    col.addEventListener('touchmove', () => { tMoved = true; }, {passive: true});
+    col.addEventListener('touchend', ev => {
+      if (tMoved) return;
+      ev.preventDefault(); ev.stopPropagation();
+      toggleZ(siAt(ev.changedTouches[0].clientX));
+    });
   });
   years.forEach((y, yi) => {
     const c = d.y[y].corte;
     if (c < tw.lo || c > tw.hi) return;
     const x = m.l + (c - tw.lo + 0.5) * gw;
-    el('line', {x1: x, x2: x, y1: m.t - 2, y2: Y(0), stroke: YC()[y] || '#94a3b8', 'stroke-width': 1.4,
-      'stroke-dasharray': '4 4', opacity: .85}, svg);
-    el('text', {x: x + 4, y: m.t + 10 + yi * 14, fill: YC()[y] || '#94a3b8', 'font-weight': 750, 'font-size': 11.5}, svg)
-      .textContent = 'corte ' + String(y).slice(2) + ': ' + c;
+    const flip = x > 760;
+    serZ[yi].cl = el('line', {x1: x, x2: x, y1: m.t - 2, y2: Y(0), stroke: YC()[y] || '#94a3b8', 'stroke-width': 1.4,
+      'stroke-dasharray': '4 4', opacity: 0}, svg);
+    serZ[yi].cl.style.pointerEvents = 'none';
+    serZ[yi].clab = el('text', {x: flip ? x - 4 : x + 4, 'text-anchor': flip ? 'end' : 'start', y: m.t + 10,
+      fill: YC()[y] || '#94a3b8', 'font-weight': 750, 'font-size': 11.5, opacity: 0}, svg);
+    serZ[yi].clab.style.pointerEvents = 'none';
+    serZ[yi].clab.textContent = 'corte ' + String(y).slice(2) + ': ' + c;
   });
+  svg.addEventListener('click', () => { if (pinnedZ >= 0) { pinnedZ = -1; applyZoom(); } });
+  applyZoom();
 }
 
 function drawThresholdBars(hostDiv, d, thr) {
