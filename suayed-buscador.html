@@ -172,6 +172,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
         <span class="cl">¿Te tocaría? (no confirmado para SUAyED) →</span>
       </a>
       <p class="ctrl-na" id="ctrlNa" hidden></p>
+      <p id="convLnk" style="flex-basis:100%;margin:2px 0 0;font-size:13px;font-weight:700" hidden><a id="convLnkA" href="#">¿Cuántos serían convocados al examen de control en esta carrera? →</a></p>
     </div>
     <div id="tblHost"></div>
   </div>
@@ -699,6 +700,11 @@ function render() {
     if (na) na.hidden = true;
     ctrl.hidden = false;
     ctrl.href = 'https://pzape.github.io/unam-admision-2026/suayed-examen-control.html?c=' + state.code;
+    const cvl = document.getElementById('convLnk');
+    if (cvl) {
+      cvl.hidden = false;
+      document.getElementById('convLnkA').href = 'https://pzape.github.io/unam-admision-2026/convocados.html?c=' + state.code;
+    }
     const cYrs = [2021, 2022, 2023, 2024, 2025, 2026].filter(y => d.s.may.y[y]);
     const minC = Math.min(...cYrs.map(y => d.s.may.y[y].c));
     const minY = cYrs.find(y => d.s.may.y[y].c === minC);
@@ -706,6 +712,8 @@ function render() {
     document.getElementById('ctrlMinSub').textContent = `aciertos mínimos según la recomendación (corte más bajo del concurso mayo–junio: ${minY})`;
     ctrl.setAttribute('aria-label', `Examen de control: ${minC} aciertos mínimos según los criterios recomendados (corte más bajo, ${minY}); no confirmado para SUAyED.`);
   } else {
+    const cvl0 = document.getElementById('convLnk');
+    if (cvl0) cvl0.hidden = true;
     ctrl.hidden = true;
     if (na) {
       na.hidden = false;

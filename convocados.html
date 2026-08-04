@@ -161,6 +161,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
       <div class="sh-left">
         <h2 id="selName"></h2>
         <p class="rl-p" id="selSub" style="margin:0"></p>
+        <p style="margin:6px 0 0;font-size:13px;font-weight:700"><a id="expLnk" href="#">Ver el perfil completo de esta carrera →</a></p>
       </div>
     </div>
   </div>
@@ -394,6 +395,14 @@ function showProfile(code) {
   syncSysSel(d.s);
   document.getElementById('sBox').value = d.k + ' — ' + d.p;
   document.getElementById('sClear').hidden = false;
+  const ex = document.getElementById('expLnk');
+  if (d.s === 'e') {
+    ex.href = 'https://pzape.github.io/unam-admision-2026/?c=' + code.slice(1);
+    ex.textContent = 'Ver el perfil completo en el explorador (cortes y calificaciones 2021–2026) →';
+  } else {
+    ex.href = 'https://pzape.github.io/unam-admision-2026/suayed-buscador.html?c=' + code;
+    ex.textContent = 'Ver el perfil completo en el buscador SUAyED (todas las ediciones) →';
+  }
   const head = document.getElementById('selHead'); head.hidden = false;
   document.getElementById('selName').textContent = d.k;
   const sub = document.getElementById('selSub');

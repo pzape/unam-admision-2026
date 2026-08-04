@@ -1267,6 +1267,12 @@ function showProfile(code) {
     cs.textContent = `aciertos mínimos según la recomendación (corte más bajo del periodo: ${minY})`; cc2.appendChild(cs);
     const cl = document.createElement('span'); cl.className = 'cl'; cl.textContent = '¿Te tocaría el examen? →'; cc2.appendChild(cl);
     head.appendChild(cc2);
+    const cvl = document.createElement('p');
+    cvl.style.cssText = 'flex-basis:100%;margin:2px 0 0;font-size:13px;font-weight:700';
+    const cva = document.createElement('a');
+    cva.href = 'https://pzape.github.io/unam-admision-2026/convocados.html?c=' + code + '&s=e';
+    cva.textContent = '¿Cuántos serían convocados al examen de control en esta carrera? →';
+    cvl.appendChild(cva); head.appendChild(cvl);
   } else {
     const cc2 = document.createElement('div'); cc2.className = 'ctrl-card na';
     const ck = document.createElement('span'); ck.className = 'ck'; ck.textContent = 'Examen de control'; cc2.appendChild(ck);

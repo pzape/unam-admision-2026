@@ -97,6 +97,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
       <h2 id="ctrlName"></h2>
       <span class="chip" id="ctrlPlantel"></span>
       <a id="ctrlDetail" class="detail-lnk" href="https://pzape.github.io/unam-admision-2026/">Ver el detalle de esta carrera en el buscador →</a>
+      <a id="ctrlConv" class="detail-lnk" href="https://pzape.github.io/unam-admision-2026/convocados.html">¿Cuántos serían convocados en esta carrera? →</a>
     </div>
     <p class="live-note" id="ctrlNotice" hidden style="background:var(--warn-soft);border:1px solid var(--warn)"></p>
     <div class="score-row">
@@ -171,6 +172,7 @@ function renderControl() {
   document.getElementById('ctrlName').textContent = d.k;
   document.getElementById('ctrlPlantel').textContent = d.p + ' · Área ' + d.a;
   document.getElementById('ctrlDetail').href = 'https://pzape.github.io/unam-admision-2026/?c=' + ctrlState.code;
+  document.getElementById('ctrlConv').href = 'https://pzape.github.io/unam-admision-2026/convocados.html?c=' + ctrlState.code + '&s=e';
   const s = ctrlState.score;
   const yrs = YEARS.filter(y => y in d.y);
   const missing = YEARS.filter(y => !(y in d.y));
