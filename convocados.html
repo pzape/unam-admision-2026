@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://pzape.github.io/unam-admision-2026/convocados.html">
+<meta name="author" content="Pedro Zape (github.com/pzape)">
+<meta name="description" content="¿Cuántos aspirantes serían convocados al examen de control de la UNAM? El cálculo con los criterios de la comisión técnica, por sistema y carrera por carrera.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="¿Cuántos serían convocados al examen de control? · Admisión UNAM 2026">
+<meta property="og:description" content="El cálculo con los criterios recomendados por la comisión técnica: por sistema (escolarizado y SUAyED) y carrera por carrera, con datos oficiales 2021–2026.">
+<title>¿Cuántos serían convocados al examen de control? · Admisión UNAM 2026</title>
+<style>
+:root { color-scheme: light;
+  --bg: #f6f7fb; --surface: #fff; --ink: #101223; --ink2: #3f4557; --muted: #6a7186;
+  --line: #e7eaf2; --axis: #a7aec1; --card: #f0f2f9;
+  --brand: #4f46e5; --brand-soft: #eef0fe;
+  --sys-e: #4f46e5; --sys-a: #0d9488; --sys-d: #a855f7;
+  --y26: #ea580c; --warn: #b45309; --warn-soft: rgba(180,83,9,.10);
+  --shadow: 0 1px 2px rgba(16,18,35,.05), 0 10px 30px rgba(16,18,35,.07);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { font: 15.5px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); margin: 0; -webkit-font-smoothing: antialiased; }
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(246,247,251,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.topbar-in { max-width: 1000px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+.topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
+.topbar b { font-weight: 800; }
+.topbar a { margin-left: auto; color: var(--brand); font-weight: 650; text-decoration: none; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 40px 22px 90px; }
+.kicker { display: inline-block; background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px; }
+h1 { font-size: clamp(26px, 4.6vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 0 0 12px; text-wrap: balance; }
+h1 .grad { background: linear-gradient(90deg, var(--brand), var(--y26)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+h2 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; margin: 34px 0 10px; }
+.dek { font-size: 16.5px; line-height: 1.6; color: var(--ink2); margin: 0 0 22px; }
+a { color: var(--brand); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.warnbox { background: var(--warn-soft); border: 1.5px solid var(--warn); border-radius: 14px; padding: 14px 18px; font-size: 14px; line-height: 1.6; margin: 0 0 20px; color: var(--ink2); }
+.warnbox b { color: var(--warn); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 12px; margin: 22px 0; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--axis); border-radius: 14px; padding: 14px 18px; box-shadow: var(--shadow); }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 800; display: flex; align-items: center; gap: 6px; }
+.tile .k .sd { width: 9px; height: 9px; border-radius: 3px; display: inline-block; flex: none; }
+.tile .v { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--muted); line-height: 1.45; display: block; }
+.chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px 16px; box-shadow: var(--shadow); margin: 18px 0; position: relative; }
+.chart-title { font-weight: 750; font-size: 15px; margin: 0 0 2px; }
+.chart-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 2px 0 10px; font-weight: 600; }
+.legend .sw { display: inline-block; width: 14px; height: 10px; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 48px 13px 18px; }
+input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.search-wrap { position: relative; }
+.clear-btn { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border: none; border-radius: 50%; background: var(--card); color: var(--ink2); font-size: 19px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+.clear-btn:hover { background: var(--brand-soft); color: var(--brand); }
+.results-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 300px; overflow-y: auto; }
+.results-list button { all: unset; cursor: pointer; padding: 10px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.results-list button:hover { border-color: var(--brand); background: var(--brand-soft); }
+.rl-k { font-weight: 700; }
+.rl-p { color: var(--muted); font-size: 12.5px; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
+.sys-chip { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 750; background: var(--card); color: var(--ink2); white-space: nowrap; }
+.sys-chip .sd { width: 8px; height: 8px; border-radius: 3px; display: inline-block; flex: none; }
+.buscar-sticky { scroll-margin-top: 60px; }
+@media (min-width: 900px) {
+  .buscar-sticky { position: sticky; top: 48px; z-index: 10; background: var(--bg); padding: 8px 8px 12px; margin: 0 -8px; box-shadow: 0 10px 14px -12px rgba(16,18,35,.22); }
+}
+.mod-sel { border: none; margin: 0 0 10px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg label { display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 650; color: var(--ink2); cursor: pointer; background: var(--surface); transition: border-color .12s, color .12s, background .12s; }
+.seg label .sd { width: 9px; height: 9px; border-radius: 3px; display: inline-block; flex: none; }
+.seg label:hover { border-color: var(--axis); }
+.seg input:checked + label { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+.seg input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
+.sel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
+.sel-head h2 { margin: 2px 0 4px; font-size: 20px; }
+.sh-left { min-width: 220px; }
+.stat-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 9px 14px; flex: 1; min-width: 128px; }
+.stat.hi { border: 1.5px solid var(--brand); }
+.stat .k { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 800; display: block; }
+.stat .v { font-size: 21px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat .s { font-size: 11px; color: var(--muted); line-height: 1.35; display: block; }
+.sibs-h { font-size: 15px; font-weight: 750; margin: 18px 0 8px; }
+.sibs { display: flex; gap: 8px; flex-wrap: wrap; }
+.sibs button { all: unset; cursor: pointer; padding: 7px 14px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--line); font-size: 13px; font-weight: 650; color: var(--ink2); display: inline-flex; align-items: center; gap: 7px; }
+.sibs button:hover { border-color: var(--brand); color: var(--brand); }
+.sibs button .sd { width: 8px; height: 8px; border-radius: 3px; display: inline-block; flex: none; }
+.sibs button b { color: var(--brand); font-weight: 750; }
+.full-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin-top: 14px; max-height: 540px; overflow: auto; }
+table.full { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+table.full th, table.full td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.full th { position: sticky; top: 0; background: var(--surface); font-size: 11.5px; font-weight: 800; cursor: pointer; user-select: none; border-bottom: 1.5px solid var(--axis); z-index: 2; }
+table.full th:hover { color: var(--brand); }
+table.full th .arr { font-size: 9px; }
+table.full td:nth-child(1), table.full th:nth-child(1) { text-align: left; max-width: 300px; white-space: normal; }
+table.full td:nth-child(2), table.full th:nth-child(2) { text-align: left; max-width: 220px; white-space: normal; font-size: 11.5px; color: var(--muted); }
+table.full tbody tr { cursor: pointer; }
+table.full tbody tr:hover { background: var(--brand-soft); }
+.note { background: var(--card); border-radius: 12px; padding: 14px 18px; font-size: 13.5px; line-height: 1.6; margin: 14px 0; color: var(--ink2); }
+.note b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; color: var(--brand); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.foot { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); line-height: 1.7; }
+.foot a { color: var(--ink2); }
+svg { display: block; width: 100%; height: auto; }
+svg text { font-family: system-ui, sans-serif; font-size: 13px; }
+.tt { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 24px rgba(16,18,35,.25); opacity: 0; z-index: 5; font-variant-numeric: tabular-nums; max-width: 300px; }
+.tt b { display: block; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in"><span class="dot"></span><b>Admisión UNAM</b> · Convocados al examen de control
+  <a href="https://pzape.github.io/unam-admision-2026/">Explorador →</a></div></div>
+<div class="wrap">
+  <span class="kicker">Análisis · datos oficiales 2021–2026</span>
+  <h1>¿<span class="grad">Cuántos</span> serían convocados al examen de control?</h1>
+  <p class="dek">La comisión técnica recomendó convocar a un examen de control presencial a los
+  <strong>seleccionados de 2026</strong> y a quienes alcanzaron los <strong>puntajes de corte de su
+  carrera en cualquier año de 2021 a 2026</strong>. Esta página aplica ese criterio a los resultados
+  publicados: cada aspirante examinado en 2026 cuenta si fue seleccionado o si su puntaje iguala o
+  supera el corte más bajo que su carrera tuvo en esos seis años.</p>
+
+  <div class="warnbox"><b>El SUAyED es condicional.</b> La UNAM no ha precisado si el examen de control
+  incluye al SUAyED (modalidades abierta y a distancia). Sus cifras se muestran aparte, aplicando los
+  mismos criterios de forma condicional; la convocatoria oficial definirá el alcance.</div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="chart-card">
+    <p class="chart-title">De qué tamaño es cada grupo, y de dónde sale</p>
+    <p class="chart-sub">Cada barra son los potenciales convocados de un sistema. La parte sólida son los
+    seleccionados de 2026; la parte clara, quienes no fueron seleccionados pero alcanzan un corte
+    histórico de su carrera. En los tres sistemas el criterio histórico aporta más gente que la selección
+    misma.</p>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--sys-e)"></span>Seleccionados 2026</span>
+      <span><span class="sw" style="background:var(--sys-e);opacity:.4"></span>Solo por corte histórico</span>
+    </div>
+    <div id="barsHost"></div>
+    <div class="tt" id="ttBars"></div>
+  </div>
+
+  <h2 id="buscar">Búscalo por carrera</h2>
+  <p class="dek" style="font-size:15px">Elige primero el sistema —cada uno tiene su propio catálogo y sus
+  propios cortes— y busca la carrera. El perfil muestra cuánta gente quedaría convocada y por qué
+  criterio.</p>
+
+  <div class="buscar-sticky" id="buscarSticky">
+    <fieldset class="seg mod-sel" id="sysSel">
+      <legend class="visually-hidden">Sistema (elige uno)</legend>
+      <input type="radio" name="sysf" id="sysE" value="e" checked><label for="sysE"><span class="sd" style="background:var(--sys-e)"></span>Escolarizado</label>
+      <input type="radio" name="sysf" id="sysA" value="a"><label for="sysA"><span class="sd" style="background:var(--sys-a)"></span>SUAyED Abierta</label>
+      <input type="radio" name="sysf" id="sysD" value="d"><label for="sysD"><span class="sd" style="background:var(--sys-d)"></span>SUAyED a Distancia</label>
+    </fieldset>
+    <div class="search-wrap">
+      <label class="visually-hidden" for="sBox">Buscar carrera o plantel</label>
+      <input type="search" id="sBox" placeholder="Busca una carrera o plantel — por ejemplo: Derecho, Psicología, FES Acatlán…" autocomplete="off">
+      <button type="button" class="clear-btn" id="sClear" hidden aria-label="Borrar búsqueda">×</button>
+    </div>
+    <div class="results-list" id="sRes" role="listbox" aria-label="Resultados de búsqueda"></div>
+    <div class="sel-head" id="selHead" hidden>
+      <div class="sh-left">
+        <h2 id="selName"></h2>
+        <p class="rl-p" id="selSub" style="margin:0"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="statHost"></div>
+
+  <div class="chart-card" id="miniCard" hidden>
+    <p class="chart-title">Dónde está el grupo convocado de esta carrera</p>
+    <p class="chart-sub" id="miniSub"></p>
+    <div id="miniHost"></div>
+    <div class="tt" id="ttMini"></div>
+  </div>
+
+  <div id="sibsHost"></div>
+
+  <h2>Las carreras del sistema elegido, en una sola tabla</h2>
+  <p class="dek" style="font-size:15px">La tabla sigue al selector de sistema de arriba. Ordena por
+  cualquier columna (clic en el encabezado); clic en una fila abre el perfil de esa carrera.</p>
+  <div class="full-wrap">
+    <table class="full" id="fullTable">
+      <thead><tr>
+        <th data-k="k">Carrera<span class="arr"></span></th>
+        <th data-k="p">Plantel<span class="arr"></span></th>
+        <th data-k="n">Examinados<span class="arr"></span></th>
+        <th data-k="sel">Seleccionados<span class="arr"></span></th>
+        <th data-k="conv">Convocados<span class="arr"></span></th>
+        <th data-k="pct">% examinados<span class="arr"></span></th>
+      </tr></thead>
+      <tbody id="fullBody"></tbody>
+    </table>
+  </div>
+
+  <h2>Lo que este cálculo puede y no puede decir</h2>
+  <div class="note"><b>Es un cálculo exacto sobre un criterio recomendado</b>
+  Los conteos salen de aplicar, registro por registro, el criterio que la comisión técnica recomendó el
+  31 de julio. La convocatoria oficial del examen de control podrá definir el criterio de otra forma;
+  cuando se publique, estas cifras deberán leerse como lo que son: el tamaño del grupo bajo la
+  recomendación conocida.</div>
+  <div class="note"><b>Seleccionados: dos cifras oficiales</b>
+  La suma de "seleccionados" en los encabezados oficiales (17,005 escolarizado; 2,082 abierta; 2,876 a
+  distancia) excede en ~2.3% el conteo de filas marcadas como seleccionadas en las mismas páginas
+  (16,617; 1,944; 2,737). Ambas cifras son oficiales; esta página usa el conteo por filas porque el
+  cálculo es registro por registro. Con los totales de encabezado, el total general subiría de ~57,900
+  a ~58,600.</div>
+  <div class="note"><b>Los exámenes cancelados no pueden calificar aquí</b>
+  Los registros con estatus C (3,020 escolarizado; 93 abierta; 134 a distancia) no tienen calificación
+  publicada, de modo que no pueden alcanzar ningún corte en este cálculo. Si alguno fuera reintegrado
+  por la UNAM, quedaría fuera de estos conteos.</div>
+  <div class="note"><b>Los cortes de noviembre casi no mueven el resultado</b>
+  El cálculo del SUAyED a distancia usa los cortes del concurso de mayo–junio. Si contaran también los
+  cortes del concurso de noviembre (2021–2025), el grupo pasaría de 6,011 a 6,073 personas.</div>
+
+  <p class="dek" style="font-size:15px;margin-top:26px">¿Quieres revisar tu caso personal, puntaje en
+  mano? Esa es la otra página: <a href="https://pzape.github.io/unam-admision-2026/examen-control.html">examen
+  de control (escolarizado)</a> · <a href="https://pzape.github.io/unam-admision-2026/suayed-examen-control.html">examen
+  de control (SUAyED)</a>.</p>
+
+  <div class="foot">
+    <p><strong>Método.</strong> Criterio aplicado: seleccionado en 2026, o puntaje 2026 igual o superior al
+    corte más bajo de la carrera entre 2021 y 2026 (todo seleccionado cumple el criterio por construcción,
+    pues el corte de 2026 forma parte del mínimo). Cortes y registros provienen de las páginas oficiales de
+    resultados de la DGAE; el detalle del procedimiento está en la
+    <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">nota técnica</a> (v1.4).</p>
+    <p><strong>Documentos relacionados:</strong>
+    <a href="https://pzape.github.io/unam-admision-2026/">Explorador (escolarizado)</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/historia.html">La historia</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">Buscador SUAyED</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a></p>
+    <p><strong>Autoría.</strong> Análisis y herramienta: Pedro Zape (github.com/pzape) · agosto de 2026 ·
+    Datos públicos de DGAE-UNAM. Elaborado con asistencia de IA (Claude, de Anthropic) bajo dirección
+    y verificación del autor. © 2026, todos los derechos reservados sobre el análisis, el texto y el
+    diseño; los datos oficiales pertenecen a sus fuentes. Estadísticas de visita agregadas y anónimas,
+    sin cookies (GoatCounter).</p>
+  </div>
+</div>
+<script>
+const CD = {"e10100035":{"k":"ACTUARIA","p":"FACULTAD DE CIENCIAS","s":"e","mc":101,"my":[2023],"c26":113,"n":1354,"sel":84,"conv":386,"h5":[0.15,0.07,0.15,0.07,0.07,0.3,1.48,2.58,3.91,4.73,4.06,4.51,4.58,5.17,4.43,5.24,5.1,7.53,7.02,8.49,9.38,10.56,7.39,3.03,0.0]},"e10102005":{"k":"ACTUARIA","p":"FES ACATLÁN","s":"e","mc":87,"my":[2023],"c26":108,"n":650,"sel":53,"conv":266,"h5":[0.15,0.15,0.0,0.46,0.0,0.77,2.31,2.77,5.08,3.85,6.46,6.92,3.54,6.31,4.15,7.85,6.0,6.0,8.15,8.62,7.38,8.0,4.46,0.62,0.0]},"e10200015":{"k":"ARQUITECTURA","p":"FACULTAD DE ARQUITECTURA","s":"e","mc":90,"my":[2022,2023],"c26":108,"n":3939,"sel":266,"conv":1168,"h5":[0.18,0.05,0.05,0.1,0.25,1.57,3.48,6.73,5.61,8.02,6.4,6.32,5.28,4.62,5.94,4.6,5.15,5.99,6.45,6.65,6.12,5.92,3.58,0.94,0.0]},"e10202005":{"k":"ARQUITECTURA","p":"FES ACATLÁN","s":"e","mc":77,"my":[2025],"c26":99,"n":1244,"sel":108,"conv":446,"h5":[0.24,0.08,0.08,0.32,0.56,2.09,4.02,6.75,7.56,8.28,7.07,7.48,6.27,5.79,4.74,6.43,5.95,7.32,5.47,5.39,3.7,2.49,1.77,0.16,0.0]},"e10204005":{"k":"ARQUITECTURA","p":"FES ARAGÓN","s":"e","mc":77,"my":[2022],"c26":103,"n":1603,"sel":103,"conv":605,"h5":[0.06,0.12,0.19,0.19,0.31,1.81,4.55,7.61,8.3,8.11,6.05,5.61,6.67,5.86,4.93,5.3,6.11,7.11,6.3,5.3,5.12,2.68,1.31,0.37,0.0]},"e10300015":{"k":"ARQUITECTURA DE PAISAJE","p":"FACULTAD DE ARQUITECTURA","s":"e","mc":76,"my":[2023],"c26":100,"n":261,"sel":26,"conv":96,"h5":[0.38,0.0,0.38,0.38,1.53,2.3,4.98,7.28,6.51,7.28,6.9,4.6,8.05,6.9,5.36,4.6,7.66,5.75,4.6,4.6,4.21,3.45,1.92,0.38,0.0]},"e10400035":{"k":"CIENCIAS DE LA COMPUTACION","p":"FACULTAD DE CIENCIAS","s":"e","mc":102,"my":[2022],"c26":113,"n":1013,"sel":44,"conv":171,"h5":[0.1,0.2,0.1,0.1,0.69,1.88,2.67,7.5,7.21,7.5,5.92,5.73,5.53,4.64,4.94,4.34,5.13,5.43,5.23,5.33,6.02,5.73,6.61,1.38,0.1]},"e10504005":{"k":"DISEÑO INDUSTRIAL","p":"FES ARAGÓN","s":"e","mc":85,"my":[2022],"c26":106,"n":642,"sel":25,"conv":157,"h5":[0.31,0.0,0.31,0.16,0.78,1.09,5.14,7.01,7.79,7.48,7.79,8.26,5.92,5.92,6.7,4.67,6.23,4.67,4.67,5.92,4.98,2.8,1.25,0.16,0.0]},"e10600035":{"k":"FISICA","p":"FACULTAD DE CIENCIAS","s":"e","mc":104,"my":[2025],"c26":108,"n":723,"sel":89,"conv":134,"h5":[0.41,0.0,0.55,0.0,0.41,0.28,0.83,1.94,1.8,2.63,3.87,5.81,5.81,4.98,4.98,7.61,7.88,7.19,8.16,8.44,9.13,9.13,5.81,2.35,0.0]},"e10700115":{"k":"INGENIERIA CIVIL","p":"FACULTAD DE INGENIERÍA","s":"e","mc":82,"my":[2022,2023],"c26":104,"n":1237,"sel":128,"conv":474,"h5":[0.4,0.08,0.08,0.08,0.16,1.37,3.72,5.98,5.98,6.87,6.63,6.63,5.9,5.17,4.53,5.17,7.28,6.55,6.55,6.39,4.93,5.25,3.88,0.4,0.0]},"e10702005":{"k":"INGENIERIA CIVIL","p":"FES ACATLÁN","s":"e","mc":61,"my":[2022],"c26":89,"n":548,"sel":101,"conv":303,"h5":[0.18,0.0,0.18,0.0,0.36,2.74,6.57,7.3,6.75,8.39,5.66,5.47,5.84,7.85,5.66,6.2,7.85,5.47,5.11,5.29,2.74,2.55,1.46,0.36,0.0]},"e10704005":{"k":"INGENIERIA CIVIL","p":"FES ARAGÓN","s":"e","mc":60,"my":[2022],"c26":87,"n":656,"sel":143,"conv":379,"h5":[0.3,0.0,0.3,0.15,0.3,1.07,3.96,7.01,8.23,7.47,5.95,7.47,6.25,6.55,6.1,7.93,6.1,5.03,6.55,4.88,3.2,2.9,2.13,0.15,0.0]},"e10800115":{"k":"INGENIERIA DE MINAS Y METALURGIA","p":"FACULTAD DE INGENIERÍA","s":"e","mc":62,"my":[2025],"c26":90,"n":101,"sel":24,"conv":63,"h5":[0.0,0.0,0.0,0.0,0.0,0.99,3.96,4.95,11.88,4.95,2.97,4.95,7.92,7.92,7.92,6.93,6.93,3.96,9.9,7.92,1.98,2.97,0.99,0.0,0.0]},"e10900115":{"k":"INGENIERIA ELECTRICA ELECTRONICA","p":"FACULTAD DE INGENIERÍA","s":"e","mc":89,"my":[2023],"c26":107,"n":1249,"sel":110,"conv":427,"h5":[0.16,0.24,0.08,0.0,0.08,1.12,2.32,2.96,6.08,4.96,5.52,6.41,5.84,5.44,6.73,5.2,7.53,6.33,7.69,6.73,7.13,5.76,4.72,0.96,0.0]},"e10904005":{"k":"INGENIERIA ELECTRICA ELECTRONICA","p":"FES ARAGÓN","s":"e","mc":68,"my":[2022],"c26":96,"n":510,"sel":67,"conv":259,"h5":[0.2,0.2,0.0,0.0,0.59,1.37,3.53,5.69,7.06,7.65,7.65,6.08,5.88,4.9,6.86,8.43,8.04,5.69,6.27,5.1,4.12,2.94,1.37,0.39,0.0]},"e11000115":{"k":"INGENIERIA EN COMPUTACION","p":"FACULTAD DE INGENIERÍA","s":"e","mc":94,"my":[2021],"c26":109,"n":2473,"sel":151,"conv":559,"h5":[0.16,0.04,0.08,0.04,0.4,1.98,3.8,7.2,7.2,7.48,6.47,6.43,5.94,4.77,5.34,5.7,4.29,5.42,5.38,5.66,5.94,5.34,3.92,1.01,0.0]},"e11004005":{"k":"INGENIERIA EN COMPUTACION","p":"FES ARAGÓN","s":"e","mc":79,"my":[2022],"c26":104,"n":1442,"sel":100,"conv":461,"h5":[0.21,0.14,0.07,0.07,0.49,1.87,5.48,6.93,9.43,7.7,7.98,7.49,5.69,5.13,5.13,5.48,6.38,4.72,4.92,4.23,4.58,3.05,2.36,0.49,0.0]},"e11008005":{"k":"INGENIERIA EN COMPUTACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":44,"my":[2026],"c26":44,"n":34,"sel":27,"conv":27,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,8.82,23.53,8.82,2.94,11.76,8.82,5.88,8.82,0.0,11.76,0.0,2.94,2.94,0.0,2.94,0.0,0.0,0.0]},"e11010005":{"k":"INGENIERIA EN COMPUTACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","s":"e","mc":70,"my":[2026],"c26":70,"n":112,"sel":64,"conv":64,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,1.79,1.79,3.57,8.93,8.04,7.14,8.04,3.57,8.04,5.36,5.36,8.04,8.93,5.36,8.04,4.46,2.68,0.0,0.89]},"e11100115":{"k":"INGENIERIA EN TELECOMUNICACIONES","p":"FACULTAD DE INGENIERÍA","s":"e","mc":81,"my":[2024],"c26":101,"n":199,"sel":25,"conv":96,"h5":[0.0,0.0,0.0,0.0,0.5,1.01,1.51,4.52,3.02,6.03,6.03,7.04,4.52,5.53,4.52,7.04,5.53,8.04,6.03,13.57,8.04,5.53,1.01,1.01,0.0]},"e11200115":{"k":"INGENIERIA GEOFISICA","p":"FACULTAD DE INGENIERÍA","s":"e","mc":61,"my":[2023],"c26":80,"n":61,"sel":20,"conv":36,"h5":[0.0,0.0,0.0,0.0,1.64,0.0,1.64,1.64,6.56,8.2,6.56,9.84,4.92,8.2,4.92,13.11,4.92,3.28,6.56,6.56,8.2,3.28,0.0,0.0,0.0]},"e11300115":{"k":"INGENIERIA GEOLOGICA","p":"FACULTAD DE INGENIERÍA","s":"e","mc":57,"my":[2024],"c26":87,"n":98,"sel":28,"conv":71,"h5":[0.0,0.0,1.02,0.0,2.04,0.0,5.1,4.08,6.12,4.08,4.08,5.1,6.12,9.18,7.14,9.18,7.14,6.12,12.24,6.12,2.04,1.02,2.04,0.0,0.0]},"e11400115":{"k":"INGENIERIA INDUSTRIAL","p":"FACULTAD DE INGENIERÍA","s":"e","mc":85,"my":[2022],"c26":108,"n":977,"sel":77,"conv":380,"h5":[0.31,0.2,0.0,0.0,0.2,2.05,2.66,4.71,5.42,4.91,6.24,5.53,6.76,4.61,5.02,5.94,6.55,6.76,5.83,6.86,7.78,5.83,5.02,0.82,0.0]},"e11401005":{"k":"INGENIERIA INDUSTRIAL","p":"FES CUAUTITLÁN","s":"e","mc":68,"my":[2023],"c26":95,"n":399,"sel":44,"conv":155,"h5":[0.75,0.0,0.0,0.5,0.75,3.01,6.77,10.03,10.78,7.77,6.02,5.26,6.27,4.26,5.26,7.52,4.76,3.26,6.02,4.01,3.01,1.25,2.51,0.25,0.0]},"e11404005":{"k":"INGENIERIA INDUSTRIAL","p":"FES ARAGÓN","s":"e","mc":74,"my":[2023],"c26":99,"n":548,"sel":54,"conv":220,"h5":[0.18,0.36,0.0,0.0,0.91,1.09,4.74,5.11,8.21,6.2,8.21,8.76,6.02,6.39,5.84,8.03,4.74,5.84,5.66,5.11,3.47,2.92,1.64,0.55,0.0]},"e11500115":{"k":"INGENIERIA MECANICA","p":"FACULTAD DE INGENIERÍA","s":"e","mc":95,"my":[2021],"c26":110,"n":1732,"sel":83,"conv":392,"h5":[0.06,0.12,0.17,0.12,0.06,1.5,4.1,5.48,6.35,5.83,6.64,5.95,6.64,5.95,6.12,5.08,5.08,5.83,6.29,6.64,5.72,5.48,3.98,0.81,0.0]},"e11504005":{"k":"INGENIERIA MECANICA","p":"FES ARAGÓN","s":"e","mc":78,"my":[2024],"c26":104,"n":791,"sel":41,"conv":284,"h5":[0.38,0.25,0.13,0.25,0.63,2.02,4.68,7.59,7.33,6.83,5.82,6.07,7.71,6.07,4.93,6.7,6.32,4.68,5.56,5.82,5.44,3.03,1.39,0.38,0.0]},"e11601005":{"k":"INGENIERIA MECANICA ELECTRICA","p":"FES CUAUTITLÁN","s":"e","mc":60,"my":[2023],"c26":86,"n":579,"sel":107,"conv":298,"h5":[0.0,0.17,0.0,0.17,0.17,2.42,5.18,10.19,8.64,8.12,8.12,5.35,7.6,4.84,7.25,5.18,7.43,3.8,4.49,5.18,2.59,2.42,0.52,0.17,0.0]},"e11700115":{"k":"INGENIERIA PETROLERA","p":"FACULTAD DE INGENIERÍA","s":"e","mc":59,"my":[2023],"c26":98,"n":447,"sel":62,"conv":287,"h5":[0.0,0.0,0.0,0.0,0.45,1.12,4.47,5.15,6.26,6.04,6.49,6.26,5.59,6.26,4.7,4.92,6.49,8.05,9.17,7.16,3.8,4.03,2.68,0.89,0.0]},"e11800055":{"k":"INGENIERIA QUIMICA","p":"FACULTAD DE QUÍMICA","s":"e","mc":94,"my":[2023,2024],"c26":108,"n":544,"sel":53,"conv":141,"h5":[0.0,0.0,0.0,0.18,0.18,0.18,0.92,3.31,3.86,5.33,5.51,6.43,6.8,8.09,8.64,5.33,6.25,6.8,7.35,6.07,6.62,5.88,4.96,1.29,0.0]},"e11801005":{"k":"INGENIERIA QUIMICA","p":"FES CUAUTITLÁN","s":"e","mc":56,"my":[2023],"c26":85,"n":234,"sel":67,"conv":158,"h5":[0.43,0.0,0.0,0.0,0.0,0.85,1.71,5.13,6.84,8.12,7.69,7.69,6.41,7.69,6.84,5.13,6.84,8.55,7.69,4.7,5.13,1.71,0.85,0.0,0.0]},"e11805005":{"k":"INGENIERIA QUIMICA","p":"FES ZARAGOZA","s":"e","mc":51,"my":[2022],"c26":80,"n":327,"sel":111,"conv":253,"h5":[0.0,0.0,0.0,0.31,0.31,1.22,1.83,3.67,6.42,8.26,7.95,7.65,9.79,6.12,6.73,5.81,7.95,7.95,5.81,3.67,5.2,1.53,1.83,0.0,0.0]},"e11900055":{"k":"INGENIERIA QUIMICA METALURGICA","p":"FACULTAD DE QUÍMICA","s":"e","mc":67,"my":[2024],"c26":86,"n":76,"sel":29,"conv":44,"h5":[0.0,0.0,0.0,0.0,0.0,1.32,1.32,2.63,3.95,6.58,6.58,7.89,11.84,2.63,6.58,6.58,3.95,6.58,10.53,5.26,11.84,0.0,1.32,2.63,0.0]},"e12000115":{"k":"INGENIERIA GEOMATICA","p":"FACULTAD DE INGENIERÍA","s":"e","mc":49,"my":[2021],"c26":87,"n":75,"sel":26,"conv":57,"h5":[0.0,0.0,2.67,0.0,0.0,1.33,4.0,0.0,8.0,8.0,2.67,8.0,5.33,9.33,1.33,6.67,5.33,9.33,8.0,10.67,2.67,4.0,2.67,0.0,0.0]},"e12102005":{"k":"MATEMATICAS APLICADAS Y COMPUTACION","p":"FES ACATLÁN","s":"e","mc":45,"my":[2023],"c26":59,"n":419,"sel":259,"conv":352,"h5":[0.0,0.0,0.0,0.0,0.48,1.91,3.34,4.3,5.97,7.64,7.16,8.83,5.73,6.92,7.64,8.83,5.73,6.44,6.68,5.25,2.63,2.86,1.43,0.24,0.0]},"e12200035":{"k":"MATEMATICAS","p":"FACULTAD DE CIENCIAS","s":"e","mc":75,"my":[2022],"c26":94,"n":289,"sel":120,"conv":203,"h5":[0.0,0.0,0.0,0.0,0.0,0.35,0.35,1.04,3.11,3.11,2.77,4.15,4.15,4.84,5.88,5.54,9.69,6.57,10.03,9.0,10.73,11.07,6.92,0.69,0.0]},"e12300015":{"k":"URBANISMO","p":"FACULTAD DE ARQUITECTURA","s":"e","mc":71,"my":[2024],"c26":99,"n":106,"sel":24,"conv":62,"h5":[0.0,0.0,0.0,0.0,0.94,0.0,0.94,2.83,5.66,5.66,2.83,9.43,4.72,6.6,3.77,3.77,11.32,8.49,6.6,4.72,14.15,5.66,1.89,0.0,0.0]},"e12610005":{"k":"TECNOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","s":"e","mc":45,"my":[2026],"c26":45,"n":54,"sel":52,"conv":52,"h5":[1.85,0.0,0.0,0.0,0.0,0.0,0.0,1.85,0.0,11.11,3.7,3.7,3.7,7.41,5.56,11.11,11.11,12.96,3.7,7.41,5.56,7.41,1.85,0.0,0.0]},"e12700175":{"k":"CIENCIAS DE LA TIERRA","p":"ESCUELA NACIONAL DE CIENCIAS DE LA TIERRA","s":"e","mc":63,"my":[2025],"c26":73,"n":113,"sel":54,"conv":70,"h5":[0.0,0.0,0.0,0.0,0.0,1.77,3.54,5.31,4.42,3.54,7.08,9.73,3.54,5.31,11.5,7.96,1.77,7.96,9.73,2.65,8.85,2.65,2.65,0.0,0.0]},"e12708005":{"k":"CIENCIAS DE LA TIERRA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":40,"my":[2022,2023],"c26":47,"n":8,"sel":8,"conv":8,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,12.5,12.5,12.5,12.5,25.0,0.0,0.0,12.5,0.0,0.0,12.5,0.0,0.0,0.0,0.0,0.0]},"e12710005":{"k":"CIENCIAS DE LA TIERRA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","s":"e","mc":40,"my":[2026],"c26":40,"n":46,"sel":41,"conv":41,"h5":[0.0,0.0,0.0,0.0,0.0,4.35,2.17,4.35,6.52,2.17,4.35,6.52,2.17,8.7,10.87,8.7,13.04,0.0,2.17,10.87,6.52,2.17,4.35,0.0,0.0]},"e12800905":{"k":"INGENIERIA EN ENERGIAS RENOVABLES","p":"INSTITUTO DE ENERGÍAS RENOVABLES","s":"e","mc":41,"my":[2026],"c26":41,"n":35,"sel":32,"conv":32,"h5":[0.0,0.0,0.0,0.0,0.0,5.71,0.0,2.86,2.86,5.71,5.71,2.86,2.86,22.86,11.43,2.86,5.71,11.43,2.86,0.0,8.57,2.86,2.86,0.0,0.0]},"e12810005":{"k":"INGENIERIA EN ENERGIAS RENOVABLES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","s":"e","mc":67,"my":[2026],"c26":67,"n":66,"sel":50,"conv":50,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.03,3.03,4.55,3.03,4.55,4.55,12.12,7.58,9.09,9.09,15.15,12.12,3.03,3.03,4.55,0.0,1.52,0.0]},"e13001005":{"k":"ING. EN TELECOMUNICACIONES, SISTEMAS Y ELECTRONICA","p":"FES CUAUTITLÁN","s":"e","mc":57,"my":[2023],"c26":80,"n":337,"sel":92,"conv":187,"h5":[0.0,0.0,0.0,0.0,1.19,2.08,6.53,10.09,9.5,8.31,5.64,4.15,8.01,5.04,5.04,7.12,8.9,6.53,3.56,4.15,2.08,1.78,0.3,0.0,0.0]},"e13107005":{"k":"GEOCIENCIAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":44,"my":[2023],"c26":49,"n":22,"sel":20,"conv":20,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,4.55,4.55,0.0,4.55,13.64,9.09,9.09,0.0,4.55,22.73,9.09,0.0,9.09,4.55,0.0,4.55,0.0,0.0,0.0]},"e13207005":{"k":"TECNOLOGIAS PARA LA INFORMACION EN CIENCIAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":40,"my":[2022],"c26":43,"n":46,"sel":43,"conv":43,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.52,4.35,10.87,4.35,10.87,2.17,4.35,13.04,6.52,10.87,8.7,4.35,4.35,2.17,2.17,2.17,2.17,0.0]},"e13307005":{"k":"CIENCIA DE MATERIALES SUSTENTABLES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":40,"my":[2026],"c26":40,"n":22,"sel":20,"conv":20,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,4.55,4.55,4.55,9.09,4.55,9.09,0.0,22.73,9.09,4.55,13.64,9.09,4.55,0.0,0.0,0.0,0.0,0.0,0.0]},"e13400035":{"k":"FISICA BIOMEDICA","p":"FACULTAD DE CIENCIAS","s":"e","mc":101,"my":[2021,2023,2024],"c26":109,"n":228,"sel":13,"conv":37,"h5":[0.0,0.0,0.0,0.0,0.0,1.32,0.88,3.51,4.82,7.89,5.7,7.02,5.7,7.02,4.39,6.58,7.46,7.02,5.7,7.02,7.46,5.7,3.95,0.88,0.0]},"e13600035":{"k":"MATEMATICAS APLICADAS","p":"FACULTAD DE CIENCIAS","s":"e","mc":93,"my":[2022,2023],"c26":100,"n":147,"sel":41,"conv":60,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,1.36,2.04,3.4,2.04,4.08,4.76,5.44,1.36,4.76,6.8,7.48,9.52,9.52,9.52,8.84,6.8,9.52,2.72,0.0]},"e13700115":{"k":"INGENIERIA AMBIENTAL","p":"FACULTAD DE INGENIERÍA","s":"e","mc":91,"my":[2024],"c26":105,"n":155,"sel":18,"conv":44,"h5":[0.65,0.0,0.0,0.0,0.0,0.0,0.65,5.16,7.1,5.81,7.74,5.81,7.1,7.1,7.1,3.23,3.87,8.39,6.45,7.1,5.16,6.45,4.52,0.65,0.0]},"e13900115":{"k":"INGENIERIA AEROESPACIAL","p":"FACULTAD DE INGENIERÍA","s":"e","mc":111,"my":[2023],"c26":115,"n":1073,"sel":25,"conv":90,"h5":[0.28,0.19,0.09,0.37,0.0,0.65,1.86,3.17,3.82,4.1,4.38,6.24,5.41,7.18,6.34,5.96,6.43,6.15,7.08,7.74,5.96,6.8,7.46,2.33,0.0]},"e14010005":{"k":"MATEMATICAS PARA EL DESARROLLO","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","s":"e","mc":40,"my":[2026],"c26":40,"n":30,"sel":30,"conv":30,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.33,3.33,0.0,6.67,0.0,6.67,13.33,6.67,10.0,10.0,6.67,6.67,10.0,10.0,3.33,3.33,0.0]},"e20100015":{"k":"BIOLOGIA","p":"TLAXCALA","s":"e","mc":40,"my":[2023],"c26":64,"n":33,"sel":24,"conv":32,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.03,3.03,6.06,3.03,3.03,12.12,9.09,6.06,9.09,9.09,3.03,0.0,3.03,15.15,6.06,9.09,0.0,0.0]},"e20100035":{"k":"BIOLOGIA","p":"FACULTAD DE CIENCIAS","s":"e","mc":91,"my":[2022],"c26":106,"n":1222,"sel":154,"conv":401,"h5":[0.08,0.25,0.08,0.0,0.33,1.23,1.55,3.6,5.16,5.89,5.16,6.14,7.45,5.48,4.99,6.46,5.65,6.79,6.22,7.94,5.97,5.81,5.81,1.96,0.0]},"e20103005":{"k":"BIOLOGIA","p":"FES IZTACALA","s":"e","mc":69,"my":[2023],"c26":94,"n":668,"sel":119,"conv":342,"h5":[0.15,0.0,0.0,0.15,0.15,1.35,2.54,4.79,5.24,7.34,5.69,7.78,7.04,7.49,7.34,6.89,7.04,7.34,4.94,5.09,4.94,4.19,2.25,0.3,0.0]},"e20105005":{"k":"BIOLOGIA","p":"FES ZARAGOZA","s":"e","mc":74,"my":[2021],"c26":95,"n":676,"sel":118,"conv":278,"h5":[0.3,0.0,0.0,0.0,0.15,0.59,3.25,4.88,6.21,6.51,8.73,7.54,8.43,5.77,7.99,5.77,6.66,5.33,4.44,6.21,4.88,3.7,2.22,0.44,0.0]},"e20108005":{"k":"BIOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":78,"my":[2026],"c26":78,"n":80,"sel":26,"conv":26,"h5":[1.25,1.25,0.0,0.0,0.0,0.0,3.75,2.5,12.5,11.25,6.25,3.75,7.5,7.5,7.5,6.25,3.75,1.25,10.0,5.0,5.0,0.0,1.25,2.5,0.0]},"e20200145":{"k":"CIRUJANO DENTISTA","p":"FACULTAD DE ODONTOLOGÍA","s":"e","mc":90,"my":[2021,2022],"c26":112,"n":2497,"sel":161,"conv":969,"h5":[0.28,0.08,0.0,0.2,0.24,1.72,4.21,6.33,6.61,5.01,4.85,4.49,4.21,4.41,3.52,4.89,5.17,5.01,5.93,6.89,7.41,8.93,7.21,2.44,0.0]},"e20203005":{"k":"CIRUJANO DENTISTA","p":"FES IZTACALA","s":"e","mc":82,"my":[2021,2022],"c26":109,"n":2516,"sel":179,"conv":1076,"h5":[0.4,0.04,0.0,0.08,0.68,2.38,4.13,6.12,7.03,6.0,4.49,5.45,4.01,4.25,5.37,4.61,5.84,6.08,6.24,6.52,7.51,6.72,4.73,1.31,0.0]},"e20205005":{"k":"CIRUJANO DENTISTA","p":"FES ZARAGOZA","s":"e","mc":78,"my":[2021],"c26":109,"n":2292,"sel":170,"conv":1042,"h5":[0.31,0.09,0.09,0.13,0.44,2.66,4.58,6.2,5.93,6.63,4.84,5.72,4.67,5.19,4.58,4.41,5.24,5.93,5.28,7.68,7.11,6.11,4.45,1.75,0.0]},"e20300095":{"k":"ENFERMERIA Y OBSTETRICIA","p":"FACULTAD DE ENFERMERIA Y OBSTETRICIA","s":"e","mc":86,"my":[2021],"c26":108,"n":1593,"sel":71,"conv":423,"h5":[0.44,0.06,0.25,0.19,0.63,3.2,7.34,9.23,8.54,7.16,5.34,4.96,6.65,4.27,5.08,3.95,5.27,4.52,5.15,5.02,5.59,4.27,1.95,0.94,0.0]},"e20401005":{"k":"INGENIERIA AGRICOLA","p":"FES CUAUTITLÁN","s":"e","mc":56,"my":[2022],"c26":68,"n":239,"sel":83,"conv":126,"h5":[0.42,0.0,0.0,0.0,0.42,2.93,7.95,9.21,7.95,11.3,5.44,8.37,6.69,7.11,6.69,3.35,5.02,5.44,3.35,4.18,0.84,2.51,0.42,0.42,0.0]},"e20501005":{"k":"INGENIERIA EN ALIMENTOS","p":"FES CUAUTITLÁN","s":"e","mc":57,"my":[2022,2023],"c26":61,"n":384,"sel":215,"conv":234,"h5":[0.0,0.26,0.0,0.0,0.52,1.82,2.6,4.95,9.38,6.77,10.16,5.99,8.59,7.29,6.77,4.17,8.33,5.47,4.69,3.12,3.65,3.91,1.56,0.0,0.0]},"e20700165":{"k":"MEDICINA VETERINARIA Y ZOOTECNIA","p":"FACULTAD DE MEDICINA VETERINARIA Y ZOOTECNIA","s":"e","mc":99,"my":[2021],"c26":113,"n":3403,"sel":122,"conv":656,"h5":[0.18,0.06,0.09,0.12,0.41,1.88,5.0,6.41,6.99,7.46,6.32,5.44,5.52,4.94,4.76,4.55,4.85,5.47,5.67,6.05,5.79,5.55,4.58,1.88,0.03]},"e20701005":{"k":"MEDICINA VETERINARIA Y ZOOTECNIA","p":"FES CUAUTITLÁN","s":"e","mc":86,"my":[2021],"c26":107,"n":2113,"sel":135,"conv":655,"h5":[0.38,0.05,0.09,0.19,0.43,1.61,5.4,6.25,7.38,6.96,6.15,4.45,6.29,5.25,5.02,5.63,5.92,5.92,5.92,6.29,5.87,4.5,3.31,0.76,0.0]},"e20800125":{"k":"MEDICO CIRUJANO","p":"FACULTAD DE MEDICINA","s":"e","mc":111,"my":[2021,2022,2023],"c26":117,"n":13144,"sel":271,"conv":1701,"h5":[0.23,0.1,0.07,0.12,0.27,1.07,3.04,4.6,4.96,5.59,5.06,4.91,4.78,4.53,4.25,4.92,5.1,5.16,5.72,5.78,6.58,8.67,9.02,5.4,0.07]},"e20803005":{"k":"MEDICO CIRUJANO","p":"FES IZTACALA","s":"e","mc":105,"my":[2021,2022],"c26":115,"n":5521,"sel":198,"conv":1260,"h5":[0.13,0.07,0.05,0.11,0.25,1.47,3.33,3.71,4.26,4.49,5.09,4.53,4.24,3.88,4.6,5.25,5.02,5.52,6.32,6.65,8.21,9.15,10.09,3.57,0.02]},"e20805005":{"k":"MEDICO CIRUJANO","p":"FES ZARAGOZA","s":"e","mc":106,"my":[2021],"c26":117,"n":4268,"sel":70,"conv":775,"h5":[0.12,0.07,0.02,0.07,0.28,1.62,3.68,5.65,5.79,5.55,4.78,5.15,4.12,4.76,4.62,4.57,4.59,5.32,6.02,6.0,7.45,7.78,7.94,4.05,0.0]},"e20903005":{"k":"OPTOMETRIA","p":"FES IZTACALA","s":"e","mc":73,"my":[2021,2022],"c26":97,"n":274,"sel":39,"conv":115,"h5":[0.36,0.0,0.36,0.0,0.36,1.46,5.47,6.57,9.12,6.2,6.2,4.38,8.76,7.66,2.55,6.2,6.93,5.84,4.74,6.57,4.38,2.92,2.92,0.0,0.0]},"e20906005":{"k":"OPTOMETRIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":41,"my":[2021,2023],"c26":52,"n":56,"sel":40,"conv":45,"h5":[0.0,0.0,0.0,0.0,0.0,8.93,1.79,7.14,5.36,5.36,3.57,3.57,8.93,7.14,8.93,16.07,8.93,5.36,0.0,1.79,7.14,0.0,0.0,0.0,0.0]},"e21000015":{"k":"PSICOLOGIA","p":"TLAXCALA","s":"e","mc":50,"my":[2025],"c26":92,"n":66,"sel":8,"conv":41,"h5":[0.0,0.0,0.0,0.0,0.0,1.52,4.55,9.09,13.64,9.09,9.09,4.55,7.58,0.0,4.55,7.58,6.06,7.58,6.06,1.52,4.55,1.52,1.52,0.0,0.0]},"e21000195":{"k":"PSICOLOGIA","p":"FACULTAD DE PSICOLOGÍA","s":"e","mc":99,"my":[2021],"c26":112,"n":3526,"sel":134,"conv":582,"h5":[0.17,0.17,0.0,0.14,0.57,2.01,5.76,7.46,8.03,8.11,6.92,6.21,4.82,5.76,4.51,4.65,4.68,4.74,5.08,4.51,5.42,4.37,4.71,1.19,0.03]},"e21003005":{"k":"PSICOLOGIA","p":"FES IZTACALA","s":"e","mc":80,"my":[2021,2022],"c26":104,"n":2126,"sel":162,"conv":673,"h5":[0.24,0.09,0.0,0.24,0.42,1.55,5.88,7.38,9.08,8.04,7.53,6.4,5.6,5.46,5.5,4.94,5.13,4.61,6.07,4.23,5.03,4.0,2.02,0.56,0.0]},"e21005005":{"k":"PSICOLOGIA","p":"FES ZARAGOZA","s":"e","mc":81,"my":[2021],"c26":105,"n":2403,"sel":146,"conv":656,"h5":[0.33,0.17,0.04,0.04,0.54,2.21,5.37,8.7,8.7,8.95,7.91,6.33,5.78,5.24,5.53,5.74,4.2,4.83,4.95,4.29,4.08,2.91,2.66,0.5,0.0]},"e21010005":{"k":"PSICOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","s":"e","mc":80,"my":[2026],"c26":80,"n":196,"sel":67,"conv":67,"h5":[0.51,0.0,0.0,0.0,0.0,1.53,1.53,4.59,3.57,9.69,8.16,7.65,5.61,11.73,6.63,4.59,8.16,5.61,4.08,7.65,4.59,1.53,1.53,1.02,0.0]},"e21100055":{"k":"QUIMICA","p":"FACULTAD DE QUÍMICA","s":"e","mc":97,"my":[2024],"c26":109,"n":375,"sel":32,"conv":87,"h5":[0.0,0.0,0.0,0.0,0.0,0.53,2.4,2.93,3.73,4.8,5.6,4.8,4.8,7.2,8.0,6.93,6.67,6.93,9.33,5.87,4.8,7.2,6.4,1.07,0.0]},"e21101005":{"k":"QUIMICA","p":"FES CUAUTITLÁN","s":"e","mc":65,"my":[2024],"c26":78,"n":134,"sel":40,"conv":64,"h5":[0.0,0.0,0.0,0.0,0.75,2.24,3.73,4.48,8.21,7.46,8.96,6.72,9.7,7.46,9.7,4.48,5.22,5.22,6.72,1.49,5.22,0.0,1.49,0.75,0.0]},"e21200055":{"k":"QUIMICA DE ALIMENTOS","p":"FACULTAD DE QUÍMICA","s":"e","mc":91,"my":[2025],"c26":106,"n":473,"sel":47,"conv":142,"h5":[0.0,0.0,0.0,0.0,0.42,1.27,1.48,3.81,6.13,6.13,5.07,4.86,6.77,6.55,6.77,6.98,5.71,6.77,7.82,7.19,5.07,6.55,4.02,0.63,0.0]},"e21300055":{"k":"QUIMICA FARMACEUTICO BIOLOGICA","p":"FACULTAD DE QUÍMICA","s":"e","mc":104,"my":[2022,2025],"c26":113,"n":2138,"sel":104,"conv":331,"h5":[0.19,0.05,0.19,0.14,0.23,0.56,1.96,3.74,5.38,5.8,6.27,5.05,5.29,5.85,5.43,5.85,5.75,7.25,5.94,7.3,7.48,5.66,6.08,2.57,0.0]},"e21305005":{"k":"QUIMICA FARMACEUTICO BIOLOGICA","p":"FES ZARAGOZA","s":"e","mc":97,"my":[2022],"c26":108,"n":1335,"sel":81,"conv":259,"h5":[0.15,0.15,0.07,0.0,0.0,1.42,3.37,4.64,7.49,7.64,6.89,6.37,6.82,4.87,4.79,5.77,5.69,5.32,5.84,7.49,5.92,5.32,2.92,1.05,0.0]},"e21401005":{"k":"QUIMICA INDUSTRIAL","p":"FES CUAUTITLÁN","s":"e","mc":53,"my":[2023],"c26":82,"n":221,"sel":63,"conv":155,"h5":[0.0,0.0,0.0,0.0,0.9,2.71,3.17,4.52,9.05,6.79,6.79,6.79,6.79,5.43,8.14,6.33,8.6,3.62,4.98,4.52,4.98,4.07,1.81,0.0,0.0]},"e21607005":{"k":"CIENCIAS AMBIENTALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":41,"my":[2021,2026],"c26":41,"n":29,"sel":29,"conv":29,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10.34,3.45,17.24,3.45,10.34,3.45,3.45,17.24,3.45,6.9,6.9,10.34,3.45,0.0,0.0,0.0,0.0]},"e21608005":{"k":"CIENCIAS AMBIENTALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":41,"my":[2026],"c26":41,"n":30,"sel":29,"conv":29,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.33,13.33,6.67,3.33,6.67,10.0,3.33,6.67,13.33,10.0,6.67,3.33,3.33,3.33,3.33,3.33,0.0,0.0]},"e21708005":{"k":"MANEJO SUSTENTABLE DE ZONAS COSTERAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":40,"my":[2022,2023],"c26":45,"n":33,"sel":28,"conv":28,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,3.03,12.12,0.0,6.06,18.18,6.06,15.15,3.03,3.03,6.06,0.0,3.03,12.12,3.03,6.06,3.03,0.0,0.0,0.0]},"e21801005":{"k":"BIOQUIMICA DIAGNOSTICA","p":"FES CUAUTITLÁN","s":"e","mc":80,"my":[2022],"c26":101,"n":338,"sel":28,"conv":128,"h5":[0.89,0.3,0.3,0.3,0.3,1.78,1.78,7.1,7.4,4.73,5.92,4.73,8.58,5.92,5.92,6.21,8.28,8.58,6.8,5.33,4.44,1.78,1.78,0.89,0.0]},"e21901005":{"k":"FARMACIA","p":"FES CUAUTITLÁN","s":"e","mc":59,"my":[2024],"c26":79,"n":221,"sel":89,"conv":147,"h5":[0.0,0.0,0.45,0.0,0.9,0.0,4.52,2.71,4.52,8.14,8.14,5.43,8.14,4.52,8.6,5.88,7.24,10.86,3.17,7.69,2.71,4.52,1.81,0.0,0.0]},"e22000015":{"k":"ENFERMERIA","p":"TLAXCALA","s":"e","mc":50,"my":[2023],"c26":87,"n":81,"sel":20,"conv":52,"h5":[0.0,0.0,0.0,0.0,0.0,2.47,11.11,9.88,6.17,6.17,7.41,4.94,7.41,4.94,7.41,0.0,3.7,6.17,7.41,7.41,3.7,2.47,1.23,0.0,0.0]},"e22000095":{"k":"ENFERMERIA","p":"FACULTAD DE ENFERMERIA Y OBSTETRICIA","s":"e","mc":75,"my":[2025],"c26":99,"n":1179,"sel":158,"conv":488,"h5":[0.17,0.08,0.08,0.17,0.51,3.05,6.19,7.55,7.12,6.11,6.87,5.43,5.09,5.0,5.17,5.6,6.19,6.02,6.02,4.75,4.5,5.0,2.46,0.85,0.0]},"e22003005":{"k":"ENFERMERIA","p":"FES IZTACALA","s":"e","mc":73,"my":[2021],"c26":102,"n":1588,"sel":164,"conv":635,"h5":[0.06,0.0,0.19,0.19,1.13,3.09,7.87,8.38,7.56,7.24,5.67,5.48,4.79,5.23,5.1,5.54,5.04,5.16,5.23,4.79,5.04,3.15,3.15,0.94,0.0]},"e22005005":{"k":"ENFERMERIA","p":"FES ZARAGOZA","s":"e","mc":74,"my":[2022],"c26":103,"n":2405,"sel":169,"conv":871,"h5":[0.37,0.21,0.12,0.25,0.83,3.58,6.99,8.98,8.07,7.03,5.74,6.03,5.45,5.61,5.16,4.95,4.74,6.49,4.41,4.91,4.45,3.24,1.87,0.54,0.0]},"e22106005":{"k":"FISIOTERAPIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":60,"my":[2024],"c26":89,"n":364,"sel":68,"conv":177,"h5":[0.27,0.0,0.0,0.0,0.55,3.85,8.79,8.24,9.62,7.42,7.69,4.95,5.22,6.32,4.95,5.22,4.4,5.77,6.87,3.85,1.65,2.2,2.2,0.0,0.0]},"e22206005":{"k":"ODONTOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":73,"my":[2023],"c26":105,"n":871,"sel":80,"conv":418,"h5":[0.34,0.0,0.0,0.0,0.69,2.41,4.36,6.66,7.46,5.63,5.74,5.97,5.28,3.33,5.86,5.4,6.2,5.05,6.08,8.15,6.2,5.05,3.9,0.23,0.0]},"e22306005":{"k":"CIENCIAS AGROGENOMICAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":62,"my":[2025],"c26":80,"n":55,"sel":18,"conv":25,"h5":[0.0,0.0,0.0,0.0,0.0,1.82,3.64,9.09,5.45,18.18,10.91,3.64,7.27,3.64,1.82,1.82,9.09,12.73,3.64,1.82,3.64,0.0,1.82,0.0,0.0]},"e22503005":{"k":"ECOLOGIA","p":"FES IZTACALA","s":"e","mc":63,"my":[2024,2025],"c26":85,"n":92,"sel":27,"conv":53,"h5":[0.0,0.0,0.0,0.0,2.17,2.17,3.26,3.26,3.26,3.26,11.96,9.78,3.26,4.35,13.04,9.78,1.09,6.52,7.61,6.52,4.35,3.26,1.09,0.0,0.0]},"e22507005":{"k":"ECOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":41,"my":[2023],"c26":52,"n":17,"sel":17,"conv":17,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.88,17.65,11.76,11.76,0.0,5.88,23.53,0.0,5.88,11.76,5.88,0.0,0.0,0.0,0.0]},"e22508005":{"k":"ECOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":40,"my":[2022,2026],"c26":40,"n":21,"sel":20,"conv":20,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.76,9.52,4.76,9.52,9.52,0.0,4.76,0.0,4.76,4.76,19.05,9.52,14.29,0.0,0.0,4.76,0.0,0.0]},"e22705005":{"k":"NUTRIOLOGIA","p":"FES ZARAGOZA","s":"e","mc":94,"my":[2022],"c26":109,"n":1373,"sel":69,"conv":282,"h5":[0.07,0.0,0.15,0.07,0.58,2.69,5.24,6.55,8.3,6.48,6.55,5.32,5.46,6.55,5.54,3.79,5.9,5.61,5.24,6.19,5.03,5.03,2.99,0.66,0.0]},"e22810005":{"k":"ORTESIS Y PROTESIS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","s":"e","mc":72,"my":[2025],"c26":90,"n":108,"sel":29,"conv":54,"h5":[0.93,0.0,0.0,0.0,0.0,1.85,0.0,2.78,3.7,6.48,6.48,7.41,7.41,7.41,9.26,5.56,7.41,6.48,7.41,5.56,4.63,4.63,3.7,0.93,0.0]},"e23007005":{"k":"CIENCIAS AGROFORESTALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":40,"my":[2023,2026],"c26":40,"n":34,"sel":30,"conv":30,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,2.94,8.82,5.88,8.82,0.0,11.76,8.82,8.82,0.0,11.76,5.88,5.88,8.82,2.94,2.94,2.94,2.94,0.0,0.0]},"e30100065":{"k":"ADMINISTRACION","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","s":"e","mc":87,"my":[2021],"c26":108,"n":5958,"sel":429,"conv":2111,"h5":[0.2,0.15,0.07,0.02,0.2,1.9,3.59,5.44,5.99,6.16,5.79,5.59,4.7,5.54,5.61,5.45,5.71,6.23,6.61,7.08,6.8,6.08,4.25,0.86,0.0]},"e30101005":{"k":"ADMINISTRACION","p":"FES CUAUTITLÁN","s":"e","mc":59,"my":[2023,2024],"c26":81,"n":909,"sel":264,"conv":525,"h5":[0.55,0.22,0.0,0.0,0.66,2.2,5.5,5.72,6.6,7.48,7.26,7.15,6.16,7.7,5.06,7.04,7.04,4.07,5.39,4.62,5.17,2.86,1.32,0.22,0.0]},"e30107005":{"k":"ADMINISTRACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":41,"my":[2026],"c26":41,"n":31,"sel":27,"conv":27,"h5":[0.0,0.0,0.0,0.0,3.23,0.0,3.23,6.45,6.45,9.68,12.9,3.23,12.9,3.23,9.68,9.68,6.45,3.23,0.0,3.23,3.23,0.0,0.0,3.23,0.0]},"e30111005":{"k":"ADMINISTRACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. OAXACA, OAX.","s":"e","mc":67,"my":[2026],"c26":67,"n":412,"sel":160,"conv":160,"h5":[0.24,0.24,0.24,0.49,0.24,1.94,5.34,10.68,11.17,9.47,6.55,7.04,5.1,6.07,4.37,5.58,5.83,3.88,4.13,4.13,4.37,1.7,1.21,0.0,0.0]},"e30200045":{"k":"CIENCIAS DE LA COMUNICACION","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"e","mc":94,"my":[2021,2022,2023],"c26":109,"n":1370,"sel":72,"conv":353,"h5":[0.15,0.07,0.0,0.15,0.22,0.8,2.77,4.74,5.84,5.84,6.42,5.4,6.06,6.35,5.84,5.84,5.84,6.5,7.01,7.45,6.86,5.55,3.07,1.24,0.0]},"e30300045":{"k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"e","mc":83,"my":[2022],"c26":104,"n":548,"sel":65,"conv":217,"h5":[0.55,0.0,0.0,0.36,0.18,1.28,2.19,3.65,4.74,5.47,6.57,5.47,6.02,6.75,7.12,6.75,4.56,6.2,7.12,7.85,6.93,4.74,4.74,0.73,0.0]},"e30302005":{"k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FES ACATLÁN","s":"e","mc":44,"my":[2022],"c26":84,"n":273,"sel":89,"conv":243,"h5":[0.0,0.0,0.0,0.37,0.0,0.73,2.56,4.4,4.4,8.06,5.13,7.33,4.4,9.16,8.42,7.33,5.86,8.06,5.86,6.59,5.86,3.66,1.83,0.0,0.0]},"e30400065":{"k":"CONTADURIA","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","s":"e","mc":80,"my":[2021],"c26":104,"n":4389,"sel":567,"conv":2060,"h5":[0.21,0.09,0.14,0.05,0.34,0.91,2.62,4.26,5.51,6.04,5.24,5.54,5.31,5.42,5.58,5.81,5.45,7.36,7.15,7.84,7.43,6.58,3.96,1.16,0.0]},"e30401005":{"k":"CONTADURIA","p":"FES CUAUTITLÁN","s":"e","mc":57,"my":[2022,2023,2024],"c26":74,"n":862,"sel":353,"conv":555,"h5":[0.0,0.0,0.0,0.0,0.35,1.28,3.71,6.03,6.5,7.08,8.0,7.08,6.5,7.31,6.96,5.68,8.0,6.73,5.57,4.76,4.06,2.32,1.62,0.46,0.0]},"e30411005":{"k":"CONTADURIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. OAXACA, OAX.","s":"e","mc":72,"my":[2026],"c26":72,"n":396,"sel":153,"conv":153,"h5":[0.25,0.0,0.25,0.25,0.25,1.01,3.79,5.81,10.61,8.08,6.31,7.07,8.84,6.06,9.34,5.3,7.07,3.79,5.81,4.29,2.53,1.77,0.76,0.76,0.0]},"e30500075":{"k":"DERECHO","p":"FACULTAD DE DERECHO","s":"e","mc":82,"my":[2022],"c26":105,"n":4935,"sel":578,"conv":2089,"h5":[0.2,0.08,0.02,0.08,0.45,1.62,3.71,5.31,6.34,6.46,5.23,5.27,4.96,4.98,5.45,5.37,5.19,5.45,7.13,7.76,7.21,5.67,4.62,1.42,0.0]},"e30502005":{"k":"DERECHO","p":"FES ACATLÁN","s":"e","mc":62,"my":[2023],"c26":87,"n":1623,"sel":464,"conv":934,"h5":[0.25,0.25,0.06,0.12,0.18,2.53,3.57,7.27,7.15,6.35,7.15,5.85,5.05,5.79,5.67,4.74,6.35,7.58,6.16,6.41,3.88,4.5,2.59,0.55,0.0]},"e30504005":{"k":"DERECHO","p":"FES ARAGÓN","s":"e","mc":63,"my":[2021],"c26":93,"n":2477,"sel":541,"conv":1416,"h5":[0.16,0.04,0.16,0.04,0.69,1.98,6.06,5.89,6.62,6.66,5.93,4.93,5.97,5.81,5.69,5.81,5.73,6.42,6.34,7.02,5.57,3.71,2.18,0.57,0.0]},"e30507005":{"k":"DERECHO","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":40,"my":[2026],"c26":40,"n":94,"sel":77,"conv":77,"h5":[1.06,0.0,0.0,0.0,0.0,0.0,8.51,8.51,8.51,8.51,8.51,3.19,8.51,5.32,7.45,8.51,3.19,6.38,4.26,2.13,4.26,1.06,1.06,1.06,0.0]},"e30600085":{"k":"ECONOMIA","p":"FACULTAD DE ECONOMÍA","s":"e","mc":68,"my":[2023],"c26":96,"n":1635,"sel":468,"conv":1127,"h5":[0.18,0.06,0.12,0.0,0.06,0.55,1.41,1.96,3.85,3.91,4.77,6.06,5.2,4.89,6.67,6.36,7.28,7.77,8.93,8.38,9.48,6.91,4.22,0.98,0.0]},"e30602005":{"k":"ECONOMIA","p":"FES ACATLÁN","s":"e","mc":60,"my":[2023],"c26":87,"n":525,"sel":140,"conv":337,"h5":[0.0,0.0,0.38,0.0,0.19,0.38,3.05,5.33,4.76,8.0,5.9,7.81,5.9,7.81,8.0,7.05,5.9,8.0,5.33,6.1,5.52,2.67,1.33,0.57,0.0]},"e30604005":{"k":"ECONOMIA","p":"FES ARAGÓN","s":"e","mc":63,"my":[2023],"c26":93,"n":602,"sel":130,"conv":387,"h5":[0.33,0.0,0.0,0.17,0.17,0.5,2.99,5.81,3.49,5.48,6.15,5.48,8.8,7.81,5.48,6.81,4.82,9.47,7.48,6.31,6.31,3.32,2.33,0.5,0.0]},"e30700105":{"k":"GEOGRAFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":40,"my":[2026],"c26":40,"n":73,"sel":69,"conv":69,"h5":[1.37,0.0,1.37,0.0,0.0,1.37,1.37,0.0,2.74,5.48,10.96,12.33,2.74,2.74,4.11,4.11,9.59,5.48,16.44,10.96,2.74,1.37,2.74,0.0,0.0]},"e30801005":{"k":"INFORMATICA","p":"FES CUAUTITLÁN","s":"e","mc":60,"my":[2025],"c26":78,"n":219,"sel":76,"conv":125,"h5":[0.0,0.0,0.0,0.0,0.0,0.91,6.39,7.31,6.39,7.76,9.13,5.02,6.39,8.22,4.11,8.68,7.31,4.57,6.39,6.39,2.28,1.83,0.0,0.91,0.0]},"e30904005":{"k":"PLANIF PARA EL DESARROLLO AGROPECUARIO","p":"FES ARAGÓN","s":"e","mc":40,"my":[2022,2023,2026],"c26":40,"n":81,"sel":72,"conv":72,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,3.7,7.41,8.64,9.88,6.17,6.17,8.64,13.58,9.88,3.7,6.17,3.7,4.94,2.47,3.7,0.0,1.23,0.0,0.0]},"e31000045":{"k":"RELACIONES INTERNACIONALES","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"e","mc":98,"my":[2022],"c26":112,"n":974,"sel":37,"conv":251,"h5":[0.0,0.0,0.0,0.1,0.21,0.62,2.46,4.31,5.34,4.93,4.93,7.39,6.67,4.41,4.83,5.65,5.24,6.47,7.08,7.49,6.47,8.21,6.06,1.13,0.0]},"e31002005":{"k":"RELACIONES INTERNACIONALES","p":"FES ACATLÁN","s":"e","mc":81,"my":[2023],"c26":103,"n":804,"sel":104,"conv":371,"h5":[0.0,0.0,0.0,0.0,0.12,1.62,2.86,5.47,5.72,4.98,5.6,6.59,6.09,4.48,5.1,4.6,6.84,7.84,8.96,5.72,7.96,6.97,1.74,0.75,0.0]},"e31004005":{"k":"RELACIONES INTERNACIONALES","p":"FES ARAGÓN","s":"e","mc":85,"my":[2021],"c26":105,"n":1124,"sel":98,"conv":425,"h5":[0.27,0.09,0.0,0.0,0.36,1.51,3.56,5.34,5.34,5.78,5.25,4.45,6.41,6.49,5.78,5.6,5.96,8.19,6.85,7.74,6.32,5.07,2.94,0.71,0.0]},"e31006005":{"k":"RELACIONES INTERNACIONALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":52,"my":[2026],"c26":52,"n":103,"sel":77,"conv":77,"h5":[0.97,0.0,0.0,0.0,0.0,0.97,5.83,3.88,3.88,3.88,11.65,9.71,8.74,4.85,7.77,7.77,7.77,4.85,6.8,3.88,4.85,0.97,0.97,0.0,0.0]},"e31100045":{"k":"SOCIOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"e","mc":62,"my":[2022],"c26":88,"n":185,"sel":65,"conv":145,"h5":[0.54,0.0,0.0,0.0,0.54,0.0,1.62,3.24,2.7,4.86,2.16,3.78,6.49,8.65,10.27,10.27,4.86,9.73,7.57,9.19,7.03,3.78,2.7,0.0,0.0]},"e31102005":{"k":"SOCIOLOGIA","p":"FES ACATLÁN","s":"e","mc":40,"my":[2022,2023,2026],"c26":40,"n":126,"sel":105,"conv":105,"h5":[0.0,0.0,0.0,0.0,0.79,0.79,3.97,11.11,8.73,8.73,11.9,7.94,7.14,4.76,7.94,2.38,7.94,4.76,1.59,2.38,3.97,1.59,1.59,0.0,0.0]},"e31104005":{"k":"SOCIOLOGIA","p":"FES ARAGÓN","s":"e","mc":45,"my":[2024],"c26":56,"n":142,"sel":96,"conv":118,"h5":[0.7,0.7,0.0,0.0,0.0,1.41,4.23,6.34,3.52,7.75,7.04,5.63,7.04,8.45,9.15,11.97,8.45,4.93,4.93,4.23,0.7,1.41,1.41,0.0,0.0]},"e31200155":{"k":"TRABAJO SOCIAL","p":"ESCUELA NACIONAL DE TRABAJO SOCIAL","s":"e","mc":45,"my":[2024],"c26":47,"n":659,"sel":418,"conv":443,"h5":[0.46,0.3,0.15,0.3,0.61,3.19,6.83,9.56,11.38,9.26,6.68,7.13,7.13,6.07,4.4,4.7,5.77,5.16,3.03,3.19,2.43,1.21,0.76,0.3,0.0]},"e31306005":{"k":"ECONOMIA INDUSTRIAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":54,"my":[2026],"c26":54,"n":133,"sel":78,"conv":78,"h5":[0.0,0.0,0.0,0.0,0.0,1.5,6.02,7.52,12.78,6.77,7.52,9.02,3.76,6.77,4.51,6.77,5.26,5.26,7.52,4.51,2.26,0.0,1.5,0.75,0.0]},"e31406005":{"k":"ADMINISTRACION AGROPECUARIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":40,"my":[2023],"c26":42,"n":41,"sel":32,"conv":32,"h5":[0.0,2.44,0.0,0.0,0.0,7.32,7.32,4.88,9.76,9.76,12.2,2.44,4.88,4.88,2.44,7.32,7.32,4.88,7.32,4.88,0.0,0.0,0.0,0.0,0.0]},"e31502005":{"k":"COMUNICACION","p":"FES ACATLÁN","s":"e","mc":65,"my":[2024],"c26":91,"n":763,"sel":158,"conv":446,"h5":[0.13,0.13,0.13,0.13,0.13,0.39,2.1,4.19,6.42,7.73,6.82,6.95,6.29,6.16,5.77,8.26,7.6,8.13,6.95,5.77,4.06,3.93,1.7,0.13,0.0]},"e31506005":{"k":"COMUNICACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":41,"my":[2026],"c26":41,"n":82,"sel":75,"conv":75,"h5":[0.0,0.0,0.0,0.0,1.22,0.0,2.44,4.88,9.76,8.54,4.88,14.63,7.32,6.1,1.22,2.44,7.32,8.54,2.44,8.54,2.44,2.44,4.88,0.0,0.0]},"e31604005":{"k":"COMUNICACION Y PERIODISMO","p":"FES ARAGÓN","s":"e","mc":61,"my":[2024],"c26":88,"n":1016,"sel":241,"conv":594,"h5":[0.2,0.2,0.1,0.2,0.3,0.69,4.04,6.4,6.0,7.38,6.3,8.46,7.38,5.71,6.1,6.89,5.71,7.48,6.5,4.23,4.33,3.35,1.57,0.49,0.0]},"e31707005":{"k":"ESTUDIOS SOCIALES Y GESTION LOCAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":42,"my":[2021],"c26":53,"n":15,"sel":13,"conv":13,"h5":[0.0,6.67,0.0,0.0,0.0,0.0,6.67,0.0,0.0,0.0,13.33,20.0,6.67,13.33,13.33,6.67,0.0,0.0,6.67,0.0,0.0,0.0,6.67,0.0,0.0]},"e31800015":{"k":"DESARROLLO COMUNITARIO PARA EL ENVEJECIMIENTO","p":"TLAXCALA","s":"e","mc":40,"my":[2023],"c26":96,"n":4,"sel":1,"conv":1,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,75.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,25.0,0.0,0.0,0.0,0.0,0.0]},"e31805005":{"k":"DESARROLLO COMUNITARIO PARA EL ENVEJECIMIENTO","p":"FES ZARAGOZA","s":"e","mc":40,"my":[2023],"c26":49,"n":79,"sel":50,"conv":58,"h5":[0.0,0.0,0.0,0.0,0.0,1.27,3.8,21.52,7.59,3.8,10.13,6.33,6.33,1.27,6.33,8.86,5.06,2.53,8.86,1.27,3.8,1.27,0.0,0.0,0.0]},"e31900045":{"k":"ANTROPOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"e","mc":71,"my":[2024],"c26":83,"n":275,"sel":94,"conv":152,"h5":[0.0,0.0,0.0,0.0,0.36,0.73,1.82,1.82,3.27,6.18,4.73,6.91,9.45,7.64,9.45,8.73,10.18,5.09,6.91,6.18,5.09,2.55,2.55,0.36,0.0]},"e32006005":{"k":"DESARROLLO TERRITORIAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":40,"my":[2021],"c26":57,"n":7,"sel":7,"conv":7,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,28.57,28.57,14.29,0.0,0.0,14.29,0.0,0.0,14.29,0.0,0.0,0.0,0.0,0.0]},"e32200175":{"k":"GEOGRAFIA APLICADA","p":"ESCUELA NACIONAL DE CIENCIAS DE LA TIERRA","s":"e","mc":45,"my":[2026],"c26":45,"n":22,"sel":21,"conv":21,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.55,0.0,13.64,0.0,0.0,13.64,9.09,9.09,4.55,13.64,4.55,9.09,13.64,0.0,0.0,4.55,0.0,0.0]},"e32208005":{"k":"GEOGRAFIA APLICADA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":41,"my":[2021,2026],"c26":41,"n":8,"sel":7,"conv":7,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,12.5,37.5,0.0,25.0,0.0,0.0,0.0,0.0,12.5,0.0,0.0,0.0,0.0,12.5,0.0,0.0,0.0,0.0]},"e32306005":{"k":"TURISMO Y DESARROLLO SOSTENIBLE","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":40,"my":[2026],"c26":40,"n":58,"sel":44,"conv":44,"h5":[0.0,0.0,0.0,0.0,3.45,3.45,8.62,8.62,6.9,6.9,3.45,8.62,5.17,3.45,10.34,5.17,5.17,3.45,8.62,1.72,5.17,1.72,0.0,0.0,0.0]},"e32408005":{"k":"SOCIOLOGIA APLICADA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":42,"my":[2026],"c26":42,"n":23,"sel":23,"conv":23,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.35,8.7,8.7,13.04,4.35,8.7,13.04,4.35,4.35,4.35,13.04,4.35,8.7,0.0,0.0,0.0,0.0]},"e40100025":{"k":"ARTES VISUALES","p":"FACULTAD DE ARTES Y DISEÑO","s":"e","mc":96,"my":[2025],"c26":102,"n":1502,"sel":99,"conv":191,"h5":[0.2,0.2,0.07,0.07,0.2,0.8,2.66,5.93,7.66,7.99,8.52,7.59,7.06,7.66,6.66,5.73,5.66,5.66,5.86,5.26,4.13,2.33,1.8,0.33,0.0]},"e40200105":{"k":"BIBLIOTECOLOGIA Y ESTUDIOS DE LA INFORMACION","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":41,"my":[2021],"c26":53,"n":115,"sel":67,"conv":95,"h5":[0.0,0.0,0.0,0.0,0.0,2.61,3.48,8.7,11.3,11.3,7.83,12.17,6.09,4.35,9.57,2.61,4.35,4.35,3.48,1.74,2.61,2.61,0.87,0.0,0.0]},"e40300135":{"k":"CANTO","p":"FACULTAD DE MÚSICA","s":"e","mc":41,"my":[2026],"c26":41,"n":33,"sel":24,"conv":24,"h5":[0.0,0.0,0.0,0.0,0.0,9.09,6.06,6.06,15.15,18.18,9.09,0.0,6.06,6.06,6.06,3.03,3.03,3.03,6.06,0.0,0.0,3.03,0.0,0.0,0.0]},"e40400135":{"k":"COMPOSICION","p":"FACULTAD DE MÚSICA","s":"e","mc":45,"my":[2025,2026],"c26":45,"n":46,"sel":35,"conv":35,"h5":[0.0,0.0,0.0,0.0,0.0,4.35,8.7,4.35,6.52,19.57,8.7,2.17,15.22,4.35,4.35,0.0,4.35,4.35,6.52,0.0,2.17,0.0,2.17,2.17,0.0]},"e40500025":{"k":"DISEÑO Y COMUNICACION VISUAL","p":"FACULTAD DE ARTES Y DISEÑO","s":"e","mc":99,"my":[2024],"c26":108,"n":1215,"sel":54,"conv":162,"h5":[0.41,0.0,0.08,0.16,0.16,1.15,2.55,5.19,7.49,7.74,8.07,7.9,6.17,6.5,5.84,4.61,5.35,6.09,5.43,7.0,5.35,4.03,1.98,0.74,0.0]},"e40501005":{"k":"DISEÑO Y COMUNICACION VISUAL","p":"FES CUAUTITLÁN","s":"e","mc":87,"my":[2025],"c26":101,"n":603,"sel":31,"conv":117,"h5":[0.17,0.0,0.33,0.17,0.5,0.66,3.48,5.97,8.96,7.79,7.96,7.96,7.96,7.79,6.8,4.98,6.97,6.97,4.64,3.98,3.48,1.66,0.83,0.0,0.0]},"e40602005":{"k":"DISEÑO GRAFICO","p":"FES ACATLÁN","s":"e","mc":93,"my":[2021],"c26":106,"n":1104,"sel":42,"conv":156,"h5":[0.18,0.0,0.09,0.09,0.63,1.9,5.71,8.42,10.14,10.69,7.43,7.79,5.62,5.53,3.99,4.8,5.34,4.53,5.98,3.71,2.72,3.35,1.09,0.27,0.0]},"e40700135":{"k":"EDUCACION MUSICAL","p":"FACULTAD DE MÚSICA","s":"e","mc":40,"my":[2021,2022,2023,2026],"c26":40,"n":22,"sel":18,"conv":18,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,18.18,4.55,18.18,22.73,0.0,9.09,9.09,4.55,4.55,4.55,0.0,0.0,4.55,0.0,0.0,0.0,0.0,0.0]},"e40802005":{"k":"ENSEÑANZA DE INGLES","p":"FES ACATLÁN","s":"e","mc":40,"my":[2026],"c26":40,"n":133,"sel":128,"conv":128,"h5":[0.0,0.0,0.0,0.0,0.75,0.0,2.26,0.75,12.03,5.26,12.78,6.77,6.77,9.02,12.78,7.52,7.52,6.02,4.51,3.01,0.75,0.75,0.75,0.0,0.0]},"e40900105":{"k":"ESTUDIOS LATINOAMERICANOS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":40,"my":[2022,2023],"c26":47,"n":95,"sel":76,"conv":83,"h5":[0.0,0.0,1.05,0.0,0.0,1.05,2.11,8.42,4.21,5.26,9.47,5.26,10.53,9.47,14.74,6.32,3.16,5.26,6.32,3.16,2.11,1.05,1.05,0.0,0.0]},"e41000135":{"k":"ETNOMUSICOLOGIA","p":"FACULTAD DE MÚSICA","s":"e","mc":40,"my":[2026],"c26":40,"n":8,"sel":8,"conv":8,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,12.5,12.5,25.0,0.0,0.0,25.0,0.0,0.0,12.5,0.0,12.5,0.0,0.0,0.0,0.0,0.0,0.0]},"e41100105":{"k":"FILOSOFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":81,"my":[2025],"c26":89,"n":260,"sel":64,"conv":92,"h5":[0.0,0.38,0.0,0.0,0.38,0.38,2.69,6.15,7.69,6.92,5.0,5.38,7.69,6.15,7.31,6.54,5.77,8.85,6.54,6.92,5.0,3.46,0.77,0.0,0.0]},"e41102005":{"k":"FILOSOFIA","p":"FES ACATLÁN","s":"e","mc":40,"my":[2026],"c26":40,"n":77,"sel":67,"conv":67,"h5":[0.0,0.0,0.0,0.0,0.0,2.6,2.6,7.79,9.09,7.79,10.39,10.39,6.49,9.09,7.79,2.6,6.49,3.9,5.19,3.9,0.0,1.3,2.6,0.0,0.0]},"e41200105":{"k":"HISTORIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":67,"my":[2024],"c26":78,"n":301,"sel":84,"conv":152,"h5":[0.0,0.0,0.0,0.0,0.33,0.66,1.66,2.99,7.64,8.64,8.31,8.97,9.3,5.32,13.95,8.64,4.32,6.98,4.65,3.99,1.99,1.0,0.66,0.0,0.0]},"e41202005":{"k":"HISTORIA","p":"FES ACATLÁN","s":"e","mc":40,"my":[2026],"c26":40,"n":90,"sel":82,"conv":82,"h5":[0.0,0.0,0.0,0.0,0.0,2.22,3.33,3.33,3.33,7.78,10.0,12.22,15.56,11.11,8.89,8.89,4.44,1.11,2.22,3.33,1.11,1.11,0.0,0.0,0.0]},"e41211005":{"k":"HISTORIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. OAXACA, OAX.","s":"e","mc":54,"my":[2026],"c26":54,"n":34,"sel":25,"conv":25,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,2.94,0.0,11.76,8.82,5.88,8.82,11.76,17.65,17.65,2.94,2.94,0.0,5.88,2.94,0.0,0.0,0.0,0.0,0.0]},"e41300135":{"k":"INSTRUMENTISTA","p":"FACULTAD DE MÚSICA","s":"e","mc":40,"my":[2021,2026],"c26":40,"n":69,"sel":65,"conv":65,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,1.45,4.35,11.59,2.9,7.25,13.04,7.25,10.14,5.8,7.25,8.7,8.7,5.8,5.8,0.0,0.0,0.0,0.0,0.0]},"e41400105":{"k":"LENGUA Y LITERATURAS HISPANICAS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":64,"my":[2026],"c26":64,"n":173,"sel":103,"conv":103,"h5":[0.0,0.0,0.0,0.0,0.0,0.58,1.16,5.2,7.51,6.94,5.78,6.36,8.09,9.25,4.62,6.94,9.83,9.83,4.05,5.2,5.2,1.73,1.73,0.0,0.0]},"e41402005":{"k":"LENGUA Y LITERATURAS HISPANICAS","p":"FES ACATLÁN","s":"e","mc":40,"my":[2026],"c26":40,"n":58,"sel":58,"conv":58,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10.34,5.17,12.07,5.17,8.62,13.79,10.34,8.62,8.62,6.9,3.45,0.0,1.72,3.45,1.72,0.0,0.0]},"e41500105":{"k":"LENGUA Y LITERATURAS MODERNAS (LETRAS ALEMANAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":41,"my":[2021],"c26":63,"n":4,"sel":4,"conv":4,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,25.0,0.0,25.0,25.0,0.0,0.0,0.0,0.0,0.0,0.0,25.0,0.0,0.0]},"e41600105":{"k":"LENGUA Y LITERATURAS MODERNAS (LETRAS FRANCESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":41,"my":[2021],"c26":42,"n":8,"sel":7,"conv":7,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,12.5,12.5,12.5,0.0,0.0,0.0,0.0,12.5,0.0,0.0,12.5,12.5,25.0,0.0,0.0,0.0,0.0,0.0]},"e41700105":{"k":"LENGUA Y LITERATURAS MODERNAS (LETRAS INGLESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":40,"my":[2021,2022,2023],"c26":42,"n":70,"sel":67,"conv":67,"h5":[0.0,0.0,0.0,0.0,1.43,0.0,1.43,1.43,4.29,10.0,5.71,10.0,7.14,7.14,7.14,5.71,8.57,12.86,4.29,4.29,2.86,5.71,0.0,0.0,0.0]},"e41800105":{"k":"LENGUA Y LITERATURAS MODERNAS (LETRAS ITALIANAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":40,"my":[2022],"c26":43,"n":23,"sel":20,"conv":20,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,8.7,4.35,8.7,0.0,13.04,8.7,8.7,13.04,0.0,4.35,0.0,13.04,4.35,8.7,4.35,0.0,0.0,0.0,0.0]},"e41900105":{"k":"LETRAS CLASICAS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":64,"my":[2026],"c26":64,"n":47,"sel":29,"conv":29,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.26,2.13,4.26,12.77,8.51,8.51,4.26,6.38,12.77,12.77,8.51,6.38,4.26,4.26,0.0,0.0,0.0,0.0]},"e42000105":{"k":"LITERATURA DRAMATICA Y TEATRO","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":92,"my":[2021],"c26":102,"n":347,"sel":32,"conv":76,"h5":[0.0,0.0,0.0,0.0,0.58,0.58,1.73,2.88,5.76,6.92,6.34,7.49,8.36,5.48,8.93,7.49,6.34,5.76,6.34,6.05,7.49,2.59,2.88,0.0,0.0]},"e42100105":{"k":"PEDAGOGIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":70,"my":[2021],"c26":94,"n":1376,"sel":157,"conv":504,"h5":[0.22,0.07,0.0,0.29,0.44,2.54,5.45,9.67,9.81,8.28,7.12,6.54,6.25,6.69,5.67,5.74,5.96,5.09,3.63,3.85,3.2,1.82,1.16,0.51,0.0]},"e42102005":{"k":"PEDAGOGIA","p":"FES ACATLÁN","s":"e","mc":67,"my":[2025],"c26":92,"n":880,"sel":86,"conv":312,"h5":[0.23,0.11,0.0,0.23,0.8,3.07,7.27,8.52,9.32,9.66,8.98,7.73,6.02,5.45,4.43,5.91,5.23,5.0,4.32,2.27,2.95,1.59,0.68,0.23,0.0]},"e42104005":{"k":"PEDAGOGIA","p":"FES ARAGÓN","s":"e","mc":66,"my":[2021],"c26":92,"n":1352,"sel":138,"conv":548,"h5":[0.22,0.15,0.15,0.07,0.44,3.11,7.32,8.21,11.02,8.06,6.14,7.1,5.92,7.25,5.62,5.4,5.77,5.47,4.81,3.33,2.66,1.48,0.3,0.0,0.0]},"e42200135":{"k":"PIANO","p":"FACULTAD DE MÚSICA","s":"e","mc":41,"my":[2022,2024],"c26":44,"n":20,"sel":19,"conv":19,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.0,5.0,5.0,5.0,0.0,20.0,5.0,10.0,0.0,15.0,5.0,10.0,5.0,5.0,5.0,0.0,0.0,0.0]},"e42900105":{"k":"DESARROLLO Y GESTION INTERCULTURALES","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":75,"my":[2025],"c26":85,"n":66,"sel":16,"conv":26,"h5":[0.0,0.0,0.0,0.0,0.0,3.03,3.03,4.55,1.52,6.06,9.09,12.12,9.09,4.55,7.58,12.12,3.03,9.09,10.61,3.03,1.52,0.0,0.0,0.0,0.0]},"e42906005":{"k":"DESARROLLO Y GESTION INTERCULTURALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","s":"e","mc":40,"my":[2021],"c26":48,"n":14,"sel":11,"conv":11,"h5":[0.0,0.0,0.0,0.0,0.0,7.14,0.0,14.29,0.0,14.29,7.14,7.14,14.29,7.14,0.0,7.14,7.14,7.14,0.0,0.0,7.14,0.0,0.0,0.0,0.0]},"e42908005":{"k":"DESARROLLO Y GESTION INTERCULTURALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","s":"e","mc":40,"my":[2022,2026],"c26":40,"n":18,"sel":15,"conv":15,"h5":[0.0,0.0,0.0,0.0,0.0,5.56,0.0,11.11,16.67,5.56,5.56,5.56,5.56,0.0,5.56,22.22,11.11,0.0,5.56,0.0,0.0,0.0,0.0,0.0,0.0]},"e43000105":{"k":"LENGUA Y LITERATURAS MODERNAS (LETRAS PORTUGUESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":42,"my":[2021],"c26":63,"n":9,"sel":7,"conv":7,"h5":[0.0,0.0,0.0,0.0,11.11,0.0,0.0,11.11,0.0,0.0,0.0,0.0,11.11,11.11,22.22,0.0,0.0,22.22,11.11,0.0,0.0,0.0,0.0,0.0,0.0]},"e43107005":{"k":"GEOHISTORIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":41,"my":[2021],"c26":63,"n":6,"sel":6,"conv":6,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,33.33,33.33,16.67,0.0,0.0,0.0,16.67,0.0,0.0,0.0,0.0,0.0,0.0]},"e43207005":{"k":"LITERATURA INTERCULTURAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":40,"my":[2023],"c26":47,"n":14,"sel":14,"conv":14,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,21.43,14.29,14.29,7.14,21.43,0.0,7.14,7.14,7.14,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},"e43307005":{"k":"HISTORIA DEL ARTE","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":41,"my":[2026],"c26":41,"n":19,"sel":18,"conv":18,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,5.26,0.0,10.53,10.53,5.26,15.79,5.26,10.53,5.26,5.26,10.53,0.0,0.0,5.26,10.53,0.0,0.0,0.0,0.0]},"e43402055":{"k":"ARTE Y DISEÑO","p":"PLANTEL TAXCO, GRO","s":"e","mc":45,"my":[2024],"c26":49,"n":81,"sel":53,"conv":60,"h5":[0.0,0.0,0.0,0.0,0.0,3.7,4.94,7.41,9.88,11.11,9.88,9.88,4.94,4.94,3.7,8.64,2.47,9.88,6.17,1.23,1.23,0.0,0.0,0.0,0.0]},"e43407005":{"k":"ARTE Y DISEÑO","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":41,"my":[2026],"c26":41,"n":121,"sel":108,"conv":108,"h5":[0.0,0.0,0.0,0.0,0.0,1.65,4.13,4.96,5.79,8.26,7.44,5.79,13.22,8.26,13.22,6.61,4.96,2.48,8.26,2.48,1.65,0.83,0.0,0.0,0.0]},"e43600135":{"k":"TEATRO Y ACTUACION","p":"FACULTAD DE MÚSICA","s":"e","mc":62,"my":[2026],"c26":62,"n":560,"sel":292,"conv":292,"h5":[0.18,0.0,0.18,0.18,0.36,1.61,4.82,5.18,8.93,7.5,8.39,6.43,8.93,5.89,8.04,7.14,7.86,4.64,5.54,3.57,3.39,1.07,0.18,0.0,0.0]},"e43700105":{"k":"ADMINISTRACION DE ARCHIVOS Y GESTION DOCUMENTAL","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"e","mc":54,"my":[2024],"c26":82,"n":82,"sel":15,"conv":41,"h5":[0.0,0.0,0.0,0.0,2.44,4.88,9.76,13.41,9.76,2.44,8.54,7.32,8.54,7.32,4.88,2.44,3.66,4.88,2.44,2.44,3.66,1.22,0.0,0.0,0.0]},"e43807005":{"k":"MUSICA Y TECNOLOGIA ARTISTICA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"e","mc":41,"my":[2024],"c26":49,"n":32,"sel":29,"conv":31,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,3.12,0.0,3.12,9.38,9.38,15.62,3.12,21.88,12.5,3.12,3.12,3.12,6.25,3.12,3.12,0.0,0.0,0.0,0.0]},"e43900425":{"k":"LINGÜISTICA APLICADA","p":"ESCUELA NACIONAL DE LENGUAS, LINGÜÍSTICA Y TRADUCCIÓN","s":"e","mc":54,"my":[2024],"c26":70,"n":84,"sel":41,"conv":62,"h5":[0.0,0.0,0.0,0.0,0.0,2.38,2.38,4.76,9.52,7.14,1.19,8.33,5.95,9.52,7.14,9.52,8.33,4.76,5.95,4.76,2.38,4.76,1.19,0.0,0.0]},"e44000305":{"k":"TRADUCCION","p":"SAN MIGUEL DE ALLENDE, GUANAJUATO","s":"e","mc":40,"my":[2026],"c26":40,"n":14,"sel":13,"conv":13,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,7.14,0.0,7.14,0.0,14.29,7.14,0.0,14.29,14.29,21.43,7.14,7.14,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},"e44000425":{"k":"TRADUCCION","p":"ESCUELA NACIONAL DE LENGUAS, LINGÜÍSTICA Y TRADUCCIÓN","s":"e","mc":100,"my":[2024],"c26":107,"n":281,"sel":19,"conv":47,"h5":[0.0,0.0,0.0,0.0,0.36,0.71,2.49,3.56,3.56,4.63,5.34,6.41,6.41,7.47,7.47,4.98,8.19,6.41,8.9,6.41,6.76,6.76,2.49,0.71,0.0]},"a21000196":{"k":"PSICOLOGIA","p":"FACULTAD DE PSICOLOGÍA","s":"a","mc":69,"my":[2022],"c26":93,"n":1104,"sel":189,"conv":521,"h5":[0.45,0.36,0.18,0.0,0.18,1.54,3.26,5.07,6.52,6.61,7.97,7.97,6.61,6.88,6.7,6.43,6.97,5.8,5.62,5.53,3.8,2.81,1.81,0.91,0.0]},"a30100066":{"k":"ADMINISTRACION","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","s":"a","mc":67,"my":[2023],"c26":101,"n":619,"sel":78,"conv":328,"h5":[0.65,0.0,0.0,0.0,0.48,0.81,3.55,5.49,6.46,7.27,5.82,6.62,8.08,4.2,8.08,6.79,6.3,4.36,5.17,5.33,6.95,5.49,1.45,0.65,0.0]},"a30200046":{"k":"CIENCIAS DE LA COMUNICACION","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"a","mc":55,"my":[2021,2023],"c26":90,"n":251,"sel":82,"conv":191,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,1.99,4.38,3.59,6.37,7.57,7.97,4.38,7.97,6.37,5.98,6.77,3.98,8.76,7.57,8.37,3.98,3.59,0.4,0.0]},"a30300046":{"k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"a","mc":43,"my":[2022],"c26":70,"n":151,"sel":80,"conv":141,"h5":[0.0,0.66,0.0,0.0,0.0,0.0,1.32,3.97,3.97,5.3,5.3,7.95,6.62,11.92,5.3,6.62,5.3,9.93,5.3,7.28,7.28,4.64,1.32,0.0,0.0]},"a30400066":{"k":"CONTADURIA","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","s":"a","mc":69,"my":[2021],"c26":97,"n":713,"sel":120,"conv":400,"h5":[0.56,0.14,0.0,0.28,0.14,1.12,2.95,4.21,4.63,5.33,5.75,7.57,4.77,8.56,9.12,5.33,5.75,7.01,7.29,6.03,4.77,5.33,2.66,0.7,0.0]},"a30500076":{"k":"DERECHO","p":"FACULTAD DE DERECHO","s":"a","mc":54,"my":[2023,2024],"c26":62,"n":687,"sel":392,"conv":474,"h5":[0.29,0.15,0.29,0.0,0.44,0.73,3.06,4.8,5.82,9.75,7.42,7.86,6.7,5.24,5.82,6.99,7.13,6.11,6.11,5.39,5.24,2.91,1.6,0.15,0.0]},"a30502006":{"k":"DERECHO","p":"FES ACATLÁN","s":"a","mc":42,"my":[2023],"c26":52,"n":206,"sel":142,"conv":172,"h5":[0.49,0.0,0.0,0.0,0.49,1.46,5.34,7.77,3.4,10.19,10.19,8.25,7.28,5.83,8.25,6.8,4.37,5.83,5.34,2.43,3.4,1.46,0.97,0.49,0.0]},"a30504006":{"k":"DERECHO","p":"FES ARAGÓN","s":"a","mc":50,"my":[2024],"c26":70,"n":306,"sel":134,"conv":221,"h5":[0.0,0.0,0.0,0.0,0.33,0.98,5.23,5.88,8.17,7.19,9.48,6.54,5.56,6.86,6.54,4.9,5.23,7.84,6.21,4.9,3.27,2.61,2.29,0.0,0.0]},"a30600086":{"k":"ECONOMIA","p":"FACULTAD DE ECONOMÍA","s":"a","mc":55,"my":[2024],"c26":86,"n":242,"sel":102,"conv":203,"h5":[0.41,0.0,0.41,0.0,0.0,0.41,1.24,2.07,3.31,2.48,5.79,6.2,7.02,5.37,5.37,9.09,7.85,7.02,6.61,11.16,7.44,5.79,3.72,1.24,0.0]},"a30604006":{"k":"ECONOMIA","p":"FES ARAGÓN","s":"a","mc":40,"my":[2023],"c26":68,"n":110,"sel":54,"conv":103,"h5":[0.0,0.91,0.0,0.0,0.0,0.91,2.73,1.82,5.45,10.0,9.09,10.0,5.45,10.0,3.64,5.45,7.27,9.09,2.73,6.36,3.64,5.45,0.0,0.0,0.0]},"a30700106":{"k":"GEOGRAFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"a","mc":44,"my":[2021],"c26":60,"n":48,"sel":34,"conv":43,"h5":[0.0,0.0,2.08,0.0,0.0,2.08,2.08,2.08,2.08,6.25,6.25,6.25,10.42,8.33,8.33,12.5,10.42,4.17,6.25,2.08,6.25,0.0,2.08,0.0,0.0]},"a31000046":{"k":"RELACIONES INTERNACIONALES","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"a","mc":60,"my":[2021,2023],"c26":96,"n":166,"sel":41,"conv":114,"h5":[0.0,0.0,0.0,0.0,0.6,1.2,3.61,3.01,4.82,5.42,4.22,8.43,8.43,4.82,5.42,4.22,4.82,7.83,6.63,9.64,7.23,3.61,4.82,1.2,0.0]},"a31002006":{"k":"RELACIONES INTERNACIONALES","p":"FES ACATLÁN","s":"a","mc":40,"my":[2022,2023],"c26":58,"n":123,"sel":84,"conv":113,"h5":[0.0,0.0,0.0,0.81,0.0,0.81,0.81,5.69,6.5,7.32,6.5,8.13,10.57,3.25,7.32,7.32,8.13,5.69,8.94,6.5,1.63,1.63,0.81,1.63,0.0]},"a31004006":{"k":"RELACIONES INTERNACIONALES","p":"FES ARAGÓN","s":"a","mc":47,"my":[2023],"c26":73,"n":138,"sel":61,"conv":112,"h5":[0.0,0.0,0.0,0.0,0.0,0.72,1.45,7.97,5.07,7.25,10.14,8.7,6.52,3.62,8.7,5.07,5.8,8.7,6.52,5.07,4.35,2.9,1.45,0.0,0.0]},"a31100046":{"k":"SOCIOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"a","mc":41,"my":[2021],"c26":66,"n":86,"sel":51,"conv":79,"h5":[1.16,0.0,0.0,1.16,0.0,2.33,0.0,2.33,4.65,3.49,6.98,15.12,3.49,5.81,9.3,11.63,9.3,5.81,8.14,1.16,3.49,4.65,0.0,0.0,0.0]},"a31200156":{"k":"TRABAJO SOCIAL","p":"ESCUELA NACIONAL DE TRABAJO SOCIAL","s":"a","mc":52,"my":[2023],"c26":73,"n":135,"sel":35,"conv":68,"h5":[1.48,0.0,0.0,0.0,1.48,2.96,5.93,8.89,8.89,13.33,10.37,5.93,5.19,5.93,8.89,7.41,2.22,2.22,2.96,2.22,2.96,0.0,0.74,0.0,0.0]},"a41100106":{"k":"FILOSOFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"a","mc":75,"my":[2023],"c26":87,"n":196,"sel":63,"conv":109,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,1.02,0.0,2.04,5.1,5.61,7.14,6.63,8.67,8.16,9.18,10.71,8.67,10.71,7.14,5.61,2.04,1.53,0.0,0.0]},"a41200106":{"k":"HISTORIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"a","mc":65,"my":[2024],"c26":84,"n":168,"sel":45,"conv":120,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,2.98,3.57,4.17,4.17,3.57,2.98,7.14,11.31,7.14,15.48,11.31,8.33,7.74,4.17,2.38,2.98,0.6,0.0,0.0]},"a41400106":{"k":"LENGUA Y LITERATURAS HISPANICAS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"a","mc":45,"my":[2023],"c26":55,"n":102,"sel":87,"conv":97,"h5":[1.96,0.0,0.0,0.0,0.0,0.98,0.0,0.0,1.96,3.92,5.88,5.88,9.8,11.76,8.82,11.76,10.78,7.84,5.88,3.92,7.84,0.0,0.98,0.0,0.0]},"a41700106":{"k":"LENGUA Y LITERATURAS MODERNAS (LETRAS INGLESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"a","mc":56,"my":[2021,2023],"c26":69,"n":26,"sel":22,"conv":25,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.85,0.0,7.69,3.85,3.85,15.38,7.69,19.23,7.69,7.69,7.69,3.85,7.69,3.85,0.0,0.0]},"a42100106":{"k":"PEDAGOGIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","s":"a","mc":62,"my":[2021],"c26":101,"n":745,"sel":48,"conv":355,"h5":[0.4,0.27,0.0,0.0,0.13,2.42,6.17,7.25,8.59,8.46,8.86,7.38,6.17,5.37,5.77,5.37,5.64,5.64,4.83,4.3,3.89,1.34,1.48,0.27,0.0]},"d21003006":{"k":"PSICOLOGIA","p":"FES IZTACALA","s":"d","mc":60,"my":[2021,2025],"c26":85,"n":2520,"sel":578,"conv":1423,"h5":[0.2,0.16,0.04,0.08,0.08,1.11,2.86,6.79,7.34,8.93,8.02,7.94,7.58,8.13,6.75,5.83,5.24,4.72,4.96,4.33,3.65,2.78,2.14,0.36,0.0]},"d30100066":{"k":"ADMINISTRACION","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","s":"d","mc":73,"my":[2024],"c26":98,"n":1387,"sel":175,"conv":591,"h5":[0.22,0.0,0.14,0.07,0.36,1.66,2.88,5.84,6.34,6.92,7.64,7.21,5.84,8.22,6.78,6.27,6.49,6.2,5.26,4.83,5.12,3.53,1.59,0.58,0.0]},"d30200046":{"k":"CIENCIAS DE LA COMUNICACION","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"d","mc":40,"my":[2023],"c26":53,"n":283,"sel":201,"conv":257,"h5":[0.0,0.0,0.35,0.0,0.71,0.0,2.47,5.65,8.13,6.71,8.48,9.89,9.19,8.13,6.01,3.18,6.36,6.71,7.42,4.59,3.18,1.77,0.35,0.71,0.0]},"d30300046":{"k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"d","mc":48,"my":[2021,2022],"c26":69,"n":331,"sel":180,"conv":288,"h5":[0.0,0.0,0.0,0.3,0.0,1.21,1.51,1.51,4.23,7.55,6.65,6.04,11.18,7.25,9.06,7.55,7.25,5.44,5.44,5.14,5.44,5.14,1.51,0.6,0.0]},"d30400066":{"k":"CONTADURIA","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","s":"d","mc":76,"my":[2024],"c26":101,"n":1574,"sel":195,"conv":667,"h5":[0.19,0.19,0.13,0.06,0.19,1.02,2.41,3.88,5.65,6.23,6.73,7.24,8.13,6.1,7.56,5.91,6.67,6.29,5.91,6.1,6.29,4.0,2.35,0.76,0.0]},"d30500076":{"k":"DERECHO","p":"FACULTAD DE DERECHO","s":"d","mc":50,"my":[2024],"c26":83,"n":1531,"sel":436,"conv":1136,"h5":[0.33,0.2,0.13,0.07,0.13,1.96,3.33,5.16,7.05,7.45,7.18,8.1,7.64,7.84,5.75,6.34,5.88,6.27,4.77,4.25,4.31,2.94,2.87,0.07,0.0]},"d30600086":{"k":"ECONOMIA","p":"FACULTAD DE ECONOMÍA","s":"d","mc":55,"my":[2024],"c26":82,"n":516,"sel":211,"conv":423,"h5":[0.19,0.0,0.0,0.0,0.19,0.97,1.36,1.55,2.91,3.49,7.36,7.95,6.01,7.56,8.91,8.53,7.17,7.56,6.01,6.59,5.81,6.98,2.71,0.19,0.0]},"d31000046":{"k":"RELACIONES INTERNACIONALES","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"d","mc":57,"my":[2024],"c26":83,"n":401,"sel":131,"conv":288,"h5":[0.0,0.25,0.0,0.0,0.25,0.75,3.49,4.49,4.74,4.74,5.99,8.98,7.73,7.48,5.24,7.73,8.98,8.23,4.24,6.23,4.99,3.49,1.75,0.25,0.0]},"d31100046":{"k":"SOCIOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","s":"d","mc":40,"my":[2021,2022,2023],"c26":63,"n":200,"sel":132,"conv":187,"h5":[0.5,0.0,0.0,0.0,0.0,0.0,1.5,4.5,1.0,4.0,9.0,10.5,10.5,11.0,11.5,3.5,7.5,9.5,4.5,5.5,3.0,2.5,0.0,0.0,0.0]},"d31200156":{"k":"TRABAJO SOCIAL","p":"ESCUELA NACIONAL DE TRABAJO SOCIAL","s":"d","mc":47,"my":[2023],"c26":56,"n":309,"sel":142,"conv":195,"h5":[0.65,0.0,0.32,0.0,0.65,1.94,8.09,9.71,11.0,10.68,10.03,6.47,7.44,5.18,6.47,3.88,2.27,3.88,5.18,2.59,2.59,0.32,0.65,0.0,0.0]},"d43707006":{"k":"ADMINISTRACION DE ARCHIVOS Y GESTION DOCUMENTAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","s":"d","mc":40,"my":[2021,2022],"c26":45,"n":88,"sel":65,"conv":69,"h5":[0.0,0.0,0.0,0.0,2.27,2.27,2.27,14.77,4.55,12.5,14.77,2.27,11.36,6.82,7.95,6.82,2.27,5.68,2.27,1.14,0.0,0.0,0.0,0.0,0.0]},"d40501006":{"k":"DISEÑO Y COMUNICACION VISUAL","p":"FES CUAUTITLÁN","s":"d","mc":71,"my":[2025],"c26":82,"n":745,"sel":186,"conv":318,"h5":[0.0,0.0,0.0,0.0,0.13,1.07,1.21,4.3,5.64,8.19,9.26,8.19,9.66,8.59,8.05,8.72,5.1,5.37,5.64,4.97,2.95,1.48,1.48,0.0,0.0]},"d42502006":{"k":"ENSEÑANZA DE ESPAÑOL COMO LENGUA EXTRANJERA","p":"FES ACATLÁN","s":"d","mc":40,"my":[2021],"c26":45,"n":51,"sel":47,"conv":49,"h5":[0.0,0.0,0.0,0.0,0.0,0.0,1.96,1.96,3.92,5.88,9.8,13.73,9.8,7.84,11.76,3.92,5.88,5.88,11.76,3.92,1.96,0.0,0.0,0.0,0.0]},"d42702006":{"k":"ENSEÑANZA DE INGLES COMO LENGUA EXTRANJERA","p":"FES ACATLÁN","s":"d","mc":46,"my":[2023],"c26":70,"n":151,"sel":58,"conv":120,"h5":[0.0,0.0,0.0,0.0,0.0,0.66,3.31,5.96,9.27,7.28,7.28,10.6,7.28,9.93,9.27,6.62,7.95,3.31,3.97,3.31,1.99,1.32,0.66,0.0,0.0]}};
+const TOT = {"e":{"scored":138406,"sel":16617,"selsum":17005,"conv":47935,"extra":31318,"name":"Escolarizado"},"a":{"scored":6322,"sel":1944,"selsum":2082,"conv":3989,"extra":2045,"name":"SUAyED Abierta"},"d":{"scored":10087,"sel":2737,"selsum":2876,"conv":6011,"extra":3274,"name":"SUAyED a Distancia"}};
+const SYSN = {e: 'Escolarizado', a: 'SUAyED Abierta', d: 'SUAyED a Distancia'};
+const SYSC = {e: '#4f46e5', a: '#0d9488', d: '#a855f7'};
+const fmt = n => n.toLocaleString('es-MX');
+const pct1 = (a, b) => b ? (100 * a / b).toFixed(1) : '0.0';
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const el = (t, at, parent) => {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', t);
+  for (const [k, v] of Object.entries(at || {})) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const h = (tag, cls, txt) => {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt != null) e.textContent = txt;
+  return e;
+};
+const dot = c => { const s = h('span', 'sd'); s.style.background = c; return s; };
+const chipEl = s => { const c = h('span', 'sys-chip'); c.appendChild(dot(SYSC[s])); c.appendChild(document.createTextNode(SYSN[s])); return c; };
+const state = {code: null, sysf: 'e'};
+
+// ---------- tiles ----------
+(function tiles() {
+  const host = document.getElementById('tiles');
+  for (const s of ['e', 'a', 'd']) {
+    const t = TOT[s];
+    const d = h('div', 'tile'); d.style.borderTopColor = SYSC[s];
+    const k = h('span', 'k'); k.appendChild(dot(SYSC[s])); k.appendChild(document.createTextNode(t.name));
+    d.appendChild(k);
+    d.appendChild(h('div', 'v', fmt(t.conv)));
+    const sub = h('span', 's', `potenciales convocados — ${pct1(t.conv, t.scored)}% de ${fmt(t.scored)} examinados`);
+    sub.appendChild(document.createElement('br'));
+    sub.appendChild(document.createTextNode(`seleccionados 2026: ${fmt(t.sel)} · solo por corte histórico: ${fmt(t.extra)}`));
+    d.appendChild(sub);
+    host.appendChild(d);
+  }
+  const g = {conv: TOT.e.conv + TOT.a.conv + TOT.d.conv,
+             scored: TOT.e.scored + TOT.a.scored + TOT.d.scored,
+             sel: TOT.e.sel + TOT.a.sel + TOT.d.sel};
+  const d = h('div', 'tile'); d.style.borderTopColor = '#101223';
+  d.appendChild(h('span', 'k', 'Total, si el SUAyED entra'));
+  d.appendChild(h('div', 'v', fmt(g.conv)));
+  const sub = h('span', 's', `${pct1(g.conv, g.scored)}% de ${fmt(g.scored)} examinados 2026 en los tres sistemas`);
+  sub.appendChild(document.createElement('br'));
+  sub.appendChild(document.createTextNode(`casi ${(g.conv / g.sel).toFixed(1)} veces los ${fmt(g.sel)} seleccionados`));
+  d.appendChild(sub);
+  host.appendChild(d);
+})();
+
+// ---------- stacked bars ----------
+(function bars() {
+  const host = document.getElementById('barsHost'), tt = document.getElementById('ttBars');
+  const card = host.closest('.chart-card');
+  const W = 900, rowH = 62, m = {t: 8, r: 165, b: 10, l: 10};
+  const H = m.t + 3 * rowH + m.b;
+  const vmax = Math.max(...['e', 'a', 'd'].map(s => TOT[s].conv)) * 1.02;
+  const X = v => m.l + v / vmax * (W - m.l - m.r);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Potenciales convocados por sistema, divididos en seleccionados y solo por corte histórico'}, host);
+  ['e', 'a', 'd'].forEach((s, i) => {
+    const t = TOT[s], y0 = m.t + i * rowH;
+    el('text', {x: m.l, y: y0 + 12, fill: SYSC[s], 'font-weight': 800, 'font-size': 12.5}, svg).textContent = t.name;
+    const barY = y0 + 20, barH = 22;
+    el('rect', {x: X(0), y: barY, width: Math.max(X(t.sel) - X(0), 1.5), height: barH, rx: 4, fill: SYSC[s]}, svg);
+    el('rect', {x: X(t.sel) + 2, y: barY, width: Math.max(X(t.conv) - X(t.sel) - 2, 1.5), height: barH, rx: 4,
+      fill: SYSC[s], opacity: .38}, svg);
+    el('text', {x: X(t.conv) + 8, y: barY + 16, fill: '#101223', 'font-weight': 800, 'font-size': 13}, svg)
+      .textContent = `${fmt(t.conv)} (${pct1(t.conv, t.scored)}%)`;
+    if (X(t.sel) - X(0) > 58)
+      el('text', {x: X(0) + 6, y: barY + 15.5, fill: '#fff', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = fmt(t.sel);
+    if (X(t.conv) - X(t.sel) > 66)
+      el('text', {x: X(t.sel) + 8, y: barY + 15.5, fill: '#3f4557', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = fmt(t.extra);
+    const hit = el('rect', {x: m.l, y: y0 + 14, width: W - m.l - 10, height: rowH - 14, fill: 'transparent',
+      tabindex: 0, role: 'img',
+      'aria-label': `${t.name}: ${fmt(t.conv)} potenciales convocados de ${fmt(t.scored)} examinados (${pct1(t.conv, t.scored)} por ciento): ${fmt(t.sel)} seleccionados y ${fmt(t.extra)} solo por corte histórico.`}, svg);
+    hit.addEventListener('mousemove', ev => {
+      tt.replaceChildren(h('b', null, t.name),
+        document.createTextNode(`Seleccionados 2026: ${fmt(t.sel)}`), document.createElement('br'),
+        document.createTextNode(`Solo por corte histórico: ${fmt(t.extra)}`), document.createElement('br'),
+        document.createTextNode(`Total: ${fmt(t.conv)} de ${fmt(t.scored)} examinados (${pct1(t.conv, t.scored)}%)`));
+      const cr = card.getBoundingClientRect();
+      tt.style.opacity = 1;
+      let lx = ev.clientX - cr.left + 14;
+      if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
+      tt.style.left = Math.max(4, lx) + 'px'; tt.style.top = Math.max(4, ev.clientY - cr.top - 30) + 'px';
+    });
+    hit.addEventListener('mouseleave', () => tt.style.opacity = 0);
+  });
+})();
+
+// ---------- search (mutuamente excluyente por sistema) ----------
+const INDEX = Object.entries(CD).map(([c, d]) => ({c, d, txt: norm(d.k + ' ' + d.p)}));
+function searchRender(q) {
+  const host = document.getElementById('sRes'); host.replaceChildren();
+  const nq = norm(q.trim());
+  if (nq.length < 2) return;
+  const terms = nq.split(/\s+/);
+  const hits = INDEX.filter(x => x.d.s === state.sysf && terms.every(t => x.txt.includes(t))).slice(0, 40);
+  for (const hx of hits) {
+    const b = h('button');
+    b.setAttribute('role', 'option');
+    b.appendChild(h('span', 'rl-k', hx.d.k));
+    b.appendChild(h('span', 'rl-p', hx.d.p));
+    b.addEventListener('click', () => { showProfile(hx.c); host.replaceChildren();
+      document.getElementById('sBox').value = hx.d.k + ' — ' + hx.d.p;
+      document.getElementById('sClear').hidden = false; });
+    host.appendChild(b);
+  }
+}
+document.getElementById('sBox').addEventListener('input', ev => {
+  document.getElementById('sClear').hidden = ev.target.value === '';
+  searchRender(ev.target.value);
+});
+document.getElementById('sClear').addEventListener('click', () => {
+  const sb = document.getElementById('sBox'); sb.value = '';
+  document.getElementById('sClear').hidden = true;
+  document.getElementById('sRes').replaceChildren(); sb.focus();
+});
+document.getElementById('sysSel').addEventListener('change', () => {
+  state.sysf = document.querySelector('#sysSel input[name="sysf"]:checked').value;
+  searchRender(document.getElementById('sBox').value);
+  renderTable();
+});
+function syncSysSel(s) {
+  if (state.sysf === s) return;
+  state.sysf = s;
+  const inp = document.querySelector(`#sysSel input[value="${s}"]`);
+  if (inp) inp.checked = true;
+  renderTable();
+}
+
+// ---------- profile ----------
+function showProfile(code) {
+  const d = CD[code]; if (!d) return;
+  state.code = code;
+  syncSysSel(d.s);
+  const head = document.getElementById('selHead'); head.hidden = false;
+  document.getElementById('selName').textContent = d.k;
+  const sub = document.getElementById('selSub');
+  sub.replaceChildren(document.createTextNode(d.p + ' '), chipEl(d.s));
+  const sh = document.getElementById('statHost'); sh.replaceChildren();
+  const row = h('div', 'stat-row');
+  const stat = (k, v, s, hi) => {
+    const e = h('div', 'stat' + (hi ? ' hi' : ''));
+    e.appendChild(h('span', 'k', k));
+    e.appendChild(h('div', 'v', String(v)));
+    e.appendChild(h('span', 's', s));
+    row.appendChild(e);
+  };
+  const extra = d.conv - d.sel;
+  stat('Potenciales convocados', fmt(d.conv), `${pct1(d.conv, d.n)}% de sus ${fmt(d.n)} examinados 2026`, true);
+  stat('Seleccionados 2026', fmt(d.sel), 'entran directo al grupo');
+  stat('Solo por corte histórico', fmt(extra), 'no seleccionados que alcanzan un corte 2021–2026');
+  stat('Corte mínimo', d.mc ?? '—', d.mc != null ? `el más bajo del periodo (${d.my.join(', ')})` : 'sin corte utilizable');
+  stat('Corte 2026', d.c26 ?? '—', d.c26 != null ? 'del concurso en línea' : 'sin seleccionados 2026');
+  sh.appendChild(row);
+  drawMini(d);
+  sibs(code, d);
+  history.replaceState(null, '', '?c=' + code.slice(1) + '&s=' + d.s);
+  document.getElementById('buscarSticky').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+}
+
+function drawMini(d) {
+  const card = document.getElementById('miniCard');
+  const host = document.getElementById('miniHost'); host.replaceChildren();
+  const tt = document.getElementById('ttMini');
+  const ok = d.n > 0 && d.h5.some(v => v > 0);
+  card.hidden = !ok;
+  if (!ok) return;
+  const col = SYSC[d.s];
+  document.getElementById('miniSub').textContent =
+    `Calificaciones de sus ${fmt(d.n)} examinados de 2026. La zona sombreada desde el corte mínimo (${d.mc}) ` +
+    `es el grupo que alcanza algún corte histórico; la línea punteada marca el corte 2026.`;
+  const W = 900, H = 250, m = {t: 20, r: 18, b: 38, l: 46};
+  const ymax = Math.max(6, ...d.h5) * 1.14;
+  const X = i => m.l + (i * 5 + 2.5) / 120 * (W - m.l - m.r);
+  const Xs = v => m.l + v / 120 * (W - m.l - m.r);
+  const Y = v => m.t + (1 - v / ymax) * (H - m.t - m.b);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': `Distribución de calificaciones 2026 de esta carrera; ${fmt(d.conv)} aspirantes en o por encima del corte mínimo ${d.mc}.`}, host);
+  for (let g = 0; g <= 3; g++) {
+    const v = ymax * g / 3;
+    el('line', {x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: '#e7eaf2', 'stroke-width': 1}, svg);
+    el('text', {x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end', fill: '#6a7186', 'font-size': 11.5}, svg).textContent = v.toFixed(0) + '%';
+  }
+  for (let v = 0; v <= 120; v += 20)
+    el('text', {x: Xs(v), y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5}, svg).textContent = v;
+  el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: '#a7aec1', 'stroke-width': 1}, svg);
+  let path = '';
+  d.h5.forEach((v, i) => path += (i ? ' L' : 'M') + ` ${X(i)} ${Y(v)}`);
+  if (d.mc != null) {
+    const b0 = Math.max(0, Math.floor(d.mc / 5));
+    let area = `M ${Xs(d.mc)} ${Y(0)}`;
+    for (let i = b0; i < 25; i++) area += ` L ${X(i)} ${Y(d.h5[i])}`;
+    area += ` L ${Xs(120)} ${Y(0)} Z`;
+    el('path', {d: area, fill: col, opacity: .26, stroke: 'none'}, svg);
+  }
+  el('path', {d: path, fill: 'none', stroke: col, 'stroke-width': 2.6, 'stroke-linejoin': 'round'}, svg);
+  const lab = (x, txt, dash, op, y) => {
+    el('line', {x1: x, x2: x, y1: m.t, y2: Y(0), stroke: col, 'stroke-width': 1.3,
+      'stroke-dasharray': dash, opacity: op}, svg);
+    const flip = x > 740;
+    el('text', {x: flip ? x - 5 : x + 5, 'text-anchor': flip ? 'end' : 'start', y,
+      fill: col, 'font-weight': 750, 'font-size': 11.5}, svg).textContent = txt;
+  };
+  if (d.mc != null) lab(Xs(d.mc), `corte mínimo: ${d.mc}`, 'none', .9, m.t + 12);
+  if (d.c26 != null && d.c26 !== d.mc) lab(Xs(d.c26), `corte 2026: ${d.c26}`, '4 4', .75, m.t + 27);
+  const cross = el('line', {y1: m.t, y2: Y(0), stroke: '#a7aec1', 'stroke-width': 1, opacity: 0}, svg);
+  svg.addEventListener('mousemove', ev => {
+    const r = svg.getBoundingClientRect();
+    if (!r.width) return;
+    const px = (ev.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(24, Math.floor((px - m.l) / (W - m.l - m.r) * 24)));
+    cross.setAttribute('x1', X(i)); cross.setAttribute('x2', X(i)); cross.setAttribute('opacity', .8);
+    const inZone = d.mc != null && (i * 5 + 4) >= d.mc;
+    tt.replaceChildren(h('b', null, `Aciertos ${i * 5}–${i * 5 + 4}`),
+      document.createTextNode(`${d.h5[i].toFixed(1)}% de sus examinados`));
+    if (inZone) { tt.appendChild(document.createElement('br')); tt.appendChild(document.createTextNode('dentro de la zona convocada')); }
+    const cr = card.getBoundingClientRect();
+    tt.style.opacity = 1;
+    let lx = ev.clientX - cr.left + 14;
+    if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
+    tt.style.left = Math.max(4, lx) + 'px'; tt.style.top = Math.max(4, ev.clientY - cr.top - 30) + 'px';
+  });
+  svg.addEventListener('mouseleave', () => { tt.style.opacity = 0; cross.setAttribute('opacity', 0); });
+}
+
+function sibs(code, d) {
+  const host = document.getElementById('sibsHost'); host.replaceChildren();
+  const nk = norm(d.k);
+  const list = INDEX.filter(x => x.c !== code && norm(x.d.k) === nk);
+  if (!list.length) return;
+  host.appendChild(h('p', 'sibs-h', 'La misma carrera en otro sistema o plantel'));
+  const box = h('div', 'sibs');
+  for (const x of list) {
+    const b = h('button');
+    b.appendChild(dot(SYSC[x.d.s]));
+    b.appendChild(document.createTextNode(`${SYSN[x.d.s]} · ${x.d.p} — `));
+    b.appendChild(h('b', null, fmt(x.d.conv)));
+    b.addEventListener('click', () => showProfile(x.c));
+    box.appendChild(b);
+  }
+  host.appendChild(box);
+}
+
+// ---------- full table (sigue al selector) ----------
+const sort = {k: 'conv', dir: -1};
+function renderTable() {
+  const body = document.getElementById('fullBody'); body.replaceChildren();
+  const rows = INDEX.filter(x => x.d.s === state.sysf)
+    .map(x => ({c: x.c, k: x.d.k, p: x.d.p, n: x.d.n, sel: x.d.sel,
+                conv: x.d.conv, pct: x.d.n ? x.d.conv / x.d.n : 0}));
+  rows.sort((a, b) => {
+    const va = a[sort.k], vb = b[sort.k];
+    return (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * sort.dir;
+  });
+  for (const r of rows) {
+    const tr = h('tr');
+    tr.appendChild(h('td', null, r.k));
+    tr.appendChild(h('td', null, r.p));
+    tr.appendChild(h('td', null, fmt(r.n)));
+    tr.appendChild(h('td', null, fmt(r.sel)));
+    const tdc = h('td'); tdc.appendChild(h('b', null, fmt(r.conv))); tr.appendChild(tdc);
+    tr.appendChild(h('td', null, (100 * r.pct).toFixed(1) + '%'));
+    tr.addEventListener('click', () => {
+      showProfile(r.c);
+      document.getElementById('sBox').value = r.k + ' — ' + r.p;
+      document.getElementById('sClear').hidden = false;
+    });
+    body.appendChild(tr);
+  }
+  document.querySelectorAll('#fullTable th').forEach(th => {
+    th.querySelector('.arr').textContent = th.dataset.k === sort.k ? (sort.dir < 0 ? ' ▼' : ' ▲') : '';
+  });
+}
+document.querySelectorAll('#fullTable th').forEach(th => {
+  th.addEventListener('click', () => {
+    const k = th.dataset.k;
+    if (sort.k === k) sort.dir *= -1;
+    else { sort.k = k; sort.dir = (k === 'k' || k === 'p') ? 1 : -1; }
+    renderTable();
+  });
+});
+
+// ---------- deep link + arranque ----------
+(function init() {
+  const q = new URLSearchParams(location.search);
+  const c = q.get('c'), s = q.get('s');
+  let key = null;
+  if (c) {
+    if (CD[c]) key = c;
+    else if (s && CD[s + c]) key = s + c;
+    else key = ['e', 'a', 'd'].map(p => p + c).find(k => CD[k]) || null;
+  }
+  if (!key) {
+    const med = INDEX.find(x => x.d.s === 'e' && x.txt.includes('medico cirujano') && x.txt.includes('facultad de medicina'));
+    key = med ? med.c : INDEX[0].c;
+  }
+  const d = CD[key];
+  document.getElementById('sBox').value = d.k + ' — ' + d.p;
+  document.getElementById('sClear').hidden = false;
+  showProfile(key);
+  window.scrollTo(0, 0);
+})();
+
+document.addEventListener('touchstart', ev => {
+  if (!(ev.target instanceof Element) || !ev.target.closest('svg'))
+    document.querySelectorAll('.tt').forEach(t => t.style.opacity = 0);
+}, {passive: true});
+</script>
+<script data-goatcounter="https://pedrozape.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
