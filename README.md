@@ -16,9 +16,9 @@ resultados —públicos desde entonces— mostraban el mismo patrón, casi sin a
 |---|---|
 | [Explorador](https://pzape.github.io/unam-admision-2026/) | Cinco secciones: historia del cambio de 2026, mapa de riesgo por carrera, calculadora de puntaje, buscador con el perfil de 189 programas y análisis por plantel |
 | [La historia](https://pzape.github.io/unam-admision-2026/historia.html) | El caso contado paso a paso, con las gráficas esenciales |
-| [Nota técnica](https://pzape.github.io/unam-admision-2026/nota-tecnica.html) | Descriptor de datos, métodos y validación (v1.4) |
+| [Nota técnica](https://pzape.github.io/unam-admision-2026/nota-tecnica.html) | Descriptor de datos, métodos y validación (v1.5): seis años, tres sistemas, el antecedente de noviembre de 2025 y el cálculo del grupo del examen de control |
 | [Examen de control](https://pzape.github.io/unam-admision-2026/examen-control.html) | ¿Te tocaría el examen de control? Revisa tu caso carrera por carrera |
-| [¿Cuántos serían convocados?](https://pzape.github.io/unam-admision-2026/convocados.html) | El tamaño del grupo del examen de control, por sistema y carrera por carrera |
+| [¿Cuántos serían convocados?](https://pzape.github.io/unam-admision-2026/convocados.html) | El tamaño del grupo del examen de control con los criterios recomendados: ~57,900 personas en los tres sistemas (47,935 escolarizado · 3,989 abierta · 6,011 a distancia), por sistema y carrera por carrera |
 | [Buscador SUAyED](https://pzape.github.io/unam-admision-2026/suayed-buscador.html) | Perfil semestral de los programas del SUAyED: ambas modalidades y ambos concursos, incluido noviembre de 2025 |
 | [Examen de control SUAyED](https://pzape.github.io/unam-admision-2026/suayed-examen-control.html) | Los criterios del examen de control aplicados, de forma condicional, al SUAyED |
 
