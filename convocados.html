@@ -357,10 +357,27 @@ document.getElementById('sClear').addEventListener('click', () => {
   document.getElementById('sClear').hidden = true;
   document.getElementById('sRes').replaceChildren(); sb.focus();
 });
+const DEFRULE = {
+  e: x => x.txt.includes('medico cirujano') && x.txt.includes('facultad de medicina'),
+  a: x => x.txt.includes('derecho') && x.txt.includes('facultad de derecho'),
+  d: x => x.txt.includes('psicologia')
+};
+function defaultKey(s) {
+  const f = INDEX.find(x => x.d.s === s && DEFRULE[s](x)) || INDEX.find(x => x.d.s === s);
+  return f.c;
+}
 document.getElementById('sysSel').addEventListener('change', () => {
   state.sysf = document.querySelector('#sysSel input[name="sysf"]:checked').value;
-  searchRender(document.getElementById('sBox').value);
   renderTable();
+  if (!state.code || CD[state.code].s !== state.sysf) {
+    const k = defaultKey(state.sysf), d = CD[k];
+    document.getElementById('sBox').value = d.k + ' — ' + d.p;
+    document.getElementById('sClear').hidden = false;
+    document.getElementById('sRes').replaceChildren();
+    showProfile(k);
+  } else {
+    searchRender(document.getElementById('sBox').value);
+  }
 });
 function syncSysSel(s) {
   if (state.sysf === s) return;
@@ -375,6 +392,8 @@ function showProfile(code) {
   const d = CD[code]; if (!d) return;
   state.code = code;
   syncSysSel(d.s);
+  document.getElementById('sBox').value = d.k + ' — ' + d.p;
+  document.getElementById('sClear').hidden = false;
   const head = document.getElementById('selHead'); head.hidden = false;
   document.getElementById('selName').textContent = d.k;
   const sub = document.getElementById('selSub');
@@ -533,10 +552,7 @@ document.querySelectorAll('#fullTable th').forEach(th => {
     else if (s && CD[s + c]) key = s + c;
     else key = ['e', 'a', 'd'].map(p => p + c).find(k => CD[k]) || null;
   }
-  if (!key) {
-    const med = INDEX.find(x => x.d.s === 'e' && x.txt.includes('medico cirujano') && x.txt.includes('facultad de medicina'));
-    key = med ? med.c : INDEX[0].c;
-  }
+  if (!key) key = defaultKey('e');
   const d = CD[key];
   document.getElementById('sBox').value = d.k + ' — ' + d.p;
   document.getElementById('sClear').hidden = false;
