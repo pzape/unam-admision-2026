@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="https://pzape.github.io/unam-admision-2026/suayed-examen-control.html">
 <meta name="author" content="Pedro Zape (github.com/pzape)">
-<meta name="description" content="Si el examen de control aplicara también al SUAyED (modalidad Abierta), estos serían los criterios: revisa tu caso carrera por carrera con los cortes 2021–2026.">
+<meta name="description" content="El examen de control para el SUAyED (abierta y a distancia): revisa tu caso carrera por carrera con los cortes 2021–2026 y los mínimos oficiales.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Examen de control y SUAyED · Admisión UNAM 2026">
-<meta property="og:description" content="La UNAM no ha precisado si el examen de control incluye al SUAyED. Esta herramienta aplica los criterios publicados, de forma condicional, a los cortes de la modalidad Abierta.">
+<meta property="og:description" content="El SUAyED está incluido en el examen de control. Revisa tu caso con los criterios publicados y los cortes oficiales 2021–2026.">
 <meta property="og:locale" content="es_MX">
 <title>Examen de control y SUAyED · Admisión UNAM 2026</title>
 <style>
@@ -57,6 +57,7 @@ input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; app
 .ctrl-card .ck { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); font-weight: 800; }
 .ctrl-card .cb { display: inline-block; font-size: 26px; font-weight: 800; color: var(--ink); letter-spacing: -.02em; margin-top: 2px; }
 .ctrl-card .cs { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; }
+.ctrl-card .cs.of { color: var(--warn); font-weight: 750; margin-top: 2px; }
 .ctrl-card .cl { display: block; font-size: 12.5px; font-weight: 750; color: var(--brand); margin-top: 5px; }
 .ctrl-card:hover { background: var(--brand-soft); }
 .ctrl-na { max-width: 250px; font-size: 12px; color: var(--muted); background: var(--card); border-radius: 12px; padding: 10px 14px; margin: 0; }
@@ -150,15 +151,14 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 </div></div>
 
 <div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
-  <span class="kicker">SUAyED · Modalidad Abierta · escenario condicional</span>
-  <h1>¿Y si el <span class="grad">examen de control</span> también aplicara al SUAyED?</h1>
+  <span class="kicker">SUAyED · Abierta y a distancia · examen de control</span>
+  <h1>El <span class="grad">examen de control</span> en el SUAyED</h1>
 
-  <div class="warnbox"><b>Importante: la UNAM no ha precisado si el examen de control incluye al SUAyED.</b>
-  La recomendación de la comisión técnica (31 de julio) se refiere al proceso de ingreso 2026-2027/1 sin
-  distinguir modalidades. El SUAyED compartió convocatoria, examen en línea y ventana de aplicación con el
-  sistema escolarizado, por lo que el escenario es plausible — pero <strong>no está confirmado</strong>.
-  Esta herramienta muestra qué pasaría <em>si</em> los criterios publicados se aplicaran igual a la
-  modalidad Abierta. La convocatoria oficial del examen de control definirá quiénes participan.</div>
+  <div class="note"><b>El SUAyED está incluido en el examen de control.</b>
+  La tabla oficial de aciertos mínimos publicada por la DGAE
+  (<a href="https://www.dgae.unam.mx/Licenciatura2026/oferta_lugares/cortes_minimos.html">cortes mínimos, DGAE</a>) incluye a las modalidades abierta y a
+  distancia del SUAyED, lo que resuelve la duda que esta página mantenía como condicional. Los mínimos
+  oficiales coinciden con los cortes del concurso de mayo–junio que usa esta herramienta.</div>
 
   <p class="dek">Elige tu carrera del SUAyED, escribe tus aciertos de 2026 y revisa cómo quedarías bajo los
   dos criterios publicados: seleccionados de 2026 y puntajes de corte históricos de 2021 a 2026.</p>
@@ -197,8 +197,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   presencial y convocar a él a quienes resultaron seleccionados y a quienes alcanzaron los puntajes de
   corte históricos del periodo 2021–2026
   (<a href="https://www.gaceta.unam.mx/recibe-el-rector-lomeli-las-recomendaciones-de-la-comision-tecnica-para-revisar-el-proceso-de-ingreso-a-la-licenciatura-2026-2027-1-de-la-unam/">Gaceta UNAM</a>).
-  Aquí esos criterios se aplican, de forma condicional, a los cortes oficiales de la modalidad Abierta.
-  Si tu examen fue cancelado, tu resultado no está publicado y esta herramienta no puede evaluarlo.</div>
+  La DGAE publicó después la tabla oficial de aciertos mínimos por carrera, incluidas las dos modalidades
+  del SUAyED (<a href="https://www.dgae.unam.mx/Licenciatura2026/oferta_lugares/cortes_minimos.html">cortes mínimos, DGAE</a>); sus valores coinciden con los
+  cortes del concurso de mayo–junio que usa esta herramienta. Si tu examen fue cancelado, tu resultado no
+  está publicado y esta herramienta no puede evaluarlo.</div>
 
   <div class="foot">
     <p><strong>Alcance.</strong> Datos de la modalidad Abierta del SUAyED (las páginas oficiales de resultados no
@@ -271,24 +273,23 @@ function renderControl() {
   const tit = document.createElement('b');
   const body = document.createElement('span');
   if (sel26) {
-    tit.textContent = `Con ${s} aciertos quedaste seleccionado en 2026; si la medida incluye al SUAyED, serías convocado.`;
-    body.textContent = `Tu puntaje alcanza el corte 2026 de esta carrera (${d.may[2026]}). El primer grupo que la comisión ` +
-      `recomienda convocar es el de quienes resultaron seleccionados. Recuerda: no está confirmado que el examen de ` +
-      `control aplique al SUAyED.`;
+    tit.textContent = `Con ${s} aciertos quedaste seleccionado en 2026: quedarías convocado al examen de control.`;
+    body.textContent = `Tu puntaje alcanza el corte 2026 de esta carrera (${d.may[2026]}). El primer grupo convocado ` +
+      `es el de quienes resultaron seleccionados; los lugares se asignarían con los resultados del nuevo examen.`;
   } else if (reached.length) {
-    tit.textContent = `Con ${s} aciertos alcanzas cortes históricos; si la medida incluye al SUAyED, quedarías convocado.`;
+    tit.textContent = `Con ${s} aciertos alcanzas cortes históricos: quedarías convocado al examen de control.`;
     body.textContent = `No alcanzaste el corte 2026 (${d.may[2026]}), pero tu puntaje iguala o supera el corte de ` +
       `${reached.length === 1 ? 'un año' : reached.length + ' años'} del periodo 2021–2026 (${reached.join(', ')}). ` +
-      `Ese es el segundo grupo de la recomendación. Recuerda: no está confirmado que la medida aplique al SUAyED.`;
+      `Ese es el segundo grupo que se convoca al examen de control.`;
   } else if (yrs.length === 1) {
     tit.textContent = `Con ${s} aciertos no se alcanza el corte de esta carrera.`;
-    body.textContent = `Esta carrera se ofreció por primera vez en 2026 en la modalidad Abierta, de modo que el único corte ` +
-      `del periodo es el de 2026 (${d.may[2026]}). Bajo los criterios publicados, este puntaje no quedaría convocado ` +
-      `aunque la medida incluyera al SUAyED.`;
+    body.textContent = `Esta carrera se ofreció por primera vez en 2026 en esta modalidad, de modo que el único corte ` +
+      `del periodo es el de 2026 (${d.may[2026]}). Bajo los criterios publicados, este puntaje no quedaría convocado.`;
   } else {
     tit.textContent = `Con ${s} aciertos no se alcanza ningún corte 2021–2026 de esta carrera.`;
     body.textContent = `El corte más bajo del periodo en esta carrera fue ${Math.min(...yrs.map(y => d.may[y]))}. ` +
-      `Bajo los dos criterios publicados, este puntaje no quedaría convocado aunque la medida incluyera al SUAyED.`;
+      `Bajo los dos criterios publicados —seleccionados de 2026 o corte histórico alcanzado— este puntaje no ` +
+      `quedaría convocado.`;
   }
   if (missing.length && yrs.length > 1) {
     body.textContent += ` Nota: esta carrera no se ofertó en ${missing.join(', ')}; el criterio histórico solo puede ` +
@@ -338,7 +339,7 @@ function renderControl() {
     const cap = document.createElement('p');
     cap.style.cssText = 'font-size:12px;color:var(--muted);margin:10px 0 0';
     cap.textContent = 'Columnas grises: concurso de noviembre (referencia; noviembre 2025 fue en línea). El veredicto de arriba ' +
-      'usa los cortes del concurso de mayo–junio; la convocatoria oficial definirá si los cortes de noviembre cuentan.';
+      'usa los cortes del concurso de mayo–junio, que coinciden con los mínimos oficiales publicados: los cortes de noviembre no cuentan.';
     tHost.appendChild(cap);
   }
 }

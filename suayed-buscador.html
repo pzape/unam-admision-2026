@@ -57,6 +57,7 @@ input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; app
 .ctrl-card .ck { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); font-weight: 800; }
 .ctrl-card .cb { display: inline-block; font-size: 26px; font-weight: 800; color: var(--ink); letter-spacing: -.02em; margin-top: 2px; }
 .ctrl-card .cs { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; }
+.ctrl-card .cs.of { color: var(--warn); font-weight: 750; margin-top: 2px; }
 .ctrl-card .cl { display: block; font-size: 12.5px; font-weight: 750; color: var(--brand); margin-top: 5px; }
 .ctrl-card:hover { background: var(--brand-soft); }
 .ctrl-na { max-width: 250px; font-size: 12px; color: var(--muted); background: var(--card); border-radius: 12px; padding: 10px 14px; margin: 0; }
@@ -169,7 +170,8 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
         <span class="ck">Examen de control</span>
         <span class="cb" id="ctrlMin"></span>
         <span class="cs" id="ctrlMinSub"></span>
-        <span class="cl">¿Te tocaría? (no confirmado para SUAyED) →</span>
+        <span class="cs of" id="ctrlOf"></span>
+        <span class="cl">¿Te tocaría el examen? →</span>
       </a>
       <p class="ctrl-na" id="ctrlNa" hidden></p>
       <p id="convLnk" style="flex-basis:100%;margin:2px 0 0;font-size:13px;font-weight:700" hidden><a id="convLnkA" href="#">¿Cuántos serían convocados al examen de control en esta carrera? →</a></p>
@@ -709,8 +711,9 @@ function render() {
     const minC = Math.min(...cYrs.map(y => d.s.may.y[y].c));
     const minY = cYrs.find(y => d.s.may.y[y].c === minC);
     document.getElementById('ctrlMin').textContent = String(minC);
-    document.getElementById('ctrlMinSub').textContent = `aciertos mínimos según la recomendación (corte más bajo del concurso mayo–junio: ${minY})`;
-    ctrl.setAttribute('aria-label', `Examen de control: ${minC} aciertos mínimos según los criterios recomendados (corte más bajo, ${minY}); no confirmado para SUAyED.`);
+    document.getElementById('ctrlMinSub').textContent = `aciertos mínimos (corte más bajo del concurso mayo–junio: ${minY})`;
+    document.getElementById('ctrlOf').textContent = `mínimo oficial (DGAE): ${minC}`;
+    ctrl.setAttribute('aria-label', `Examen de control: ${minC} aciertos mínimos (corte más bajo, ${minY}); coincide con el mínimo oficial publicado por la DGAE.`);
   } else {
     const cvl0 = document.getElementById('convLnk');
     if (cvl0) cvl0.hidden = true;
