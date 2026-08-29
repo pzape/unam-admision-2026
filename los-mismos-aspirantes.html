@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">
+<meta name="author" content="Pedro Zape (github.com/pzape)">
+<meta name="description" content="36,719 aspirantes de la UNAM presentaron el examen en línea y el examen de control. Sus dos calificaciones, vinculadas: el mapa, la dosis-respuesta y la supervivencia de los puntajes altos.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Los mismos aspirantes, dos exámenes · Admisión UNAM 2026">
+<meta property="og:description" content="La caída mediana fue de 32 aciertos. De 6,029 aspirantes con 110+ en línea que presentaron el examen de control, 90 lo mantuvieron. La correlación entre ambos exámenes: 0.26.">
+<title>Los mismos aspirantes, dos exámenes · Admisión UNAM 2026</title>
+<style>
+:root { color-scheme: light;
+  --bg: #f6f7fb; --surface: #fff; --ink: #101223; --ink2: #3f4557; --muted: #6a7186;
+  --line: #e7eaf2; --axis: #a7aec1; --card: #f0f2f9;
+  --brand: #4f46e5; --brand-soft: #eef0fe;
+  --sys-e: #4f46e5; --sys-a: #0d9488; --sys-d: #a855f7;
+  --l26: #ea580c; --ctl: #4338ca; --ctld: #3730a3; --ctl-soft: rgba(67,56,202,.09);
+  --shadow: 0 1px 2px rgba(16,18,35,.05), 0 10px 30px rgba(16,18,35,.07);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { font: 15.5px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); margin: 0; -webkit-font-smoothing: antialiased; }
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(246,247,251,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.topbar-in { max-width: 1000px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+.topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--ctl), var(--l26)); }
+.topbar b { font-weight: 800; }
+.topbar a { margin-left: auto; color: var(--brand); font-weight: 650; text-decoration: none; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 40px 22px 90px; }
+.kicker { display: inline-block; background: var(--ctl-soft); color: var(--ctl); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px; }
+h1 { font-size: clamp(26px, 4.6vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 0 0 12px; text-wrap: balance; }
+h1 .grad { background: linear-gradient(90deg, var(--ctl), var(--l26)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+h2 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; margin: 34px 0 10px; }
+.dek { font-size: 16.5px; line-height: 1.6; color: var(--ink2); margin: 0 0 22px; }
+a { color: var(--brand); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 12px; margin: 22px 0; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--ctl); border-radius: 14px; padding: 14px 18px; box-shadow: var(--shadow); }
+.tile .k { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 800; }
+.tile .v { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 12px; color: var(--muted); line-height: 1.45; display: block; }
+.chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px 16px; box-shadow: var(--shadow); margin: 18px 0; position: relative; }
+.chart-title { font-weight: 750; font-size: 15px; margin: 0 0 2px; }
+.chart-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+.mod-sel { border: none; margin: 18px 0 6px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg label { display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 650; color: var(--ink2); cursor: pointer; background: var(--surface); transition: border-color .12s, color .12s, background .12s; }
+.seg label .sd { width: 9px; height: 9px; border-radius: 3px; display: inline-block; flex: none; }
+.seg label:hover { border-color: var(--axis); }
+.seg input:checked + label { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+.seg input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
+.note { background: var(--card); border-radius: 12px; padding: 14px 18px; font-size: 13.5px; line-height: 1.6; margin: 14px 0; color: var(--ink2); }
+.note b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; color: var(--brand); }
+.ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px 12px; overflow-x: auto; margin-top: 14px; }
+.ytable { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+.ytable th, .ytable td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ytable thead th { font-size: 11.5px; font-weight: 800; color: var(--ink); border-bottom: 1.5px solid var(--axis); }
+.ytable td:first-child, .ytable th:first-child { text-align: left; }
+.ytable tbody tr:last-child td { border-bottom: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.foot { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); line-height: 1.7; }
+.foot a { color: var(--ink2); }
+svg { display: block; width: 100%; height: auto; }
+svg text { font-family: system-ui, sans-serif; font-size: 13px; }
+.tt { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 10px; padding: 10px 13px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 24px rgba(16,18,35,.25); opacity: 0; z-index: 5; font-variant-numeric: tabular-nums; max-width: 300px; }
+.tt b { display: block; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in"><span class="dot"></span><b>Admisión UNAM</b> · Los mismos aspirantes, dos exámenes
+  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">Resultados por carrera →</a></div></div>
+<div class="wrap">
+  <span class="kicker">Análisis vinculado · datos oficiales DGAE</span>
+  <h1>Los <span class="grad">mismos aspirantes</span>, dos exámenes</h1>
+  <p class="dek">Las páginas oficiales de resultados usan el mismo número de comprobante en el examen en
+  línea de mayo y en el examen de control presencial. Eso permite comparar, persona por persona y sin
+  identificar a nadie, las dos calificaciones de <strong>36,719 aspirantes</strong> que presentaron
+  ambos. Si los dos exámenes midieran lo mismo, las calificaciones se parecerían. No se parecen — y la
+  forma en que difieren cuenta toda la historia.</p>
+
+  <div class="tiles">
+    <div class="tile"><span class="k">Con ambos puntajes</span><div class="v">36,719</div>
+      <span class="s">aspirantes vinculados por su comprobante (30,740 escolarizado · 2,740 abierta · 3,239 a distancia)</span></div>
+    <div class="tile"><span class="k">Caída mediana</span><div class="v">−32</div>
+      <span class="s">aciertos en escolarizado (−19 abierta · −17 a distancia); el 54% del escolarizado cayó 30 o más</span></div>
+    <div class="tile"><span class="k">Los 110+ que volvieron</span><div class="v">90 de 6,029</div>
+      <span class="s">mantuvieron 110+ en el presencial; la mediana del grupo quedó en 69 aciertos</span></div>
+    <div class="tile"><span class="k">Correlación entre exámenes</span><div class="v">0.26</div>
+      <span class="s">Spearman en escolarizado (0.21 abierta · 0.24 a distancia); en pruebas equiparables suele superar 0.8</span></div>
+  </div>
+
+  <fieldset class="seg mod-sel" id="sysSel">
+    <legend class="visually-hidden">Sistema (elige uno)</legend>
+    <input type="radio" name="sysf" id="sysE" value="e" checked><label for="sysE"><span class="sd" style="background:var(--sys-e)"></span>Escolarizado</label>
+    <input type="radio" name="sysf" id="sysA" value="a"><label for="sysA"><span class="sd" style="background:var(--sys-a)"></span>SUAyED Abierta</label>
+    <input type="radio" name="sysf" id="sysD" value="d"><label for="sysD"><span class="sd" style="background:var(--sys-d)"></span>SUAyED a Distancia</label>
+  </fieldset>
+
+  <div class="chart-card">
+    <p class="chart-title">El mapa: en línea contra presencial</p>
+    <p class="chart-sub" id="heatSub"></p>
+    <div id="heatHost"></div>
+    <div class="tt" id="ttHeat"></div>
+  </div>
+
+  <div class="chart-card">
+    <p class="chart-title">La caída crece con el puntaje en línea</p>
+    <p class="chart-sub">Cambio mediano de calificación (control menos en línea) según la banda de puntaje
+    que cada aspirante obtuvo en línea. La barra gris cubre del cuartil 1 al 3. Quienes traían menos de 60
+    reprodujeron su calificación; quienes traían 110 o más cayeron una mediana de 44 a 50 aciertos según
+    el sistema.</p>
+    <div id="doseHost"></div>
+  </div>
+
+  <div class="chart-card">
+    <p class="chart-title">¿A dónde cayeron los 110+?</p>
+    <p class="chart-sub" id="survSub"></p>
+    <div id="survHost"></div>
+    <div class="tt" id="ttSurv"></div>
+  </div>
+
+  <div class="chart-card">
+    <p class="chart-title">La caída no la explican las ausencias</p>
+    <p class="chart-sub">Porcentaje de convocados que no presentaron el examen de control, por banda de
+    puntaje en línea. Los puntajes altos fueron los que más asistieron: el colapso de arriba ocurrió entre
+    quienes sí fueron.</p>
+    <div id="ausHost"></div>
+  </div>
+
+  <h2>Método y límites</h2>
+  <div class="note"><b>Cómo se vinculó</b>
+  Las páginas oficiales publican, para cada carrera, el número de comprobante, la calificación y el
+  estatus de cada aspirante — en el concurso de mayo y en el examen de control. El vínculo es el par
+  (carrera, comprobante): en todas las carreras revisadas, los comprobantes del examen de control
+  aparecen en la página del examen en línea. El comprobante es un folio público y pseudónimo; esta
+  página, como todo el sitio, publica únicamente distribuciones y agregados, nunca casos individuales.</div>
+  <div class="note"><b>Lo que la estadística descuenta sola</b>
+  Parte de la caída de los puntajes altos es esperable por regresión a la media: quien queda arriba en
+  una medición con azar tiende a bajar en la siguiente. Dos cosas no las explica ese fenómeno: que la
+  banda de menos de 60 aciertos haya reproducido su calificación casi exactamente (un examen ruidoso
+  también la habría movido), y el tamaño del desplome (una mediana de −44 en la banda alta, con una
+  correlación entre ambos exámenes de 0.21 a 0.26, cuando en aplicaciones equiparables del mismo tipo de
+  prueba se esperan correlaciones altas). El rango restringido del grupo convocado atenúa la correlación;
+  no la lleva a 0.26.</div>
+  <div class="note"><b>Poblaciones</b>
+  Solo se compara a quienes tienen calificación publicada en ambos exámenes. Los convocados que no se
+  presentaron al control (21,741) aparecen únicamente en la gráfica de ausencias; los registros
+  cancelados y sin calificación quedan fuera. Los conteos por carrera están en
+  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">los resultados del examen
+  de control</a>; el procedimiento completo, en la
+  <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">nota técnica</a>.</div>
+
+  <div class="foot">
+    <p><strong>Documentos relacionados:</strong>
+    <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">Resultados del examen de control</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/">Explorador (escolarizado)</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/historia.html">La historia</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a></p>
+    <p><strong>Autoría.</strong> Análisis y herramienta: Pedro Zape (github.com/pzape) · datos públicos de
+    DGAE-UNAM. Elaborado con asistencia de IA (Claude, de Anthropic) bajo dirección y verificación del
+    autor. © 2026, todos los derechos reservados sobre el análisis, el texto y el diseño; los datos
+    oficiales pertenecen a sus fuentes. Estadísticas de visita agregadas y anónimas, sin cookies
+    (GoatCounter).</p>
+  </div>
+</div>
+<script>
+const D = {"e":{"name":"Escolarizado","below":94.9,"linked":48448,"npairs":30740,"md":-32,"d30":16706,"rose":689,"rho":0.256,"heat":[[2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,7,18,47,31,18,6,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,15,14,52,78,42,16,8,3,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,8,16,38,61,71,32,14,5,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,3,6,17,34,54,75,95,33,18,6,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,8,39,52,93,134,120,95,40,13,5,0,0,0,0,0,0,0,0],[0,0,0,0,1,6,14,45,88,104,165,170,121,122,38,12,2,0,0,0,0,0,0,0],[0,0,0,0,1,7,29,61,113,125,161,186,187,129,86,28,8,0,0,0,0,0,0,0],[0,0,0,0,4,10,28,92,154,172,170,208,208,181,129,68,20,5,2,0,0,0,0,0],[0,0,0,0,2,22,81,156,198,226,229,229,261,271,215,146,74,18,9,0,0,0,0,0],[0,0,0,0,6,20,68,212,292,313,288,289,295,296,302,185,99,63,13,2,0,0,0,0],[0,0,0,0,3,31,100,257,325,357,333,313,315,330,326,261,187,100,46,8,3,0,0,0],[0,0,0,0,1,20,96,244,353,419,391,355,305,310,333,328,270,164,89,46,4,2,0,0],[0,0,0,0,2,33,96,261,365,408,361,354,312,319,299,290,272,250,148,74,35,9,0,0],[0,0,0,0,2,20,103,252,372,386,406,363,318,302,266,267,269,307,220,156,83,44,5,0],[0,0,0,0,3,23,88,192,280,360,374,346,304,278,255,263,280,279,248,261,149,64,47,2],[0,0,0,0,1,5,20,66,89,99,116,90,96,95,103,104,117,126,140,154,130,72,21,19]],"bands":[{"lab":"<60","n":1760,"ns":773,"md":-1,"q1":-7,"q3":2,"np":987},{"lab":"60–79","n":7090,"ns":3018,"md":-15,"q1":-24,"q3":-7,"np":4060},{"lab":"80–89","n":8159,"ns":3248,"md":-27,"q1":-39,"q3":-16,"np":4880},{"lab":"90–99","n":11440,"ns":4354,"md":-36,"q1":-48,"q3":-22,"np":7025},{"lab":"100–109","n":12264,"ns":4177,"md":-43,"q1":-57,"q3":-26,"np":8029},{"lab":"110+","n":7735,"ns":1957,"md":-44,"q1":-61,"q3":-25,"np":5759}],"hi":{"n":5759,"h5":[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0],"med":69,"kept":89}},"a":{"name":"SUAyED Abierta","below":89.3,"linked":4000,"npairs":2740,"md":-19,"d30":910,"rose":132,"rho":0.214,"heat":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,1,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,1,5,9,4,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,4,9,16,19,8,5,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,4,7,20,19,28,10,2,2,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,3,5,9,18,29,46,17,7,3,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,1,4,15,19,28,29,32,27,11,1,1,0,0,0,0,0,0,0],[0,0,0,0,0,2,5,8,21,30,27,49,45,47,34,4,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,7,16,20,28,33,44,62,41,28,5,1,0,0,0,0,0,0],[0,0,0,0,0,0,5,11,18,14,24,25,46,40,42,32,18,6,0,0,0,0,0,0],[0,0,0,0,0,2,4,5,21,28,20,30,32,37,39,37,18,8,4,0,0,0,0,0],[0,0,0,0,0,2,6,11,23,32,30,32,25,26,32,37,26,12,4,1,0,0,0,0],[0,0,0,0,0,0,6,13,27,25,27,17,19,20,23,29,31,23,7,1,0,0,0,0],[0,0,0,0,1,1,3,16,19,28,29,22,30,13,18,12,21,18,12,7,1,0,0,0],[0,0,0,0,0,0,5,9,14,18,17,15,21,9,13,10,13,13,9,6,1,1,0,0],[0,0,0,0,0,1,2,4,6,8,14,6,7,8,4,5,7,8,5,2,4,0,1,0],[0,0,0,0,0,1,2,2,1,0,1,3,3,1,4,1,0,2,0,4,1,1,0,0]],"bands":[{"lab":"<60","n":425,"ns":227,"md":-2,"q1":-7,"q3":1,"np":198},{"lab":"60–79","n":1347,"ns":480,"md":-12,"q1":-19,"q3":-6,"np":865},{"lab":"80–89","n":819,"ns":251,"md":-20,"q1":-32,"q3":-11,"np":566},{"lab":"90–99","n":743,"ns":175,"md":-31,"q1":-45,"q3":-18,"np":567},{"lab":"100–109","n":517,"ns":92,"md":-43,"q1":-55,"q3":-25,"np":425},{"lab":"110+","n":149,"ns":30,"md":-49,"q1":-61,"q3":-29,"np":119}],"hi":{"n":119,"h5":[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0],"med":63,"kept":1}},"d":{"name":"SUAyED a Distancia","below":85.6,"linked":6054,"npairs":3239,"md":-17,"d30":985,"rose":213,"rho":0.244,"heat":[[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2,9,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,2,4,17,11,2,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,2,3,9,21,23,11,11,3,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,6,4,21,19,37,15,5,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,2,3,13,27,29,41,47,14,8,3,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,6,6,16,37,48,44,33,14,5,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,2,5,11,18,26,35,57,53,30,11,5,0,0,0,0,0,0,0],[0,0,0,0,0,0,5,5,10,17,19,25,56,63,46,32,5,1,0,0,0,0,0,0],[0,0,0,0,0,0,5,19,10,20,17,27,34,57,74,45,30,7,0,0,0,0,0,0],[0,0,0,0,0,1,4,24,27,33,26,29,43,38,60,59,32,20,3,1,0,0,0,0],[0,0,0,0,0,1,5,21,19,27,36,33,27,25,40,32,36,21,13,0,0,0,0,0],[0,0,0,0,0,2,4,16,13,32,31,26,24,17,20,32,44,28,13,2,1,1,0,0],[0,0,0,0,0,0,7,14,21,28,26,28,16,24,30,24,33,23,18,4,5,0,0,0],[0,0,0,0,0,0,5,12,13,15,13,13,20,9,17,18,14,15,12,16,3,4,0,0],[0,0,0,0,0,2,3,6,5,20,12,12,14,9,8,7,8,7,6,5,6,1,0,0],[0,0,0,0,0,0,0,1,1,2,0,2,2,2,1,2,3,0,1,2,1,0,0,0]],"bands":[{"lab":"<60","n":682,"ns":417,"md":0,"q1":-6,"q3":2,"np":265},{"lab":"60–79","n":2151,"ns":1214,"md":-10,"q1":-16,"q3":-3,"np":936},{"lab":"80–89","n":1202,"ns":455,"md":-17,"q1":-30,"q3":-9,"np":745},{"lab":"90–99","n":1022,"ns":380,"md":-29,"q1":-44,"q3":-15,"np":642},{"lab":"100–109","n":763,"ns":262,"md":-36,"q1":-53,"q3":-21,"np":500},{"lab":"110+","n":234,"ns":83,"md":-50,"q1":-62,"q3":-33,"np":151}],"hi":{"n":151,"h5":[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0],"med":63,"kept":0}}};
+const fmt = n => n.toLocaleString('es-MX');
+const el = (t, at, parent) => {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', t);
+  for (const [k, v] of Object.entries(at || {})) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const h = (tag, cls, txt) => {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt != null) e.textContent = txt;
+  return e;
+};
+const state = {sysf: 'e'};
+
+// rampa secuencial índigo (una sola tonalidad, claro -> oscuro)
+const RAMP0 = [238, 240, 254], RAMP1 = [49, 46, 129];
+const ramp = t => {
+  const c = RAMP0.map((v, i) => Math.round(v + (RAMP1[i] - v) * t));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+};
+
+function drawHeat(d) {
+  const host = document.getElementById('heatHost'); host.replaceChildren();
+  const tt = document.getElementById('ttHeat');
+  const card = host.closest('.chart-card');
+  document.getElementById('heatSub').textContent =
+    `Cada celda agrupa 5×5 aciertos: horizontal, la calificación en el examen en línea; vertical, la del ` +
+    `examen de control. Más oscuro = más aspirantes (${fmt(d.npairs)} pares en ${d.name}). La diagonal es ` +
+    `"misma calificación": el ${String(d.below).replace('.', '.')}% de los aspirantes quedó por debajo de su banda en línea.`;
+  const W = 720, H = 720, m = {t: 14, r: 14, b: 50, l: 56};
+  const pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const cw = pw / 24, ch = ph / 24;
+  const X = b => m.l + b * cw;
+  const Y = b => m.t + ph - (b + 1) * ch;
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': `Mapa de densidad de ${fmt(d.npairs)} pares de calificaciones en ${d.name}: examen en línea contra examen de control. La masa está muy por debajo de la diagonal de misma calificación.`}, host);
+  const mx = Math.max(1, ...d.heat.flat());
+  for (let o = 0; o < 24; o++)
+    for (let c = 0; c < 24; c++) {
+      const n = d.heat[o][c];
+      if (!n) continue;
+      el('rect', {x: X(o) + .5, y: Y(c) + .5, width: cw - 1, height: ch - 1, rx: 2,
+        fill: ramp(Math.sqrt(n / mx))}, svg);
+    }
+  for (let v = 0; v <= 120; v += 20) {
+    el('text', {x: m.l + v / 120 * pw, y: H - 26, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 12}, svg).textContent = v;
+    el('text', {x: m.l - 8, y: m.t + ph - v / 120 * ph + 4, 'text-anchor': 'end', fill: '#6a7186', 'font-size': 12}, svg).textContent = v;
+  }
+  el('text', {x: m.l + pw / 2, y: H - 6, 'text-anchor': 'middle', fill: '#3f4557', 'font-weight': 700, 'font-size': 12.5}, svg).textContent = 'aciertos en el examen en línea (mayo 2026)';
+  const yl = el('text', {x: 14, y: m.t + ph / 2, fill: '#3f4557', 'font-weight': 700, 'font-size': 12.5,
+    transform: `rotate(-90 14 ${m.t + ph / 2})`, 'text-anchor': 'middle'}, svg);
+  yl.textContent = 'aciertos en el examen de control';
+  el('line', {x1: m.l, y1: m.t + ph, x2: m.l + pw, y2: m.t, stroke: '#101223', 'stroke-width': 1.4, 'stroke-dasharray': '6 5', opacity: .65}, svg);
+  el('text', {x: m.l + pw - 6, y: m.t + 16, 'text-anchor': 'end', fill: '#101223', 'font-weight': 750, 'font-size': 12, opacity: .75}, svg).textContent = 'misma calificación';
+  svg.addEventListener('mousemove', ev => {
+    const r = svg.getBoundingClientRect();
+    if (!r.width) return;
+    const px = (ev.clientX - r.left) / r.width * W, py = (ev.clientY - r.top) / r.height * H;
+    const o = Math.floor((px - m.l) / cw), c = Math.floor((m.t + ph - py) / ch);
+    if (o < 0 || o > 23 || c < 0 || c > 23) { tt.style.opacity = 0; return; }
+    const n = d.heat[o][c];
+    tt.replaceChildren(h('b', null, `En línea ${o * 5}–${o * 5 + 4} · control ${c * 5}–${c * 5 + 4}`),
+      document.createTextNode(n ? `${fmt(n)} aspirante${n === 1 ? '' : 's'}` : 'sin aspirantes'));
+    const cr = card.getBoundingClientRect();
+    tt.style.opacity = 1;
+    let lx = ev.clientX - cr.left + 14;
+    if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
+    tt.style.left = Math.max(4, lx) + 'px'; tt.style.top = Math.max(4, ev.clientY - cr.top - 30) + 'px';
+  });
+  svg.addEventListener('mouseleave', () => tt.style.opacity = 0);
+}
+
+function drawDose(d) {
+  const host = document.getElementById('doseHost'); host.replaceChildren();
+  const bands = d.bands.filter(b => b.md != null);
+  const W = 900, rowH = 46, m = {t: 26, r: 40, b: 34, l: 92};
+  const H = m.t + bands.length * rowH + m.b;
+  const lo = Math.min(-5, ...bands.map(b => b.q1)) - 4;
+  const hi = Math.max(5, ...bands.map(b => b.q3)) + 4;
+  const X = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Cambio mediano de calificación por banda de puntaje en línea en ' + d.name}, host);
+  el('line', {x1: X(0), x2: X(0), y1: m.t - 8, y2: H - m.b + 4, stroke: '#a7aec1', 'stroke-width': 1.2}, svg);
+  el('text', {x: X(0), y: m.t - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5, 'font-weight': 700}, svg).textContent = 'sin cambio';
+  for (let v = Math.ceil(lo / 20) * 20; v <= hi; v += 20) {
+    if (v === 0) continue;
+    el('line', {x1: X(v), x2: X(v), y1: m.t, y2: H - m.b, stroke: '#e7eaf2', 'stroke-width': 1}, svg);
+    el('text', {x: X(v), y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5}, svg).textContent = (v > 0 ? '+' : '') + v;
+  }
+  bands.forEach((b, i) => {
+    const cy = m.t + i * rowH + rowH / 2;
+    el('text', {x: m.l - 12, y: cy + 4, 'text-anchor': 'end', 'font-weight': 800, 'font-size': 13, fill: '#3f4557'}, svg).textContent = b.lab;
+    el('rect', {x: X(Math.min(b.q1, b.q3)), y: cy - 5, width: Math.max(Math.abs(X(b.q3) - X(b.q1)), 2), height: 10, rx: 5, fill: '#cbd2e1'}, svg);
+    el('circle', {cx: X(b.md), cy, r: 7, fill: '#4338ca', stroke: '#fff', 'stroke-width': 2}, svg);
+    el('text', {x: X(b.md) + (b.md <= -30 ? -12 : 12), y: cy + 4, 'text-anchor': b.md <= -30 ? 'end' : 'start',
+      'font-weight': 800, 'font-size': 12.5, fill: '#3730a3'}, svg).textContent = (b.md > 0 ? '+' : '') + b.md;
+    const g = el('g', {tabindex: 0, role: 'img',
+      'aria-label': `Banda ${b.lab}: cambio mediano ${b.md} aciertos (cuartiles ${b.q1} a ${b.q3}, ${fmt(b.np)} aspirantes).`}, svg);
+    el('rect', {x: m.l, y: cy - rowH / 2, width: W - m.l - m.r, height: rowH, fill: 'transparent'}, g);
+  });
+}
+
+function drawSurv(d) {
+  const host = document.getElementById('survHost'); host.replaceChildren();
+  const tt = document.getElementById('ttSurv');
+  const card = host.closest('.chart-card');
+  document.getElementById('survSub').textContent =
+    `Calificaciones en el examen de control de los ${fmt(d.hi.n)} aspirantes de ${d.name} que traían 110 o ` +
+    `más en línea y sí presentaron. Mediana: ${d.hi.med} aciertos; mantuvieron 110+: ${fmt(d.hi.kept)}.`;
+  const W = 900, H = 270, m = {t: 24, r: 18, b: 38, l: 52};
+  const mx = Math.max(1, ...d.hi.h5);
+  const bw = (W - m.l - m.r) / 25;
+  const Y = v => m.t + (1 - v / (mx * 1.12)) * (H - m.t - m.b);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': `Histograma de calificaciones presenciales de los aspirantes con 110 o más en línea en ${d.name}; mediana ${d.hi.med}.`}, host);
+  el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: '#a7aec1', 'stroke-width': 1}, svg);
+  for (let v = 0; v <= 120; v += 20)
+    el('text', {x: m.l + v / 125 * (W - m.l - m.r) + bw / 2, y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5}, svg).textContent = v;
+  d.hi.h5.forEach((n, i) => {
+    if (!n) return;
+    el('rect', {x: m.l + i * bw + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3,
+      fill: i * 5 >= 110 ? '#101223' : '#4338ca'}, svg);
+  });
+  const mxq = m.l + (d.hi.med + 2.5) / 125 * (W - m.l - m.r);
+  el('line', {x1: mxq, x2: mxq, y1: m.t, y2: Y(0), stroke: '#101223', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
+  el('text', {x: mxq + 6, y: m.t + 12, fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = `mediana: ${d.hi.med}`;
+  const k = el('text', {x: W - m.r - 4, y: m.t + 12, 'text-anchor': 'end', fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg);
+  k.textContent = `${fmt(d.hi.kept)} mantuvieron 110+ (negro)`;
+  svg.addEventListener('mousemove', ev => {
+    const r = svg.getBoundingClientRect();
+    if (!r.width) return;
+    const px = (ev.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(24, Math.floor((px - m.l) / bw)));
+    const n = d.hi.h5[i];
+    tt.replaceChildren(h('b', null, `Control ${i * 5}–${i * 5 + 4} aciertos`),
+      document.createTextNode(`${fmt(n)} aspirante${n === 1 ? '' : 's'} que traían 110+ en línea`));
+    const cr = card.getBoundingClientRect();
+    tt.style.opacity = 1;
+    let lx = ev.clientX - cr.left + 14;
+    if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
+    tt.style.left = Math.max(4, lx) + 'px'; tt.style.top = Math.max(4, ev.clientY - cr.top - 30) + 'px';
+  });
+  svg.addEventListener('mouseleave', () => tt.style.opacity = 0);
+}
+
+function drawAus(d) {
+  const host = document.getElementById('ausHost'); host.replaceChildren();
+  const bands = d.bands;
+  const W = 900, rowH = 40, m = {t: 8, r: 190, b: 8, l: 92};
+  const H = m.t + bands.length * rowH + m.b;
+  const mx = Math.max(...bands.map(b => b.ns / b.n));
+  const X = v => m.l + v / (mx * 1.05) * (W - m.l - m.r);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Porcentaje de convocados que no presentaron el examen de control, por banda de puntaje en línea, en ' + d.name}, host);
+  bands.forEach((b, i) => {
+    const cy = m.t + i * rowH + rowH / 2;
+    const p = b.ns / b.n;
+    el('text', {x: m.l - 12, y: cy + 4, 'text-anchor': 'end', 'font-weight': 800, 'font-size': 13, fill: '#3f4557'}, svg).textContent = b.lab;
+    el('rect', {x: m.l, y: cy - 9, width: Math.max(X(p) - m.l, 2), height: 18, rx: 5, fill: '#4338ca', 'fill-opacity': .82}, svg);
+    el('text', {x: X(p) + 8, y: cy + 4.5, 'font-weight': 750, 'font-size': 12.5, fill: '#101223'}, svg)
+      .textContent = `${(100 * p).toFixed(1)}% no presentó (${fmt(b.ns)} de ${fmt(b.n)})`;
+    el('rect', {x: m.l, y: cy - rowH / 2, width: W - m.l - m.r, height: rowH, fill: 'transparent', tabindex: 0, role: 'img',
+      'aria-label': `Banda ${b.lab}: ${(100 * p).toFixed(1)} por ciento no presentó (${fmt(b.ns)} de ${fmt(b.n)} convocados).`}, svg);
+  });
+}
+
+function renderAll() {
+  const d = D[state.sysf];
+  drawHeat(d); drawDose(d); drawSurv(d); drawAus(d);
+}
+document.getElementById('sysSel').addEventListener('change', () => {
+  state.sysf = document.querySelector('#sysSel input[name="sysf"]:checked').value;
+  renderAll();
+});
+(function init() {
+  const s = new URLSearchParams(location.search).get('s');
+  if (s && D[s]) {
+    state.sysf = s;
+    const inp = document.querySelector(`#sysSel input[value="${s}"]`);
+    if (inp) inp.checked = true;
+  }
+  renderAll();
+})();
+document.addEventListener('touchstart', ev => {
+  if (!(ev.target instanceof Element) || !ev.target.closest('svg'))
+    document.querySelectorAll('.tt').forEach(t => t.style.opacity = 0);
+}, {passive: true});
+</script>
+<script data-goatcounter="https://pedrozape.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
