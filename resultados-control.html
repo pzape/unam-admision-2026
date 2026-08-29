@@ -145,7 +145,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   "FES Acatlán"): la tabla y las gráficas comparan las últimas ocasiones del examen, con el examen de
   control al final.</p>
 
-  <div class="buscar-sticky" id="buscarSticky">
+  <div id="buscarTop">
     <fieldset class="seg mod-sel" id="sysSel">
       <legend class="visually-hidden">Sistema (elige uno)</legend>
       <input type="radio" name="sysf" id="sysE" value="e" checked><label for="sysE"><span class="sd" style="background:var(--sys-e)"></span>Escolarizado</label>
@@ -158,6 +158,8 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
       <button type="button" class="clear-btn" id="sClear" hidden aria-label="Borrar búsqueda">×</button>
     </div>
     <div class="results-list" id="sRes" role="listbox" aria-label="Resultados de búsqueda"></div>
+  </div>
+  <div class="buscar-sticky" id="buscarSticky">
     <div class="sel-head" id="selHead" hidden>
       <div class="sh-left">
         <h2 id="selName"></h2>
@@ -169,11 +171,11 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
         <span class="cs" id="ausenSub"></span>
       </div>
     </div>
-    <div id="tblHost"></div>
   </div>
+  <div id="tblHost"></div>
 
   <div class="chart-card" id="curveCard" hidden>
-    <p class="chart-title">Calificaciones de sus aspirantes, ocasión por ocasión</p>
+    <p class="chart-title" id="curveTitle"></p>
     <p class="chart-sub">Porcentaje de examinados en cada rango de 5 aciertos. Verde = último examen
     presencial; naranja = examen en línea; índigo = examen de control (presencial de nuevo). La línea
     punteada vertical marca el corte del examen de control; pasa el cursor sobre una curva —o un chip de
@@ -427,6 +429,7 @@ function drawCurves(d) {
   const eds = editions(d).filter(ed => ed.v.h5);
   card.hidden = eds.length < 2;
   if (eds.length < 2) return;
+  document.getElementById('curveTitle').textContent = `${d.k}: calificaciones de sus aspirantes, ocasión por ocasión`;
   const W = 900, H = 300, m = {t: 20, r: 18, b: 38, l: 46};
   const ymax = Math.max(6, ...eds.flatMap(ed => ed.v.h5)) * 1.12;
   const X = i => m.l + (i * 5 + 2.5) / 120 * (W - m.l - m.r);
@@ -560,7 +563,7 @@ function drawFila(d) {
   const seq = editions(d).filter(ed => ed.v.q).map(ed => ({lab: ed.lab, q: ed.v.q, col: ed.col, deep: ed.deep}));
   card.hidden = seq.length < 2;
   if (seq.length < 2) return;
-  document.getElementById('filaTitle').textContent = 'La fila de esta carrera: ' + seq.map(x => x.lab).join(' → ');
+  document.getElementById('filaTitle').textContent = `La fila de ${d.k}: ` + seq.map(x => x.lab).join(' → ');
   const PCTLS = [25, 50, 75, 90, 99];
   const NAMES = {25: 'un cuarto (p25)', 50: 'mitad de la fila (p50)', 75: 'tres cuartos (p75)', 90: 'top 10% (p90)', 99: 'top 1% (p99)'};
   const W = 900, m = {t: 48, r: 24, b: 40, l: 24};
