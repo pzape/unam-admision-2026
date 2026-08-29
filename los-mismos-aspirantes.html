@@ -189,7 +189,7 @@ const h = (tag, cls, txt) => {
 const state = {sysf: 'e'};
 
 // paleta categórica por banda (validada: peor par adyacente CVD 9.1 protan)
-const PAL = ['#2a78d6', '#1baf7a', '#eda100', '#e87ba4', '#4a3aa7', '#e34948'];
+const PAL = ['#2C5FA8', '#2F8F63', '#B8912B', '#C46A9E', '#7A3E8F', '#B4452C'];
 // rampa secuencial índigo (una sola tonalidad, claro -> oscuro)
 const RAMP0 = [222, 226, 251], RAMP1 = [49, 46, 129];
 const ramp = t => {
@@ -394,7 +394,7 @@ function drawSurv(d) {
   d.hi.h5.forEach((n, i) => {
     if (!n) return;
     const s0 = i * 5;
-    const fill = s0 >= 110 ? '#b91c1c' : (s0 >= 90 ? '#e56b6b' : (s0 >= 60 ? '#ef9d9d' : '#f6c8c8'));
+    const fill = s0 >= 110 ? '#8f3520' : (s0 >= 90 ? '#c97355' : (s0 >= 60 ? '#dfa38c' : '#f0d3c9'));
     el('rect', {x: m.l + i * bw + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3, fill}, svg);
   });
   const mxq = m.l + (d.hi.med + 2.5) / 125 * (W - m.l - m.r);
