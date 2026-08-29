@@ -278,17 +278,22 @@ function drawSlope(d) {
   const segHover = (side, i) => {
     ribbons.forEach(r2 => r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
     const tot = side === 'L' ? leftN[i] : rightN[i];
-    const parts = [];
+    let stay = 0, down = 0, up = 0;
     for (const o of disp) {
       const n = side === 'L' ? d.flow[i][o] : d.flow[o][i];
       if (!n) continue;
-      parts.push(`${fmt(n)} ${o === i ? (n === 1 ? 'se mantuvo en' : 'se mantuvieron en')
-        : side === 'L' ? (n === 1 ? 'pasó a' : 'pasaron a')
-        : (n === 1 ? 'llegó desde' : 'llegaron desde')} ${bands[o].lab}`);
+      if (o === i) stay += n;
+      else if (side === 'L' ? o < i : o > i) down += n;
+      else up += n;
     }
+    const seg = [];
+    if (stay) seg.push(`el ${pctTxt(100 * stay / tot)}% se mantuvo en el mismo nivel`);
+    if (down) seg.push(side === 'L' ? `el ${pctTxt(100 * down / tot)}% bajó de nivel` : `el ${pctTxt(100 * down / tot)}% venía de un nivel más alto`);
+    if (up) seg.push(side === 'L' ? `el ${pctTxt(100 * up / tot)}% subió de nivel` : `el ${pctTxt(100 * up / tot)}% venía de un nivel más bajo`);
+    const frase = seg.length > 1 ? seg.slice(0, -1).join(', ') + ' y ' + seg[seg.length - 1] : seg[0] || '';
     info.textContent = (side === 'L'
-      ? `${bands[i].lab} en línea · ${fmt(tot)} aspirantes — `
-      : `${bands[i].lab} en el examen de control · ${fmt(tot)} aspirantes — `) + parts.join(' · ') + '.';
+      ? `De los ${fmt(tot)} aspirantes con ${bands[i].lab} en el examen en línea, `
+      : `De los ${fmt(tot)} aspirantes con ${bands[i].lab} en el examen de control, `) + frase + '.';
   };
   const seg = (x, tops, ns, side, i, aria) => {
     const sg = el('rect', {x, y: tops[i], width: colW, height: Math.max(ns[i] * k, 1.5), rx: 3, fill: PAL[i],

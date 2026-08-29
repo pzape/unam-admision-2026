@@ -100,6 +100,15 @@ input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; app
 .ytable tr.corte td { font-weight: 800; font-size: 14.5px; }
 .ytable tbody tr:last-child td { border-bottom: none; }
 .ytable th:last-child, .ytable td:last-child { background: var(--ctl-soft); }
+@media (max-width: 700px) {
+  .ytable-wrap { padding: 2px 8px 8px; }
+  .ytable { font-size: 11px; }
+  .ytable th, .ytable td { padding: 4px 3px; }
+  .ytable thead th { font-size: 10px; }
+  .ytable td:first-child, .ytable th:first-child { font-size: 9px; letter-spacing: .02em; }
+  .ytable .ysw { display: none; }
+  .ytable tr.corte td { font-size: 12px; }
+}
 .sibs-h { font-size: 15px; font-weight: 750; margin: 18px 0 8px; }
 .sibs { display: flex; gap: 8px; flex-wrap: wrap; }
 .sibs button { all: unset; cursor: pointer; padding: 7px 14px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--line); font-size: 13px; font-weight: 650; color: var(--ink2); display: inline-flex; align-items: center; gap: 7px; }
@@ -378,6 +387,8 @@ function showProfile(code) {
 
 function drawTable(d) {
   const host = document.getElementById('tblHost'); host.replaceChildren();
+  const MOB = matchMedia('(max-width: 700px)').matches;
+  const SHORT = {p25: d.s === 'e' ? '2025' : 'may 25', n25: 'nov 25', l26: d.s === 'e' ? '2026' : 'may 26', ctl: 'control'};
   const eds = editions(d);
   const wrap = h('div', 'ytable-wrap');
   const tbl = h('table', 'ytable');
@@ -386,18 +397,18 @@ function drawTable(d) {
   for (const ed of eds) {
     const th = h('th');
     const sw = h('span', 'ysw'); sw.style.background = ed.col;
-    th.appendChild(sw); th.appendChild(document.createTextNode(ed.lab));
+    th.appendChild(sw); th.appendChild(document.createTextNode(MOB ? SHORT[ed.id] : ed.lab));
     hr.appendChild(th);
   }
   thead.appendChild(hr); tbl.appendChild(thead);
   const tb = h('tbody');
   const ROWS = [
     ['Corte', ed => ed.v.c != null ? String(ed.v.c) : '—', 'corte'],
-    [d.eds.ctl ? 'Aspirantes / convocados' : 'Aspirantes', ed => fmt(ed.v.asp)],
-    ['Examinados', ed => fmt(ed.v.n)],
-    ['Seleccionados', ed => fmt(ed.v.sel)],
+    [MOB ? 'Aspirantes' : (d.eds.ctl ? 'Aspirantes / convocados' : 'Aspirantes'), ed => fmt(ed.v.asp)],
+    [MOB ? 'Examin.' : 'Examinados', ed => fmt(ed.v.n)],
+    [MOB ? 'Selecc.' : 'Seleccionados', ed => fmt(ed.v.sel)],
     ['Mediana', ed => ed.v.med != null ? String(ed.v.med) : '—'],
-    ['110 o más', ed => fmt(ed.v.k110)],
+    [MOB ? '110+' : '110 o más', ed => fmt(ed.v.k110)],
   ];
   for (const [lab, fn, cls] of ROWS) {
     const tr = h('tr', cls || null);
@@ -697,17 +708,22 @@ function drawFlowC(d) {
   const segHover = (side, i) => {
     ribbons.forEach(r2 => r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
     const tot = side === 'L' ? leftN[i] : rightN[i];
-    const parts = [];
+    let stay = 0, down = 0, up = 0;
     for (const o of disp) {
       const n = side === 'L' ? flow[i][o] : flow[o][i];
       if (!n) continue;
-      parts.push(`${fmt(n)} ${o === i ? (n === 1 ? 'se mantuvo en' : 'se mantuvieron en')
-        : side === 'L' ? (n === 1 ? 'pasó a' : 'pasaron a')
-        : (n === 1 ? 'llegó desde' : 'llegaron desde')} ${B4[o]}`);
+      if (o === i) stay += n;
+      else if (side === 'L' ? o < i : o > i) down += n;
+      else up += n;
     }
+    const seg = [];
+    if (stay) seg.push(`el ${pctTxt(100 * stay / tot)}% se mantuvo en el mismo nivel`);
+    if (down) seg.push(side === 'L' ? `el ${pctTxt(100 * down / tot)}% bajó de nivel` : `el ${pctTxt(100 * down / tot)}% venía de un nivel más alto`);
+    if (up) seg.push(side === 'L' ? `el ${pctTxt(100 * up / tot)}% subió de nivel` : `el ${pctTxt(100 * up / tot)}% venía de un nivel más bajo`);
+    const frase = seg.length > 1 ? seg.slice(0, -1).join(', ') + ' y ' + seg[seg.length - 1] : seg[0] || '';
     info.textContent = (side === 'L'
-      ? `${B4[i]} en línea · ${fmt(tot)} aspirantes — `
-      : `${B4[i]} en el examen de control · ${fmt(tot)} aspirantes — `) + parts.join(' · ') + '.';
+      ? `De los ${fmt(tot)} aspirantes con ${B4[i]} en el examen en línea, `
+      : `De los ${fmt(tot)} aspirantes con ${B4[i]} en el examen de control, `) + frase + '.';
   };
   const seg = (x, tops, ns, side, i, aria) => {
     const sg = el('rect', {x, y: tops[i], width: colW, height: Math.max(ns[i] * k, 1.5), rx: 3, fill: PAL4[i],
