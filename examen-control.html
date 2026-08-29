@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Admisión UNAM 2021–2026 · Análisis y código: Pedro Zape · Sitio original: https://pzape.github.io/unam-admision-2026/ -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -25,6 +26,11 @@ html { background: var(--bg); }
 body { font: 15.5px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); margin: 0; -webkit-font-smoothing: antialiased; }
 .topbar { position: sticky; top: 0; z-index: 20; background: rgba(246,247,251,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); font-size: 13.5px; }
 .topbar-in { max-width: 860px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+.topnav { display: flex; gap: 4px; overflow-x: auto; max-width: 1000px; margin: 0 auto; padding: 0 16px 8px; scrollbar-width: none; }
+.topnav::-webkit-scrollbar { display: none; }
+.topnav a { flex: none; color: #3f4557; font-weight: 650; text-decoration: none; font-size: 12px; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.topnav a:hover { background: #eef0fe; color: #4f46e5; }
+.topnav a.cur, .topnav a.cur:hover { background: #4f46e5; color: #fff; }
 .topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
 .topbar b { font-weight: 800; }
 .topbar a { margin-left: auto; color: var(--brand); font-weight: 650; text-decoration: none; }
@@ -81,7 +87,18 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 <div class="topbar"><div class="topbar-in">
   <span class="dot"></span><b>Admisión UNAM</b><span style="color:var(--muted)">2021–2026</span>
   <a href="https://pzape.github.io/unam-admision-2026/">Explorador interactivo →</a>
-</div></div>
+</div>
+<nav class="topnav" aria-label="Páginas del sitio">
+  <a href="https://pzape.github.io/unam-admision-2026/">Explorador</a>
+  <a href="https://pzape.github.io/unam-admision-2026/historia.html">Historia</a>
+  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">Resultados del control</a>
+  <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">Mismos aspirantes</a>
+  <a href="https://pzape.github.io/unam-admision-2026/convocados.html">Convocados</a>
+  <a href="https://pzape.github.io/unam-admision-2026/examen-control.html" class="cur" aria-current="page">Examen de control</a>
+  <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">SUAyED</a>
+  <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a>
+</nav>
+</div>
 
 <div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
   <span class="kicker">Herramienta · según la recomendación del 31 de julio</span>
