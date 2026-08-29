@@ -53,6 +53,11 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .note { background: var(--card); border-radius: 12px; padding: 14px 18px; font-size: 13.5px; line-height: 1.6; margin: 14px 0; color: var(--ink2); }
 .note b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; color: var(--brand); }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 8px 0 0; min-height: 3.6em; }
+.flow-float { position: fixed; z-index: 40; margin: 0; box-shadow: 0 8px 24px rgba(16,18,35,.3); background: var(--surface); border: 1px solid var(--line); }
+.legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 2px 0 10px; font-weight: 600; }
+.legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 4px; vertical-align: middle; margin-right: 6px; }
+.legend .leg-btn { cursor: pointer; padding: 3px 9px; margin: -3px -2px; border-radius: 9px; }
+.legend .leg-btn:hover { background: #eef1f7; }
 .ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px 12px; overflow-x: auto; margin-top: 14px; }
 .ytable { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
 .ytable th, .ytable td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -101,6 +106,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   <div class="chart-card">
     <p class="chart-title">De qué banda a qué banda: el flujo entre los dos exámenes</p>
     <p class="chart-sub" id="slopeSub"></p>
+    <div class="legend" id="slopeLegend" hidden></div>
     <div id="slopeHost"></div>
     <p class="live-note" id="slopeInfo" aria-live="polite"></p>
   </div>
@@ -226,8 +232,9 @@ function drawSlope(d) {
   const disp = [...Array(nB).keys()].reverse();
   const leftN = bands.map(b => b.np);
   const rightN = bands.map((_, j) => bands.reduce((a, _2, i) => a + d.flow[i][j], 0));
+  const MOB = matchMedia('(max-width: 700px)').matches;
   const W = 900, H = 560, m = {t: 44, b: 14};
-  const colW = 42, xL0 = 238, xL1 = xL0 + colW, xR1 = 664, xR0 = xR1 - colW;
+  const colW = MOB ? 48 : 42, xL0 = MOB ? 22 : 238, xL1 = xL0 + colW, xR1 = MOB ? 878 : 664, xR0 = xR1 - colW;
   const GAP = 3;
   const k = (H - m.t - m.b - GAP * (nB - 1)) / d.npairs;
   const yTopL = {}, yTopR = {};
@@ -236,8 +243,8 @@ function drawSlope(d) {
   for (const j of disp) { yTopR[j] = accR; accR += rightN[j] * k + GAP; }
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
     'aria-label': `Flujo de aspirantes de ${d.name} entre su banda de puntaje en el examen en línea y su banda en el examen de control; el ancho de cada franja es el número de aspirantes.`}, host);
-  el('text', {x: (xL0 + xL1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#c2410c'}, svg).textContent = 'examen en línea (mayo 2026)';
-  el('text', {x: (xR0 + xR1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#3730a3'}, svg).textContent = 'examen de control (presencial)';
+  el('text', {x: MOB ? xL0 : (xL0 + xL1) / 2, y: m.t - 18, 'text-anchor': MOB ? 'start' : 'middle', 'font-weight': 800, 'font-size': MOB ? 20 : 13.5, fill: '#c2410c'}, svg).textContent = MOB ? 'en línea' : 'examen en línea (mayo 2026)';
+  el('text', {x: MOB ? xR1 : (xR0 + xR1) / 2, y: m.t - 18, 'text-anchor': MOB ? 'end' : 'middle', 'font-weight': 800, 'font-size': MOB ? 20 : 13.5, fill: '#3730a3'}, svg).textContent = MOB ? 'control' : 'examen de control (presencial)';
   const ribbons = [];
   const c1 = (xL1 + xR0) / 2;
   const offL = bands.map((_, i) => yTopL[i]);
@@ -307,8 +314,27 @@ function drawSlope(d) {
         .textContent = `${bands[rw.i].lab} · ${fmt(ns[rw.i])}`;
     });
   };
-  place(yTopL, leftN, 'L');
-  place(yTopR, rightN, 'R');
+  const leg = document.getElementById('slopeLegend');
+  leg.hidden = !MOB;
+  leg.replaceChildren();
+  if (MOB) {
+    for (const i of disp) {
+      if (!leftN[i] && !rightN[i]) continue;
+      const sp = h('span', 'leg-btn');
+      const sw = h('span', 'sw'); sw.style.background = PAL[i];
+      sp.appendChild(sw);
+      sp.appendChild(document.createTextNode(`${bands[i].lab} · ${fmt(leftN[i])} → ${fmt(rightN[i])}`));
+      sp.tabIndex = 0; sp.setAttribute('role', 'button');
+      sp.setAttribute('aria-label', `Banda ${bands[i].lab}: ${fmt(leftN[i])} en el examen en línea, ${fmt(rightN[i])} en el examen de control. Resalta sus flujos.`);
+      sp.addEventListener('mouseenter', () => segHover('L', i));
+      sp.addEventListener('click', ev => { ev.stopPropagation(); segHover('L', i); });
+      sp.addEventListener('mouseleave', resetR);
+      leg.appendChild(sp);
+    }
+  } else {
+    place(yTopL, leftN, 'L');
+    place(yTopR, rightN, 'R');
+  }
 }
 
 function drawDelta(d) {
@@ -473,6 +499,27 @@ document.getElementById('sysSel').addEventListener('change', () => {
   }
   renderAll();
 })();
+function pinInfo(info) {
+  const vv = window.visualViewport;
+  if (!vv) return;
+  const apply = () => {
+    if (vv.scale > 1.05) {
+      info.classList.add('flow-float');
+      const w = Math.min(vv.width * .94, 560);
+      info.style.width = w + 'px';
+      info.style.left = (vv.offsetLeft + (vv.width - w) / 2) + 'px';
+      info.style.top = (vv.offsetTop + vv.height - info.offsetHeight - 10) + 'px';
+    } else {
+      info.classList.remove('flow-float');
+      info.style.width = ''; info.style.left = ''; info.style.top = '';
+    }
+  };
+  vv.addEventListener('resize', apply);
+  vv.addEventListener('scroll', apply);
+  apply();
+}
+pinInfo(document.getElementById('slopeInfo'));
+matchMedia('(max-width: 700px)').addEventListener('change', renderAll);
 document.addEventListener('touchstart', ev => {
   if (!(ev.target instanceof Element) || !ev.target.closest('svg'))
     document.querySelectorAll('.tt').forEach(t => t.style.opacity = 0);

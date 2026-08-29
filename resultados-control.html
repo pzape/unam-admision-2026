@@ -58,6 +58,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .notch { position: absolute; top: -8px; transform: translateX(-50%); font-size: 11px; font-weight: 800; color: #dc2626; pointer-events: none; }
 .notch::after { content: ""; display: block; width: 2px; height: 12px; background: #dc2626; margin: 1px auto 0; border-radius: 2px; }
 .live-note { font-size: 13.5px; color: var(--ink2); background: var(--card); border-radius: 10px; padding: 10px 14px; margin: 8px 0 0; }
+.flow-float { position: fixed; z-index: 40; margin: 0; box-shadow: 0 8px 24px rgba(16,18,35,.3); background: var(--surface); border: 1px solid var(--line); }
 input[type=search] { width: 100%; font: 600 16px/1.4 system-ui, sans-serif; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 48px 13px 18px; }
 input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
 .search-wrap { position: relative; }
@@ -197,6 +198,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
     <p class="chart-sub">La vista de los tres sistemas completos está en
     <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">Los mismos aspirantes,
     dos exámenes</a>.</p>
+    <div class="legend" id="flowLegend" hidden></div>
     <div id="flowHost"></div>
     <p class="live-note" id="flowInfo" aria-live="polite" style="min-height:3.6em"></p>
   </div>
@@ -647,8 +649,9 @@ function drawFlowC(d) {
   const flow = lk.f;
   const leftN = B4.map((_, i) => flow[i].reduce((a, x) => a + x, 0));
   const rightN = B4.map((_, j) => flow.reduce((a, row) => a + row[j], 0));
+  const MOB = matchMedia('(max-width: 700px)').matches;
   const W = 900, H = 500, m = {t: 44, b: 14};
-  const colW = 46, xL0 = 236, xL1 = xL0 + colW, xR1 = 666, xR0 = xR1 - colW;
+  const colW = MOB ? 48 : 46, xL0 = MOB ? 22 : 236, xL1 = xL0 + colW, xR1 = MOB ? 878 : 666, xR0 = xR1 - colW;
   const GAP = 3;
   const nzL = leftN.filter(Boolean).length, nzR = rightN.filter(Boolean).length;
   const k = (H - m.t - m.b - GAP * (Math.max(nzL, nzR) - 1)) / lk.np;
@@ -658,8 +661,8 @@ function drawFlowC(d) {
   for (const j of disp) { yTopR[j] = accR; if (rightN[j]) accR += rightN[j] * k + GAP; }
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
     'aria-label': `Flujo de los ${fmt(lk.np)} aspirantes de esta carrera entre su banda de puntaje en el examen en línea y su banda en el examen de control.`}, host);
-  el('text', {x: (xL0 + xL1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#c2410c'}, svg).textContent = 'examen en línea';
-  el('text', {x: (xR0 + xR1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#3730a3'}, svg).textContent = 'examen de control';
+  el('text', {x: MOB ? xL0 : (xL0 + xL1) / 2, y: m.t - 18, 'text-anchor': MOB ? 'start' : 'middle', 'font-weight': 800, 'font-size': MOB ? 20 : 13.5, fill: '#c2410c'}, svg).textContent = 'examen en línea';
+  el('text', {x: MOB ? xR1 : (xR0 + xR1) / 2, y: m.t - 18, 'text-anchor': MOB ? 'end' : 'middle', 'font-weight': 800, 'font-size': MOB ? 20 : 13.5, fill: '#3730a3'}, svg).textContent = 'examen de control';
   const ribbons = [];
   const c1 = (xL1 + xR0) / 2;
   const offL = B4.map((_, i) => yTopL[i]);
@@ -729,8 +732,27 @@ function drawFlowC(d) {
         .textContent = `${B4[rw.i]} · ${fmt(ns[rw.i])}`;
     });
   };
-  place(yTopL, leftN, 'L');
-  place(yTopR, rightN, 'R');
+  const leg = document.getElementById('flowLegend');
+  leg.hidden = !MOB;
+  leg.replaceChildren();
+  if (MOB) {
+    for (const i of disp) {
+      if (!leftN[i] && !rightN[i]) continue;
+      const sp = h('span', 'leg-btn');
+      const sw = h('span', 'sw'); sw.style.background = PAL4[i];
+      sp.appendChild(sw);
+      sp.appendChild(document.createTextNode(`${B4[i]} · ${fmt(leftN[i])} → ${fmt(rightN[i])}`));
+      sp.tabIndex = 0; sp.setAttribute('role', 'button');
+      sp.setAttribute('aria-label', `Banda ${B4[i]}: ${fmt(leftN[i])} en el examen en línea, ${fmt(rightN[i])} en el examen de control. Resalta sus flujos.`);
+      sp.addEventListener('mouseenter', () => segHover('L', i));
+      sp.addEventListener('click', ev => { ev.stopPropagation(); segHover('L', i); });
+      sp.addEventListener('mouseleave', resetR);
+      leg.appendChild(sp);
+    }
+  } else {
+    place(yTopL, leftN, 'L');
+    place(yTopR, rightN, 'R');
+  }
 }
 
 function sibs(code, d) {
@@ -766,6 +788,27 @@ function sibs(code, d) {
   window.scrollTo(0, 0);
 })();
 
+function pinInfo(info) {
+  const vv = window.visualViewport;
+  if (!vv) return;
+  const apply = () => {
+    if (vv.scale > 1.05) {
+      info.classList.add('flow-float');
+      const w = Math.min(vv.width * .94, 560);
+      info.style.width = w + 'px';
+      info.style.left = (vv.offsetLeft + (vv.width - w) / 2) + 'px';
+      info.style.top = (vv.offsetTop + vv.height - info.offsetHeight - 10) + 'px';
+    } else {
+      info.classList.remove('flow-float');
+      info.style.width = ''; info.style.left = ''; info.style.top = '';
+    }
+  };
+  vv.addEventListener('resize', apply);
+  vv.addEventListener('scroll', apply);
+  apply();
+}
+pinInfo(document.getElementById('flowInfo'));
+matchMedia('(max-width: 700px)').addEventListener('change', () => { if (state.code) drawFlowC(CT[state.code]); });
 document.addEventListener('touchstart', ev => {
   if (!(ev.target instanceof Element) || !ev.target.closest('svg'))
     document.querySelectorAll('.tt').forEach(t => t.style.opacity = 0);
