@@ -194,12 +194,11 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   <div class="chart-card" id="flowCard" hidden>
     <p class="chart-title">De qué banda a qué banda: los dos exámenes en esta carrera</p>
     <p class="chart-sub" id="flowSub"></p>
-    <p class="chart-sub">Pasa el cursor por una banda para ver, en porcentajes, a dónde pasaron o de dónde
-    llegaron sus aspirantes. La vista de los tres sistemas completos está en
+    <p class="chart-sub">La vista de los tres sistemas completos está en
     <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">Los mismos aspirantes,
     dos exámenes</a>.</p>
     <div id="flowHost"></div>
-    <div class="tt" id="ttFlow"></div>
+    <p class="live-note" id="flowInfo" aria-live="polite" style="min-height:3.6em"></p>
   </div>
 
   <div id="sibsHost"></div>
@@ -632,7 +631,7 @@ const pctTxt = p => p > 0 && p < 0.1 ? '<0.1' : p.toFixed(1);
 function drawFlowC(d) {
   const card = document.getElementById('flowCard');
   const host = document.getElementById('flowHost'); host.replaceChildren();
-  const tt = document.getElementById('ttFlow');
+  const info = document.getElementById('flowInfo');
   const lk = d.lk;
   card.hidden = !lk || lk.np < 5 || !d.eds.ctl;
   if (card.hidden) return;
@@ -641,7 +640,9 @@ function drawFlowC(d) {
     `exámenes (de ${fmt(d.eds.ctl.asp)} convocados al examen de control). Columna izquierda: su banda de ` +
     `puntaje en el examen en línea; derecha: su banda en el examen de control. El ancho de cada franja es ` +
     `el número de aspirantes; el ${pctTxt(lk.pl)}% obtuvo una calificación menor en el examen de control.`;
-  const nB = 4;
+  const infoDefault = () => info.textContent =
+    'Pasa el cursor por una franja o por una banda de las columnas: el detalle aparece aquí.';
+  infoDefault();
   const disp = [3, 2, 1, 0];
   const flow = lk.f;
   const leftN = B4.map((_, i) => flow[i].reduce((a, x) => a + x, 0));
@@ -678,50 +679,39 @@ function drawFlowC(d) {
       ribbons.push({p, i, j, n});
     }
   }
-  const resetR = () => { ribbons.forEach(r => r.p.setAttribute('opacity', .55)); };
-  const showTT = (ev, build) => {
-    build();
-    const cr = card.getBoundingClientRect();
-    tt.style.opacity = 1;
-    let lx = ev.clientX - cr.left + 14;
-    if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
-    tt.style.left = Math.max(4, lx) + 'px'; tt.style.top = Math.max(4, ev.clientY - cr.top - 30) + 'px';
-  };
+  const resetR = () => { ribbons.forEach(r => r.p.setAttribute('opacity', .55)); infoDefault(); };
   ribbons.forEach(r => {
-    const hi = () => ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
+    const hi = () => {
+      ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
+      info.textContent = `De los ${fmt(leftN[r.i])} aspirantes con ${B4[r.i]} en línea, ${fmt(r.n)} ` +
+        `(${pctTxt(100 * r.n / leftN[r.i])}%) pasaron a ${B4[r.j]} en el examen de control.`;
+    };
     r.p.addEventListener('mouseenter', hi);
     r.p.addEventListener('focus', hi);
-    r.p.addEventListener('mouseleave', () => { resetR(); tt.style.opacity = 0; });
+    r.p.addEventListener('mouseleave', resetR);
     r.p.addEventListener('blur', resetR);
-    r.p.addEventListener('mousemove', ev => showTT(ev, () => tt.replaceChildren(document.createTextNode(
-      `De los ${fmt(leftN[r.i])} aspirantes con ${B4[r.i]} en línea, ${fmt(r.n)} ` +
-      `(${pctTxt(100 * r.n / leftN[r.i])}%) pasaron a ${B4[r.j]} en el examen de control.`))));
   });
-  const segTip = (ev, side, i) => showTT(ev, () => {
+  const segHover = (side, i) => {
+    ribbons.forEach(r2 => r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
     const tot = side === 'L' ? leftN[i] : rightN[i];
-    tt.replaceChildren(h('b', null, side === 'L'
-      ? `${B4[i]} en línea · ${fmt(tot)} aspirantes`
-      : `${B4[i]} en el examen de control · ${fmt(tot)} aspirantes`));
+    const parts = [];
     for (const o of disp) {
       const n = side === 'L' ? flow[i][o] : flow[o][i];
       if (!n) continue;
-      tt.appendChild(document.createElement('br'));
-      tt.appendChild(document.createTextNode(side === 'L'
-        ? `${pctTxt(100 * n / tot)}% (${fmt(n)}) pasó a ${B4[o]}`
-        : `${pctTxt(100 * n / tot)}% (${fmt(n)}) llegó desde ${B4[o]}`));
+      parts.push(`${pctTxt(100 * n / tot)}% (${fmt(n)}) ${side === 'L' ? 'pasó a' : 'llegó desde'} ${B4[o]}`);
     }
-  });
-  const segHover = (side, i) => ribbons.forEach(r2 =>
-    r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
+    info.textContent = (side === 'L'
+      ? `${B4[i]} en línea · ${fmt(tot)} aspirantes — `
+      : `${B4[i]} en el examen de control · ${fmt(tot)} aspirantes — `) + parts.join(' · ') + '.';
+  };
   const seg = (x, tops, ns, side, i, aria) => {
     const sg = el('rect', {x, y: tops[i], width: colW, height: Math.max(ns[i] * k, 1.5), rx: 3, fill: PAL4[i],
       tabindex: 0, role: 'img', 'aria-label': aria}, svg);
     sg.style.cursor = 'pointer';
     sg.addEventListener('mouseenter', () => segHover(side, i));
     sg.addEventListener('focus', () => segHover(side, i));
-    sg.addEventListener('mousemove', ev => segTip(ev, side, i));
-    sg.addEventListener('mouseleave', () => { resetR(); tt.style.opacity = 0; });
-    sg.addEventListener('blur', () => { resetR(); tt.style.opacity = 0; });
+    sg.addEventListener('mouseleave', resetR);
+    sg.addEventListener('blur', resetR);
   };
   for (const i of disp) {
     if (leftN[i]) seg(xL0, yTopL, leftN, 'L', i,
