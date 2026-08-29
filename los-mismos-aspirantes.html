@@ -76,15 +76,15 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   <p class="dek">Las páginas oficiales de resultados usan el mismo número de comprobante en el examen en
   línea de mayo y en el examen de control presencial. Eso permite comparar, persona por persona y sin
   identificar a nadie, las dos calificaciones de <strong>36,719 aspirantes</strong> que presentaron
-  ambos. Si los dos exámenes midieran lo mismo, las calificaciones se parecerían. No se parecen — y la
-  forma en que difieren cuenta toda la historia.</p>
+  ambos. Las dos calificaciones difieren de forma sistemática: la mediana cayó 32 aciertos, y la caída
+  fue mayor cuanto más alto fue el puntaje del examen en línea.</p>
 
   <div class="tiles">
     <div class="tile"><span class="k">Con ambos puntajes</span><div class="v">36,719</div>
       <span class="s">aspirantes vinculados por su comprobante (30,740 escolarizado · 2,740 abierta · 3,239 a distancia)</span></div>
     <div class="tile"><span class="k">Caída mediana</span><div class="v">−32</div>
       <span class="s">aciertos en escolarizado (−19 abierta · −17 a distancia); el 54% del escolarizado cayó 30 o más</span></div>
-    <div class="tile"><span class="k">Los 110+ que volvieron</span><div class="v">90 de 6,029</div>
+    <div class="tile"><span class="k">Con 110+ que presentaron</span><div class="v">90 de 6,029</div>
       <span class="s">mantuvieron 110+ en el presencial; la mediana del grupo quedó en 69 aciertos</span></div>
     <div class="tile"><span class="k">Correlación entre exámenes</span><div class="v">0.26</div>
       <span class="s">Spearman en escolarizado (0.21 abierta · 0.24 a distancia); en pruebas equiparables suele superar 0.8</span></div>
@@ -98,10 +98,16 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </fieldset>
 
   <div class="chart-card">
-    <p class="chart-title">El mapa: en línea contra presencial</p>
-    <p class="chart-sub" id="heatSub"></p>
-    <div id="heatHost"></div>
-    <div class="tt" id="ttHeat"></div>
+    <p class="chart-title">Dónde quedó cada banda de puntaje</p>
+    <p class="chart-sub" id="slopeSub"></p>
+    <div id="slopeHost"></div>
+  </div>
+
+  <div class="chart-card">
+    <p class="chart-title">El cambio de calificación, persona por persona</p>
+    <p class="chart-sub" id="deltaSub"></p>
+    <div id="deltaHost"></div>
+    <div class="tt" id="ttDelta"></div>
   </div>
 
   <div class="chart-card">
@@ -114,7 +120,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </div>
 
   <div class="chart-card">
-    <p class="chart-title">¿A dónde cayeron los 110+?</p>
+    <p class="chart-title">Las calificaciones en el control de quienes traían 110 o más</p>
     <p class="chart-sub" id="survSub"></p>
     <div id="survHost"></div>
     <div class="tt" id="ttSurv"></div>
@@ -123,8 +129,8 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   <div class="chart-card">
     <p class="chart-title">La caída no la explican las ausencias</p>
     <p class="chart-sub">Porcentaje de convocados que no presentaron el examen de control, por banda de
-    puntaje en línea. Los puntajes altos fueron los que más asistieron: el colapso de arriba ocurrió entre
-    quienes sí fueron.</p>
+    puntaje en línea. Las bandas altas fueron las que más asistieron: la reducción de los puntajes altos
+    ocurrió entre quienes sí presentaron.</p>
     <div id="ausHost"></div>
   </div>
 
@@ -135,11 +141,11 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   (carrera, comprobante): en todas las carreras revisadas, los comprobantes del examen de control
   aparecen en la página del examen en línea. El comprobante es un folio público y pseudónimo; esta
   página, como todo el sitio, publica únicamente distribuciones y agregados, nunca casos individuales.</div>
-  <div class="note"><b>Lo que la estadística descuenta sola</b>
+  <div class="note"><b>Regresión a la media y sus límites</b>
   Parte de la caída de los puntajes altos es esperable por regresión a la media: quien queda arriba en
   una medición con azar tiende a bajar en la siguiente. Dos cosas no las explica ese fenómeno: que la
   banda de menos de 60 aciertos haya reproducido su calificación casi exactamente (un examen ruidoso
-  también la habría movido), y el tamaño del desplome (una mediana de −44 en la banda alta, con una
+  también la habría movido), y el tamaño de la caída (una mediana de −44 en la banda alta, con una
   correlación entre ambos exámenes de 0.21 a 0.26, cuando en aplicaciones equiparables del mismo tipo de
   prueba se esperan correlaciones altas). El rango restringido del grupo convocado atenúa la correlación;
   no la lleva a 0.26.</div>
@@ -165,7 +171,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </div>
 </div>
 <script>
-const D = {"e":{"name":"Escolarizado","below":94.9,"linked":48448,"npairs":30740,"md":-32,"d30":16706,"rose":689,"rho":0.256,"heat":[[2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,7,18,47,31,18,6,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,15,14,52,78,42,16,8,3,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,8,16,38,61,71,32,14,5,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,3,6,17,34,54,75,95,33,18,6,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,8,39,52,93,134,120,95,40,13,5,0,0,0,0,0,0,0,0],[0,0,0,0,1,6,14,45,88,104,165,170,121,122,38,12,2,0,0,0,0,0,0,0],[0,0,0,0,1,7,29,61,113,125,161,186,187,129,86,28,8,0,0,0,0,0,0,0],[0,0,0,0,4,10,28,92,154,172,170,208,208,181,129,68,20,5,2,0,0,0,0,0],[0,0,0,0,2,22,81,156,198,226,229,229,261,271,215,146,74,18,9,0,0,0,0,0],[0,0,0,0,6,20,68,212,292,313,288,289,295,296,302,185,99,63,13,2,0,0,0,0],[0,0,0,0,3,31,100,257,325,357,333,313,315,330,326,261,187,100,46,8,3,0,0,0],[0,0,0,0,1,20,96,244,353,419,391,355,305,310,333,328,270,164,89,46,4,2,0,0],[0,0,0,0,2,33,96,261,365,408,361,354,312,319,299,290,272,250,148,74,35,9,0,0],[0,0,0,0,2,20,103,252,372,386,406,363,318,302,266,267,269,307,220,156,83,44,5,0],[0,0,0,0,3,23,88,192,280,360,374,346,304,278,255,263,280,279,248,261,149,64,47,2],[0,0,0,0,1,5,20,66,89,99,116,90,96,95,103,104,117,126,140,154,130,72,21,19]],"bands":[{"lab":"<60","n":1760,"ns":773,"md":-1,"q1":-7,"q3":2,"np":987},{"lab":"60–79","n":7090,"ns":3018,"md":-15,"q1":-24,"q3":-7,"np":4060},{"lab":"80–89","n":8159,"ns":3248,"md":-27,"q1":-39,"q3":-16,"np":4880},{"lab":"90–99","n":11440,"ns":4354,"md":-36,"q1":-48,"q3":-22,"np":7025},{"lab":"100–109","n":12264,"ns":4177,"md":-43,"q1":-57,"q3":-26,"np":8029},{"lab":"110+","n":7735,"ns":1957,"md":-44,"q1":-61,"q3":-25,"np":5759}],"hi":{"n":5759,"h5":[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0],"med":69,"kept":89}},"a":{"name":"SUAyED Abierta","below":89.3,"linked":4000,"npairs":2740,"md":-19,"d30":910,"rose":132,"rho":0.214,"heat":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,1,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,1,5,9,4,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,4,9,16,19,8,5,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,4,7,20,19,28,10,2,2,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,3,5,9,18,29,46,17,7,3,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,1,4,15,19,28,29,32,27,11,1,1,0,0,0,0,0,0,0],[0,0,0,0,0,2,5,8,21,30,27,49,45,47,34,4,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,7,16,20,28,33,44,62,41,28,5,1,0,0,0,0,0,0],[0,0,0,0,0,0,5,11,18,14,24,25,46,40,42,32,18,6,0,0,0,0,0,0],[0,0,0,0,0,2,4,5,21,28,20,30,32,37,39,37,18,8,4,0,0,0,0,0],[0,0,0,0,0,2,6,11,23,32,30,32,25,26,32,37,26,12,4,1,0,0,0,0],[0,0,0,0,0,0,6,13,27,25,27,17,19,20,23,29,31,23,7,1,0,0,0,0],[0,0,0,0,1,1,3,16,19,28,29,22,30,13,18,12,21,18,12,7,1,0,0,0],[0,0,0,0,0,0,5,9,14,18,17,15,21,9,13,10,13,13,9,6,1,1,0,0],[0,0,0,0,0,1,2,4,6,8,14,6,7,8,4,5,7,8,5,2,4,0,1,0],[0,0,0,0,0,1,2,2,1,0,1,3,3,1,4,1,0,2,0,4,1,1,0,0]],"bands":[{"lab":"<60","n":425,"ns":227,"md":-2,"q1":-7,"q3":1,"np":198},{"lab":"60–79","n":1347,"ns":480,"md":-12,"q1":-19,"q3":-6,"np":865},{"lab":"80–89","n":819,"ns":251,"md":-20,"q1":-32,"q3":-11,"np":566},{"lab":"90–99","n":743,"ns":175,"md":-31,"q1":-45,"q3":-18,"np":567},{"lab":"100–109","n":517,"ns":92,"md":-43,"q1":-55,"q3":-25,"np":425},{"lab":"110+","n":149,"ns":30,"md":-49,"q1":-61,"q3":-29,"np":119}],"hi":{"n":119,"h5":[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0],"med":63,"kept":1}},"d":{"name":"SUAyED a Distancia","below":85.6,"linked":6054,"npairs":3239,"md":-17,"d30":985,"rose":213,"rho":0.244,"heat":[[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2,9,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,2,4,17,11,2,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,2,3,9,21,23,11,11,3,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,6,4,21,19,37,15,5,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,2,3,13,27,29,41,47,14,8,3,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,6,6,16,37,48,44,33,14,5,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,2,5,11,18,26,35,57,53,30,11,5,0,0,0,0,0,0,0],[0,0,0,0,0,0,5,5,10,17,19,25,56,63,46,32,5,1,0,0,0,0,0,0],[0,0,0,0,0,0,5,19,10,20,17,27,34,57,74,45,30,7,0,0,0,0,0,0],[0,0,0,0,0,1,4,24,27,33,26,29,43,38,60,59,32,20,3,1,0,0,0,0],[0,0,0,0,0,1,5,21,19,27,36,33,27,25,40,32,36,21,13,0,0,0,0,0],[0,0,0,0,0,2,4,16,13,32,31,26,24,17,20,32,44,28,13,2,1,1,0,0],[0,0,0,0,0,0,7,14,21,28,26,28,16,24,30,24,33,23,18,4,5,0,0,0],[0,0,0,0,0,0,5,12,13,15,13,13,20,9,17,18,14,15,12,16,3,4,0,0],[0,0,0,0,0,2,3,6,5,20,12,12,14,9,8,7,8,7,6,5,6,1,0,0],[0,0,0,0,0,0,0,1,1,2,0,2,2,2,1,2,3,0,1,2,1,0,0,0]],"bands":[{"lab":"<60","n":682,"ns":417,"md":0,"q1":-6,"q3":2,"np":265},{"lab":"60–79","n":2151,"ns":1214,"md":-10,"q1":-16,"q3":-3,"np":936},{"lab":"80–89","n":1202,"ns":455,"md":-17,"q1":-30,"q3":-9,"np":745},{"lab":"90–99","n":1022,"ns":380,"md":-29,"q1":-44,"q3":-15,"np":642},{"lab":"100–109","n":763,"ns":262,"md":-36,"q1":-53,"q3":-21,"np":500},{"lab":"110+","n":234,"ns":83,"md":-50,"q1":-62,"q3":-33,"np":151}],"hi":{"n":151,"h5":[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0],"med":63,"kept":0}}};
+const D = {"e":{"name":"Escolarizado","pctLower":96.2,"dh":[336,560,911,1373,1730,2132,2241,2257,2307,2380,2483,2654,2777,2530,1820,1096,845,214,80,13,1,0,0,0,0],"dhlo":-80,"linked":48448,"npairs":30740,"md":-32,"d30":16706,"rose":689,"rho":0.256,"bands":[{"lab":"<60","n":1760,"ns":773,"md":-1,"q1":-7,"q3":2,"mo":51,"mc":48,"np":987},{"lab":"60–79","n":7090,"ns":3018,"md":-15,"q1":-24,"q3":-7,"mo":72,"mc":56,"np":4060},{"lab":"80–89","n":8159,"ns":3248,"md":-27,"q1":-39,"q3":-16,"mo":85,"mc":58,"np":4880},{"lab":"90–99","n":11440,"ns":4354,"md":-36,"q1":-48,"q3":-22,"mo":95,"mc":59,"np":7025},{"lab":"100–109","n":12264,"ns":4177,"md":-43,"q1":-57,"q3":-26,"mo":105,"mc":61,"np":8029},{"lab":"110+","n":7735,"ns":1957,"md":-44,"q1":-61,"q3":-25,"mo":113,"mc":69,"np":5759}],"hi":{"n":5759,"h5":[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0],"med":69,"kept":89}},"a":{"name":"SUAyED Abierta","pctLower":92.6,"dh":[12,12,25,57,95,87,142,143,145,154,191,243,303,352,353,224,154,34,12,2,0,0,0,0,0],"dhlo":-80,"linked":4000,"npairs":2740,"md":-19,"d30":910,"rose":132,"rho":0.214,"bands":[{"lab":"<60","n":425,"ns":227,"md":-2,"q1":-7,"q3":1,"mo":54,"mc":50,"np":198},{"lab":"60–79","n":1347,"ns":480,"md":-12,"q1":-19,"q3":-6,"mo":72,"mc":59,"np":865},{"lab":"80–89","n":819,"ns":251,"md":-20,"q1":-32,"q3":-11,"mo":85,"mc":64,"np":566},{"lab":"90–99","n":743,"ns":175,"md":-31,"q1":-45,"q3":-18,"mo":94,"mc":63,"np":567},{"lab":"100–109","n":517,"ns":92,"md":-43,"q1":-55,"q3":-25,"mo":104,"mc":61,"np":425},{"lab":"110+","n":149,"ns":30,"md":-49,"q1":-61,"q3":-29,"mo":112,"mc":63,"np":119}],"hi":{"n":119,"h5":[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0],"med":63,"kept":1}},"d":{"name":"SUAyED a Distancia","pctLower":89.4,"dh":[11,13,42,56,82,106,151,161,158,169,190,234,338,441,430,313,253,62,22,6,0,0,1,0,0],"dhlo":-80,"linked":6054,"npairs":3239,"md":-17,"d30":985,"rose":213,"rho":0.244,"bands":[{"lab":"<60","n":682,"ns":417,"md":0,"q1":-6,"q3":2,"mo":54,"mc":50,"np":265},{"lab":"60–79","n":2151,"ns":1214,"md":-10,"q1":-16,"q3":-3,"mo":71,"mc":61,"np":936},{"lab":"80–89","n":1202,"ns":455,"md":-17,"q1":-30,"q3":-9,"mo":85,"mc":67,"np":745},{"lab":"90–99","n":1022,"ns":380,"md":-29,"q1":-44,"q3":-15,"mo":94,"mc":65,"np":642},{"lab":"100–109","n":763,"ns":262,"md":-36,"q1":-53,"q3":-21,"mo":103,"mc":67,"np":500},{"lab":"110+","n":234,"ns":83,"md":-50,"q1":-62,"q3":-33,"mo":112,"mc":63,"np":151}],"hi":{"n":151,"h5":[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0],"med":63,"kept":0}}};
 const fmt = n => n.toLocaleString('es-MX');
 const el = (t, at, parent) => {
   const e = document.createElementNS('http://www.w3.org/2000/svg', t);
@@ -182,54 +188,88 @@ const h = (tag, cls, txt) => {
 const state = {sysf: 'e'};
 
 // rampa secuencial índigo (una sola tonalidad, claro -> oscuro)
-const RAMP0 = [238, 240, 254], RAMP1 = [49, 46, 129];
+const RAMP0 = [222, 226, 251], RAMP1 = [49, 46, 129];
 const ramp = t => {
   const c = RAMP0.map((v, i) => Math.round(v + (RAMP1[i] - v) * t));
   return `rgb(${c[0]},${c[1]},${c[2]})`;
 };
 
-function drawHeat(d) {
-  const host = document.getElementById('heatHost'); host.replaceChildren();
-  const tt = document.getElementById('ttHeat');
-  const card = host.closest('.chart-card');
-  document.getElementById('heatSub').textContent =
-    `Cada celda agrupa 5×5 aciertos: horizontal, la calificación en el examen en línea; vertical, la del ` +
-    `examen de control. Más oscuro = más aspirantes (${fmt(d.npairs)} pares en ${d.name}). La diagonal es ` +
-    `"misma calificación": el ${String(d.below).replace('.', '.')}% de los aspirantes quedó por debajo de su banda en línea.`;
-  const W = 720, H = 720, m = {t: 14, r: 14, b: 50, l: 56};
-  const pw = W - m.l - m.r, ph = H - m.t - m.b;
-  const cw = pw / 24, ch = ph / 24;
-  const X = b => m.l + b * cw;
-  const Y = b => m.t + ph - (b + 1) * ch;
+function drawSlope(d) {
+  const host = document.getElementById('slopeHost'); host.replaceChildren();
+  document.getElementById('slopeSub').textContent =
+    `Cada línea es una banda de puntaje del examen en línea. Conecta la mediana de la banda en el examen ` +
+    `en línea (eje superior) con la mediana de las mismas personas en el examen de control (eje inferior), ` +
+    `sobre la misma escala de aciertos. En ${d.name}, el ${d.pctLower}% de los aspirantes obtuvo una ` +
+    `calificación menor en el examen de control que en el examen en línea.`;
+  const bands = d.bands.filter(b => b.mo != null && b.mc != null);
+  const W = 900, m = {t: 46, r: 24, b: 40, l: 24};
+  const axTop = m.t + 34, axBot = axTop + 150;
+  const H = axBot + 62;
+  const Xs = v => m.l + v / 120 * (W - m.l - m.r);
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': `Mapa de densidad de ${fmt(d.npairs)} pares de calificaciones en ${d.name}: examen en línea contra examen de control. La masa está muy por debajo de la diagonal de misma calificación.`}, host);
-  const mx = Math.max(1, ...d.heat.flat());
-  for (let o = 0; o < 24; o++)
-    for (let c = 0; c < 24; c++) {
-      const n = d.heat[o][c];
-      if (!n) continue;
-      el('rect', {x: X(o) + .5, y: Y(c) + .5, width: cw - 1, height: ch - 1, rx: 2,
-        fill: ramp(Math.sqrt(n / mx))}, svg);
-    }
+    'aria-label': 'Mediana de cada banda de puntaje en el examen en línea y en el examen de control, en ' + d.name}, host);
   for (let v = 0; v <= 120; v += 20) {
-    el('text', {x: m.l + v / 120 * pw, y: H - 26, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 12}, svg).textContent = v;
-    el('text', {x: m.l - 8, y: m.t + ph - v / 120 * ph + 4, 'text-anchor': 'end', fill: '#6a7186', 'font-size': 12}, svg).textContent = v;
+    el('line', {x1: Xs(v), x2: Xs(v), y1: m.t, y2: axBot + 14, stroke: '#e7eaf2', 'stroke-width': 1}, svg);
+    el('text', {x: Xs(v), y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 12}, svg).textContent = v;
   }
-  el('text', {x: m.l + pw / 2, y: H - 6, 'text-anchor': 'middle', fill: '#3f4557', 'font-weight': 700, 'font-size': 12.5}, svg).textContent = 'aciertos en el examen en línea (mayo 2026)';
-  const yl = el('text', {x: 14, y: m.t + ph / 2, fill: '#3f4557', 'font-weight': 700, 'font-size': 12.5,
-    transform: `rotate(-90 14 ${m.t + ph / 2})`, 'text-anchor': 'middle'}, svg);
-  yl.textContent = 'aciertos en el examen de control';
-  el('line', {x1: m.l, y1: m.t + ph, x2: m.l + pw, y2: m.t, stroke: '#101223', 'stroke-width': 1.4, 'stroke-dasharray': '6 5', opacity: .65}, svg);
-  el('text', {x: m.l + pw - 6, y: m.t + 16, 'text-anchor': 'end', fill: '#101223', 'font-weight': 750, 'font-size': 12, opacity: .75}, svg).textContent = 'misma calificación';
+  el('line', {x1: m.l, x2: W - m.r, y1: axTop, y2: axTop, stroke: '#a7aec1', 'stroke-width': 1.5}, svg);
+  el('text', {x: m.l, y: axTop - 12, 'font-weight': 800, 'font-size': 13.5, fill: '#c2410c'}, svg).textContent = 'examen en línea (mayo 2026)';
+  el('line', {x1: m.l, x2: W - m.r, y1: axBot, y2: axBot, stroke: '#a7aec1', 'stroke-width': 1.5}, svg);
+  el('text', {x: m.l, y: axBot + 24, 'font-weight': 800, 'font-size': 13.5, fill: '#3730a3'}, svg).textContent = 'examen de control (presencial)';
+  bands.forEach((b, i) => {
+    const t = bands.length > 1 ? i / (bands.length - 1) : 1;
+    const col = ramp(.25 + .75 * t);
+    const g = el('g', {tabindex: 0, role: 'img',
+      'aria-label': `Banda ${b.lab}: mediana ${b.mo} en línea y ${b.mc} en el examen de control (cambio mediano ${b.md}; ${fmt(b.np)} aspirantes).`}, svg);
+    el('line', {x1: Xs(b.mo), y1: axTop, x2: Xs(b.mc), y2: axBot, stroke: col, 'stroke-width': 2.4, opacity: .9}, g);
+    el('circle', {cx: Xs(b.mo), cy: axTop, r: 5.5, fill: '#ea580c', stroke: '#fff', 'stroke-width': 2}, g);
+    el('circle', {cx: Xs(b.mc), cy: axBot, r: 5.5, fill: '#4338ca', stroke: '#fff', 'stroke-width': 2}, g);
+    el('text', {x: Xs(b.mo), y: axTop - 10 - (i % 2) * 13, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 750, fill: '#3f4557'}, g).textContent = b.lab;
+    el('text', {x: Xs((b.mo + b.mc) / 2) + 8, y: (axTop + axBot) / 2 + (i % 2 ? 18 : -8), 'text-anchor': 'start', 'font-size': 11.5, 'font-weight': 800, fill: '#3730a3'}, g)
+      .textContent = (b.md > 0 ? '+' : '') + b.md;
+  });
+}
+
+function drawDelta(d) {
+  const host = document.getElementById('deltaHost'); host.replaceChildren();
+  const tt = document.getElementById('ttDelta');
+  const card = host.closest('.chart-card');
+  document.getElementById('deltaSub').textContent =
+    `Distribución del cambio individual (aciertos en el examen de control menos aciertos en línea) de los ` +
+    `${fmt(d.npairs)} aspirantes de ${d.name} con ambas calificaciones. Cambio mediano: ${d.md}; ` +
+    `cayó 30 aciertos o más el ${(100 * d.d30 / d.npairs).toFixed(1)}%; subió el ${(100 * d.rose / d.npairs).toFixed(1)}%.`;
+  const W = 900, H = 260, m = {t: 24, r: 18, b: 38, l: 52};
+  const mx = Math.max(1, ...d.dh);
+  const bw = (W - m.l - m.r) / 25;
+  const Y = v => m.t + (1 - v / (mx * 1.12)) * (H - m.t - m.b);
+  const Xv = v => m.l + (v - d.dhlo) / 125 * (W - m.l - m.r);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': `Histograma del cambio de calificación entre ambos exámenes en ${d.name}; mediana ${d.md}.`}, host);
+  el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: '#a7aec1', 'stroke-width': 1}, svg);
+  for (let v = -80; v <= 40; v += 20)
+    el('text', {x: Xv(v) + bw / 2, y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5}, svg)
+      .textContent = (v > 0 ? '+' : '') + v;
+  d.dh.forEach((n, i) => {
+    if (!n) return;
+    const v0 = d.dhlo + i * 5;
+    el('rect', {x: Xv(v0) + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3,
+      fill: v0 >= 0 ? '#a7aec1' : '#4338ca'}, svg);
+  });
+  const zx = Xv(0);
+  el('line', {x1: zx, x2: zx, y1: m.t, y2: Y(0), stroke: '#101223', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
+  el('text', {x: zx + 6, y: m.t + 12, fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = 'sin cambio (0)';
+  const mxq = Xv(d.md) + bw / 2;
+  el('line', {x1: mxq, x2: mxq, y1: m.t + 20, y2: Y(0), stroke: '#3730a3', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .9}, svg);
+  el('text', {x: mxq - 6, y: m.t + 34, 'text-anchor': 'end', fill: '#3730a3', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = `mediana: ${d.md}`;
   svg.addEventListener('mousemove', ev => {
     const r = svg.getBoundingClientRect();
     if (!r.width) return;
-    const px = (ev.clientX - r.left) / r.width * W, py = (ev.clientY - r.top) / r.height * H;
-    const o = Math.floor((px - m.l) / cw), c = Math.floor((m.t + ph - py) / ch);
-    if (o < 0 || o > 23 || c < 0 || c > 23) { tt.style.opacity = 0; return; }
-    const n = d.heat[o][c];
-    tt.replaceChildren(h('b', null, `En línea ${o * 5}–${o * 5 + 4} · control ${c * 5}–${c * 5 + 4}`),
-      document.createTextNode(n ? `${fmt(n)} aspirante${n === 1 ? '' : 's'}` : 'sin aspirantes'));
+    const px = (ev.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(24, Math.floor((px - m.l) / bw)));
+    const v0 = d.dhlo + i * 5;
+    const n = d.dh[i];
+    tt.replaceChildren(h('b', null, `Cambio de ${v0 > 0 ? '+' : ''}${v0} a ${v0 + 4 > 0 ? '+' : ''}${v0 + 4}`),
+      document.createTextNode(`${fmt(n)} aspirante${n === 1 ? '' : 's'}`));
     const cr = card.getBoundingClientRect();
     tt.style.opacity = 1;
     let lx = ev.clientX - cr.left + 14;
@@ -335,7 +375,7 @@ function drawAus(d) {
 
 function renderAll() {
   const d = D[state.sysf];
-  drawHeat(d); drawDose(d); drawSurv(d); drawAus(d);
+  drawSlope(d); drawDelta(d); drawDose(d); drawSurv(d); drawAus(d);
 }
 document.getElementById('sysSel').addEventListener('change', () => {
   state.sysf = document.querySelector('#sysSel input[name="sysf"]:checked').value;
