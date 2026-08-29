@@ -98,9 +98,10 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </fieldset>
 
   <div class="chart-card">
-    <p class="chart-title">Dónde quedó cada banda de puntaje</p>
+    <p class="chart-title">De qué banda a qué banda: el flujo entre los dos exámenes</p>
     <p class="chart-sub" id="slopeSub"></p>
     <div id="slopeHost"></div>
+    <div class="tt" id="ttSlope"></div>
   </div>
 
   <div class="chart-card">
@@ -171,7 +172,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </div>
 </div>
 <script>
-const D = {"e":{"name":"Escolarizado","pctLower":96.2,"dh":[336,560,911,1373,1730,2132,2241,2257,2307,2380,2483,2654,2777,2530,1820,1096,845,214,80,13,1,0,0,0,0],"dhlo":-80,"linked":48448,"npairs":30740,"md":-32,"d30":16706,"rose":689,"rho":0.256,"bands":[{"lab":"<60","n":1760,"ns":773,"md":-1,"q1":-7,"q3":2,"mo":51,"mc":48,"np":987},{"lab":"60–79","n":7090,"ns":3018,"md":-15,"q1":-24,"q3":-7,"mo":72,"mc":56,"np":4060},{"lab":"80–89","n":8159,"ns":3248,"md":-27,"q1":-39,"q3":-16,"mo":85,"mc":58,"np":4880},{"lab":"90–99","n":11440,"ns":4354,"md":-36,"q1":-48,"q3":-22,"mo":95,"mc":59,"np":7025},{"lab":"100–109","n":12264,"ns":4177,"md":-43,"q1":-57,"q3":-26,"mo":105,"mc":61,"np":8029},{"lab":"110+","n":7735,"ns":1957,"md":-44,"q1":-61,"q3":-25,"mo":113,"mc":69,"np":5759}],"hi":{"n":5759,"h5":[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0],"med":69,"kept":89}},"a":{"name":"SUAyED Abierta","pctLower":92.6,"dh":[12,12,25,57,95,87,142,143,145,154,191,243,303,352,353,224,154,34,12,2,0,0,0,0,0],"dhlo":-80,"linked":4000,"npairs":2740,"md":-19,"d30":910,"rose":132,"rho":0.214,"bands":[{"lab":"<60","n":425,"ns":227,"md":-2,"q1":-7,"q3":1,"mo":54,"mc":50,"np":198},{"lab":"60–79","n":1347,"ns":480,"md":-12,"q1":-19,"q3":-6,"mo":72,"mc":59,"np":865},{"lab":"80–89","n":819,"ns":251,"md":-20,"q1":-32,"q3":-11,"mo":85,"mc":64,"np":566},{"lab":"90–99","n":743,"ns":175,"md":-31,"q1":-45,"q3":-18,"mo":94,"mc":63,"np":567},{"lab":"100–109","n":517,"ns":92,"md":-43,"q1":-55,"q3":-25,"mo":104,"mc":61,"np":425},{"lab":"110+","n":149,"ns":30,"md":-49,"q1":-61,"q3":-29,"mo":112,"mc":63,"np":119}],"hi":{"n":119,"h5":[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0],"med":63,"kept":1}},"d":{"name":"SUAyED a Distancia","pctLower":89.4,"dh":[11,13,42,56,82,106,151,161,158,169,190,234,338,441,430,313,253,62,22,6,0,0,1,0,0],"dhlo":-80,"linked":6054,"npairs":3239,"md":-17,"d30":985,"rose":213,"rho":0.244,"bands":[{"lab":"<60","n":682,"ns":417,"md":0,"q1":-6,"q3":2,"mo":54,"mc":50,"np":265},{"lab":"60–79","n":2151,"ns":1214,"md":-10,"q1":-16,"q3":-3,"mo":71,"mc":61,"np":936},{"lab":"80–89","n":1202,"ns":455,"md":-17,"q1":-30,"q3":-9,"mo":85,"mc":67,"np":745},{"lab":"90–99","n":1022,"ns":380,"md":-29,"q1":-44,"q3":-15,"mo":94,"mc":65,"np":642},{"lab":"100–109","n":763,"ns":262,"md":-36,"q1":-53,"q3":-21,"mo":103,"mc":67,"np":500},{"lab":"110+","n":234,"ns":83,"md":-50,"q1":-62,"q3":-33,"mo":112,"mc":63,"np":151}],"hi":{"n":151,"h5":[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0],"med":63,"kept":0}}};
+const D = {"e":{"name":"Escolarizado","pctLower":96.2,"dh":[336,560,911,1373,1730,2132,2241,2257,2307,2380,2483,2654,2777,2530,1820,1096,845,214,80,13,1,0,0,0,0],"dhlo":-80,"flow":[[897,90,0,0,0,0],[2561,1462,35,2,0,0],[2631,1971,254,24,0,0],[3598,2508,721,189,9,0],[3784,2373,1098,598,171,5],[2152,1498,802,803,415,89]],"linked":48448,"npairs":30740,"md":-32,"d30":16706,"rose":689,"rho":0.256,"bands":[{"lab":"<60","n":1760,"ns":773,"md":-1,"q1":-7,"q3":2,"mo":51,"mc":48,"np":987},{"lab":"60–79","n":7090,"ns":3018,"md":-15,"q1":-24,"q3":-7,"mo":72,"mc":56,"np":4060},{"lab":"80–89","n":8159,"ns":3248,"md":-27,"q1":-39,"q3":-16,"mo":85,"mc":58,"np":4880},{"lab":"90–99","n":11440,"ns":4354,"md":-36,"q1":-48,"q3":-22,"mo":95,"mc":59,"np":7025},{"lab":"100–109","n":12264,"ns":4177,"md":-43,"q1":-57,"q3":-26,"mo":105,"mc":61,"np":8029},{"lab":"110+","n":7735,"ns":1957,"md":-44,"q1":-61,"q3":-25,"mo":113,"mc":69,"np":5759}],"hi":{"n":5759,"h5":[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0],"med":69,"kept":89}},"a":{"name":"SUAyED Abierta","pctLower":92.6,"dh":[12,12,25,57,95,87,142,143,145,154,191,243,303,352,353,224,154,34,12,2,0,0,0,0,0],"dhlo":-80,"flow":[[178,20,0,0,0,0],[454,404,7,0,0,0],[207,305,50,4,0,0],[251,211,92,13,0,0],[197,126,65,34,3,0],[51,33,17,11,6,1]],"linked":4000,"npairs":2740,"md":-19,"d30":910,"rose":132,"rho":0.214,"bands":[{"lab":"<60","n":425,"ns":227,"md":-2,"q1":-7,"q3":1,"mo":54,"mc":50,"np":198},{"lab":"60–79","n":1347,"ns":480,"md":-12,"q1":-19,"q3":-6,"mo":72,"mc":59,"np":865},{"lab":"80–89","n":819,"ns":251,"md":-20,"q1":-32,"q3":-11,"mo":85,"mc":64,"np":566},{"lab":"90–99","n":743,"ns":175,"md":-31,"q1":-45,"q3":-18,"mo":94,"mc":63,"np":567},{"lab":"100–109","n":517,"ns":92,"md":-43,"q1":-55,"q3":-25,"mo":104,"mc":61,"np":425},{"lab":"110+","n":149,"ns":30,"md":-49,"q1":-61,"q3":-29,"mo":112,"mc":63,"np":119}],"hi":{"n":119,"h5":[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0],"med":63,"kept":1}},"d":{"name":"SUAyED a Distancia","pctLower":89.4,"dh":[11,13,42,56,82,106,151,161,158,169,190,234,338,441,430,313,253,62,22,6,0,0,1,0,0],"dhlo":-80,"flow":[[229,35,1,0,0,0],[408,516,12,0,0,0],[242,410,89,4,0,0],[266,217,129,28,2,0],[195,158,85,50,12,0],[66,45,18,14,8,0]],"linked":6054,"npairs":3239,"md":-17,"d30":985,"rose":213,"rho":0.244,"bands":[{"lab":"<60","n":682,"ns":417,"md":0,"q1":-6,"q3":2,"mo":54,"mc":50,"np":265},{"lab":"60–79","n":2151,"ns":1214,"md":-10,"q1":-16,"q3":-3,"mo":71,"mc":61,"np":936},{"lab":"80–89","n":1202,"ns":455,"md":-17,"q1":-30,"q3":-9,"mo":85,"mc":67,"np":745},{"lab":"90–99","n":1022,"ns":380,"md":-29,"q1":-44,"q3":-15,"mo":94,"mc":65,"np":642},{"lab":"100–109","n":763,"ns":262,"md":-36,"q1":-53,"q3":-21,"mo":103,"mc":67,"np":500},{"lab":"110+","n":234,"ns":83,"md":-50,"q1":-62,"q3":-33,"mo":112,"mc":63,"np":151}],"hi":{"n":151,"h5":[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0],"med":63,"kept":0}}};
 const fmt = n => n.toLocaleString('es-MX');
 const el = (t, at, parent) => {
   const e = document.createElementNS('http://www.w3.org/2000/svg', t);
@@ -196,38 +197,87 @@ const ramp = t => {
 
 function drawSlope(d) {
   const host = document.getElementById('slopeHost'); host.replaceChildren();
+  const tt = document.getElementById('ttSlope');
+  const card = host.closest('.chart-card');
   document.getElementById('slopeSub').textContent =
-    `Cada línea es una banda de puntaje del examen en línea. Conecta la mediana de la banda en el examen ` +
-    `en línea (eje superior) con la mediana de las mismas personas en el examen de control (eje inferior), ` +
-    `sobre la misma escala de aciertos. En ${d.name}, el ${d.pctLower}% de los aspirantes obtuvo una ` +
-    `calificación menor en el examen de control que en el examen en línea.`;
-  const bands = d.bands.filter(b => b.mo != null && b.mc != null);
-  const W = 900, m = {t: 46, r: 24, b: 40, l: 24};
-  const axTop = m.t + 34, axBot = axTop + 150;
-  const H = axBot + 62;
-  const Xs = v => m.l + v / 120 * (W - m.l - m.r);
+    `La columna izquierda agrupa a los aspirantes por su banda de puntaje en el examen en línea; la ` +
+    `derecha, por su banda en el examen de control. El ancho de cada franja es el número de aspirantes ` +
+    `que pasó de una banda a la otra; el color corresponde a la banda de origen. En ${d.name}, el ` +
+    `${d.pctLower}% obtuvo una calificación menor en el examen de control que en el examen en línea.`;
+  const bands = d.bands;
+  const nB = bands.length;
+  const disp = [...Array(nB).keys()].reverse();   // bandas altas arriba
+  const leftN = bands.map(b => b.np);
+  const rightN = bands.map((_, j) => bands.reduce((a, _2, i) => a + d.flow[i][j], 0));
+  const W = 900, H = 560, m = {t: 44, b: 14};
+  const colW = 42, xL0 = 238, xL1 = xL0 + colW, xR1 = 664, xR0 = xR1 - colW;
+  const GAP = 3;
+  const k = (H - m.t - m.b - GAP * (nB - 1)) / d.npairs;
+  const yTopL = {}, yTopR = {};
+  let accL = m.t, accR = m.t;
+  for (const i of disp) { yTopL[i] = accL; accL += leftN[i] * k + GAP; }
+  for (const j of disp) { yTopR[j] = accR; accR += rightN[j] * k + GAP; }
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': 'Mediana de cada banda de puntaje en el examen en línea y en el examen de control, en ' + d.name}, host);
-  for (let v = 0; v <= 120; v += 20) {
-    el('line', {x1: Xs(v), x2: Xs(v), y1: m.t, y2: axBot + 14, stroke: '#e7eaf2', 'stroke-width': 1}, svg);
-    el('text', {x: Xs(v), y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 12}, svg).textContent = v;
+    'aria-label': `Flujo de aspirantes de ${d.name} entre su banda de puntaje en el examen en línea y su banda en el examen de control; el ancho de cada franja es el número de aspirantes.`}, host);
+  el('text', {x: (xL0 + xL1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#c2410c'}, svg).textContent = 'examen en línea (mayo 2026)';
+  el('text', {x: (xR0 + xR1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#3730a3'}, svg).textContent = 'examen de control (presencial)';
+  const colB = i => ramp(.22 + .78 * (i / (nB - 1)));
+  // franjas (origen arriba->destino, con curvas de tangente horizontal)
+  const ribbons = [];
+  const c1 = (xL1 + xR0) / 2;
+  const offL = bands.map((_, i) => yTopL[i]);
+  const offR = bands.map((_, j) => yTopR[j]);
+  for (const i of disp) {
+    for (const j of disp) {
+      const n = d.flow[i][j];
+      if (!n) continue;
+      const hgt = Math.max(n * k, .8);
+      const sy0 = offL[i], sy1 = sy0 + n * k;
+      const ty0 = offR[j], ty1 = ty0 + n * k;
+      offL[i] = sy1; offR[j] = ty1;
+      const p = el('path', {d: `M ${xL1} ${sy0} C ${c1} ${sy0}, ${c1} ${ty0}, ${xR0} ${ty0} ` +
+        `L ${xR0} ${Math.max(ty1, ty0 + hgt)} C ${c1} ${Math.max(ty1, ty0 + hgt)}, ${c1} ${Math.max(sy1, sy0 + hgt)}, ${xL1} ${Math.max(sy1, sy0 + hgt)} Z`,
+        fill: colB(i), opacity: .5, tabindex: 0, role: 'img',
+        'aria-label': `De la banda ${bands[i].lab} en línea a la banda ${bands[j].lab} en el examen de control: ${fmt(n)} aspirantes (${(100 * n / bands[i].np).toFixed(1)}% de la banda).`}, svg);
+      ribbons.push({p, i, j, n});
+    }
   }
-  el('line', {x1: m.l, x2: W - m.r, y1: axTop, y2: axTop, stroke: '#a7aec1', 'stroke-width': 1.5}, svg);
-  el('text', {x: m.l, y: axTop - 12, 'font-weight': 800, 'font-size': 13.5, fill: '#c2410c'}, svg).textContent = 'examen en línea (mayo 2026)';
-  el('line', {x1: m.l, x2: W - m.r, y1: axBot, y2: axBot, stroke: '#a7aec1', 'stroke-width': 1.5}, svg);
-  el('text', {x: m.l, y: axBot + 24, 'font-weight': 800, 'font-size': 13.5, fill: '#3730a3'}, svg).textContent = 'examen de control (presencial)';
-  bands.forEach((b, i) => {
-    const t = bands.length > 1 ? i / (bands.length - 1) : 1;
-    const col = ramp(.25 + .75 * t);
-    const g = el('g', {tabindex: 0, role: 'img',
-      'aria-label': `Banda ${b.lab}: mediana ${b.mo} en línea y ${b.mc} en el examen de control (cambio mediano ${b.md}; ${fmt(b.np)} aspirantes).`}, svg);
-    el('line', {x1: Xs(b.mo), y1: axTop, x2: Xs(b.mc), y2: axBot, stroke: col, 'stroke-width': 2.4, opacity: .9}, g);
-    el('circle', {cx: Xs(b.mo), cy: axTop, r: 5.5, fill: '#ea580c', stroke: '#fff', 'stroke-width': 2}, g);
-    el('circle', {cx: Xs(b.mc), cy: axBot, r: 5.5, fill: '#4338ca', stroke: '#fff', 'stroke-width': 2}, g);
-    el('text', {x: Xs(b.mo), y: axTop - 10 - (i % 2) * 13, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 750, fill: '#3f4557'}, g).textContent = b.lab;
-    el('text', {x: Xs((b.mo + b.mc) / 2) + 8, y: (axTop + axBot) / 2 + (i % 2 ? 18 : -8), 'text-anchor': 'start', 'font-size': 11.5, 'font-weight': 800, fill: '#3730a3'}, g)
-      .textContent = (b.md > 0 ? '+' : '') + b.md;
+  const resetR = () => ribbons.forEach(r => r.p.setAttribute('opacity', .5));
+  ribbons.forEach(r => {
+    const hi = () => ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
+    r.p.addEventListener('mouseenter', hi);
+    r.p.addEventListener('focus', hi);
+    r.p.addEventListener('mouseleave', resetR);
+    r.p.addEventListener('blur', resetR);
+    r.p.addEventListener('mousemove', ev => {
+      tt.replaceChildren(h('b', null, `${bands[r.i].lab} en línea → ${bands[r.j].lab} en el control`),
+        document.createTextNode(`${fmt(r.n)} aspirante${r.n === 1 ? '' : 's'} (${(100 * r.n / bands[r.i].np).toFixed(1)}% de la banda ${bands[r.i].lab})`));
+      const cr = card.getBoundingClientRect();
+      tt.style.opacity = 1;
+      let lx = ev.clientX - cr.left + 14;
+      if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
+      tt.style.left = Math.max(4, lx) + 'px'; tt.style.top = Math.max(4, ev.clientY - cr.top - 30) + 'px';
+    });
+    r.p.addEventListener('mouseout', () => tt.style.opacity = 0);
   });
+  // columnas
+  for (const i of disp) {
+    if (leftN[i]) el('rect', {x: xL0, y: yTopL[i], width: colW, height: Math.max(leftN[i] * k, 1.5), rx: 3, fill: colB(i)}, svg);
+    if (rightN[i]) el('rect', {x: xR0, y: yTopR[i], width: colW, height: Math.max(rightN[i] * k, 1.5), rx: 3, fill: colB(i)}, svg);
+  }
+  // etiquetas con separación mínima
+  const place = (tops, ns, side) => {
+    const rows = disp.filter(i => ns[i]).map(i => ({i, y: tops[i] + Math.max(ns[i] * k, 1.5) / 2}));
+    for (let z = 1; z < rows.length; z++)
+      if (rows[z].y - rows[z - 1].y < 15) rows[z].y = rows[z - 1].y + 15;
+    rows.forEach(rw => {
+      el('text', {x: side === 'L' ? xL0 - 10 : xR1 + 10, y: rw.y + 4, 'text-anchor': side === 'L' ? 'end' : 'start',
+        'font-size': 12, 'font-weight': 750, fill: '#3f4557'}, svg)
+        .textContent = `${bands[rw.i].lab} · ${fmt(ns[rw.i])}`;
+    });
+  };
+  place(yTopL, leftN, 'L');
+  place(yTopR, rightN, 'R');
 }
 
 function drawDelta(d) {
@@ -252,8 +302,9 @@ function drawDelta(d) {
   d.dh.forEach((n, i) => {
     if (!n) return;
     const v0 = d.dhlo + i * 5;
-    el('rect', {x: Xv(v0) + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3,
-      fill: v0 >= 0 ? '#a7aec1' : '#4338ca'}, svg);
+    const mid = v0 + 2;
+    const fill = v0 >= 0 ? '#cbd5e1' : (mid >= -19.5 ? '#c7d2fe' : (mid >= -39.5 ? '#818cf8' : '#4338ca'));
+    el('rect', {x: Xv(v0) + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3, fill}, svg);
   });
   const zx = Xv(0);
   el('line', {x1: zx, x2: zx, y1: m.t, y2: Y(0), stroke: '#101223', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
@@ -327,14 +378,15 @@ function drawSurv(d) {
     el('text', {x: m.l + v / 125 * (W - m.l - m.r) + bw / 2, y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5}, svg).textContent = v;
   d.hi.h5.forEach((n, i) => {
     if (!n) return;
-    el('rect', {x: m.l + i * bw + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3,
-      fill: i * 5 >= 110 ? '#101223' : '#4338ca'}, svg);
+    const s0 = i * 5;
+    const fill = s0 >= 110 ? '#3730a3' : (s0 >= 90 ? '#818cf8' : (s0 >= 60 ? '#a5b4fc' : '#c7d2fe'));
+    el('rect', {x: m.l + i * bw + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3, fill}, svg);
   });
   const mxq = m.l + (d.hi.med + 2.5) / 125 * (W - m.l - m.r);
   el('line', {x1: mxq, x2: mxq, y1: m.t, y2: Y(0), stroke: '#101223', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
   el('text', {x: mxq + 6, y: m.t + 12, fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = `mediana: ${d.hi.med}`;
   const k = el('text', {x: W - m.r - 4, y: m.t + 12, 'text-anchor': 'end', fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg);
-  k.textContent = `${fmt(d.hi.kept)} mantuvieron 110+ (negro)`;
+  k.textContent = `${fmt(d.hi.kept)} mantuvieron 110+ (barras oscuras)`;
   svg.addEventListener('mousemove', ev => {
     const r = svg.getBoundingClientRect();
     if (!r.width) return;
@@ -365,7 +417,7 @@ function drawAus(d) {
     const cy = m.t + i * rowH + rowH / 2;
     const p = b.ns / b.n;
     el('text', {x: m.l - 12, y: cy + 4, 'text-anchor': 'end', 'font-weight': 800, 'font-size': 13, fill: '#3f4557'}, svg).textContent = b.lab;
-    el('rect', {x: m.l, y: cy - 9, width: Math.max(X(p) - m.l, 2), height: 18, rx: 5, fill: '#4338ca', 'fill-opacity': .82}, svg);
+    el('rect', {x: m.l, y: cy - 9, width: Math.max(X(p) - m.l, 2), height: 18, rx: 5, fill: '#818cf8'}, svg);
     el('text', {x: X(p) + 8, y: cy + 4.5, 'font-weight': 750, 'font-size': 12.5, fill: '#101223'}, svg)
       .textContent = `${(100 * p).toFixed(1)}% no presentó (${fmt(b.ns)} de ${fmt(b.n)})`;
     el('rect', {x: m.l, y: cy - rowH / 2, width: W - m.l - m.r, height: rowH, fill: 'transparent', tabindex: 0, role: 'img',
