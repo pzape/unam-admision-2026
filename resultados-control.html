@@ -193,7 +193,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </div>
 
   <div class="chart-card" id="flowCard" hidden>
-    <p class="chart-title">De qué banda a qué banda: los dos exámenes en esta carrera</p>
+    <p class="chart-title" id="flowTitle"></p>
     <p class="chart-sub" id="flowSub"></p>
     <p class="chart-sub">La vista de los tres sistemas completos está en
     <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">Los mismos aspirantes,
@@ -637,11 +637,11 @@ function drawFlowC(d) {
   const lk = d.lk;
   card.hidden = !lk || lk.np < 5 || !d.eds.ctl;
   if (card.hidden) return;
+  document.getElementById('flowTitle').textContent = `${d.k}: del examen en línea al examen de control`;
   document.getElementById('flowSub').textContent =
-    `Solo compara a los ${fmt(lk.np)} aspirantes de esta carrera con calificación publicada en ambos ` +
-    `exámenes (de ${fmt(d.eds.ctl.asp)} convocados al examen de control). Columna izquierda: su banda de ` +
-    `puntaje en el examen en línea; derecha: su banda en el examen de control. El ancho de cada franja es ` +
-    `el número de aspirantes; el ${pctTxt(lk.pl)}% obtuvo una calificación menor en el examen de control.`;
+    `De los ${fmt(d.eds.ctl.asp)} convocados, ${fmt(lk.np)} tienen calificación en ambos exámenes. El ancho ` +
+    `de cada franja es el número de aspirantes; el ${pctTxt(lk.pl)}% obtuvo una calificación menor en el ` +
+    `examen de control.`;
   const infoDefault = () => info.textContent =
     'Pasa el cursor por una franja o por una banda de las columnas: el detalle aparece aquí.';
   infoDefault();
@@ -687,7 +687,7 @@ function drawFlowC(d) {
     const hi = () => {
       ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
       info.textContent = `De los ${fmt(leftN[r.i])} aspirantes con ${B4[r.i]} en línea, ${fmt(r.n)} ` +
-        `(${pctTxt(100 * r.n / leftN[r.i])}%) ${r.i === r.j ? 'se mantuvieron en' : 'pasaron a'} ${B4[r.j]} en el examen de control.`;
+        `${r.i === r.j ? 'se mantuvieron en' : 'pasaron a'} ${B4[r.j]} en el examen de control.`;
     };
     r.p.addEventListener('mouseenter', hi);
     r.p.addEventListener('focus', hi);
@@ -701,7 +701,9 @@ function drawFlowC(d) {
     for (const o of disp) {
       const n = side === 'L' ? flow[i][o] : flow[o][i];
       if (!n) continue;
-      parts.push(`${pctTxt(100 * n / tot)}% (${fmt(n)}) ${o === i ? 'se mantuvo en' : side === 'L' ? 'pasó a' : 'llegó desde'} ${B4[o]}`);
+      parts.push(`${fmt(n)} ${o === i ? (n === 1 ? 'se mantuvo en' : 'se mantuvieron en')
+        : side === 'L' ? (n === 1 ? 'pasó a' : 'pasaron a')
+        : (n === 1 ? 'llegó desde' : 'llegaron desde')} ${B4[o]}`);
     }
     info.textContent = (side === 'L'
       ? `${B4[i]} en línea · ${fmt(tot)} aspirantes — `
@@ -733,15 +735,15 @@ function drawFlowC(d) {
     });
   };
   const leg = document.getElementById('flowLegend');
-  leg.hidden = !MOB;
+  leg.hidden = false;
   leg.replaceChildren();
-  if (MOB) {
+  {
     for (const i of disp) {
       if (!leftN[i] && !rightN[i]) continue;
       const sp = h('span', 'leg-btn');
       const sw = h('span', 'sw'); sw.style.background = PAL4[i];
       sp.appendChild(sw);
-      sp.appendChild(document.createTextNode(`${B4[i]} · ${fmt(leftN[i])} → ${fmt(rightN[i])}`));
+      sp.appendChild(document.createTextNode(B4[i]));
       sp.tabIndex = 0; sp.setAttribute('role', 'button');
       sp.setAttribute('aria-label', `Banda ${B4[i]}: ${fmt(leftN[i])} en el examen en línea, ${fmt(rightN[i])} en el examen de control. Resalta sus flujos.`);
       sp.addEventListener('mouseenter', () => segHover('L', i));
@@ -749,7 +751,8 @@ function drawFlowC(d) {
       sp.addEventListener('mouseleave', resetR);
       leg.appendChild(sp);
     }
-  } else {
+  }
+  if (!MOB) {
     place(yTopL, leftN, 'L');
     place(yTopR, rightN, 'R');
   }

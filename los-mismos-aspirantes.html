@@ -104,7 +104,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </fieldset>
 
   <div class="chart-card">
-    <p class="chart-title">De qué banda a qué banda: el flujo entre los dos exámenes</p>
+    <p class="chart-title">Del examen en línea al examen de control</p>
     <p class="chart-sub" id="slopeSub"></p>
     <div class="legend" id="slopeLegend" hidden></div>
     <div id="slopeHost"></div>
@@ -220,10 +220,9 @@ function drawSlope(d) {
   const host = document.getElementById('slopeHost'); host.replaceChildren();
   const info = document.getElementById('slopeInfo');
   document.getElementById('slopeSub').textContent =
-    `La columna izquierda agrupa a los aspirantes por su banda de puntaje en el examen en línea; la ` +
-    `derecha, por su banda en el examen de control. El ancho de cada franja es el número de aspirantes ` +
-    `que pasó de una banda a la otra; el color corresponde a la banda de origen y su tono a la distancia ` +
-    `de la caída. En ${d.name}, el ${d.pctLower}% obtuvo una calificación menor en el examen de control.`;
+    `Columna izquierda: banda de puntaje en el examen en línea; derecha: banda en el examen de control. ` +
+    `El ancho de cada franja es el número de aspirantes. En ${d.name}, el ${d.pctLower}% obtuvo una ` +
+    `calificación menor en el examen de control.`;
   const infoDefault = () => info.textContent =
     'Pasa el cursor por una franja o por una banda de las columnas: el detalle aparece aquí.';
   infoDefault();
@@ -269,7 +268,7 @@ function drawSlope(d) {
     const hi = () => {
       ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
       info.textContent = `De los ${fmt(bands[r.i].np)} aspirantes con ${bands[r.i].lab} en línea, ` +
-        `${fmt(r.n)} (${pctTxt(100 * r.n / bands[r.i].np)}%) ${r.i === r.j ? 'se mantuvieron en' : 'pasaron a'} ${bands[r.j].lab} en el examen de control.`;
+        `${fmt(r.n)} ${r.i === r.j ? 'se mantuvieron en' : 'pasaron a'} ${bands[r.j].lab} en el examen de control.`;
     };
     r.p.addEventListener('mouseenter', hi);
     r.p.addEventListener('focus', hi);
@@ -283,7 +282,9 @@ function drawSlope(d) {
     for (const o of disp) {
       const n = side === 'L' ? d.flow[i][o] : d.flow[o][i];
       if (!n) continue;
-      parts.push(`${pctTxt(100 * n / tot)}% (${fmt(n)}) ${o === i ? 'se mantuvo en' : side === 'L' ? 'pasó a' : 'llegó desde'} ${bands[o].lab}`);
+      parts.push(`${fmt(n)} ${o === i ? (n === 1 ? 'se mantuvo en' : 'se mantuvieron en')
+        : side === 'L' ? (n === 1 ? 'pasó a' : 'pasaron a')
+        : (n === 1 ? 'llegó desde' : 'llegaron desde')} ${bands[o].lab}`);
     }
     info.textContent = (side === 'L'
       ? `${bands[i].lab} en línea · ${fmt(tot)} aspirantes — `
@@ -315,15 +316,15 @@ function drawSlope(d) {
     });
   };
   const leg = document.getElementById('slopeLegend');
-  leg.hidden = !MOB;
+  leg.hidden = false;
   leg.replaceChildren();
-  if (MOB) {
+  {
     for (const i of disp) {
       if (!leftN[i] && !rightN[i]) continue;
       const sp = h('span', 'leg-btn');
       const sw = h('span', 'sw'); sw.style.background = PAL[i];
       sp.appendChild(sw);
-      sp.appendChild(document.createTextNode(`${bands[i].lab} · ${fmt(leftN[i])} → ${fmt(rightN[i])}`));
+      sp.appendChild(document.createTextNode(bands[i].lab));
       sp.tabIndex = 0; sp.setAttribute('role', 'button');
       sp.setAttribute('aria-label', `Banda ${bands[i].lab}: ${fmt(leftN[i])} en el examen en línea, ${fmt(rightN[i])} en el examen de control. Resalta sus flujos.`);
       sp.addEventListener('mouseenter', () => segHover('L', i));
@@ -331,7 +332,8 @@ function drawSlope(d) {
       sp.addEventListener('mouseleave', resetR);
       leg.appendChild(sp);
     }
-  } else {
+  }
+  if (!MOB) {
     place(yTopL, leftN, 'L');
     place(yTopR, rightN, 'R');
   }
