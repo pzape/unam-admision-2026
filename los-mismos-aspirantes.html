@@ -253,7 +253,7 @@ function drawSlope(d) {
       const p = el('path', {d: `M ${xL1} ${sy0} C ${c1} ${sy0}, ${c1} ${ty0}, ${xR0} ${ty0} ` +
         `L ${xR0} ${ty1} C ${c1} ${ty1}, ${c1} ${sy1}, ${xL1} ${sy1} Z`,
         fill: shadeRib(i, j), opacity: .55, tabindex: 0, role: 'img',
-        'aria-label': `De los ${fmt(bands[i].np)} aspirantes con ${bands[i].lab} en línea, ${fmt(n)} pasaron a ${bands[j].lab} en el examen de control.`}, svg);
+        'aria-label': `De los ${fmt(bands[i].np)} aspirantes con ${bands[i].lab} en línea, ${fmt(n)} ${i === j ? 'se mantuvieron en' : 'pasaron a'} ${bands[j].lab} en el examen de control.`}, svg);
       ribbons.push({p, i, j, n});
     }
   }
@@ -262,7 +262,7 @@ function drawSlope(d) {
     const hi = () => {
       ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
       info.textContent = `De los ${fmt(bands[r.i].np)} aspirantes con ${bands[r.i].lab} en línea, ` +
-        `${fmt(r.n)} (${pctTxt(100 * r.n / bands[r.i].np)}%) pasaron a ${bands[r.j].lab} en el examen de control.`;
+        `${fmt(r.n)} (${pctTxt(100 * r.n / bands[r.i].np)}%) ${r.i === r.j ? 'se mantuvieron en' : 'pasaron a'} ${bands[r.j].lab} en el examen de control.`;
     };
     r.p.addEventListener('mouseenter', hi);
     r.p.addEventListener('focus', hi);
@@ -276,7 +276,7 @@ function drawSlope(d) {
     for (const o of disp) {
       const n = side === 'L' ? d.flow[i][o] : d.flow[o][i];
       if (!n) continue;
-      parts.push(`${pctTxt(100 * n / tot)}% (${fmt(n)}) ${side === 'L' ? 'pasó a' : 'llegó desde'} ${bands[o].lab}`);
+      parts.push(`${pctTxt(100 * n / tot)}% (${fmt(n)}) ${o === i ? 'se mantuvo en' : side === 'L' ? 'pasó a' : 'llegó desde'} ${bands[o].lab}`);
     }
     info.textContent = (side === 'L'
       ? `${bands[i].lab} en línea · ${fmt(tot)} aspirantes — `

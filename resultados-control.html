@@ -675,7 +675,7 @@ function drawFlowC(d) {
       const p = el('path', {d: `M ${xL1} ${sy0} C ${c1} ${sy0}, ${c1} ${ty0}, ${xR0} ${ty0} ` +
         `L ${xR0} ${ty1} C ${c1} ${ty1}, ${c1} ${sy1}, ${xL1} ${sy1} Z`,
         fill: shadeRib(i, j), opacity: .55, tabindex: 0, role: 'img',
-        'aria-label': `De los ${fmt(leftN[i])} aspirantes con ${B4[i]} en línea, ${fmt(n)} pasaron a ${B4[j]} en el examen de control.`}, svg);
+        'aria-label': `De los ${fmt(leftN[i])} aspirantes con ${B4[i]} en línea, ${fmt(n)} ${i === j ? 'se mantuvieron en' : 'pasaron a'} ${B4[j]} en el examen de control.`}, svg);
       ribbons.push({p, i, j, n});
     }
   }
@@ -684,7 +684,7 @@ function drawFlowC(d) {
     const hi = () => {
       ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
       info.textContent = `De los ${fmt(leftN[r.i])} aspirantes con ${B4[r.i]} en línea, ${fmt(r.n)} ` +
-        `(${pctTxt(100 * r.n / leftN[r.i])}%) pasaron a ${B4[r.j]} en el examen de control.`;
+        `(${pctTxt(100 * r.n / leftN[r.i])}%) ${r.i === r.j ? 'se mantuvieron en' : 'pasaron a'} ${B4[r.j]} en el examen de control.`;
     };
     r.p.addEventListener('mouseenter', hi);
     r.p.addEventListener('focus', hi);
@@ -698,7 +698,7 @@ function drawFlowC(d) {
     for (const o of disp) {
       const n = side === 'L' ? flow[i][o] : flow[o][i];
       if (!n) continue;
-      parts.push(`${pctTxt(100 * n / tot)}% (${fmt(n)}) ${side === 'L' ? 'pasó a' : 'llegó desde'} ${B4[o]}`);
+      parts.push(`${pctTxt(100 * n / tot)}% (${fmt(n)}) ${o === i ? 'se mantuvo en' : side === 'L' ? 'pasó a' : 'llegó desde'} ${B4[o]}`);
     }
     info.textContent = (side === 'L'
       ? `${B4[i]} en línea · ${fmt(tot)} aspirantes — `
