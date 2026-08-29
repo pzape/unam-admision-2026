@@ -93,9 +93,11 @@ input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; app
 .sh-left { min-width: 220px; }
 .sys-chip { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 750; background: var(--card); color: var(--ink2); white-space: nowrap; }
 .sys-chip .sd { width: 8px; height: 8px; border-radius: 3px; display: inline-block; flex: none; }
-.ausen { background: var(--surface); border: 1.5px solid var(--ctl); border-radius: 14px; padding: 10px 16px; max-width: 300px; box-shadow: var(--shadow); }
+.ausen { background: var(--surface); border: 1.5px solid var(--ctl); border-radius: 14px; padding: 10px 16px; max-width: 340px; box-shadow: var(--shadow); }
 .ausen .ck { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ctl); font-weight: 800; }
-.ausen .cb { display: inline-block; font-size: 24px; font-weight: 800; color: var(--ink); letter-spacing: -.02em; margin-top: 2px; }
+.ausen .arow { display: flex; gap: 18px; margin: 3px 0 4px; }
+.ausen .ast b { display: block; font-size: 22px; font-weight: 800; color: var(--ink); letter-spacing: -.02em; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.ausen .ast i { display: block; font-style: normal; font-size: 10.5px; color: var(--muted); font-weight: 650; }
 .ausen .cs { display: block; font-size: 11px; color: var(--muted); line-height: 1.4; }
 .ytable-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px 12px; overflow-x: auto; margin-top: 14px; }
 .ytable { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
@@ -183,8 +185,12 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
         <p class="rl-p" id="selSub" style="margin:0;display:flex;align-items:center;gap:7px"></p>
       </div>
       <div class="ausen" id="ausenCard" hidden>
-        <span class="ck">Al examen de control</span>
-        <span class="cb" id="ausenMain"></span>
+        <span class="ck">El examen de control</span>
+        <div class="arow">
+          <span class="ast"><b id="acPres"></b><i>presentaron</i></span>
+          <span class="ast"><b id="acSel"></b><i>seleccionados</i></span>
+          <span class="ast"><b id="acCorte"></b><i>corte</i></span>
+        </div>
         <span class="cs" id="ausenSub"></span>
       </div>
     </div>
@@ -390,9 +396,11 @@ function showProfile(code) {
   const ac = document.getElementById('ausenCard');
   if (ctl && ctl.pres != null) {
     ac.hidden = false;
-    document.getElementById('ausenMain').textContent = `${fmt(ctl.pres)} de ${fmt(ctl.asp)}`;
+    document.getElementById('acPres').textContent = fmt(ctl.pres);
+    document.getElementById('acSel').textContent = fmt(ctl.sel);
+    document.getElementById('acCorte').textContent = ctl.c != null ? ctl.c : '—';
     document.getElementById('ausenSub').textContent =
-      `convocados presentaron (${pct1(ctl.asp - ctl.pres, ctl.asp)}% no se presentó) · ${fmt(ctl.sel)} seleccionados`;
+      `${fmt(ctl.asp)} convocados · ${pct1(ctl.asp - ctl.pres, ctl.asp)}% no se presentó`;
   } else ac.hidden = true;
   drawTable(d);
   drawCurves(d);
