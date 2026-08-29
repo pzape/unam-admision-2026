@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<!-- Admisión UNAM 2021–2026 · Análisis y código: Pedro Zape · Sitio original: https://pzape.github.io/unam-admision-2026/ -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://pzape.github.io/unam-admision-2026/el-corte.html">
+<meta name="author" content="Pedro Zape (github.com/pzape)">
+<meta name="description" content="El corte de cada carrera de la UNAM en tres momentos: examen presencial 2025, examen en línea 2026 y examen de control, por plantel y por área.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="El corte, antes y después · Admisión UNAM 2026">
+<meta property="og:description" content="Cómo se movió el corte de cada carrera con el examen en línea y el examen de control: por plantel, por área y en tabla ordenable.">
+<title>El corte, antes y después · Admisión UNAM 2026</title>
+<style>
+:root { color-scheme: light;
+  --bg: #f6f7fb; --surface: #fff; --ink: #101223; --ink2: #3f4557; --muted: #6a7186;
+  --line: #e7eaf2; --axis: #a7aec1;
+  --brand: #4f46e5; --brand-soft: #eef0fe;
+  --sys-e: #4f46e5; --sys-a: #0d9488; --sys-d: #a855f7;
+  --p25: #94a3b8; --l26: #ea580c; --ctl: #4338ca;
+  --shadow: 0 1px 2px rgba(16,18,35,.05), 0 10px 30px rgba(16,18,35,.07);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
+.topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar-in { max-width: 1000px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink2); }
+.topbar-in b { color: var(--ink); }
+.topbar-in .dot { width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, #4f46e5, #ea580c); flex: none; }
+.topbar-in a { margin-left: auto; color: var(--brand); font-weight: 700; text-decoration: none; font-size: 13px; white-space: nowrap; }
+.topnav { display: flex; gap: 4px; overflow-x: auto; max-width: 1000px; margin: 0 auto; padding: 0 16px 8px; scrollbar-width: none; }
+.topnav::-webkit-scrollbar { display: none; }
+.topnav a { flex: none; color: #3f4557; font-weight: 650; text-decoration: none; font-size: 12px; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.topnav a:hover { background: #eef0fe; color: #4f46e5; }
+.topnav a.cur, .topnav a.cur:hover { background: #4f46e5; color: #fff; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 26px 20px 50px; }
+.tag { display: inline-block; background: var(--brand-soft); color: var(--brand); border-radius: 999px;
+  font-size: 11px; font-weight: 800; letter-spacing: .06em; padding: 3px 12px; text-transform: uppercase; }
+h1 { font-size: 26px; margin: 10px 0 6px; letter-spacing: -.01em; }
+.sub { color: var(--ink2); font-size: 14px; margin: 0 0 16px; max-width: 70ch; }
+.seg { border: none; margin: 0 0 10px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg label { display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px; border: 1.5px solid var(--line);
+  border-radius: 999px; font-size: 13px; font-weight: 650; color: var(--ink2); cursor: pointer; background: var(--surface); }
+.seg input:checked + label { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+.seg .sd { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 0 0 12px; }
+.controls select { font: inherit; font-size: 13.5px; padding: 7px 10px; border: 1.5px solid var(--line);
+  border-radius: 10px; background: var(--surface); color: var(--ink); max-width: 100%; }
+.chips { display: flex; gap: 7px; flex-wrap: wrap; margin: 0 0 8px; min-height: 30px; }
+.chip { display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: 999px; padding: 4px 6px 4px 11px; font-size: 12.5px; font-weight: 650; color: var(--ink2); }
+.chip .cd { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.chip a { color: var(--brand); text-decoration: none; font-weight: 700; font-size: 12px; }
+.chip a:hover { text-decoration: underline; }
+.chip button { border: none; background: #eef0f6; color: var(--ink2); border-radius: 50%; width: 18px; height: 18px;
+  font-size: 11px; line-height: 1; cursor: pointer; padding: 0; }
+.chip button:hover { background: #dde1ee; }
+.chips .hint { font-size: 12px; color: var(--muted); align-self: center; }
+.card { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 14px 12px 10px; position: relative; }
+.duo { display: flex; gap: 6px; align-items: flex-start; }
+.duo .gfx { flex: 1.35; min-width: 0; }
+.duo .side { flex: 1; min-width: 0; max-height: 520px; overflow-y: auto; }
+.sr { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 9px; cursor: pointer; }
+.sr:hover { background: var(--brand-soft); }
+.sr.on { background: var(--brand-soft); box-shadow: inset 0 0 0 1.5px var(--brand); }
+.sr .cd { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.sr .nm { font-size: 12px; font-weight: 700; color: var(--ink); line-height: 1.25; }
+.sr .tr { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 600; }
+.sr .dd { margin-left: auto; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; flex: none; }
+.ar-h { font-size: 13.5px; font-weight: 800; margin: 16px 0 2px; }
+.ar-h small { color: var(--muted); font-weight: 650; }
+svg { width: 100%; height: auto; display: block; }
+svg text { font-family: inherit; }
+.ln, .rib { cursor: pointer; }
+.tt { position: absolute; pointer-events: none; opacity: 0; transition: opacity .1s;
+  background: rgba(255,255,255,.9); backdrop-filter: blur(3px); border: 1px solid var(--line);
+  border-radius: 10px; padding: 7px 11px; font-size: 12.5px; box-shadow: var(--shadow); max-width: 340px; z-index: 5; }
+.tt b { display: block; font-size: 12.5px; color: var(--ink); margin-bottom: 1px; }
+.tt .tr { font-weight: 750; font-variant-numeric: tabular-nums; }
+.tt .hint { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+h2 { font-size: 19px; margin: 30px 0 8px; max-width: 60ch; line-height: 1.35; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; background: var(--surface); }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+th:first-child, td:first-child { text-align: left; }
+th { background: #f0f2f9; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--ink2); cursor: pointer; user-select: none; white-space: nowrap; position: sticky; top: 0; z-index: 1; }
+th .arr { color: var(--brand); }
+td a { color: var(--ink); text-decoration: none; font-weight: 650; }
+td a:hover { color: var(--brand); text-decoration: underline; }
+td .pl { display: block; font-size: 11px; color: var(--muted); font-weight: 500; }
+.neg { color: #b91c1c; font-weight: 700; } .pos { color: #15803d; font-weight: 700; }
+.tblwrap { overflow: auto; max-height: 480px; border-radius: 12px; box-shadow: var(--shadow); }
+.note { color: var(--muted); font-size: 12.5px; margin-top: 16px; max-width: 78ch; }
+.foot { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); line-height: 1.7; }
+.foot a { color: var(--ink2); }
+@media (max-width: 700px) {
+  .duo { flex-direction: column; align-items: stretch; }
+  .duo .gfx { width: 100%; }
+  .duo .side { max-height: 280px; width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in"><span class="dot"></span><b>Admisión UNAM</b> · El corte, antes y después
+  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">Resultados del control →</a></div>
+<nav class="topnav" aria-label="Páginas del sitio">
+  <a href="https://pzape.github.io/unam-admision-2026/">Explorador</a>
+  <a href="https://pzape.github.io/unam-admision-2026/historia.html">Historia</a>
+  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">Resultados del control</a>
+  <a href="https://pzape.github.io/unam-admision-2026/el-corte.html" class="cur" aria-current="page">El corte</a>
+  <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">Mismos aspirantes</a>
+  <a href="https://pzape.github.io/unam-admision-2026/convocados.html">Convocados</a>
+  <a href="https://pzape.github.io/unam-admision-2026/examen-control.html">Examen de control</a>
+  <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">SUAyED</a>
+  <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a>
+</nav>
+</div>
+<div class="wrap">
+  <span class="tag">Análisis · Datos oficiales DGAE</span>
+  <h1>El corte, antes y después del examen de control</h1>
+  <p class="sub" id="pageSub">Cada curva es una carrera: su corte en el examen presencial de 2025, en el
+  examen en línea y en el examen de control. Pasa el cursor para ver los tres cortes; haz clic en una
+  curva o en la lista para fijar una o varias carreras y compararlas. Con "Todos los planteles" la vista
+  cambia a un resumen por área.</p>
+
+  <fieldset class="seg" id="sysSel">
+    <legend style="position:absolute;opacity:0">Sistema</legend>
+    <input type="radio" name="sys" id="se" value="e" checked><label for="se"><span class="sd" style="background:var(--sys-e)"></span>Escolarizado</label>
+    <input type="radio" name="sys" id="sa" value="a"><label for="sa"><span class="sd" style="background:var(--sys-a)"></span>SUAyED Abierta</label>
+    <input type="radio" name="sys" id="sd" value="d"><label for="sd"><span class="sd" style="background:var(--sys-d)"></span>SUAyED a Distancia</label>
+  </fieldset>
+  <div class="controls">
+    <label for="plSel" style="font-size:13px;font-weight:650;color:var(--ink2)">Plantel:</label>
+    <select id="plSel"></select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="card" id="cardA"><div id="hostA"></div><div class="tt" id="tt"></div></div>
+
+  <h2 id="tblTitle"></h2>
+  <div class="tblwrap"><table id="tbl">
+    <thead><tr>
+      <th data-k="k">Carrera</th><th data-k="p25">2025 presencial</th><th data-k="l26">En línea</th>
+      <th data-k="ctl">Control</th><th data-k="d">Δ línea→control</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="note">Δ = corte del examen de control menos corte del examen en línea. El corte de cada
+  ocasión es la calificación mínima entre los seleccionados publicados por la DGAE; las carreras sin
+  seleccionados en una ocasión aparecen sin corte en ella. En la modalidad a distancia, el presencial de
+  referencia es mayo de 2025 (el concurso de noviembre no se incluye en esta vista). Como en el resto del
+  sitio, los datos describen carreras y distribuciones, nunca aspirantes individuales.</p>
+
+  <div class="foot">
+    <p><strong>Documentos relacionados:</strong>
+    <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">Resultados del examen de control</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">Los mismos aspirantes, dos exámenes</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/">Explorador (escolarizado)</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">Buscador SUAyED</a> ·
+    <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a></p>
+    <p><strong>Autoría.</strong> Análisis y herramienta: Pedro Zape (github.com/pzape) · datos públicos de
+    DGAE-UNAM. Elaborado con asistencia de IA (Claude, de Anthropic) bajo dirección y verificación del
+    autor. © 2026, todos los derechos reservados sobre el análisis, el texto y el diseño; los datos
+    oficiales pertenecen a sus fuentes. Estadísticas de visita agregadas y anónimas, sin cookies
+    (GoatCounter).</p>
+  </div>
+</div>
+<script>
+const D = {"e":{"name":"Escolarizado","rows":[{"code":"10100035","k":"ACTUARIA","p":"FACULTAD DE CIENCIAS","ctl":92,"p25":109,"l26":113,"d":-21},{"code":"10102005","k":"ACTUARIA","p":"FES ACATLÁN","ctl":85,"p25":97,"l26":108,"d":-23},{"code":"10200015","k":"ARQUITECTURA","p":"FACULTAD DE ARQUITECTURA","ctl":75,"p25":96,"l26":108,"d":-33},{"code":"10202005","k":"ARQUITECTURA","p":"FES ACATLÁN","ctl":61,"p25":77,"l26":99,"d":-38},{"code":"10204005","k":"ARQUITECTURA","p":"FES ARAGÓN","ctl":65,"p25":82,"l26":103,"d":-38},{"code":"10300015","k":"ARQUITECTURA DE PAISAJE","p":"FACULTAD DE ARQUITECTURA","ctl":64,"p25":87,"l26":100,"d":-36},{"code":"10400035","k":"CIENCIAS DE LA COMPUTACION","p":"FACULTAD DE CIENCIAS","ctl":88,"p25":109,"l26":113,"d":-25},{"code":"10504005","k":"DISEÑO INDUSTRIAL","p":"FES ARAGÓN","ctl":69,"p25":91,"l26":106,"d":-37},{"code":"10600035","k":"FISICA","p":"FACULTAD DE CIENCIAS","ctl":83,"p25":104,"l26":108,"d":-25},{"code":"10700115","k":"INGENIERIA CIVIL","p":"FACULTAD DE INGENIERÍA","ctl":73,"p25":88,"l26":104,"d":-31},{"code":"10702005","k":"INGENIERIA CIVIL","p":"FES ACATLÁN","ctl":51,"p25":66,"l26":89,"d":-38},{"code":"10704005","k":"INGENIERIA CIVIL","p":"FES ARAGÓN","ctl":49,"p25":68,"l26":87,"d":-38},{"code":"10800115","k":"INGENIERIA DE MINAS Y METALURGIA","p":"FACULTAD DE INGENIERÍA","ctl":53,"p25":62,"l26":90,"d":-37},{"code":"10900115","k":"INGENIERIA ELECTRICA ELECTRONICA","p":"FACULTAD DE INGENIERÍA","ctl":82,"p25":97,"l26":107,"d":-25},{"code":"10904005","k":"INGENIERIA ELECTRICA ELECTRONICA","p":"FES ARAGÓN","ctl":59,"p25":77,"l26":96,"d":-37},{"code":"11000115","k":"INGENIERIA EN COMPUTACION","p":"FACULTAD DE INGENIERÍA","ctl":75,"p25":101,"l26":109,"d":-34},{"code":"11004005","k":"INGENIERIA EN COMPUTACION","p":"FES ARAGÓN","ctl":68,"p25":89,"l26":104,"d":-36},{"code":"11008005","k":"INGENIERIA EN COMPUTACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":51,"p25":null,"l26":44,"d":7},{"code":"11010005","k":"INGENIERIA EN COMPUTACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","ctl":40,"p25":null,"l26":70,"d":-30},{"code":"11100115","k":"INGENIERIA EN TELECOMUNICACIONES","p":"FACULTAD DE INGENIERÍA","ctl":69,"p25":90,"l26":101,"d":-32},{"code":"11200115","k":"INGENIERIA GEOFISICA","p":"FACULTAD DE INGENIERÍA","ctl":51,"p25":75,"l26":80,"d":-29},{"code":"11300115","k":"INGENIERIA GEOLOGICA","p":"FACULTAD DE INGENIERÍA","ctl":56,"p25":70,"l26":87,"d":-31},{"code":"11400115","k":"INGENIERIA INDUSTRIAL","p":"FACULTAD DE INGENIERÍA","ctl":71,"p25":95,"l26":108,"d":-37},{"code":"11401005","k":"INGENIERIA INDUSTRIAL","p":"FES CUAUTITLÁN","ctl":61,"p25":75,"l26":95,"d":-34},{"code":"11404005","k":"INGENIERIA INDUSTRIAL","p":"FES ARAGÓN","ctl":53,"p25":78,"l26":99,"d":-46},{"code":"11500115","k":"INGENIERIA MECANICA","p":"FACULTAD DE INGENIERÍA","ctl":87,"p25":104,"l26":110,"d":-23},{"code":"11504005","k":"INGENIERIA MECANICA","p":"FES ARAGÓN","ctl":69,"p25":87,"l26":104,"d":-35},{"code":"11601005","k":"INGENIERIA MECANICA ELECTRICA","p":"FES CUAUTITLÁN","ctl":41,"p25":67,"l26":86,"d":-45},{"code":"11700115","k":"INGENIERIA PETROLERA","p":"FACULTAD DE INGENIERÍA","ctl":61,"p25":72,"l26":98,"d":-37},{"code":"11800055","k":"INGENIERIA QUIMICA","p":"FACULTAD DE QUÍMICA","ctl":74,"p25":95,"l26":108,"d":-34},{"code":"11801005","k":"INGENIERIA QUIMICA","p":"FES CUAUTITLÁN","ctl":46,"p25":63,"l26":85,"d":-39},{"code":"11805005","k":"INGENIERIA QUIMICA","p":"FES ZARAGOZA","ctl":51,"p25":67,"l26":80,"d":-29},{"code":"11900055","k":"INGENIERIA QUIMICA METALURGICA","p":"FACULTAD DE QUÍMICA","ctl":44,"p25":72,"l26":86,"d":-42},{"code":"12000115","k":"INGENIERIA GEOMATICA","p":"FACULTAD DE INGENIERÍA","ctl":54,"p25":65,"l26":87,"d":-33},{"code":"12102005","k":"MATEMATICAS APLICADAS Y COMPUTACION","p":"FES ACATLÁN","ctl":40,"p25":52,"l26":59,"d":-19},{"code":"12200035","k":"MATEMATICAS","p":"FACULTAD DE CIENCIAS","ctl":74,"p25":88,"l26":94,"d":-20},{"code":"12300015","k":"URBANISMO","p":"FACULTAD DE ARQUITECTURA","ctl":69,"p25":83,"l26":99,"d":-30},{"code":"12610005","k":"TECNOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","ctl":44,"p25":81,"l26":45,"d":-1},{"code":"12700175","k":"CIENCIAS DE LA TIERRA","p":"ESCUELA NACIONAL DE CIENCIAS DE LA TIERRA","ctl":40,"p25":63,"l26":73,"d":-33},{"code":"12708005","k":"CIENCIAS DE LA TIERRA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":43,"p25":46,"l26":47,"d":-4},{"code":"12710005","k":"CIENCIAS DE LA TIERRA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","ctl":40,"p25":66,"l26":40,"d":0},{"code":"12800905","k":"INGENIERIA EN ENERGIAS RENOVABLES","p":"CENTRO DE INVESTIGACIÓN EN ENERGÍA","ctl":40,"p25":null,"l26":41,"d":-1},{"code":"12810005","k":"INGENIERIA EN ENERGIAS RENOVABLES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","ctl":48,"p25":null,"l26":67,"d":-19},{"code":"13001005","k":"ING. EN TELECOMUNICACIONES, SISTEMAS Y ELECTRONICA","p":"FES CUAUTITLÁN","ctl":40,"p25":59,"l26":80,"d":-40},{"code":"13107005","k":"GEOCIENCIAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":50,"p25":47,"l26":49,"d":1},{"code":"13207005","k":"TECNOLOGIAS PARA LA INFORMACION EN CIENCIAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":42,"p25":45,"l26":43,"d":-1},{"code":"13307005","k":"CIENCIA DE MATERIALES SUSTENTABLES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":40,"p25":45,"l26":40,"d":0},{"code":"13400035","k":"FISICA BIOMEDICA","p":"FACULTAD DE CIENCIAS","ctl":81,"p25":103,"l26":109,"d":-28},{"code":"13600035","k":"MATEMATICAS APLICADAS","p":"FACULTAD DE CIENCIAS","ctl":73,"p25":101,"l26":100,"d":-27},{"code":"13700115","k":"INGENIERIA AMBIENTAL","p":"FACULTAD DE INGENIERÍA","ctl":69,"p25":94,"l26":105,"d":-36},{"code":"13900115","k":"INGENIERIA AEROESPACIAL","p":"FACULTAD DE INGENIERÍA","ctl":96,"p25":117,"l26":115,"d":-19},{"code":"14010005","k":"MATEMATICAS PARA EL DESARROLLO","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","ctl":41,"p25":83,"l26":40,"d":1},{"code":"20100015","k":"BIOLOGIA","p":"TLAXCALA","ctl":42,"p25":55,"l26":64,"d":-22},{"code":"20100035","k":"BIOLOGIA","p":"FACULTAD DE CIENCIAS","ctl":72,"p25":95,"l26":106,"d":-34},{"code":"20103005","k":"BIOLOGIA","p":"FES IZTACALA","ctl":63,"p25":79,"l26":94,"d":-31},{"code":"20105005","k":"BIOLOGIA","p":"FES ZARAGOZA","ctl":56,"p25":76,"l26":95,"d":-39},{"code":"20108005","k":"BIOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":40,"p25":null,"l26":78,"d":-38},{"code":"20200145","k":"CIRUJANO DENTISTA","p":"FACULTAD DE ODONTOLOGÍA","ctl":70,"p25":100,"l26":112,"d":-42},{"code":"20203005","k":"CIRUJANO DENTISTA","p":"FES IZTACALA","ctl":65,"p25":90,"l26":109,"d":-44},{"code":"20205005","k":"CIRUJANO DENTISTA","p":"FES ZARAGOZA","ctl":66,"p25":92,"l26":109,"d":-43},{"code":"20300095","k":"ENFERMERIA Y OBSTETRICIA","p":"FACULTAD DE ENFERMERIA Y OBSTETRICIA","ctl":58,"p25":90,"l26":108,"d":-50},{"code":"20401005","k":"INGENIERIA AGRICOLA","p":"FES CUAUTITLÁN","ctl":40,"p25":59,"l26":68,"d":-28},{"code":"20501005","k":"INGENIERIA EN ALIMENTOS","p":"FES CUAUTITLÁN","ctl":40,"p25":62,"l26":61,"d":-21},{"code":"20700165","k":"MEDICINA VETERINARIA Y ZOOTECNIA","p":"FACULTAD DE MEDICINA VETERINARIA Y ZOOTECNIA","ctl":77,"p25":104,"l26":113,"d":-36},{"code":"20701005","k":"MEDICINA VETERINARIA Y ZOOTECNIA","p":"FES CUAUTITLÁN","ctl":64,"p25":89,"l26":107,"d":-43},{"code":"20800125","k":"MEDICO CIRUJANO","p":"FACULTAD DE MEDICINA","ctl":92,"p25":114,"l26":117,"d":-25},{"code":"20803005","k":"MEDICO CIRUJANO","p":"FES IZTACALA","ctl":84,"p25":109,"l26":115,"d":-31},{"code":"20805005","k":"MEDICO CIRUJANO","p":"FES ZARAGOZA","ctl":91,"p25":109,"l26":117,"d":-26},{"code":"20903005","k":"OPTOMETRIA","p":"FES IZTACALA","ctl":49,"p25":77,"l26":97,"d":-48},{"code":"20906005","k":"OPTOMETRIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":40,"p25":45,"l26":52,"d":-12},{"code":"21000015","k":"PSICOLOGIA","p":"TLAXCALA","ctl":48,"p25":50,"l26":92,"d":-44},{"code":"21000195","k":"PSICOLOGIA","p":"FACULTAD DE PSICOLOGÍA","ctl":74,"p25":107,"l26":112,"d":-38},{"code":"21003005","k":"PSICOLOGIA","p":"FES IZTACALA","ctl":59,"p25":87,"l26":104,"d":-45},{"code":"21005005","k":"PSICOLOGIA","p":"FES ZARAGOZA","ctl":64,"p25":88,"l26":105,"d":-41},{"code":"21010005","k":"PSICOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","ctl":45,"p25":null,"l26":80,"d":-35},{"code":"21100055","k":"QUIMICA","p":"FACULTAD DE QUÍMICA","ctl":80,"p25":99,"l26":109,"d":-29},{"code":"21101005","k":"QUIMICA","p":"FES CUAUTITLÁN","ctl":40,"p25":67,"l26":78,"d":-38},{"code":"21200055","k":"QUIMICA DE ALIMENTOS","p":"FACULTAD DE QUÍMICA","ctl":70,"p25":91,"l26":106,"d":-36},{"code":"21300055","k":"QUIMICA FARMACEUTICO BIOLOGICA","p":"FACULTAD DE QUÍMICA","ctl":79,"p25":104,"l26":113,"d":-34},{"code":"21305005","k":"QUIMICA FARMACEUTICO BIOLOGICA","p":"FES ZARAGOZA","ctl":65,"p25":102,"l26":108,"d":-43},{"code":"21401005","k":"QUIMICA INDUSTRIAL","p":"FES CUAUTITLÁN","ctl":45,"p25":59,"l26":82,"d":-37},{"code":"21607005","k":"CIENCIAS AMBIENTALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":45,"p25":45,"l26":41,"d":4},{"code":"21608005","k":"CIENCIAS AMBIENTALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":42,"p25":45,"l26":41,"d":1},{"code":"21708005","k":"MANEJO SUSTENTABLE DE ZONAS COSTERAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":41,"p25":45,"l26":45,"d":-4},{"code":"21801005","k":"BIOQUIMICA DIAGNOSTICA","p":"FES CUAUTITLÁN","ctl":63,"p25":91,"l26":101,"d":-38},{"code":"21901005","k":"FARMACIA","p":"FES CUAUTITLÁN","ctl":44,"p25":63,"l26":79,"d":-35},{"code":"22000015","k":"ENFERMERIA","p":"TLAXCALA","ctl":40,"p25":56,"l26":87,"d":-47},{"code":"22000095","k":"ENFERMERIA","p":"FACULTAD DE ENFERMERIA Y OBSTETRICIA","ctl":53,"p25":75,"l26":99,"d":-46},{"code":"22003005","k":"ENFERMERIA","p":"FES IZTACALA","ctl":50,"p25":77,"l26":102,"d":-52},{"code":"22005005","k":"ENFERMERIA","p":"FES ZARAGOZA","ctl":58,"p25":79,"l26":103,"d":-45},{"code":"22106005","k":"FISIOTERAPIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":46,"p25":61,"l26":89,"d":-43},{"code":"22206005","k":"ODONTOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":69,"p25":83,"l26":105,"d":-36},{"code":"22306005","k":"CIENCIAS AGROGENOMICAS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":40,"p25":62,"l26":80,"d":-40},{"code":"22503005","k":"ECOLOGIA","p":"FES IZTACALA","ctl":40,"p25":63,"l26":85,"d":-45},{"code":"22507005","k":"ECOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":42,"p25":46,"l26":52,"d":-10},{"code":"22508005","k":"ECOLOGIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":60,"p25":45,"l26":40,"d":20},{"code":"22705005","k":"NUTRIOLOGIA","p":"FES ZARAGOZA","ctl":57,"p25":95,"l26":109,"d":-52},{"code":"22810005","k":"ORTESIS Y PROTESIS","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD JURIQUILLA","ctl":47,"p25":72,"l26":90,"d":-43},{"code":"23007005","k":"CIENCIAS AGROFORESTALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":42,"p25":45,"l26":40,"d":2},{"code":"30100065","k":"ADMINISTRACION","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","ctl":67,"p25":90,"l26":108,"d":-41},{"code":"30101005","k":"ADMINISTRACION","p":"FES CUAUTITLÁN","ctl":43,"p25":60,"l26":81,"d":-38},{"code":"30107005","k":"ADMINISTRACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":42,"p25":null,"l26":41,"d":1},{"code":"30111005","k":"ADMINISTRACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. OAXACA, OAX.","ctl":40,"p25":null,"l26":67,"d":-27},{"code":"30200045","k":"CIENCIAS DE LA COMUNICACION","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":72,"p25":98,"l26":109,"d":-37},{"code":"30300045","k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":63,"p25":92,"l26":104,"d":-41},{"code":"30302005","k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FES ACATLÁN","ctl":52,"p25":67,"l26":84,"d":-32},{"code":"30400065","k":"CONTADURIA","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","ctl":70,"p25":86,"l26":104,"d":-34},{"code":"30401005","k":"CONTADURIA","p":"FES CUAUTITLÁN","ctl":40,"p25":60,"l26":74,"d":-34},{"code":"30411005","k":"CONTADURIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. OAXACA, OAX.","ctl":40,"p25":null,"l26":72,"d":-32},{"code":"30500075","k":"DERECHO","p":"FACULTAD DE DERECHO","ctl":65,"p25":89,"l26":105,"d":-40},{"code":"30502005","k":"DERECHO","p":"FES ACATLÁN","ctl":46,"p25":71,"l26":87,"d":-41},{"code":"30504005","k":"DERECHO","p":"FES ARAGÓN","ctl":49,"p25":79,"l26":93,"d":-44},{"code":"30507005","k":"DERECHO","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":40,"p25":null,"l26":40,"d":0},{"code":"30600085","k":"ECONOMIA","p":"FACULTAD DE ECONOMÍA","ctl":62,"p25":76,"l26":96,"d":-34},{"code":"30602005","k":"ECONOMIA","p":"FES ACATLÁN","ctl":54,"p25":68,"l26":87,"d":-33},{"code":"30604005","k":"ECONOMIA","p":"FES ARAGÓN","ctl":58,"p25":74,"l26":93,"d":-35},{"code":"30700105","k":"GEOGRAFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":42,"p25":66,"l26":40,"d":2},{"code":"30801005","k":"INFORMATICA","p":"FES CUAUTITLÁN","ctl":43,"p25":60,"l26":78,"d":-35},{"code":"30904005","k":"PLANIF PARA EL DESARROLLO AGROPECUARIO","p":"FES ARAGÓN","ctl":40,"p25":45,"l26":40,"d":0},{"code":"31000045","k":"RELACIONES INTERNACIONALES","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":75,"p25":102,"l26":112,"d":-37},{"code":"31002005","k":"RELACIONES INTERNACIONALES","p":"FES ACATLÁN","ctl":57,"p25":86,"l26":103,"d":-46},{"code":"31004005","k":"RELACIONES INTERNACIONALES","p":"FES ARAGÓN","ctl":62,"p25":87,"l26":105,"d":-43},{"code":"31006005","k":"RELACIONES INTERNACIONALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":40,"p25":null,"l26":52,"d":-12},{"code":"31100045","k":"SOCIOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":65,"p25":73,"l26":88,"d":-23},{"code":"31102005","k":"SOCIOLOGIA","p":"FES ACATLÁN","ctl":40,"p25":45,"l26":40,"d":0},{"code":"31104005","k":"SOCIOLOGIA","p":"FES ARAGÓN","ctl":40,"p25":50,"l26":56,"d":-16},{"code":"31200155","k":"TRABAJO SOCIAL","p":"ESCUELA NACIONAL DE TRABAJO SOCIAL","ctl":40,"p25":46,"l26":47,"d":-7},{"code":"31306005","k":"ECONOMIA INDUSTRIAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":41,"p25":58,"l26":54,"d":-13},{"code":"31406005","k":"ADMINISTRACION AGROPECUARIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":40,"p25":45,"l26":42,"d":-2},{"code":"31502005","k":"COMUNICACION","p":"FES ACATLÁN","ctl":59,"p25":68,"l26":91,"d":-32},{"code":"31506005","k":"COMUNICACION","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":40,"p25":null,"l26":41,"d":-1},{"code":"31604005","k":"COMUNICACION Y PERIODISMO","p":"FES ARAGÓN","ctl":55,"p25":64,"l26":88,"d":-33},{"code":"31707005","k":"ESTUDIOS SOCIALES Y GESTION LOCAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":46,"p25":55,"l26":53,"d":-7},{"code":"31800015","k":"DESARROLLO COMUNITARIO PARA EL ENVEJECIMIENTO","p":"TLAXCALA","ctl":null,"p25":52,"l26":96,"d":null},{"code":"31805005","k":"DESARROLLO COMUNITARIO PARA EL ENVEJECIMIENTO","p":"FES ZARAGOZA","ctl":43,"p25":46,"l26":49,"d":-6},{"code":"31900045","k":"ANTROPOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":50,"p25":74,"l26":83,"d":-33},{"code":"32006005","k":"DESARROLLO TERRITORIAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":52,"p25":53,"l26":57,"d":-5},{"code":"32200175","k":"GEOGRAFIA APLICADA","p":"ESCUELA NACIONAL DE CIENCIAS DE LA TIERRA","ctl":40,"p25":63,"l26":45,"d":-5},{"code":"32208005","k":"GEOGRAFIA APLICADA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":54,"p25":45,"l26":41,"d":13},{"code":"32306005","k":"TURISMO Y DESARROLLO SOSTENIBLE","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":40,"p25":45,"l26":40,"d":0},{"code":"32408005","k":"SOCIOLOGIA APLICADA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":41,"p25":49,"l26":42,"d":-1},{"code":"40100025","k":"ARTES VISUALES","p":"FACULTAD DE ARTES Y DISEÑO","ctl":61,"p25":96,"l26":102,"d":-41},{"code":"40200105","k":"BIBLIOTECOLOGIA Y ESTUDIOS DE LA INFORMACION","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":40,"p25":45,"l26":53,"d":-13},{"code":"40300135","k":"CANTO","p":"FACULTAD DE MÚSICA","ctl":52,"p25":46,"l26":41,"d":11},{"code":"40400135","k":"COMPOSICION","p":"FACULTAD DE MÚSICA","ctl":45,"p25":45,"l26":45,"d":0},{"code":"40500025","k":"DISEÑO Y COMUNICACION VISUAL","p":"FACULTAD DE ARTES Y DISEÑO","ctl":65,"p25":100,"l26":108,"d":-43},{"code":"40501005","k":"DISEÑO Y COMUNICACION VISUAL","p":"FES CUAUTITLÁN","ctl":64,"p25":87,"l26":101,"d":-37},{"code":"40602005","k":"DISEÑO GRAFICO","p":"FES ACATLÁN","ctl":62,"p25":97,"l26":106,"d":-44},{"code":"40700135","k":"EDUCACION MUSICAL","p":"FACULTAD DE MÚSICA","ctl":46,"p25":45,"l26":40,"d":6},{"code":"40802005","k":"ENSEÑANZA DE INGLES","p":"FES ACATLÁN","ctl":40,"p25":45,"l26":40,"d":0},{"code":"40900105","k":"ESTUDIOS LATINOAMERICANOS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":40,"p25":55,"l26":47,"d":-7},{"code":"41000135","k":"ETNOMUSICOLOGIA","p":"FACULTAD DE MÚSICA","ctl":46,"p25":50,"l26":40,"d":6},{"code":"41100105","k":"FILOSOFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":43,"p25":81,"l26":89,"d":-46},{"code":"41102005","k":"FILOSOFIA","p":"FES ACATLÁN","ctl":40,"p25":45,"l26":40,"d":0},{"code":"41200105","k":"HISTORIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":54,"p25":68,"l26":78,"d":-24},{"code":"41202005","k":"HISTORIA","p":"FES ACATLÁN","ctl":40,"p25":45,"l26":40,"d":0},{"code":"41211005","k":"HISTORIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. OAXACA, OAX.","ctl":46,"p25":null,"l26":54,"d":-8},{"code":"41300135","k":"INSTRUMENTISTA","p":"FACULTAD DE MÚSICA","ctl":40,"p25":45,"l26":40,"d":0},{"code":"41400105","k":"LENGUA Y LITERATURAS HISPANICAS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":42,"p25":69,"l26":64,"d":-22},{"code":"41402005","k":"LENGUA Y LITERATURAS HISPANICAS","p":"FES ACATLÁN","ctl":42,"p25":50,"l26":40,"d":2},{"code":"41500105","k":"LENGUA Y LITERATURAS MODERNAS (LETRAS ALEMANAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":54,"p25":46,"l26":63,"d":-9},{"code":"41600105","k":"LENGUA Y LITERATURAS MODERNAS (LETRAS FRANCESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":52,"p25":45,"l26":42,"d":10},{"code":"41700105","k":"LENGUA Y LITERATURAS MODERNAS (LETRAS INGLESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":40,"p25":45,"l26":42,"d":-2},{"code":"41800105","k":"LENGUA Y LITERATURAS MODERNAS (LETRAS ITALIANAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":43,"p25":47,"l26":43,"d":0},{"code":"41900105","k":"LETRAS CLASICAS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":50,"p25":77,"l26":64,"d":-14},{"code":"42000105","k":"LITERATURA DRAMATICA Y TEATRO","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":70,"p25":93,"l26":102,"d":-32},{"code":"42100105","k":"PEDAGOGIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":52,"p25":76,"l26":94,"d":-42},{"code":"42102005","k":"PEDAGOGIA","p":"FES ACATLÁN","ctl":48,"p25":67,"l26":92,"d":-44},{"code":"42104005","k":"PEDAGOGIA","p":"FES ARAGÓN","ctl":49,"p25":70,"l26":92,"d":-43},{"code":"42200135","k":"PIANO","p":"FACULTAD DE MÚSICA","ctl":49,"p25":51,"l26":44,"d":5},{"code":"42900105","k":"DESARROLLO Y GESTION INTERCULTURALES","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":54,"p25":75,"l26":85,"d":-31},{"code":"42906005","k":"DESARROLLO Y GESTION INTERCULTURALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD LEÓN","ctl":47,"p25":45,"l26":48,"d":-1},{"code":"42908005","k":"DESARROLLO Y GESTION INTERCULTURALES","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MÉRIDA","ctl":46,"p25":56,"l26":40,"d":6},{"code":"43000105","k":"LENGUA Y LITERATURAS MODERNAS (LETRAS PORTUGUESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":49,"p25":44,"l26":63,"d":-14},{"code":"43107005","k":"GEOHISTORIA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":60,"p25":48,"l26":63,"d":-3},{"code":"43207005","k":"LITERATURA INTERCULTURAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":45,"p25":45,"l26":47,"d":-2},{"code":"43307005","k":"HISTORIA DEL ARTE","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":45,"p25":55,"l26":41,"d":4},{"code":"43402055","k":"ARTE Y DISEÑO","p":"PLANTEL TAXCO, GRO","ctl":40,"p25":48,"l26":49,"d":-9},{"code":"43407005","k":"ARTE Y DISEÑO","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":40,"p25":58,"l26":41,"d":-1},{"code":"43600135","k":"TEATRO Y ACTUACION","p":"FACULTAD DE MÚSICA","ctl":47,"p25":65,"l26":62,"d":-15},{"code":"43700105","k":"ADMINISTRACION DE ARCHIVOS Y GESTION DOCUMENTAL","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":48,"p25":55,"l26":82,"d":-34},{"code":"43807005","k":"MUSICA Y TECNOLOGIA ARTISTICA","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":44,"p25":46,"l26":49,"d":-5},{"code":"43900425","k":"LINGÜISTICA APLICADA","p":"ESCUELA NACIONAL DE LENGUAS, LINGÜÍSTICA Y TRADUCCIÓN","ctl":52,"p25":55,"l26":70,"d":-18},{"code":"44000305","k":"TRADUCCION","p":"SAN MIGUEL DE ALLENDE, GUANAJUATO","ctl":58,"p25":45,"l26":40,"d":18},{"code":"44000425","k":"TRADUCCION","p":"ESCUELA NACIONAL DE LENGUAS, LINGÜÍSTICA Y TRADUCCIÓN","ctl":76,"p25":106,"l26":107,"d":-31}]},"a":{"name":"SUAyED Abierta","rows":[{"code":"21000196","k":"PSICOLOGIA","p":"FACULTAD DE PSICOLOGÍA","ctl":58,"p25":78,"l26":93,"d":-35},{"code":"30100066","k":"ADMINISTRACION","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","ctl":65,"p25":78,"l26":101,"d":-36},{"code":"30200046","k":"CIENCIAS DE LA COMUNICACION","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":53,"p25":66,"l26":90,"d":-37},{"code":"30300046","k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":48,"p25":57,"l26":70,"d":-22},{"code":"30400066","k":"CONTADURIA","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","ctl":65,"p25":75,"l26":97,"d":-32},{"code":"30500076","k":"DERECHO","p":"FACULTAD DE DERECHO","ctl":40,"p25":58,"l26":62,"d":-22},{"code":"30502006","k":"DERECHO","p":"FES ACATLÁN","ctl":40,"p25":47,"l26":52,"d":-12},{"code":"30504006","k":"DERECHO","p":"FES ARAGÓN","ctl":43,"p25":53,"l26":70,"d":-27},{"code":"30600086","k":"ECONOMIA","p":"FACULTAD DE ECONOMÍA","ctl":54,"p25":65,"l26":86,"d":-32},{"code":"30604006","k":"ECONOMIA","p":"FES ARAGÓN","ctl":47,"p25":57,"l26":68,"d":-21},{"code":"30700106","k":"GEOGRAFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":42,"p25":52,"l26":60,"d":-18},{"code":"31000046","k":"RELACIONES INTERNACIONALES","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":57,"p25":79,"l26":96,"d":-39},{"code":"31002006","k":"RELACIONES INTERNACIONALES","p":"FES ACATLÁN","ctl":40,"p25":47,"l26":58,"d":-18},{"code":"31004006","k":"RELACIONES INTERNACIONALES","p":"FES ARAGÓN","ctl":43,"p25":52,"l26":73,"d":-30},{"code":"31100046","k":"SOCIOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":44,"p25":50,"l26":66,"d":-22},{"code":"31200156","k":"TRABAJO SOCIAL","p":"ESCUELA NACIONAL DE TRABAJO SOCIAL","ctl":47,"p25":59,"l26":73,"d":-26},{"code":"41100106","k":"FILOSOFIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":50,"p25":77,"l26":87,"d":-37},{"code":"41200106","k":"HISTORIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":60,"p25":74,"l26":84,"d":-24},{"code":"41400106","k":"LENGUA Y LITERATURAS HISPANICAS","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":47,"p25":55,"l26":55,"d":-8},{"code":"41700106","k":"LENGUA Y LITERATURAS MODERNAS (LETRAS INGLESAS)","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":41,"p25":59,"l26":69,"d":-28},{"code":"42100106","k":"PEDAGOGIA","p":"FACULTAD DE FILOSOFÍA Y LETRAS","ctl":60,"p25":68,"l26":101,"d":-41}]},"d":{"name":"SUAyED a Distancia","rows":[{"code":"21003006","k":"PSICOLOGIA","p":"FES IZTACALA","ctl":46,"p25":60,"l26":85,"d":-39},{"code":"30100066","k":"ADMINISTRACION","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","ctl":60,"p25":75,"l26":98,"d":-38},{"code":"30200046","k":"CIENCIAS DE LA COMUNICACION","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":40,"p25":50,"l26":53,"d":-13},{"code":"30300046","k":"CIENCIAS POLITICAS Y ADMON PUBLICA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":41,"p25":50,"l26":69,"d":-28},{"code":"30400066","k":"CONTADURIA","p":"FACULTAD DE CONTADURÍA Y ADMINISTRACIÓN","ctl":68,"p25":79,"l26":101,"d":-33},{"code":"30500076","k":"DERECHO","p":"FACULTAD DE DERECHO","ctl":47,"p25":62,"l26":83,"d":-36},{"code":"30600086","k":"ECONOMIA","p":"FACULTAD DE ECONOMÍA","ctl":40,"p25":64,"l26":82,"d":-42},{"code":"31000046","k":"RELACIONES INTERNACIONALES","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":45,"p25":61,"l26":83,"d":-38},{"code":"31100046","k":"SOCIOLOGIA","p":"FACULTAD DE CIENCIAS POLÍTICAS Y SOCIALES","ctl":41,"p25":50,"l26":63,"d":-22},{"code":"31200156","k":"TRABAJO SOCIAL","p":"ESCUELA NACIONAL DE TRABAJO SOCIAL","ctl":40,"p25":50,"l26":56,"d":-16},{"code":"40501006","k":"DISEÑO Y COMUNICACION VISUAL","p":"FES CUAUTITLÁN","ctl":43,"p25":71,"l26":82,"d":-39},{"code":"42502006","k":"ENSEÑANZA DE ESPAÑOL COMO LENGUA EXTRANJERA","p":"FES ACATLÁN","ctl":40,"p25":50,"l26":45,"d":-5},{"code":"42702006","k":"ENSEÑANZA DE INGLES COMO LENGUA EXTRANJERA","p":"FES ACATLÁN","ctl":42,"p25":50,"l26":70,"d":-28},{"code":"43707006","k":"ADMINISTRACION DE ARCHIVOS Y GESTION DOCUMENTAL","p":"ESCUELA NAL. DE ESTUDIOS SUP. UNIDAD MORELIA","ctl":40,"p25":51,"l26":45,"d":-5}]}};
+const COLORS = ["#0E7C42","#B8912B","#B4452C","#2C5FA8","#7A3E8F","#C46A9E","#3C8C8C","#8A6B2F","#5B8C2A","#A03A5E","#4A6FB5","#C7802B","#2F8F63","#8C4FB0","#B03A3A","#4B8AB8","#6E7F32","#9E5A3C","#3F6E9E","#7C6FB0"];
+const NS = 'http://www.w3.org/2000/svg';
+const el = (n, at, p) => { const e = document.createElementNS(NS, n);
+  for (const k in at) e.setAttribute(k, at[k]); if (p) p.appendChild(e); return e; };
+const state = {sys: 'e', pl: 'FACULTAD DE INGENIERÍA', sel: new Set()};
+const DET = c => `https://pzape.github.io/unam-admision-2026/resultados-control.html?c=${c}&s=${state.sys}`;
+const SYSN = {e: 'Escolarizado', a: 'SUAyED Abierta', d: 'SUAyED a Distancia'};
+const AX = [
+  {key: 'p25', lab: 'Presencial', sub: '2025', col: '#94a3b8'},
+  {key: 'l26', lab: 'En línea', sub: 'mayo 2026', col: '#ea580c'},
+  {key: 'ctl', lab: 'Control', sub: 'agosto 2026', col: '#4338ca'},
+];
+const AREAS = {
+  '1': 'Área 1 · Ciencias Físico-Matemáticas y de las Ingenierías',
+  '2': 'Área 2 · Ciencias Biológicas, Químicas y de la Salud',
+  '3': 'Área 3 · Ciencias Sociales',
+  '4': 'Área 4 · Humanidades y de las Artes',
+};
+const CB = [
+  {lo: 0, hi: 54, lab: 'menos de 55'},
+  {lo: 55, hi: 69, lab: '55–69'},
+  {lo: 70, hi: 84, lab: '70–84'},
+  {lo: 85, hi: 99, lab: '85–99'},
+  {lo: 100, hi: 120, lab: '100 o más'},
+];
+const CBPAL = ['#2C5FA8', '#2F8F63', '#B8912B', '#C46A9E', '#7A3E8F'];
+const cbi = v => CB.findIndex(b => v >= b.lo && v <= b.hi);
+const fmt = n => n.toLocaleString('es-MX');
+
+function planteles() {
+  const m = new Map();
+  D[state.sys].rows.forEach(r => m.set(r.p, (m.get(r.p) || 0) + 1));
+  return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+}
+function fillPl() {
+  const s = document.getElementById('plSel');
+  s.replaceChildren();
+  const o = document.createElement('option');
+  o.value = '__ALL__'; o.textContent = `Todos los planteles (${D[state.sys].rows.length} carreras) — resumen por área`;
+  s.appendChild(o);
+  planteles().forEach(([p, n]) => {
+    const e = document.createElement('option');
+    e.value = p; e.textContent = `${p} (${n})`;
+    s.appendChild(e);
+  });
+  if (![...s.options].some(o => o.value === state.pl)) state.pl = s.options[1] ? s.options[1].value : '__ALL__';
+  s.value = state.pl;
+}
+function rowsSel() {
+  const rows = D[state.sys].rows.filter(r => (state.pl === '__ALL__' || r.p === state.pl) && r.l26 != null && r.ctl != null);
+  rows.sort((a, b) => a.k.localeCompare(b.k));
+  return rows;
+}
+const colorOf = (r, rows) => COLORS[rows.indexOf(r) % COLORS.length];
+
+// ---------- vista por plantel: montaña + tabla lateral ----------
+let PATHS = [];
+function drawPlantel() {
+  const host = document.getElementById('hostA'); host.replaceChildren();
+  const rows = rowsSel();
+  const anySel = state.sel.size > 0;
+  const duo = document.createElement('div'); duo.className = 'duo'; host.appendChild(duo);
+  const gfx = document.createElement('div'); gfx.className = 'gfx'; duo.appendChild(gfx);
+  const side = document.createElement('div'); side.className = 'side'; duo.appendChild(side);
+
+  const vals = rows.flatMap(r => [r.p25, r.l26, r.ctl]).filter(v => v != null);
+  const lo = Math.max(0, Math.floor((Math.min(...vals) - 6) / 10) * 10);
+  const hi = Math.min(120, Math.ceil((Math.max(...vals) + 6) / 10) * 10);
+  const W = 560, H = 500, m = {t: 52, b: 14, l: 64, r: 42};
+  const Y = v => m.t + (hi - v) / (hi - lo) * (H - m.t - m.b);
+  const xs = AX.map((_, i) => m.l + i * (W - m.l - m.r) / (AX.length - 1));
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': `Cortes por carrera en ${state.pl}: presencial 2025, en línea y examen de control.`}, gfx);
+  for (let v = Math.ceil(lo / 10) * 10; v <= hi; v += 10) {
+    el('line', {x1: xs[0], x2: xs[2], y1: Y(v), y2: Y(v), stroke: '#eef0f6'}, svg);
+    el('text', {x: xs[0] - 34, y: Y(v) + 4, 'font-size': 10.5, fill: '#a7aec1'}, svg).textContent = v;
+  }
+  AX.forEach((a, i) => {
+    el('line', {x1: xs[i], x2: xs[i], y1: m.t - 6, y2: H - m.b, stroke: '#a7aec1', 'stroke-width': 1.5}, svg);
+    el('text', {x: xs[i], y: 22, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: '#101223'}, svg).textContent = a.lab;
+    el('text', {x: xs[i], y: 37, 'text-anchor': 'middle', 'font-size': 10.5, fill: '#6a7186'}, svg).textContent = a.sub;
+  });
+  PATHS = [];
+  rows.forEach(r => {
+    const col = colorOf(r, rows);
+    const isSel = state.sel.has(r.code);
+    const g = el('g', {class: 'ln', tabindex: 0, role: 'button',
+      'aria-pressed': isSel ? 'true' : 'false',
+      'aria-label': `${r.k}: presencial ${r.p25 ?? 'sin corte'}, en línea ${r.l26}, control ${r.ctl}. Clic para ${isSel ? 'soltar' : 'fijar'}.`}, svg);
+    let d = '';
+    const pts = AX.map((a, i) => ({x: xs[i], y: r[a.key] != null ? Y(r[a.key]) : null}));
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p1 = pts[i], p2 = pts[i + 1];
+      if (p1.y == null || p2.y == null) continue;
+      const mx = (p1.x + p2.x) / 2;
+      d += `${d ? ' ' : ''}M ${p1.x} ${p1.y} C ${mx} ${p1.y} ${mx} ${p2.y} ${p2.x} ${p2.y}`;
+    }
+    const path = el('path', {d, fill: 'none', stroke: col, class: 'curve',
+      'stroke-width': isSel ? 3.5 : 2.2, opacity: anySel && !isSel ? .13 : .85}, g);
+    AX.forEach((a, i) => {
+      if (r[a.key] == null) return;
+      el('circle', {cx: xs[i], cy: Y(r[a.key]), r: isSel ? 5 : 3.8, fill: col, opacity: anySel && !isSel ? .13 : 1}, g);
+    });
+    PATHS.push({r, g, path, col});
+  });
+  // tabla lateral: mismo contenido, orden visual (corte de control descendente)
+  const ordered = [...rows].sort((a, b) => b.ctl - a.ctl);
+  ordered.forEach(r => {
+    const pe = PATHS.find(p => p.r === r);
+    const isSel = state.sel.has(r.code);
+    const sr = document.createElement('div'); sr.className = 'sr' + (isSel ? ' on' : '');
+    sr.tabIndex = 0; sr.setAttribute('role', 'button'); sr.setAttribute('aria-pressed', isSel);
+    const cd = document.createElement('span'); cd.className = 'cd'; cd.style.background = pe.col; sr.appendChild(cd);
+    const tx = document.createElement('span');
+    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.k;
+    const tr = document.createElement('span'); tr.className = 'tr';
+    tr.textContent = `${r.p25 ?? '—'} → ${r.l26} → ${r.ctl}`;
+    tx.appendChild(nm); tx.appendChild(document.createElement('br')); tx.appendChild(tr);
+    sr.appendChild(tx);
+    const dd = document.createElement('span'); dd.className = 'dd';
+    dd.style.color = r.d < 0 ? '#b91c1c' : '#15803d';
+    dd.textContent = (r.d > 0 ? '+' : '') + r.d;
+    sr.appendChild(dd);
+    if (state.sel.size > 0 && !isSel) sr.style.opacity = .45;
+    const toggle = () => { if (state.sel.has(r.code)) state.sel.delete(r.code); else state.sel.add(r.code); render(); };
+    sr.addEventListener('click', toggle);
+    sr.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); } });
+    sr.addEventListener('mouseenter', () => hi1(pe));
+    sr.addEventListener('mouseleave', () => hi0(pe));
+    side.appendChild(sr);
+    pe.sr = sr;
+  });
+  const hi1 = pe => {
+    if (state.sel.size) return;
+    PATHS.forEach(p => { if (p !== pe) p.g.style.opacity = .15; });
+    pe.path.setAttribute('stroke-width', 3.4);
+    if (pe.sr) pe.sr.style.background = 'var(--brand-soft)';
+  };
+  const hi0 = pe => {
+    if (state.sel.size) return;
+    PATHS.forEach(p => p.g.style.opacity = 1);
+    pe.path.setAttribute('stroke-width', 2.2);
+    if (pe.sr && !pe.sr.classList.contains('on')) pe.sr.style.background = '';
+  };
+  // interacción sobre las curvas
+  const tt = document.getElementById('tt');
+  const card = document.getElementById('cardA');
+  PATHS.forEach(pe => {
+    const {r, g} = pe;
+    g.addEventListener('mousemove', ev => {
+      if (state.sel.has(r.code)) { tt.style.opacity = 0; return; }
+      tt.replaceChildren();
+      const b = document.createElement('b'); b.textContent = r.k; tt.appendChild(b);
+      const tr = document.createElement('span'); tr.className = 'tr';
+      AX.forEach((a, i) => {
+        if (i) tr.appendChild(document.createTextNode(' → '));
+        const s = document.createElement('span'); s.style.color = a.col;
+        s.textContent = r[a.key] != null ? r[a.key] : '—';
+        tr.appendChild(s);
+      });
+      tt.appendChild(tr);
+      const h = document.createElement('span'); h.className = 'hint'; h.textContent = 'clic para fijar y comparar';
+      tt.appendChild(h);
+      const cr = card.getBoundingClientRect();
+      tt.style.opacity = 1;
+      let lx = ev.clientX - cr.left + 14;
+      if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
+      tt.style.left = Math.max(4, lx) + 'px';
+      tt.style.top = Math.max(4, ev.clientY - cr.top - 34) + 'px';
+    });
+    g.addEventListener('mouseenter', () => hi1(pe));
+    g.addEventListener('mouseleave', () => { tt.style.opacity = 0; hi0(pe); });
+    const toggle = () => {
+      if (state.sel.has(r.code)) state.sel.delete(r.code);
+      else state.sel.add(r.code);
+      tt.style.opacity = 0;
+      render();
+    };
+    g.addEventListener('click', toggle);
+    g.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); } });
+  });
+}
+
+// ---------- vista todos: alluvial de bandas de corte por área ----------
+function drawAreas() {
+  const host = document.getElementById('hostA'); host.replaceChildren();
+  const rows = rowsSel();
+  const byArea = new Map();
+  rows.forEach(r => {
+    const a = r.code[0];
+    if (!byArea.has(a)) byArea.set(a, []);
+    byArea.get(a).push(r);
+  });
+  [...byArea.keys()].sort().forEach(a => {
+    const rs = byArea.get(a);
+    const h = document.createElement('p'); h.className = 'ar-h';
+    h.textContent = AREAS[a] || `Área ${a}`;
+    const sm = document.createElement('small'); sm.textContent = ` · ${rs.length} carreras`;
+    h.appendChild(sm);
+    host.appendChild(h);
+    drawFlow(host, rs, AREAS[a] || `Área ${a}`);
+  });
+}
+
+function drawFlow(host, rs, label) {
+  const nL = CB.map((_, i) => rs.filter(r => cbi(r.l26) === i).length);
+  const nR = CB.map((_, i) => rs.filter(r => cbi(r.ctl) === i).length);
+  const F = CB.map((_, i) => CB.map((_, j) => rs.filter(r => cbi(r.l26) === i && cbi(r.ctl) === j).length));
+  const W = 960, H = 240, colW = 40, gap = 3, m = {t: 26, b: 6, l: 200, r: 200};
+  const xL = m.l, xR = W - m.r - colW;
+  const total = rs.length;
+  const usable = H - m.t - m.b - gap * (CB.filter((_, i) => nL[i] || nR[i]).length - 1);
+  const scale = usable / total;
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': `Carreras de ${label} por banda de corte: examen en línea (izquierda) y examen de control (derecha).`}, host);
+  el('text', {x: xL + colW / 2, y: 14, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: '#6a7186'}, svg).textContent = 'En línea';
+  el('text', {x: xR + colW / 2, y: 14, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: '#6a7186'}, svg).textContent = 'Control';
+  // posiciones de los segmentos (bandas altas arriba)
+  const posL = [], posR = [];
+  let yL = m.t, yR = m.t;
+  for (let i = CB.length - 1; i >= 0; i--) {
+    posL[i] = {y: yL, h: nL[i] * scale}; if (nL[i]) yL += nL[i] * scale + gap;
+    posR[i] = {y: yR, h: nR[i] * scale}; if (nR[i]) yR += nR[i] * scale + gap;
+  }
+  // listones (origen arriba primero)
+  const offL = posL.map(p => p.y), offR = posR.map(p => p.y);
+  for (let i = CB.length - 1; i >= 0; i--) {
+    for (let j = CB.length - 1; j >= 0; j--) {
+      const n = F[i][j];
+      if (!n) continue;
+      const hgt = n * scale;
+      const y1 = offL[i]; offL[i] += hgt;
+      const y2 = offR[j]; offR[j] += hgt;
+      const x1 = xL + colW, x2 = xR, mx = (x1 + x2) / 2;
+      const p = el('path', {class: 'rib',
+        d: `M ${x1} ${y1} C ${mx} ${y1} ${mx} ${y2} ${x2} ${y2} L ${x2} ${y2 + hgt} C ${mx} ${y2 + hgt} ${mx} ${y1 + hgt} ${x1} ${y1 + hgt} Z`,
+        fill: CBPAL[i], opacity: .5}, svg);
+      const t = el('title', {}, p);
+      t.textContent = `${n} carrera${n === 1 ? '' : 's'} ${i === j ? 'se mantuvo' + (n === 1 ? '' : 'ieron') + ' en corte de ' + CB[i].lab : 'pasaron de corte de ' + CB[i].lab + ' a ' + CB[j].lab}`;
+      p.addEventListener('mouseenter', () => { p.setAttribute('opacity', .85); });
+      p.addEventListener('mouseleave', () => { p.setAttribute('opacity', .5); });
+    }
+  }
+  // columnas + etiquetas
+  for (let i = 0; i < CB.length; i++) {
+    if (nL[i]) {
+      el('rect', {x: xL, y: posL[i].y, width: colW, height: posL[i].h, rx: 3, fill: CBPAL[i]}, svg);
+      el('text', {x: xL - 10, y: posL[i].y + posL[i].h / 2 + 4, 'text-anchor': 'end', 'font-size': 11.5, 'font-weight': 700, fill: '#3f4557'}, svg)
+        .textContent = `corte ${CB[i].lab} · ${nL[i]}`;
+    }
+    if (nR[i]) {
+      el('rect', {x: xR, y: posR[i].y, width: colW, height: posR[i].h, rx: 3, fill: CBPAL[i]}, svg);
+      el('text', {x: xR + colW + 10, y: posR[i].y + posR[i].h / 2 + 4, 'font-size': 11.5, 'font-weight': 700, fill: '#3f4557'}, svg)
+        .textContent = `corte ${CB[i].lab} · ${nR[i]}`;
+    }
+  }
+}
+
+function drawChips() {
+  const host = document.getElementById('chips'); host.replaceChildren();
+  if (state.pl === '__ALL__') return;
+  if (state.sel.size === 0) {
+    const h = document.createElement('span'); h.className = 'hint';
+    h.textContent = 'Ninguna carrera fijada: haz clic en una curva o en la lista para fijarla aquí.';
+    host.appendChild(h);
+    return;
+  }
+  const rows = rowsSel();
+  const all = D[state.sys].rows;
+  [...state.sel].forEach(code => {
+    const r = all.find(x => x.code === code);
+    if (!r) return;
+    const inView = rows.includes(r);
+    const chip = document.createElement('span'); chip.className = 'chip';
+    const cd = document.createElement('span'); cd.className = 'cd';
+    cd.style.background = inView ? colorOf(r, rows) : '#c9cede';
+    chip.appendChild(cd);
+    chip.appendChild(document.createTextNode(r.k));
+    const a = document.createElement('a'); a.href = DET(r.code); a.textContent = 'detalle →';
+    chip.appendChild(a);
+    const x = document.createElement('button'); x.textContent = '×'; x.setAttribute('aria-label', `Soltar ${r.k}`);
+    x.addEventListener('click', () => { state.sel.delete(code); render(); });
+    chip.appendChild(x);
+    host.appendChild(chip);
+  });
+  if (state.sel.size > 1) {
+    const chip = document.createElement('span'); chip.className = 'chip';
+    const x = document.createElement('button');
+    x.style.width = 'auto'; x.style.borderRadius = '999px'; x.style.padding = '0 8px';
+    x.textContent = 'soltar todas';
+    x.addEventListener('click', () => { state.sel.clear(); render(); });
+    chip.appendChild(x);
+    host.appendChild(chip);
+  }
+}
+
+function render() {
+  if (state.pl === '__ALL__') drawAreas(); else drawPlantel();
+  drawChips();
+  const where = state.pl === '__ALL__' ? `${SYSN[state.sys]}, todos los planteles` : state.pl;
+  document.getElementById('tblTitle').textContent =
+    `El corte de cada carrera: 2025 presencial, examen en línea, examen de control y el cambio (${where})`;
+  renderTable();
+}
+
+const sortState = {k: 'd', asc: true};
+function renderTable() {
+  const tb = document.querySelector('#tbl tbody'); tb.replaceChildren();
+  const rows = D[state.sys].rows.filter(r => state.pl === '__ALL__' || r.p === state.pl);
+  const {k, asc} = sortState;
+  rows.sort((a, b) => {
+    const va = a[k], vb = b[k];
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1; if (vb == null) return -1;
+    return (va < vb ? -1 : va > vb ? 1 : 0) * (asc ? 1 : -1);
+  });
+  document.querySelectorAll('#tbl th').forEach(th => {
+    if (!th.dataset.label) th.dataset.label = th.textContent;
+    th.replaceChildren(document.createTextNode(th.dataset.label));
+    if (th.dataset.k === k) {
+      const s = document.createElement('span'); s.className = 'arr'; s.textContent = asc ? ' ▲' : ' ▼';
+      th.appendChild(s);
+    }
+  });
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    const a = document.createElement('a'); a.href = DET(r.code); a.textContent = r.k;
+    const pl = document.createElement('span'); pl.className = 'pl'; pl.textContent = r.p;
+    td.appendChild(a); td.appendChild(pl); tr.appendChild(td);
+    [r.p25, r.l26, r.ctl].forEach(v => {
+      const c = document.createElement('td'); c.textContent = v == null ? '—' : v; tr.appendChild(c);
+    });
+    const c = document.createElement('td');
+    if (r.d == null) c.textContent = '—';
+    else { c.textContent = (r.d > 0 ? '+' : '') + r.d; c.className = r.d < 0 ? 'neg' : 'pos'; }
+    tr.appendChild(c);
+    tb.appendChild(tr);
+  });
+}
+
+document.querySelectorAll('#sysSel input').forEach(i => i.addEventListener('change', () => {
+  state.sys = i.value; state.pl = '__ALL__'; state.sel.clear(); fillPl(); render();
+}));
+document.getElementById('plSel').addEventListener('change', e => { state.pl = e.target.value; render(); });
+document.querySelectorAll('#tbl th').forEach(th => th.addEventListener('click', () => {
+  const k = th.dataset.k;
+  if (sortState.k === k) sortState.asc = !sortState.asc;
+  else { sortState.k = k; sortState.asc = k === 'k'; }
+  renderTable();
+}));
+function syncUrl() {
+  const q = new URLSearchParams();
+  q.set('s', state.sys);
+  if (state.pl !== '__ALL__') q.set('p', state.pl);
+  history.replaceState(null, '', '?' + q.toString());
+}
+const _render = render;
+render = function() { _render(); syncUrl(); };
+fillPl();
+(function init() {
+  const q = new URLSearchParams(location.search);
+  const s = q.get('s');
+  if (s && D[s]) {
+    state.sys = s;
+    const inp = document.querySelector(`#sysSel input[value="${s}"]`);
+    if (inp) inp.checked = true;
+    state.pl = '__ALL__';
+    fillPl();
+  }
+  const p = q.get('p');
+  if (p && [...document.getElementById('plSel').options].some(o => o.value === p)) {
+    state.pl = p;
+    document.getElementById('plSel').value = p;
+  }
+})();
+render();
+</script>
+<script data-goatcounter="https://pedrozape.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
