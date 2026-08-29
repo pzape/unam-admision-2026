@@ -104,14 +104,14 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   fue mayor cuanto más alto fue el puntaje del examen en línea.</p>
 
   <div class="tiles">
-    <div class="tile"><span class="k">Con ambos puntajes</span><div class="v">36,719</div>
-      <span class="s">aspirantes vinculados por su comprobante (30,740 escolarizado · 2,740 abierta · 3,239 a distancia)</span></div>
-    <div class="tile"><span class="k">Caída mediana</span><div class="v">−32</div>
-      <span class="s">aciertos en escolarizado (−19 abierta · −17 a distancia); el 54% del escolarizado cayó 30 o más</span></div>
-    <div class="tile"><span class="k">Con 110+ que presentaron</span><div class="v">90 de 6,029</div>
-      <span class="s">mantuvieron 110+ en el presencial; la mediana del grupo quedó en 69 aciertos</span></div>
-    <div class="tile"><span class="k">Correlación entre exámenes</span><div class="v">0.26</div>
-      <span class="s">Spearman en escolarizado (0.21 abierta · 0.24 a distancia); en pruebas equiparables suele superar 0.8</span></div>
+    <div class="tile"><span class="k">Con ambos puntajes</span><div class="v" id="tPairsV">36,719</div>
+      <span class="s" id="tPairsS">aspirantes vinculados por su comprobante</span></div>
+    <div class="tile"><span class="k">Caída mediana</span><div class="v" id="tMdV">−30</div>
+      <span class="s" id="tMdS">aciertos en los tres sistemas</span></div>
+    <div class="tile"><span class="k">Con 110+ que presentaron</span><div class="v" id="tHiV">90 de 6,029</div>
+      <span class="s" id="tHiS">mantuvieron 110 o más en el presencial</span></div>
+    <div class="tile"><span class="k">Correlación entre exámenes</span><div class="v" id="tRhoV">0.23</div>
+      <span class="s" id="tRhoS">Spearman en el conjunto; en pruebas equiparables suele superar 0.8</span></div>
   </div>
 
   <p class="seg-hint" id="segHint">Las gráficas muestran los tres sistemas juntos. Elige una modalidad para
@@ -522,8 +522,29 @@ function drawAus(d) {
   });
 }
 
+function mdTxt(v) { return v < 0 ? '−' + (-v) : '+' + v; }
+function updateTiles(d) {
+  const all = state.sysf === 't';
+  const set = (id, txt) => document.getElementById(id).textContent = txt;
+  set('tPairsV', fmt(d.npairs));
+  set('tPairsS', all
+    ? `aspirantes vinculados por su comprobante (${fmt(D.e.npairs)} escolarizado · ${fmt(D.a.npairs)} abierta · ${fmt(D.d.npairs)} a distancia)`
+    : `aspirantes de ${d.name} vinculados por su comprobante, con calificación en ambos exámenes`);
+  set('tMdV', mdTxt(d.md));
+  const p30 = (100 * d.d30 / d.npairs).toFixed(0);
+  set('tMdS', all
+    ? `aciertos en los tres sistemas (${mdTxt(D.e.md)} escolarizado · ${mdTxt(D.a.md)} abierta · ${mdTxt(D.d.md)} a distancia); el ${p30}% cayó 30 o más`
+    : `aciertos en ${d.name}; el ${p30}% cayó 30 aciertos o más`);
+  set('tHiV', `${fmt(d.hi.kept)} de ${fmt(d.hi.n)}`);
+  set('tHiS', `mantuvieron 110 o más en el presencial; la mediana del grupo quedó en ${d.hi.med} aciertos`);
+  set('tRhoV', d.rho.toFixed(2));
+  set('tRhoS', all
+    ? `Spearman en el conjunto (${D.e.rho.toFixed(2)} escolarizado · ${D.a.rho.toFixed(2)} abierta · ${D.d.rho.toFixed(2)} a distancia); en pruebas equiparables suele superar 0.8`
+    : `Spearman en ${d.name}; en pruebas equiparables suele superar 0.8`);
+}
 function renderAll() {
   const d = D[state.sysf];
+  updateTiles(d);
   drawSlope(d); drawDelta(d); drawDose(d); drawSurv(d); drawAus(d);
 }
 function setSys(v) {
