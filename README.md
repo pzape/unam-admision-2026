@@ -8,7 +8,9 @@ Análisis interactivo de los resultados de admisión a licenciatura de la UNAM p
 2021 a 2026, en el sistema escolarizado y en el SUAyED (modalidades abierta y a distancia, con los dos
 concursos anuales). 2026 fue el año en que el concurso general aplicó su examen en línea; el examen del
 segundo concurso del SUAyED a distancia ya se había aplicado en línea en noviembre de 2025, y sus
-resultados —públicos desde entonces— mostraban el mismo patrón, casi sin atención pública.
+resultados —públicos desde entonces— mostraban el mismo patrón, casi sin atención pública. El examen de
+control presencial, aplicado a los convocados de 2026, confirmó el diagnóstico: la caída mediana de los
+mismos aspirantes entre ambos exámenes fue de 32 aciertos.
 
 ## Páginas
 
@@ -19,6 +21,8 @@ resultados —públicos desde entonces— mostraban el mismo patrón, casi sin a
 | [Nota técnica](https://pzape.github.io/unam-admision-2026/nota-tecnica.html) | Descriptor de datos, métodos y validación (v1.6): seis años, tres sistemas, el antecedente de noviembre de 2025 y el grupo del examen de control, cotejado con la tabla oficial de mínimos |
 | [Examen de control](https://pzape.github.io/unam-admision-2026/examen-control.html) | ¿Te tocaría el examen de control? Revisa tu caso carrera por carrera |
 | [¿Cuántos serían convocados?](https://pzape.github.io/unam-admision-2026/convocados.html) | El tamaño del grupo del examen de control: ~57,900 personas en los tres sistemas (47,935 escolarizado · 3,989 abierta · 6,011 a distancia), cotejado con los aciertos mínimos oficiales de la DGAE (coinciden en 219 de 220 carreras) |
+| [Resultados del examen de control](https://pzape.github.io/unam-admision-2026/resultados-control.html) | Las últimas ocasiones del examen lado a lado, carrera por carrera: cortes, ausentismo y el flujo entre bandas de puntaje |
+| [Los mismos aspirantes, dos exámenes](https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html) | 36,719 aspirantes con calificación en el examen en línea y en el de control: caída mediana de 32 aciertos; 90 de 6,029 mantuvieron 110+ |
 | [Buscador SUAyED](https://pzape.github.io/unam-admision-2026/suayed-buscador.html) | Perfil semestral de los programas del SUAyED: ambas modalidades y ambos concursos, incluido noviembre de 2025 |
 | [Examen de control SUAyED](https://pzape.github.io/unam-admision-2026/suayed-examen-control.html) | El examen de control en el SUAyED —ya incluido oficialmente—, carrera por carrera |
 
@@ -26,9 +30,10 @@ Páginas estáticas autocontenidas, con los datos incrustados y sin dependencias
 
 ## Datos
 
-Resultados publicados por la DGAE-UNAM: más de 1.2 millones de registros de aspirantes en 1,341
+Resultados publicados por la DGAE-UNAM: más de 1.3 millones de registros de aspirantes en 1,561
 páginas oficiales de resultados (escolarizado 1,027,716; SUAyED abierta 47,363; SUAyED a distancia
-174,433, con los concursos de noviembre 2021–2025). Cada cifra es reconstruible desde las páginas
+174,433, con los concursos de noviembre 2021–2025; examen de control 2026: 59,217). Cada cifra es
+reconstruible desde las páginas
 oficiales citadas en la nota técnica. Los datos oficiales pertenecen a sus fuentes; el análisis, el
 texto y el diseño son de Pedro Zape.
 

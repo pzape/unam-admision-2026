@@ -696,17 +696,26 @@ function drawFlowC(d) {
       ribbons.push({p, i, j, n});
     }
   }
-  const resetR = () => { ribbons.forEach(r => r.p.setAttribute('opacity', .55)); infoDefault(); };
+  let pinned = null;
+  const baseState = () => { ribbons.forEach(r => r.p.setAttribute('opacity', .55)); infoDefault(); };
+  const applyPin = () => { if (pinned) pinned(); else baseState(); };
+  const resetR = applyPin;
+  window.__unpinFlow = () => { pinned = null; applyPin(); };
+  svg.addEventListener('click', () => { pinned = null; applyPin(); });
+  const togglePin = fn => { pinned = pinned === fn ? null : fn; applyPin(); };
   ribbons.forEach(r => {
     const hi = () => {
       ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
       info.textContent = `De los ${fmt(leftN[r.i])} aspirantes con ${B4[r.i]} en línea, ${fmt(r.n)} ` +
         `${r.i === r.j ? 'se mantuvieron en' : 'pasaron a'} ${B4[r.j]} en el examen de control.`;
     };
+    r.p.style.cursor = 'pointer';
     r.p.addEventListener('mouseenter', hi);
     r.p.addEventListener('focus', hi);
-    r.p.addEventListener('mouseleave', resetR);
-    r.p.addEventListener('blur', resetR);
+    r.p.addEventListener('mouseleave', applyPin);
+    r.p.addEventListener('blur', applyPin);
+    r.p.addEventListener('click', ev => { ev.stopPropagation(); togglePin(hi); });
+    r.p.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(hi); } });
   });
   const segHover = (side, i) => {
     ribbons.forEach(r2 => r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
@@ -732,10 +741,13 @@ function drawFlowC(d) {
     const sg = el('rect', {x, y: tops[i], width: colW, height: Math.max(ns[i] * k, 1.5), rx: 3, fill: PAL4[i],
       tabindex: 0, role: 'img', 'aria-label': aria}, svg);
     sg.style.cursor = 'pointer';
-    sg.addEventListener('mouseenter', () => segHover(side, i));
-    sg.addEventListener('focus', () => segHover(side, i));
-    sg.addEventListener('mouseleave', resetR);
-    sg.addEventListener('blur', resetR);
+    const show = () => segHover(side, i);
+    sg.addEventListener('mouseenter', show);
+    sg.addEventListener('focus', show);
+    sg.addEventListener('mouseleave', applyPin);
+    sg.addEventListener('blur', applyPin);
+    sg.addEventListener('click', ev => { ev.stopPropagation(); togglePin(show); });
+    sg.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(show); } });
   };
   for (const i of disp) {
     if (leftN[i]) seg(xL0, yTopL, leftN, 'L', i,
@@ -765,9 +777,10 @@ function drawFlowC(d) {
       sp.appendChild(document.createTextNode(B4[i]));
       sp.tabIndex = 0; sp.setAttribute('role', 'button');
       sp.setAttribute('aria-label', `Banda ${B4[i]}: ${fmt(leftN[i])} en el examen en línea, ${fmt(rightN[i])} en el examen de control. Resalta sus flujos.`);
-      sp.addEventListener('mouseenter', () => segHover('L', i));
-      sp.addEventListener('click', ev => { ev.stopPropagation(); segHover('L', i); });
-      sp.addEventListener('mouseleave', resetR);
+      const showL = () => segHover('L', i);
+      sp.addEventListener('mouseenter', showL);
+      sp.addEventListener('click', ev => { ev.stopPropagation(); togglePin(showL); });
+      sp.addEventListener('mouseleave', applyPin);
       leg.appendChild(sp);
     }
   }
@@ -831,6 +844,10 @@ function pinInfo(info) {
 }
 pinInfo(document.getElementById('flowInfo'));
 matchMedia('(max-width: 700px)').addEventListener('change', () => { if (state.code) drawFlowC(CT[state.code]); });
+document.addEventListener('click', ev => {
+  if (window.__unpinFlow && !(ev.target instanceof Element && ev.target.closest('#flowHost')))
+    window.__unpinFlow();
+});
 document.addEventListener('touchstart', ev => {
   if (!(ev.target instanceof Element) || !ev.target.closest('svg'))
     document.querySelectorAll('.tt').forEach(t => t.style.opacity = 0);
