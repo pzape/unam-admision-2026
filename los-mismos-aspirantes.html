@@ -188,6 +188,8 @@ const h = (tag, cls, txt) => {
 };
 const state = {sysf: 'e'};
 
+// paleta categórica por banda (validada: peor par adyacente CVD 9.1 protan)
+const PAL = ['#2a78d6', '#1baf7a', '#eda100', '#e87ba4', '#4a3aa7', '#e34948'];
 // rampa secuencial índigo (una sola tonalidad, claro -> oscuro)
 const RAMP0 = [222, 226, 251], RAMP1 = [49, 46, 129];
 const ramp = t => {
@@ -221,7 +223,7 @@ function drawSlope(d) {
     'aria-label': `Flujo de aspirantes de ${d.name} entre su banda de puntaje en el examen en línea y su banda en el examen de control; el ancho de cada franja es el número de aspirantes.`}, host);
   el('text', {x: (xL0 + xL1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#c2410c'}, svg).textContent = 'examen en línea (mayo 2026)';
   el('text', {x: (xR0 + xR1) / 2, y: m.t - 18, 'text-anchor': 'middle', 'font-weight': 800, 'font-size': 13.5, fill: '#3730a3'}, svg).textContent = 'examen de control (presencial)';
-  const colB = i => ramp(.22 + .78 * (i / (nB - 1)));
+  const colB = i => PAL[i];
   // franjas (origen arriba->destino, con curvas de tangente horizontal)
   const ribbons = [];
   const c1 = (xL1 + xR0) / 2;
@@ -260,10 +262,23 @@ function drawSlope(d) {
     });
     r.p.addEventListener('mouseout', () => tt.style.opacity = 0);
   });
-  // columnas
+  // columnas (con resaltado de sus franjas al pasar el cursor)
+  const segHover = (side, i) => ribbons.forEach(r2 =>
+    r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
+  const seg = (x, tops, ns, side, i, aria) => {
+    const sg = el('rect', {x, y: tops[i], width: colW, height: Math.max(ns[i] * k, 1.5), rx: 3, fill: colB(i),
+      tabindex: 0, role: 'img', 'aria-label': aria}, svg);
+    sg.style.cursor = 'pointer';
+    sg.addEventListener('mouseenter', () => segHover(side, i));
+    sg.addEventListener('focus', () => segHover(side, i));
+    sg.addEventListener('mouseleave', resetR);
+    sg.addEventListener('blur', resetR);
+  };
   for (const i of disp) {
-    if (leftN[i]) el('rect', {x: xL0, y: yTopL[i], width: colW, height: Math.max(leftN[i] * k, 1.5), rx: 3, fill: colB(i)}, svg);
-    if (rightN[i]) el('rect', {x: xR0, y: yTopR[i], width: colW, height: Math.max(rightN[i] * k, 1.5), rx: 3, fill: colB(i)}, svg);
+    if (leftN[i]) seg(xL0, yTopL, leftN, 'L', i,
+      `Banda ${bands[i].lab} en el examen en línea: ${fmt(leftN[i])} aspirantes. Resalta hacia qué bandas del examen de control pasaron.`);
+    if (rightN[i]) seg(xR0, yTopR, rightN, 'R', i,
+      `Banda ${bands[i].lab} en el examen de control: ${fmt(rightN[i])} aspirantes. Resalta de qué bandas del examen en línea vienen.`);
   }
   // etiquetas con separación mínima
   const place = (tops, ns, side) => {
@@ -332,7 +347,7 @@ function drawDelta(d) {
 
 function drawDose(d) {
   const host = document.getElementById('doseHost'); host.replaceChildren();
-  const bands = d.bands.filter(b => b.md != null);
+  const bands = d.bands.map((b, bi) => ({...b, bi})).filter(b => b.md != null);
   const W = 900, rowH = 46, m = {t: 26, r: 40, b: 34, l: 92};
   const H = m.t + bands.length * rowH + m.b;
   const lo = Math.min(-5, ...bands.map(b => b.q1)) - 4;
@@ -351,9 +366,9 @@ function drawDose(d) {
     const cy = m.t + i * rowH + rowH / 2;
     el('text', {x: m.l - 12, y: cy + 4, 'text-anchor': 'end', 'font-weight': 800, 'font-size': 13, fill: '#3f4557'}, svg).textContent = b.lab;
     el('rect', {x: X(Math.min(b.q1, b.q3)), y: cy - 5, width: Math.max(Math.abs(X(b.q3) - X(b.q1)), 2), height: 10, rx: 5, fill: '#cbd2e1'}, svg);
-    el('circle', {cx: X(b.md), cy, r: 7, fill: '#4338ca', stroke: '#fff', 'stroke-width': 2}, svg);
+    el('circle', {cx: X(b.md), cy, r: 7, fill: PAL[b.bi], stroke: '#fff', 'stroke-width': 2}, svg);
     el('text', {x: X(b.md) + (b.md <= -30 ? -12 : 12), y: cy + 4, 'text-anchor': b.md <= -30 ? 'end' : 'start',
-      'font-weight': 800, 'font-size': 12.5, fill: '#3730a3'}, svg).textContent = (b.md > 0 ? '+' : '') + b.md;
+      'font-weight': 800, 'font-size': 12.5, fill: '#101223'}, svg).textContent = (b.md > 0 ? '+' : '') + b.md;
     const g = el('g', {tabindex: 0, role: 'img',
       'aria-label': `Banda ${b.lab}: cambio mediano ${b.md} aciertos (cuartiles ${b.q1} a ${b.q3}, ${fmt(b.np)} aspirantes).`}, svg);
     el('rect', {x: m.l, y: cy - rowH / 2, width: W - m.l - m.r, height: rowH, fill: 'transparent'}, g);
@@ -379,7 +394,7 @@ function drawSurv(d) {
   d.hi.h5.forEach((n, i) => {
     if (!n) return;
     const s0 = i * 5;
-    const fill = s0 >= 110 ? '#3730a3' : (s0 >= 90 ? '#818cf8' : (s0 >= 60 ? '#a5b4fc' : '#c7d2fe'));
+    const fill = s0 >= 110 ? '#b91c1c' : (s0 >= 90 ? '#e56b6b' : (s0 >= 60 ? '#ef9d9d' : '#f6c8c8'));
     el('rect', {x: m.l + i * bw + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3, fill}, svg);
   });
   const mxq = m.l + (d.hi.med + 2.5) / 125 * (W - m.l - m.r);
@@ -406,7 +421,7 @@ function drawSurv(d) {
 
 function drawAus(d) {
   const host = document.getElementById('ausHost'); host.replaceChildren();
-  const bands = d.bands;
+  const bands = d.bands.map((b, bi) => ({...b, bi}));
   const W = 900, rowH = 40, m = {t: 8, r: 190, b: 8, l: 92};
   const H = m.t + bands.length * rowH + m.b;
   const mx = Math.max(...bands.map(b => b.ns / b.n));
@@ -417,7 +432,7 @@ function drawAus(d) {
     const cy = m.t + i * rowH + rowH / 2;
     const p = b.ns / b.n;
     el('text', {x: m.l - 12, y: cy + 4, 'text-anchor': 'end', 'font-weight': 800, 'font-size': 13, fill: '#3f4557'}, svg).textContent = b.lab;
-    el('rect', {x: m.l, y: cy - 9, width: Math.max(X(p) - m.l, 2), height: 18, rx: 5, fill: '#818cf8'}, svg);
+    el('rect', {x: m.l, y: cy - 9, width: Math.max(X(p) - m.l, 2), height: 18, rx: 5, fill: PAL[b.bi], 'fill-opacity': .85}, svg);
     el('text', {x: X(p) + 8, y: cy + 4.5, 'font-weight': 750, 'font-size': 12.5, fill: '#101223'}, svg)
       .textContent = `${(100 * p).toFixed(1)}% no presentó (${fmt(b.ns)} de ${fmt(b.n)})`;
     el('rect', {x: m.l, y: cy - rowH / 2, width: W - m.l - m.r, height: rowH, fill: 'transparent', tabindex: 0, role: 'img',
