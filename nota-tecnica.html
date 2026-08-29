@@ -56,7 +56,7 @@ a { color: var(--brand); }
 <div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
   <span class="kicker">Nota técnica · Descriptor de datos</span>
   <h1>Resultados públicos del Concurso de Selección a Licenciatura de la UNAM, 2021–2026: un conjunto de microdatos con validación técnica</h1>
-  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.6 · 3 de agosto de 2026 (v1.0: 28 de julio, ciclos 2024–2026; v1.1: serie ampliada a 2021–2023; v1.2: recomendaciones de la comisión técnica; v1.3: réplica en el SUAyED; v1.4: modalidad a distancia y concursos de noviembre; v1.5: tamaño del grupo del examen de control; v1.6: tabla oficial de aciertos mínimos)</p>
+  <p class="meta"><strong>Pedro Zape</strong> · github.com/pzape · Versión 1.7 · 29 de agosto de 2026 (v1.0: 28 de julio, ciclos 2024–2026; v1.1: serie ampliada a 2021–2023; v1.2: recomendaciones de la comisión técnica; v1.3: réplica en el SUAyED; v1.4: modalidad a distancia y concursos de noviembre; v1.5: tamaño del grupo del examen de control; v1.6: tabla oficial de aciertos mínimos; v1.7: resultados del examen de control y vinculación entre exámenes)</p>
 
   <div class="abstract">
     <h3 style="margin-top:0">Resumen</h3>
@@ -76,7 +76,10 @@ a { color: var(--brand); }
     páginas, incluido el segundo concurso anual, publicado en noviembre) extienden la comparación: la
     edición de noviembre de 2025, que conforme a su convocatoria fue la primera aplicación en línea del
     examen, ya presentaba el mismo patrón seis meses antes del concurso de 2026 (sección 4.9). El
-    propósito del conjunto es permitir el análisis independiente y
+    examen de control presencial cierra el registro: 220 páginas oficiales con 59,217 convocados, de los
+    que presentaron 37,476, y 36,719 aspirantes con calificación vinculable en ambos exámenes mediante su
+    número de comprobante, con una caída mediana de 32 aciertos en el escolarizado (secciones 4.11 y
+    4.12). El propósito del conjunto es permitir el análisis independiente y
     reproducible de un episodio de interés público en la medición educativa.</p>
   </div>
 
@@ -282,6 +285,53 @@ a { color: var(--brand); }
   señalan la diferencia en esa carrera; con la cifra oficial, el total del párrafo anterior subiría en
   nueve personas.</p>
 
+  <h3>4.11. El examen de control: recolección y resultados</h3>
+  <p>La DGAE publicó los resultados del examen de control con el mismo formato de páginas por carrera
+  (sistema escolarizado y modalidad Abierta bajo
+  <code>Licenciatura2026/resultados_control/</code>; modalidad a distancia bajo
+  <code>Suayed2026/Licenciatura/resultados_control/</code>). Las 220 páginas (185, 21 y 14 por sistema)
+  se recolectaron con el procedimiento de la sección 2: 59,217 registros con número de comprobante,
+  calificación y estatus (seleccionado, no presentado, cancelado, o presentó sin obtener lugar),
+  conciliados fila por fila contra los encabezados de cada página. Se documentan seis discrepancias
+  internas menores de la fuente, del género descrito en 4.2: cuatro diferencias de una unidad entre
+  encabezado y filas y dos cortes publicados por debajo del mínimo de los seleccionados listados.
+  Archivos: <code>unam2026control_{escolarizado,abierta,distancia}_{summary,aspirantes}.csv</code>.</p>
+  <p>Resultados agregados. Convocados: 59,217 (la estimación de la sección 4.10 con los criterios
+  recomendados fue 57,935; diferencia de 2.2%). Presentaron 37,476 (63.3%): 64.0% en el escolarizado,
+  69.1% en la modalidad Abierta y 53.9% en la modalidad a distancia; 21,741 convocados no presentaron.
+  Seleccionados con el examen de control: 20,923. Los cortes por carrera cambiaron frente al examen en
+  línea con medianas de −31 (escolarizado; bajó en 153 de 184 carreras comparables), −27 (Abierta; 21 de
+  21) y −30 (a distancia; 14 de 14). Los examinados con 110 o más aciertos fueron 97 (96, 1 y 0 por
+  sistema), contra 2,387 en el examen en línea; las medianas de calificación fueron 59, 60 y 62.</p>
+
+  <h3>4.12. Vinculación de registros entre los dos exámenes</h3>
+  <p>Las páginas oficiales usan el mismo número de comprobante en ambos exámenes, de modo que el par
+  (carrera, comprobante) vincula los registros. La vinculación se verificó carrera por carrera: los
+  folios del examen de control aparecen en la página correspondiente del examen en línea. 36,719
+  aspirantes tienen calificación publicada en ambos exámenes (30,740 escolarizado, 2,740 Abierta y 3,239
+  a distancia); 156 registros del control corresponden a folios sin calificación publicada en el examen
+  en línea. El comprobante es un folio público y pseudónimo; esta nota, como el resto del proyecto,
+  publica únicamente distribuciones y agregados, nunca casos individuales.</p>
+  <p>El cambio individual (control menos en línea) tuvo medianas de −32, −19 y −17 aciertos por sistema.
+  En el escolarizado, el 54.3% de los vinculados cayó 30 aciertos o más y el 2.2% subió; el 96.2% obtuvo
+  una calificación menor en el examen de control (92.6% en Abierta y 89.4% en a distancia). La caída
+  crece con el puntaje en línea: por banda de origen, el cambio mediano fue −1 (menos de 60 aciertos),
+  −15 (60–79), −27 (80–89), −36 (90–99), −43 (100–109) y −44 (110 o más) en el escolarizado. De los
+  6,029 aspirantes con 110 o más en línea que presentaron el examen de control (5,759, 119 y 151 por
+  sistema), mantuvieron 110 o más 90 (89, 1 y 0); la mediana del grupo quedó en 69 aciertos. Las
+  correlaciones de Spearman entre ambas calificaciones fueron 0.256, 0.214 y 0.244.</p>
+  <p>Dos observaciones acotan las explicaciones puramente estadísticas. La regresión a la media predice
+  caídas mayores para puntajes altos, pero no explica que la banda de menos de 60 aciertos haya
+  reproducido su calificación (mediana −1) ni la magnitud del desplazamiento con correlaciones de 0.21 a
+  0.26 —atenuadas por el rango restringido del grupo convocado, pero lejos de los valores esperables en
+  aplicaciones equiparables de una misma prueba. Y las ausencias no explican la caída de los puntajes
+  altos: la asistencia creció con el puntaje en línea (en el escolarizado, no presentó el 43.9% de la
+  banda de menos de 60 y el 25.3% de la banda de 110 o más). Los resultados pueden explorarse por
+  carrera en <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">los resultados
+  del examen de control</a> y en forma agregada en
+  <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">"Los mismos
+  aspirantes, dos exámenes"</a>.</p>
+
   <h2>5. Notas de uso</h2>
   <p><strong>5.1. Límite de identificación.</strong> Los datos no permiten discriminar entre cambios en
   las propiedades psicométricas del instrumento y cambios en las condiciones de sustentación; esa
@@ -297,13 +347,17 @@ a { color: var(--brand); }
   control presencial y asignar los lugares conforme a sus resultados (Hernández, 2026), por lo que los
   resultados de 2026 aquí descritos podrían ser sustituidos o complementados por publicaciones
   posteriores de la DGAE. Ese carácter provisional no reduce el valor documental del conjunto: registra
-  el estado publicado del proceso antes de la medida correctiva.</p>
+  el estado publicado del proceso antes de la medida correctiva. Actualización (v1.7): la medida se
+  aplicó; los resultados del examen de control están publicados y documentados en las secciones 4.11 y
+  4.12, y los lugares se asignaron con ese examen.</p>
   <p><strong>5.5. Reproducción.</strong> Las cifras de la sección 4 son reconstruibles con operaciones
   estándar sobre los archivos; las <a href="https://pzape.github.io/unam-admision-2026/">herramientas
   interactivas del sitio</a> permiten explorar distribuciones por programa, umbrales alternativos al 110+
   y comparativos por plantel, e incluyen herramientas específicas para el SUAyED, con sus dos
   modalidades (abierta y a distancia) y los dos concursos anuales, y el cálculo del tamaño del grupo
-  del examen de control por sistema y por carrera (sección 4.10).</p>
+  del examen de control por sistema y por carrera (sección 4.10), además de los resultados del examen de
+  control ocasión por ocasión y la comparación vinculada de los mismos aspirantes (secciones 4.11 y
+  4.12).</p>
 
   <h2>6. Disponibilidad</h2>
   <p>Las herramientas interactivas de consulta son públicas en
