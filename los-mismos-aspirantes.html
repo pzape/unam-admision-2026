@@ -263,8 +263,9 @@ function drawSlope(d) {
     r.p.addEventListener('mouseleave', resetR);
     r.p.addEventListener('blur', resetR);
     r.p.addEventListener('mousemove', ev => {
-      tt.replaceChildren(h('b', null, `${bands[r.i].lab} en línea → ${bands[r.j].lab} en el control`),
-        document.createTextNode(`${fmt(r.n)} aspirante${r.n === 1 ? '' : 's'} (${(100 * r.n / bands[r.i].np).toFixed(1)}% de la banda ${bands[r.i].lab})`));
+      tt.replaceChildren(document.createTextNode(
+        `De los ${fmt(bands[r.i].np)} aspirantes con ${bands[r.i].lab} en línea, ` +
+        `${fmt(r.n)} (${pctTxt(100 * r.n / bands[r.i].np)}%) pasaron a ${bands[r.j].lab} en el examen de control.`));
       const cr = card.getBoundingClientRect();
       tt.style.opacity = 1;
       let lx = ev.clientX - cr.left + 14;
@@ -274,16 +275,39 @@ function drawSlope(d) {
     r.p.addEventListener('mouseout', () => tt.style.opacity = 0);
   });
   // columnas (con resaltado de sus franjas al pasar el cursor)
+  const pctTxt = p => p > 0 && p < 0.1 ? '<0.1' : p.toFixed(1);
   const segHover = (side, i) => ribbons.forEach(r2 =>
     r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
+  const segTip = (ev, side, i) => {
+    const tot = side === 'L' ? leftN[i] : rightN[i];
+    tt.replaceChildren(h('b', null, side === 'L'
+      ? `${bands[i].lab} en línea · ${fmt(tot)} aspirantes`
+      : `${bands[i].lab} en el examen de control · ${fmt(tot)} aspirantes`));
+    let first = true;
+    for (const o of disp) {
+      const n = side === 'L' ? d.flow[i][o] : d.flow[o][i];
+      if (!n) continue;
+      if (!first || true) tt.appendChild(document.createElement('br'));
+      first = false;
+      tt.appendChild(document.createTextNode(side === 'L'
+        ? `${pctTxt(100 * n / tot)}% (${fmt(n)}) pasó a ${bands[o].lab}`
+        : `${pctTxt(100 * n / tot)}% (${fmt(n)}) llegó desde ${bands[o].lab}`));
+    }
+    const cr = card.getBoundingClientRect();
+    tt.style.opacity = 1;
+    let lx = ev.clientX - cr.left + 14;
+    if (lx + tt.offsetWidth > card.clientWidth - 8) lx = ev.clientX - cr.left - tt.offsetWidth - 14;
+    tt.style.left = Math.max(4, lx) + 'px'; tt.style.top = Math.max(4, ev.clientY - cr.top - 30) + 'px';
+  };
   const seg = (x, tops, ns, side, i, aria) => {
     const sg = el('rect', {x, y: tops[i], width: colW, height: Math.max(ns[i] * k, 1.5), rx: 3, fill: colB(i),
       tabindex: 0, role: 'img', 'aria-label': aria}, svg);
     sg.style.cursor = 'pointer';
     sg.addEventListener('mouseenter', () => segHover(side, i));
     sg.addEventListener('focus', () => segHover(side, i));
-    sg.addEventListener('mouseleave', resetR);
-    sg.addEventListener('blur', resetR);
+    sg.addEventListener('mousemove', ev => segTip(ev, side, i));
+    sg.addEventListener('mouseleave', () => { resetR(); tt.style.opacity = 0; });
+    sg.addEventListener('blur', () => { resetR(); tt.style.opacity = 0; });
   };
   for (const i of disp) {
     if (leftN[i]) seg(xL0, yTopL, leftN, 'L', i,
