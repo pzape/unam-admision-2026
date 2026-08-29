@@ -429,7 +429,7 @@ function drawCurves(d) {
   const eds = editions(d).filter(ed => ed.v.h5);
   card.hidden = eds.length < 2;
   if (eds.length < 2) return;
-  document.getElementById('curveTitle').textContent = `${d.k}: calificaciones de sus aspirantes, ocasión por ocasión`;
+  document.getElementById('curveTitle').textContent = `${d.k} — ${d.p}: calificaciones de sus aspirantes, ocasión por ocasión`;
   const W = 900, H = 300, m = {t: 20, r: 18, b: 38, l: 46};
   const ymax = Math.max(6, ...eds.flatMap(ed => ed.v.h5)) * 1.12;
   const X = i => m.l + (i * 5 + 2.5) / 120 * (W - m.l - m.r);
@@ -563,7 +563,7 @@ function drawFila(d) {
   const seq = editions(d).filter(ed => ed.v.q).map(ed => ({lab: ed.lab, q: ed.v.q, col: ed.col, deep: ed.deep}));
   card.hidden = seq.length < 2;
   if (seq.length < 2) return;
-  document.getElementById('filaTitle').textContent = `La fila de ${d.k}: ` + seq.map(x => x.lab).join(' → ');
+  document.getElementById('filaTitle').textContent = `La fila de ${d.k} — ${d.p}: ` + seq.map(x => x.lab).join(' → ');
   const PCTLS = [25, 50, 75, 90, 99];
   const NAMES = {25: 'un cuarto (p25)', 50: 'mitad de la fila (p50)', 75: 'tres cuartos (p75)', 90: 'top 10% (p90)', 99: 'top 1% (p99)'};
   const W = 900, m = {t: 48, r: 24, b: 40, l: 24};
@@ -651,7 +651,7 @@ function drawFlowC(d) {
   const lk = d.lk;
   card.hidden = !lk || lk.np < 5 || !d.eds.ctl;
   if (card.hidden) return;
-  document.getElementById('flowTitle').textContent = `${d.k}: del examen en línea al examen de control`;
+  document.getElementById('flowTitle').textContent = `${d.k} — ${d.p}: del examen en línea al examen de control`;
   document.getElementById('flowSub').textContent =
     `De los ${fmt(d.eds.ctl.asp)} convocados, ${fmt(lk.np)} tienen calificación en ambos exámenes. El ancho ` +
     `de cada franja es el número de aspirantes; el ${pctTxt(lk.pl)}% obtuvo una calificación menor en el ` +
