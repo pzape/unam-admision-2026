@@ -83,9 +83,16 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
   color: var(--ink2); font-variant-numeric: tabular-nums; }
 .cs-chips .cc .cd { width: 9px; height: 9px; border-radius: 50%; flex: none; }
 .corte-strip .cs-n { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
-.sv-ctl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 4px 0 10px; }
+.sv-ctl { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 4px 0 10px; }
 .sv-ctl b { color: var(--ctl); }
-.sv-ctl input[type="range"] { width: 150px; accent-color: var(--ctl); }
+.sv-dual { position: relative; width: 230px; height: 28px; flex: none; }
+.sv-dual .sv-track { position: absolute; top: 12px; left: 0; right: 0; height: 4px; border-radius: 2px; background: #e2e6f0; }
+.sv-dual .sv-fill { position: absolute; top: 12px; height: 4px; border-radius: 2px; background: var(--ctl); }
+.sv-dual input[type="range"] { position: absolute; left: 0; top: 0; width: 100%; height: 28px; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+.sv-dual input[type="range"]::-webkit-slider-runnable-track { background: transparent; height: 4px; margin-top: 12px; }
+.sv-dual input[type="range"]::-moz-range-track { background: transparent; }
+.sv-dual input[type="range"]::-webkit-slider-thumb { pointer-events: auto; -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--ctl); border: 2.5px solid #fff; box-shadow: 0 1px 4px rgba(16,18,35,.35); cursor: pointer; margin-top: -6px; }
+.sv-dual input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 13px; height: 13px; border-radius: 50%; background: var(--ctl); border: 2.5px solid #fff; box-shadow: 0 1px 4px rgba(16,18,35,.35); cursor: pointer; }
 .slider-row { margin: 16px 0 6px; }
 .slider-row > label { font-weight: 700; font-size: 13.5px; }
 .slider-wrap { position: relative; margin: 12px 0 4px; }
@@ -331,8 +338,12 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
     <p class="chart-sub" id="survSub2"></p>
     <div class="sv-ctl">
       <span>Rango en el examen en línea: <b id="svLab"></b></span>
-      <input type="range" id="svLo" min="0" max="6" step="1" value="5" aria-label="Banda inferior del rango en el examen en línea">
-      <input type="range" id="svHi" min="0" max="6" step="1" value="6" aria-label="Banda superior del rango en el examen en línea">
+      <div class="sv-dual">
+        <div class="sv-track"></div>
+        <div class="sv-fill" id="svFill"></div>
+        <input type="range" id="svLo" min="0" max="6" step="1" value="5" aria-label="Banda inferior del rango en el examen en línea">
+        <input type="range" id="svHi" min="0" max="6" step="1" value="6" aria-label="Banda superior del rango en el examen en línea">
+      </div>
     </div>
     <div id="survHost2"></div>
     <div class="tt" id="ttSurv2"></div>
@@ -1092,19 +1103,49 @@ function drawDoseC(d) {
   });
 }
 
+function svFillSync() {
+  const eLo = document.getElementById('svLo'), eHi = document.getElementById('svHi');
+  const lo = +eLo.value, hi = +eHi.value, mn = +eLo.min, mx = +eHi.max;
+  const span = Math.max(mx - mn, 1);
+  const f = document.getElementById('svFill');
+  f.style.left = ((lo - mn) / span * 100) + '%';
+  f.style.width = (Math.max(hi - lo, 0.001) / span * 100) + '%';
+}
 function svRangeLab() {
   return state.svLo === state.svHi ? B4[state.svLo] : `${B4[state.svLo]} a ${B4[state.svHi]}`;
 }
 function drawSurvC(d) {
   const card = document.getElementById('survCard');
   const lk = d.lk;
-  if (!lk || !d.eds.ctl || !lk.bh) { card.hidden = true; return; }
+  const avail = lk && lk.bh ? lk.bh.map(row => row.reduce((a, x) => a + x, 0)) : [];
+  const totAll = avail.reduce((a, x) => a + x, 0);
+  card.hidden = !lk || !d.eds.ctl || !lk.bh || totAll < 5;
+  if (card.hidden) return;
+  const minB = avail.findIndex(x => x > 0);
+  let maxB = avail.length - 1;
+  while (maxB > 0 && !avail[maxB]) maxB--;
+  const inLo = document.getElementById('svLo'), inHi = document.getElementById('svHi');
+  inLo.min = inHi.min = String(minB);
+  inLo.max = inHi.max = String(maxB);
+  state.svLo = Math.min(Math.max(state.svLo, minB), maxB);
+  state.svHi = Math.min(Math.max(state.svHi, minB), maxB);
+  if (state.svLo > state.svHi) state.svLo = state.svHi;
+  inLo.value = String(state.svLo); inHi.value = String(state.svHi);
   const h5 = Array(25).fill(0);
   for (let b = state.svLo; b <= state.svHi; b++)
     for (let i = 0; i < 25; i++) h5[i] += lk.bh[b][i];
   const n = h5.reduce((a, x) => a + x, 0);
-  card.hidden = n < 5;
-  if (card.hidden) return;
+  if (n < 5) {
+    const rl0 = svRangeLab();
+    document.getElementById('svLab').textContent = rl0;
+    svFillSync();
+    document.getElementById('survTitle').textContent = `${d.k} — ${d.p}: las calificaciones en el control de quienes traían ${rl0}`;
+    document.getElementById('survSub2').textContent =
+      `En el rango elegido (${rl0}) hay ${fmt(n)} aspirante${n === 1 ? '' : 's'} vinculado${n === 1 ? '' : 's'} de esta ` +
+      `carrera: muy pocos para el histograma. Mueve los controles a otro rango.`;
+    document.getElementById('survHost2').replaceChildren();
+    return;
+  }
   const kept = h5.slice(22).reduce((a, x) => a + x, 0);
   let acc = 0, medBin = 0, inBin = 0;
   for (let i = 0; i < 25; i++) {
@@ -1114,6 +1155,7 @@ function drawSurvC(d) {
   const med = Math.round(medBin * 5 + inBin * 5);
   const rl = svRangeLab();
   document.getElementById('svLab').textContent = rl;
+  svFillSync();
   document.getElementById('survTitle').textContent = `${d.k} — ${d.p}: las calificaciones en el control de quienes traían ${rl}`;
   document.getElementById('survSub2').textContent =
     `Calificaciones en el examen de control de los ${fmt(n)} aspirantes vinculados de esta carrera con ` +
@@ -1167,6 +1209,7 @@ function drawSurvC(d) {
       else { lo = hi; document.getElementById('svLo').value = lo; }
     }
     state.svLo = lo; state.svHi = hi;
+    svFillSync();
     if (state.code) drawSurvC(CT[state.code]);
   });
 });

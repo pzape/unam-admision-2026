@@ -68,6 +68,16 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .chart-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
 .mod-sel { border: none; margin: 6px 0; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
 .seg-hint { font-size: 12.5px; color: var(--muted); margin: 18px 0 0; }
+.sv-ctl { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 4px 0 10px; }
+.sv-ctl b { color: var(--ctl); }
+.sv-dual { position: relative; width: 230px; height: 28px; flex: none; }
+.sv-dual .sv-track { position: absolute; top: 12px; left: 0; right: 0; height: 4px; border-radius: 2px; background: #e2e6f0; }
+.sv-dual .sv-fill { position: absolute; top: 12px; height: 4px; border-radius: 2px; background: var(--ctl); }
+.sv-dual input[type="range"] { position: absolute; left: 0; top: 0; width: 100%; height: 28px; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+.sv-dual input[type="range"]::-webkit-slider-runnable-track { background: transparent; height: 4px; margin-top: 12px; }
+.sv-dual input[type="range"]::-moz-range-track { background: transparent; }
+.sv-dual input[type="range"]::-webkit-slider-thumb { pointer-events: auto; -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--ctl); border: 2.5px solid #fff; box-shadow: 0 1px 4px rgba(16,18,35,.35); cursor: pointer; margin-top: -6px; }
+.sv-dual input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 13px; height: 13px; border-radius: 50%; background: var(--ctl); border: 2.5px solid #fff; box-shadow: 0 1px 4px rgba(16,18,35,.35); cursor: pointer; }
 .seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .seg label { display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 650; color: var(--ink2); cursor: pointer; background: var(--surface); transition: border-color .12s, color .12s, background .12s; }
 .seg label .sd { width: 9px; height: 9px; border-radius: 3px; display: inline-block; flex: none; }
@@ -206,8 +216,17 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </div>
 
   <div class="chart-card">
-    <p class="chart-title">Las calificaciones en el control de quienes traían 110 o más</p>
+    <p class="chart-title" id="survTitle">Las calificaciones en el control de quienes traían 110 o más</p>
     <p class="chart-sub" id="survSub"></p>
+    <div class="sv-ctl">
+      <span>Rango en el examen en línea: <b id="svLab"></b></span>
+      <div class="sv-dual">
+        <div class="sv-track"></div>
+        <div class="sv-fill" id="svFill"></div>
+        <input type="range" id="svLo" min="0" max="5" step="1" value="5" aria-label="Banda inferior del rango en el examen en línea">
+        <input type="range" id="svHi" min="0" max="5" step="1" value="5" aria-label="Banda superior del rango en el examen en línea">
+      </div>
+    </div>
     <div id="survHost"></div>
     <div class="tt" id="ttSurv"></div>
   </div>
@@ -257,7 +276,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
   </div>
 </div>
 <script>
-const D = {"e":{"name":"Escolarizado","pctLower":96.2,"dh":[336,560,911,1373,1730,2132,2241,2257,2307,2380,2483,2654,2777,2530,1820,1096,845,214,80,13,1,0,0,0,0],"dhlo":-80,"flow":[[2,145,750,90,0,0,0,0],[0,346,2215,1462,35,2,0,0],[0,567,2064,1971,254,24,0,0],[0,752,2846,2508,721,189,9,0],[0,769,3015,2373,1098,598,171,5],[0,398,1754,1498,802,803,415,89]],"linked":48448,"npairs":30740,"md":-32,"d30":16706,"rose":689,"rho":0.256,"bands":[{"lab":"<60","n":1760,"ns":773,"md":-1,"q1":-7,"q3":2,"mo":51,"mc":48,"np":987},{"lab":"60–79","n":7090,"ns":3018,"md":-15,"q1":-24,"q3":-7,"mo":72,"mc":56,"np":4060},{"lab":"80–89","n":8159,"ns":3248,"md":-27,"q1":-39,"q3":-16,"mo":85,"mc":58,"np":4880},{"lab":"90–99","n":11440,"ns":4354,"md":-36,"q1":-48,"q3":-22,"mo":95,"mc":59,"np":7025},{"lab":"100–109","n":12264,"ns":4177,"md":-43,"q1":-57,"q3":-26,"mo":105,"mc":61,"np":8029},{"lab":"110+","n":7735,"ns":1957,"md":-44,"q1":-61,"q3":-25,"mo":113,"mc":69,"np":5759}],"hi":{"n":5759,"h5":[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0],"med":69,"kept":89}},"a":{"name":"SUAyED Abierta","pctLower":92.6,"dh":[12,12,25,57,95,87,142,143,145,154,191,243,303,352,353,224,154,34,12,2,0,0,0,0,0],"dhlo":-80,"flow":[[0,22,156,20,0,0,0,0],[0,37,417,404,7,0,0,0],[0,27,180,305,50,4,0,0],[0,38,213,211,92,13,0,0],[0,35,162,126,65,34,3,0],[0,12,39,33,17,11,6,1]],"linked":4000,"npairs":2740,"md":-19,"d30":910,"rose":132,"rho":0.214,"bands":[{"lab":"<60","n":425,"ns":227,"md":-2,"q1":-7,"q3":1,"mo":54,"mc":50,"np":198},{"lab":"60–79","n":1347,"ns":480,"md":-12,"q1":-19,"q3":-6,"mo":72,"mc":59,"np":865},{"lab":"80–89","n":819,"ns":251,"md":-20,"q1":-32,"q3":-11,"mo":85,"mc":64,"np":566},{"lab":"90–99","n":743,"ns":175,"md":-31,"q1":-45,"q3":-18,"mo":94,"mc":63,"np":567},{"lab":"100–109","n":517,"ns":92,"md":-43,"q1":-55,"q3":-25,"mo":104,"mc":61,"np":425},{"lab":"110+","n":149,"ns":30,"md":-49,"q1":-61,"q3":-29,"mo":112,"mc":63,"np":119}],"hi":{"n":119,"h5":[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0],"med":63,"kept":1}},"d":{"name":"SUAyED a Distancia","pctLower":89.4,"dh":[11,13,42,56,82,106,151,161,158,169,190,234,338,441,430,313,253,62,22,6,0,0,1,0,0],"dhlo":-80,"flow":[[2,33,194,35,1,0,0,0],[0,30,378,516,12,0,0,0],[0,53,189,410,89,4,0,0],[0,49,217,217,129,28,2,0],[0,38,157,158,85,50,12,0],[0,12,54,45,18,14,8,0]],"linked":6054,"npairs":3239,"md":-17,"d30":985,"rose":213,"rho":0.244,"bands":[{"lab":"<60","n":682,"ns":417,"md":0,"q1":-6,"q3":2,"mo":54,"mc":50,"np":265},{"lab":"60–79","n":2151,"ns":1214,"md":-10,"q1":-16,"q3":-3,"mo":71,"mc":61,"np":936},{"lab":"80–89","n":1202,"ns":455,"md":-17,"q1":-30,"q3":-9,"mo":85,"mc":67,"np":745},{"lab":"90–99","n":1022,"ns":380,"md":-29,"q1":-44,"q3":-15,"mo":94,"mc":65,"np":642},{"lab":"100–109","n":763,"ns":262,"md":-36,"q1":-53,"q3":-21,"mo":103,"mc":67,"np":500},{"lab":"110+","n":234,"ns":83,"md":-50,"q1":-62,"q3":-33,"mo":112,"mc":63,"np":151}],"hi":{"n":151,"h5":[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0],"med":63,"kept":0}},"t":{"name":"los tres sistemas","pctLower":95.4,"dh":[359,585,978,1486,1907,2325,2534,2561,2610,2703,2864,3131,3418,3323,2603,1633,1252,310,114,21,1,0,1,0,0],"dhlo":-80,"flow":[[4,200,1100,145,1,0,0,0],[0,413,3010,2382,54,2,0,0],[0,647,2433,2686,393,32,0,0],[0,839,3276,2936,942,230,11,0],[0,842,3334,2657,1248,682,186,5],[0,422,1847,1576,837,828,429,90]],"linked":58502,"npairs":36719,"md":-30,"d30":18601,"rose":1034,"rho":0.234,"bands":[{"lab":"<60","n":2867,"ns":1417,"md":-1,"q1":-7,"q3":2,"mo":52,"mc":49,"np":1450},{"lab":"60–79","n":10588,"ns":4712,"md":-13,"q1":-22,"q3":-6,"mo":72,"mc":57,"np":5861},{"lab":"80–89","n":10180,"ns":3954,"md":-25,"q1":-38,"q3":-14,"mo":85,"mc":60,"np":6191},{"lab":"90–99","n":13205,"ns":4909,"md":-35,"q1":-48,"q3":-21,"mo":95,"mc":60,"np":8234},{"lab":"100–109","n":13544,"ns":4531,"md":-43,"q1":-57,"q3":-26,"mo":105,"mc":61,"np":8954},{"lab":"110+","n":8118,"ns":2070,"md":-44,"q1":-61,"q3":-26,"mo":113,"mc":69,"np":6029}],"hi":{"n":6029,"h5":[0,0,0,0,4,32,115,271,382,489,517,459,426,393,375,382,415,422,400,428,291,138,69,21,0],"med":69,"kept":90}}};
+const D = {"e":{"name":"Escolarizado","pctLower":96.2,"dh":[336,560,911,1373,1730,2132,2241,2257,2307,2380,2483,2654,2777,2530,1820,1096,845,214,80,13,1,0,0,0,0],"dhlo":-80,"flow":[[2,145,750,90,0,0,0,0],[0,346,2215,1462,35,2,0,0],[0,567,2064,1971,254,24,0,0],[0,752,2846,2508,721,189,9,0],[0,769,3015,2373,1098,598,171,5],[0,398,1754,1498,802,803,415,89]],"linked":48448,"npairs":30740,"md":-32,"d30":16706,"rose":689,"rho":0.256,"bands":[{"lab":"<60","n":1760,"ns":773,"md":-1,"q1":-7,"q3":2,"mo":51,"mc":48,"np":987},{"lab":"60–79","n":7090,"ns":3018,"md":-15,"q1":-24,"q3":-7,"mo":72,"mc":56,"np":4060},{"lab":"80–89","n":8159,"ns":3248,"md":-27,"q1":-39,"q3":-16,"mo":85,"mc":58,"np":4880},{"lab":"90–99","n":11440,"ns":4354,"md":-36,"q1":-48,"q3":-22,"mo":95,"mc":59,"np":7025},{"lab":"100–109","n":12264,"ns":4177,"md":-43,"q1":-57,"q3":-26,"mo":105,"mc":61,"np":8029},{"lab":"110+","n":7735,"ns":1957,"md":-44,"q1":-61,"q3":-25,"mo":113,"mc":69,"np":5759}],"bh":[[2,0,0,0,3,11,47,84,171,224,206,149,56,26,7,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,6,24,79,237,407,494,630,684,611,472,266,113,30,5,2,0,0,0,0,0,0],[0,0,0,0,8,42,149,368,490,539,517,518,556,567,517,331,173,81,22,2,0,0,0,0,0],[0,0,0,0,4,51,196,501,678,776,724,668,620,640,659,589,457,264,135,54,7,2,0,0,0],[0,0,0,0,4,53,199,513,737,794,767,717,630,621,565,557,541,557,368,230,118,53,5,0,0],[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0]],"hi":{"n":5759,"h5":[0,0,0,0,4,28,108,258,369,459,490,436,400,373,358,367,397,405,388,415,279,136,68,21,0],"med":69,"kept":89}},"a":{"name":"SUAyED Abierta","pctLower":92.6,"dh":[12,12,25,57,95,87,142,143,145,154,191,243,303,352,353,224,154,34,12,2,0,0,0,0,0],"dhlo":-80,"flow":[[0,22,156,20,0,0,0,0],[0,37,417,404,7,0,0,0],[0,27,180,305,50,4,0,0],[0,38,213,211,92,13,0,0],[0,35,162,126,65,34,3,0],[0,12,39,33,17,11,6,1]],"linked":4000,"npairs":2740,"md":-19,"d30":910,"rose":132,"rho":0.214,"bands":[{"lab":"<60","n":425,"ns":227,"md":-2,"q1":-7,"q3":1,"mo":54,"mc":50,"np":198},{"lab":"60–79","n":1347,"ns":480,"md":-12,"q1":-19,"q3":-6,"mo":72,"mc":59,"np":865},{"lab":"80–89","n":819,"ns":251,"md":-20,"q1":-32,"q3":-11,"mo":85,"mc":64,"np":566},{"lab":"90–99","n":743,"ns":175,"md":-31,"q1":-45,"q3":-18,"mo":94,"mc":63,"np":567},{"lab":"100–109","n":517,"ns":92,"md":-43,"q1":-55,"q3":-25,"mo":104,"mc":61,"np":425},{"lab":"110+","n":149,"ns":30,"md":-49,"q1":-61,"q3":-29,"mo":112,"mc":63,"np":119}],"bh":[[0,0,0,0,2,1,6,13,22,51,42,41,15,3,2,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,4,9,24,61,87,112,157,138,143,89,34,6,1,0,0,0,0,0,0,0],[0,0,0,0,0,2,9,16,39,42,44,55,78,77,81,69,36,14,4,0,0,0,0,0,0],[0,0,0,0,0,2,12,24,50,57,57,49,44,46,55,66,57,35,11,2,0,0,0,0,0],[0,0,0,0,1,1,8,25,33,46,46,37,51,22,31,22,34,31,21,13,2,1,0,0,0],[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0]],"hi":{"n":119,"h5":[0,0,0,0,0,2,4,6,7,8,15,9,10,9,8,6,7,10,5,6,5,1,1,0,0],"med":63,"kept":1}},"d":{"name":"SUAyED a Distancia","pctLower":89.4,"dh":[11,13,42,56,82,106,151,161,158,169,190,234,338,441,430,313,253,62,22,6,0,0,1,0,0],"dhlo":-80,"flow":[[2,33,194,35,1,0,0,0],[0,30,378,516,12,0,0,0],[0,53,189,410,89,4,0,0],[0,49,217,217,129,28,2,0],[0,38,157,158,85,50,12,0],[0,12,54,45,18,14,8,0]],"linked":6054,"npairs":3239,"md":-17,"d30":985,"rose":213,"rho":0.244,"bands":[{"lab":"<60","n":682,"ns":417,"md":0,"q1":-6,"q3":2,"mo":54,"mc":50,"np":265},{"lab":"60–79","n":2151,"ns":1214,"md":-10,"q1":-16,"q3":-3,"mo":71,"mc":61,"np":936},{"lab":"80–89","n":1202,"ns":455,"md":-17,"q1":-30,"q3":-9,"mo":85,"mc":67,"np":745},{"lab":"90–99","n":1022,"ns":380,"md":-29,"q1":-44,"q3":-15,"mo":94,"mc":65,"np":642},{"lab":"100–109","n":763,"ns":262,"md":-36,"q1":-53,"q3":-21,"mo":103,"mc":67,"np":500},{"lab":"110+","n":234,"ns":83,"md":-50,"q1":-62,"q3":-33,"mo":112,"mc":63,"np":151}],"bh":[[1,0,1,0,0,2,7,24,26,62,55,51,26,8,1,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,10,19,40,78,111,149,204,163,98,51,11,1,0,0,0,0,0,0,0],[0,0,0,0,0,1,9,43,37,53,43,56,77,95,134,104,62,27,3,1,0,0,0,0,0],[0,0,0,0,0,3,9,37,32,59,67,59,51,42,60,64,80,49,26,2,1,1,0,0,0],[0,0,0,0,0,0,12,26,34,43,39,41,36,33,47,42,47,38,30,20,8,4,0,0,0],[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0]],"hi":{"n":151,"h5":[0,0,0,0,0,2,3,7,6,22,12,14,16,11,9,9,11,7,7,7,7,1,0,0,0],"med":63,"kept":0}},"t":{"name":"los tres sistemas","pctLower":95.4,"dh":[359,585,978,1486,1907,2325,2534,2561,2610,2703,2864,3131,3418,3323,2603,1633,1252,310,114,21,1,0,1,0,0],"dhlo":-80,"flow":[[4,200,1100,145,1,0,0,0],[0,413,3010,2382,54,2,0,0],[0,647,2433,2686,393,32,0,0],[0,839,3276,2936,942,230,11,0],[0,842,3334,2657,1248,682,186,5],[0,422,1847,1576,837,828,429,90]],"linked":58502,"npairs":36719,"md":-30,"d30":18601,"rose":1034,"rho":0.234,"bands":[{"lab":"<60","n":2867,"ns":1417,"md":-1,"q1":-7,"q3":2,"mo":52,"mc":49,"np":1450},{"lab":"60–79","n":10588,"ns":4712,"md":-13,"q1":-22,"q3":-6,"mo":72,"mc":57,"np":5861},{"lab":"80–89","n":10180,"ns":3954,"md":-25,"q1":-38,"q3":-14,"mo":85,"mc":60,"np":6191},{"lab":"90–99","n":13205,"ns":4909,"md":-35,"q1":-48,"q3":-21,"mo":95,"mc":60,"np":8234},{"lab":"100–109","n":13544,"ns":4531,"md":-43,"q1":-57,"q3":-26,"mo":105,"mc":61,"np":8954},{"lab":"110+","n":8118,"ns":2070,"md":-44,"q1":-61,"q3":-26,"mo":113,"mc":69,"np":6029}],"bh":[[3,0,1,0,5,14,60,121,219,337,303,241,97,37,10,1,1,0,0,0,0,0,0,0,0],[0,0,0,0,6,29,98,280,508,659,853,990,953,778,453,198,47,7,2,0,0,0,0,0,0],[0,0,0,0,8,45,167,427,566,634,604,629,711,739,732,504,271,122,29,3,0,0,0,0,0],[0,0,0,0,4,56,217,562,760,892,848,776,715,728,774,719,594,348,172,58,8,3,0,0,0],[0,0,0,0,5,54,219,564,804,883,852,795,717,676,643,621,622,626,419,263,128,58,5,0,0],[0,0,0,0,4,32,115,271,382,489,517,459,426,393,375,382,415,422,400,428,291,138,69,21,0]],"hi":{"n":6029,"h5":[0,0,0,0,4,32,115,271,382,489,517,459,426,393,375,382,415,422,400,428,291,138,69,21,0],"med":69,"kept":90}}};
 const fmt = n => n.toLocaleString('es-MX');
 const el = (t, at, parent) => {
   const e = document.createElementNS('http://www.w3.org/2000/svg', t);
@@ -271,7 +290,7 @@ const h = (tag, cls, txt) => {
   if (txt != null) e.textContent = txt;
   return e;
 };
-const state = {sysf: 't'};
+const state = {sysf: 't', svLo: 5, svHi: 5};
 
 // paleta categórica por banda (validada: peor par adyacente CVD 9.1 protan)
 const PAL = ['#2C5FA8', '#2F8F63', '#B8912B', '#C46A9E', '#7A3E8F', '#B4452C'];
@@ -552,41 +571,94 @@ function drawDose(d) {
   });
 }
 
+function svFillSync() {
+  const eLo = document.getElementById('svLo'), eHi = document.getElementById('svHi');
+  const lo = +eLo.value, hi = +eHi.value, mn = +eLo.min, mx = +eHi.max;
+  const span = Math.max(mx - mn, 1);
+  const f = document.getElementById('svFill');
+  f.style.left = ((lo - mn) / span * 100) + '%';
+  f.style.width = (Math.max(hi - lo, 0.001) / span * 100) + '%';
+}
+function svRangeLab(d) {
+  const lab = i => d.bands[i] ? d.bands[i].lab : ['<60', '60–79', '80–89', '90–99', '100–109', '110+'][i];
+  return state.svLo === state.svHi ? lab(state.svLo) : `${lab(state.svLo)} a ${lab(state.svHi)}`;
+}
 function drawSurv(d) {
   const host = document.getElementById('survHost'); host.replaceChildren();
   const tt = document.getElementById('ttSurv');
   const card = host.closest('.chart-card');
+  const avail = d.bh.map(row => row.reduce((a, x) => a + x, 0));
+  const totAll = avail.reduce((a, x) => a + x, 0);
+  card.hidden = totAll < 5;
+  if (card.hidden) return;
+  const minB = avail.findIndex(x => x > 0);
+  let maxB = avail.length - 1;
+  while (maxB > 0 && !avail[maxB]) maxB--;
+  const inLo = document.getElementById('svLo'), inHi = document.getElementById('svHi');
+  inLo.min = inHi.min = String(minB);
+  inLo.max = inHi.max = String(maxB);
+  state.svLo = Math.min(Math.max(state.svLo, minB), maxB);
+  state.svHi = Math.min(Math.max(state.svHi, minB), maxB);
+  if (state.svLo > state.svHi) state.svLo = state.svHi;
+  inLo.value = String(state.svLo); inHi.value = String(state.svHi);
+  const h5 = Array(25).fill(0);
+  for (let b = state.svLo; b <= state.svHi; b++)
+    for (let i = 0; i < 25; i++) h5[i] += d.bh[b][i];
+  const n = h5.reduce((a, x) => a + x, 0);
+  if (n < 5) {
+    const rl0 = svRangeLab(d);
+    document.getElementById('svLab').textContent = rl0;
+    svFillSync();
+    document.getElementById('survTitle').textContent = `Las calificaciones en el control de quienes traían ${rl0}`;
+    document.getElementById('survSub').textContent =
+      `En el rango elegido (${rl0}) hay ${fmt(n)} aspirante${n === 1 ? '' : 's'} con ambas calificaciones: muy ` +
+      `pocos para el histograma. Mueve los controles a otro rango.`;
+    host.replaceChildren();
+    return;
+  }
+  const kept = h5.slice(22).reduce((a, x) => a + x, 0);
+  let acc = 0, medBin = 0, inBin = 0;
+  for (let i = 0; i < 25; i++) {
+    if (acc + h5[i] >= n / 2) { medBin = i; inBin = (n / 2 - acc) / h5[i]; break; }
+    acc += h5[i];
+  }
+  const med = Math.round(medBin * 5 + inBin * 5);
+  const rl = svRangeLab(d);
+  document.getElementById('svLab').textContent = rl;
+  svFillSync();
+  document.getElementById('survTitle').textContent = `Las calificaciones en el control de quienes traían ${rl}`;
   document.getElementById('survSub').textContent =
-    `Calificaciones en el examen de control de los ${fmt(d.hi.n)} aspirantes de ${d.name} que traían 110 o ` +
-    `más en línea y sí presentaron. Mediana: ${d.hi.med} aciertos; mantuvieron 110+: ${fmt(d.hi.kept)}.`;
+    `Calificaciones en el examen de control de los ${fmt(n)} aspirantes de ${d.name} con ${rl} en el ` +
+    `examen en línea que sí presentaron. Mediana aproximada: ${med} aciertos; con 110 o más en el ` +
+    `control: ${fmt(kept)} (barras oscuras). Mueve los controles para cambiar el rango.`;
   const W = 900, H = 270, m = {t: 24, r: 18, b: 38, l: 52};
-  const mx = Math.max(1, ...d.hi.h5);
+  const mx = Math.max(1, ...h5);
   const bw = (W - m.l - m.r) / 25;
   const Y = v => m.t + (1 - v / (mx * 1.12)) * (H - m.t - m.b);
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': `Histograma de calificaciones presenciales de los aspirantes con 110 o más en línea en ${d.name}; mediana ${d.hi.med}.`}, host);
+    'aria-label': `Histograma de calificaciones en el examen de control de los aspirantes con ${rl} en línea en ${d.name}; mediana aproximada ${med}.`}, host);
   el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: '#a7aec1', 'stroke-width': 1}, svg);
   for (let v = 0; v <= 120; v += 20)
     el('text', {x: m.l + v / 125 * (W - m.l - m.r) + bw / 2, y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5}, svg).textContent = v;
-  d.hi.h5.forEach((n, i) => {
-    if (!n) return;
+  h5.forEach((nb, i) => {
+    if (!nb) return;
     const s0 = i * 5;
     const fill = s0 >= 110 ? '#8f3520' : (s0 >= 90 ? '#c97355' : (s0 >= 60 ? '#dfa38c' : '#f0d3c9'));
-    el('rect', {x: m.l + i * bw + 1, y: Y(n), width: bw - 2, height: Math.max(Y(0) - Y(n), 1.5), rx: 3, fill}, svg);
+    el('rect', {x: m.l + i * bw + 1, y: Y(nb), width: bw - 2, height: Math.max(Y(0) - Y(nb), 1.5), rx: 3, fill}, svg);
   });
-  const mxq = m.l + (d.hi.med + 2.5) / 125 * (W - m.l - m.r);
+  const mxq = m.l + (med + 2.5) / 125 * (W - m.l - m.r);
   el('line', {x1: mxq, x2: mxq, y1: m.t, y2: Y(0), stroke: '#101223', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
-  el('text', {x: mxq + 6, y: m.t + 12, fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = `mediana: ${d.hi.med}`;
-  const k = el('text', {x: W - m.r - 4, y: m.t + 12, 'text-anchor': 'end', fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg);
-  k.textContent = `${fmt(d.hi.kept)} mantuvieron 110+ (barras oscuras)`;
+  const medRight = mxq > (W - m.l) / 2;
+  el('text', {x: mxq + (medRight ? -6 : 6), y: m.t + 12, 'text-anchor': medRight ? 'end' : 'start',
+    fill: '#101223', 'font-weight': 750, 'font-size': 11.5}, svg).textContent = `mediana ≈ ${med}`;
   svg.addEventListener('mousemove', ev => {
     const r = svg.getBoundingClientRect();
     if (!r.width) return;
     const px = (ev.clientX - r.left) / r.width * W;
     const i = Math.max(0, Math.min(24, Math.floor((px - m.l) / bw)));
-    const n = d.hi.h5[i];
+    const nb = h5[i];
     tt.replaceChildren(h('b', null, `Control ${i * 5}–${i * 5 + 4} aciertos`),
-      document.createTextNode(`${fmt(n)} aspirante${n === 1 ? '' : 's'} que traían 110+ en línea`));
+      document.createTextNode(`${fmt(nb)} aspirante${nb === 1 ? '' : 's'} con ${rl} en línea`));
     const cr = card.getBoundingClientRect();
     tt.style.opacity = 1;
     let lx = ev.clientX - cr.left + 14;
@@ -595,6 +667,19 @@ function drawSurv(d) {
   });
   svg.addEventListener('mouseleave', () => tt.style.opacity = 0);
 }
+['svLo', 'svHi'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    let lo = +document.getElementById('svLo').value;
+    let hi = +document.getElementById('svHi').value;
+    if (lo > hi) {
+      if (id === 'svLo') { hi = lo; document.getElementById('svHi').value = hi; }
+      else { lo = hi; document.getElementById('svLo').value = lo; }
+    }
+    state.svLo = lo; state.svHi = hi;
+    svFillSync();
+    drawSurv(D[state.sysf]);
+  });
+});
 
 function drawAus(d) {
   const host = document.getElementById('ausHost'); host.replaceChildren();
