@@ -182,8 +182,15 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
       nav2.appendChild(a);
     });
   }
-  ms.forEach(function (a) { a.addEventListener('mouseenter', function () { paint(a.dataset.m); }); });
-  document.querySelector('.topbar').addEventListener('mouseleave', function () { paint(own); });
+  var hovT = null;
+  ms.forEach(function (a) {
+    a.addEventListener('mouseenter', function () {
+      clearTimeout(hovT);
+      hovT = setTimeout(function () { paint(a.dataset.m); }, 260);
+    });
+    a.addEventListener('mouseleave', function () { clearTimeout(hovT); });
+  });
+  document.querySelector('.topbar').addEventListener('mouseleave', function () { clearTimeout(hovT); paint(own); });
   paint(own);
 })();
 </script>
