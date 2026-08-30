@@ -351,13 +351,22 @@ function drawSlope(d) {
       ribbons.push({p, i, j, n});
     }
   }
-  let pinned = null;
+  let pinned = null, pinScope = null;
   const baseState = () => { ribbons.forEach(r => r.p.setAttribute('opacity', .55)); infoDefault(); };
   const applyPin = () => { if (pinned) pinned(); else baseState(); };
   const resetR = applyPin;
-  window.__unpinFlow = () => { pinned = null; applyPin(); };
-  svg.addEventListener('click', () => { pinned = null; applyPin(); });
-  const togglePin = fn => { pinned = pinned === fn ? null : fn; applyPin(); };
+  window.__unpinFlow = () => { pinned = null; pinScope = null; applyPin(); };
+  svg.addEventListener('click', () => { pinned = null; pinScope = null; applyPin(); });
+  const togglePin = (fn, scope) => {
+    if (pinned === fn) { pinned = null; pinScope = null; }
+    else { pinned = fn; pinScope = scope || null; }
+    applyPin();
+  };
+  const ribInScope = r => !pinned || (pinScope && (
+    (pinScope.t === 'rib' && pinScope.r === r) ||
+    (pinScope.t === 'L' && r.i === pinScope.i) ||
+    (pinScope.t === 'R' && r.j === pinScope.i)));
+  const segInScope = (side, i) => !pinned || (pinScope && pinScope.t === side && pinScope.i === i);
   ribbons.forEach(r => {
     const hi = () => {
       ribbons.forEach(r2 => r2.p.setAttribute('opacity', r2 === r ? .85 : .18));
@@ -365,12 +374,13 @@ function drawSlope(d) {
         `${fmt(r.n)} ${ribTxt(r.i, r.j, r.n)} en el examen de control.`;
     };
     r.p.style.cursor = 'pointer';
-    r.p.addEventListener('mouseenter', hi);
-    r.p.addEventListener('focus', hi);
+    const hiG = () => { if (ribInScope(r)) hi(); };
+    r.p.addEventListener('mouseenter', hiG);
+    r.p.addEventListener('focus', hiG);
     r.p.addEventListener('mouseleave', applyPin);
     r.p.addEventListener('blur', applyPin);
-    r.p.addEventListener('click', ev => { ev.stopPropagation(); togglePin(hi); });
-    r.p.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(hi); } });
+    r.p.addEventListener('click', ev => { ev.stopPropagation(); togglePin(hi, {t: 'rib', r}); });
+    r.p.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(hi, {t: 'rib', r}); } });
   });
   const segHover = (side, i) => {
     ribbons.forEach(r2 => r2.p.setAttribute('opacity', (side === 'L' ? r2.i === i : r2.j === i) ? .85 : .18));
@@ -410,12 +420,13 @@ function drawSlope(d) {
       tabindex: 0, role: 'img', 'aria-label': aria}, svg);
     sg.style.cursor = 'pointer';
     const show = () => segHover(side, i);
-    sg.addEventListener('mouseenter', show);
-    sg.addEventListener('focus', show);
+    const showG = () => { if (segInScope(side, i)) show(); };
+    sg.addEventListener('mouseenter', showG);
+    sg.addEventListener('focus', showG);
     sg.addEventListener('mouseleave', applyPin);
     sg.addEventListener('blur', applyPin);
-    sg.addEventListener('click', ev => { ev.stopPropagation(); togglePin(show); });
-    sg.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(show); } });
+    sg.addEventListener('click', ev => { ev.stopPropagation(); togglePin(show, {t: side, i}); });
+    sg.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); togglePin(show, {t: side, i}); } });
   };
   for (const i of dispL) {
     if (leftN[i]) seg(xL0, yTopL, leftN, 'L', i,
@@ -449,8 +460,8 @@ function drawSlope(d) {
       sp.tabIndex = 0; sp.setAttribute('role', 'button');
       sp.setAttribute('aria-label', `Banda ${bands[i].lab}: ${fmt(leftN[i])} en el examen en línea, ${fmt(rN)} en el examen de control. Resalta sus flujos.`);
       const showL = () => segHover('L', i);
-      sp.addEventListener('mouseenter', showL);
-      sp.addEventListener('click', ev => { ev.stopPropagation(); togglePin(showL); });
+      sp.addEventListener('mouseenter', () => { if (segInScope('L', i)) showL(); });
+      sp.addEventListener('click', ev => { ev.stopPropagation(); togglePin(showL, {t: 'L', i}); });
       sp.addEventListener('mouseleave', applyPin);
       leg.appendChild(sp);
     }
