@@ -37,11 +37,12 @@ body { font: 15.5px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:
 .topnav a { flex: none; color: #3f4557; font-weight: 650; text-decoration: none; font-size: 12px; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 .topnav a:hover { background: #eef0fe; color: #4f46e5; }
 .topnav a.cur, .topnav a.cur:hover { background: #4f46e5; color: #fff; }
-.nav1 { max-width: 1000px; margin: 0 auto; padding: 9px 20px 7px; display: flex; align-items: center; gap: 9px; font-size: 14px; color: var(--ink2); flex-wrap: wrap; }
-.nav1 b { color: var(--ink); }
-.nav1 .dot { width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, #4f46e5, #ea580c); flex: none; }
+.nav1 { max-width: 1000px; margin: 0 auto; padding: 9px 20px 7px; display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--ink2); flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.nav1::-webkit-scrollbar { display: none; }
+.nav1 b { color: var(--ink); font-weight: 800; }
+.nav1 .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, #4f46e5, #ea580c); flex: none; }
 .moments { display: flex; gap: 5px; margin-left: 4px; }
-.moments a { text-decoration: none; font-size: 12.5px; font-weight: 750; padding: 4px 12px; border-radius: 999px; color: var(--ink2); white-space: nowrap; }
+.moments a { text-decoration: none; font-size: 12px; font-weight: 750; padding: 4px 10px; border-radius: 999px; color: var(--ink2); white-space: nowrap; flex: none; }
 .moments a[data-m="h"].on, .moments a[data-m="h"]:hover { background: rgba(234,88,12,.14); color: #9a3412; }
 .moments a[data-m="c"].on, .moments a[data-m="c"]:hover { background: rgba(5,150,105,.13); color: #065f46; }
 .moments a[data-m="r"].on, .moments a[data-m="r"]:hover { background: rgba(67,56,202,.12); color: #3730a3; }
@@ -57,7 +58,6 @@ body { font: 15.5px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:
 .topnav.m-c a.cur, .topnav.m-c a.cur:hover { background: #059669; color: #fff; }
 .topnav.m-r a.cur, .topnav.m-r a.cur:hover { background: #4338ca; color: #fff; }
 
-.topnav .nsep { width: 14px; flex: none; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; letter-spacing: -.01em; }
 .brand .dot { width: 12px; height: 12px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
 .brand small { font-weight: 600; color: var(--muted); }
@@ -69,7 +69,7 @@ nav button {
 nav button:hover { background: var(--brand-soft); color: var(--brand); }
 nav button[aria-selected="true"] { background: var(--brand); color: #fff; }
 nav button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.wrap { max-width: 1000px; margin: 0 auto; padding: 36px 22px 90px; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 40px 22px 90px; }
 [role="tabpanel"][hidden] { display: none; }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px; background: var(--brand-soft); color: var(--brand);
@@ -340,6 +340,8 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 .ext-col .ep { color: var(--muted); font-size: 12px; display: block; }
 .ext-col .ev { float: right; font-weight: 800; color: var(--y26-deep); font-variant-numeric: tabular-nums; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.foot { margin-top: 50px; padding-top: 18px; }
+.foot a { color: var(--ink2); }
 </style>
 </head>
 <body>
@@ -348,7 +350,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 <div class="nav1">
   <span class="dot"></span><b>Admisión UNAM 2026</b>
   <nav class="moments" aria-label="Momentos del proyecto">
-    <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html" class="on" aria-current="true">Examen en línea — La historia</a>
+    <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html" class="on">Examen en línea — La historia</a>
     <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html">Examen presencial — Convocatoria</a>
     <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html">Examen de control — Resultados</a>
   </nav>
@@ -364,7 +366,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
   <a href="https://pzape.github.io/unam-admision-2026/?tab=calc">Calculadora</a>
 </nav>
 </div>
-<div class="topbar-in" style="padding-top:4px">
+<div class="topbar-in" hidden style="display:none">
     <nav role="tablist" aria-label="Secciones del explorador">
       <button role="tab" id="tab-historia" aria-selected="true" aria-controls="panel-historia">La historia</button>
       <button role="tab" id="tab-mapa" aria-selected="false" aria-controls="panel-mapa">Mapa de riesgo</button>
@@ -2040,6 +2042,17 @@ console.info('%c' + __AUTORIA__ + ' — ' + 'Explorador UNAM 2024-2026', 'color:
 (function () {
   var t = new URLSearchParams(location.search).get('tab');
   if (t) { var b = document.getElementById('tab-' + t); if (b) b.click(); }
+  var nav2 = document.getElementById('nav2');
+  if (nav2) nav2.addEventListener('click', function (ev) {
+    var a = ev.target.closest('a'); if (!a) return;
+    var m = a.href.match(/\?tab=([a-z]+)$/); if (!m) return;
+    var b = document.getElementById('tab-' + m[1]); if (!b) return;
+    ev.preventDefault();
+    b.click();
+    history.replaceState(null, '', '?tab=' + m[1]);
+    nav2.querySelectorAll('a').forEach(function (x) { x.classList.remove('cur'); x.removeAttribute('aria-current'); });
+    a.classList.add('cur'); a.setAttribute('aria-current', 'page');
+  });
 })();
 </script>
 </body>

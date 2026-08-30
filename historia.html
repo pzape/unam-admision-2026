@@ -10,7 +10,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <title>El examen en línea de la UNAM: qué cambió en 2026</title>
 <meta charset="utf-8">
-<meta name="author" content="Pedro Zape">
+<meta name="author" content="Pedro Zape (github.com/pzape)">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="https://pzape.github.io/unam-admision-2026/historia.html">
 <style>
@@ -29,17 +29,17 @@ body { font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color: 
 a { color: var(--brand); }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
 .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-.topbar-in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
 .topnav { display: flex; gap: 4px; overflow-x: auto; max-width: 1000px; margin: 0 auto; padding: 0 16px 8px; scrollbar-width: none; }
 .topnav::-webkit-scrollbar { display: none; }
 .topnav a { flex: none; color: #3f4557; font-weight: 650; text-decoration: none; font-size: 12px; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 .topnav a:hover { background: #eef0fe; color: #4f46e5; }
 .topnav a.cur, .topnav a.cur:hover { background: #4f46e5; color: #fff; }
-.nav1 { max-width: 1000px; margin: 0 auto; padding: 9px 20px 7px; display: flex; align-items: center; gap: 9px; font-size: 14px; color: var(--ink2); flex-wrap: wrap; }
-.nav1 b { color: var(--ink); }
-.nav1 .dot { width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, #4f46e5, #ea580c); flex: none; }
+.nav1 { max-width: 1000px; margin: 0 auto; padding: 9px 20px 7px; display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--ink2); flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.nav1::-webkit-scrollbar { display: none; }
+.nav1 b { color: var(--ink); font-weight: 800; }
+.nav1 .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, #4f46e5, #ea580c); flex: none; }
 .moments { display: flex; gap: 5px; margin-left: 4px; }
-.moments a { text-decoration: none; font-size: 12.5px; font-weight: 750; padding: 4px 12px; border-radius: 999px; color: var(--ink2); white-space: nowrap; }
+.moments a { text-decoration: none; font-size: 12px; font-weight: 750; padding: 4px 10px; border-radius: 999px; color: var(--ink2); white-space: nowrap; flex: none; }
 .moments a[data-m="h"].on, .moments a[data-m="h"]:hover { background: rgba(234,88,12,.14); color: #9a3412; }
 .moments a[data-m="c"].on, .moments a[data-m="c"]:hover { background: rgba(5,150,105,.13); color: #065f46; }
 .moments a[data-m="r"].on, .moments a[data-m="r"]:hover { background: rgba(67,56,202,.12); color: #3730a3; }
@@ -55,9 +55,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand); outline
 .topnav.m-c a.cur, .topnav.m-c a.cur:hover { background: #059669; color: #fff; }
 .topnav.m-r a.cur, .topnav.m-r a.cur:hover { background: #4338ca; color: #fff; }
 
-.topnav .nsep { width: 14px; flex: none; }
-.topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
-.topbar b { font-weight: 800; }
 .hero { min-height: 92svh; display: flex; align-items: center; justify-content: center; padding: 90px 22px 40px; }
 .hero-in { max-width: 700px; text-align: center; }
 .kicker {
@@ -136,7 +133,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
 <div class="nav1">
   <span class="dot"></span><b>Admisión UNAM 2026</b>
   <nav class="moments" aria-label="Momentos del proyecto">
-    <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html" class="on" aria-current="true">Examen en línea — La historia</a>
+    <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html" class="on">Examen en línea — La historia</a>
     <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html">Examen presencial — Convocatoria</a>
     <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html">Examen de control — Resultados</a>
   </nav>
