@@ -426,7 +426,7 @@ const h = (tag, cls, txt) => {
   return e;
 };
 const dot = c => { const s = h('span', 'sd'); s.style.background = c; return s; };
-const state = {code: null, sysf: 'e', thr: 110, svLo: 5, svHi: 6};
+const state = {code: null, sysf: 'e', thr: 110, svLo: 4, svHi: 6, svTouched: false};
 const INDEX = Object.entries(CT).map(([c, d]) => ({c, d, txt: norm(d.k + ' ' + d.p)}));
 const editions = d => EDORDER[d.s].filter(id => d.eds[id]).map(id => ({id, lab: EDLAB[d.s][id], v: d.eds[id], ...EDMETA[id]}));
 
@@ -1134,6 +1134,15 @@ function drawSurvC(d) {
   const inLo = document.getElementById('svLo'), inHi = document.getElementById('svHi');
   inLo.min = inHi.min = String(minB);
   inLo.max = inHi.max = String(maxB);
+  if (!state.svTouched) {
+    const LOWB = [0, 60, 80, 90, 100, 110, 115];
+    const UPB = [59, 79, 89, 99, 109, 114, 120];
+    const target = Math.max(0, UPB[maxB] - 20);
+    let defLo = 0;
+    for (let b = 6; b >= 0; b--) if (LOWB[b] <= target) { defLo = b; break; }
+    state.svLo = Math.max(minB, Math.min(defLo, maxB));
+    state.svHi = maxB;
+  }
   state.svLo = Math.min(Math.max(state.svLo, minB), maxB);
   state.svHi = Math.min(Math.max(state.svHi, minB), maxB);
   if (state.svLo > state.svHi) state.svLo = state.svHi;
@@ -1171,7 +1180,9 @@ function drawSurvC(d) {
   const host = document.getElementById('survHost2'); host.replaceChildren();
   const tt = document.getElementById('ttSurv2');
   const W = 900, H = 270, m = {t: 24, r: 18, b: 38, l: 52};
-  const mx = Math.max(1, ...h5);
+  const full = Array(25).fill(0);
+  lk.bh.forEach(row => row.forEach((v, i) => full[i] += v));
+  const mx = Math.max(1, ...full);
   const bw = (W - m.l - m.r) / 25;
   const Y = v => m.t + (1 - v / (mx * 1.12)) * (H - m.t - m.b);
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
@@ -1215,9 +1226,12 @@ function drawSurvC(d) {
       if (id === 'svLo') { hi = lo; document.getElementById('svHi').value = hi; }
       else { lo = hi; document.getElementById('svLo').value = lo; }
     }
-    state.svLo = lo; state.svHi = hi;
+    state.svLo = lo; state.svHi = hi; state.svTouched = true;
     svFillSync();
-    if (state.code) drawSurvC(CT[state.code]);
+    if (!window.__svT) window.__svT = setTimeout(() => {
+      window.__svT = 0;
+      if (state.code) drawSurvC(CT[state.code]);
+    }, 40);
   });
 });
 

@@ -297,7 +297,7 @@ const h = (tag, cls, txt) => {
   if (txt != null) e.textContent = txt;
   return e;
 };
-const state = {sysf: 't', svLo: 5, svHi: 5};
+const state = {sysf: 't', svLo: 4, svHi: 5, svTouched: false};
 
 // paleta categórica por banda (validada: peor par adyacente CVD 9.1 protan)
 const PAL = ['#2C5FA8', '#2F8F63', '#B8912B', '#C46A9E', '#7A3E8F', '#B4452C'];
@@ -604,6 +604,15 @@ function drawSurv(d) {
   const inLo = document.getElementById('svLo'), inHi = document.getElementById('svHi');
   inLo.min = inHi.min = String(minB);
   inLo.max = inHi.max = String(maxB);
+  if (!state.svTouched) {
+    const LOWB = [0, 60, 80, 90, 100, 110];
+    const UPB = [59, 79, 89, 99, 109, 120];
+    const target = Math.max(0, UPB[maxB] - 20);
+    let defLo = 0;
+    for (let b = 5; b >= 0; b--) if (LOWB[b] <= target) { defLo = b; break; }
+    state.svLo = Math.max(minB, Math.min(defLo, maxB));
+    state.svHi = maxB;
+  }
   state.svLo = Math.min(Math.max(state.svLo, minB), maxB);
   state.svHi = Math.min(Math.max(state.svHi, minB), maxB);
   if (state.svLo > state.svHi) state.svLo = state.svHi;
@@ -639,7 +648,9 @@ function drawSurv(d) {
     `examen en línea que sí presentaron. Mediana aproximada: ${med} aciertos; con 110 o más en el ` +
     `control: ${fmt(kept)} (barras oscuras). Mueve los controles para cambiar el rango.`;
   const W = 900, H = 270, m = {t: 24, r: 18, b: 38, l: 52};
-  const mx = Math.max(1, ...h5);
+  const full = Array(25).fill(0);
+  d.bh.forEach(row => row.forEach((v, i) => full[i] += v));
+  const mx = Math.max(1, ...full);
   const bw = (W - m.l - m.r) / 25;
   const Y = v => m.t + (1 - v / (mx * 1.12)) * (H - m.t - m.b);
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
@@ -682,9 +693,12 @@ function drawSurv(d) {
       if (id === 'svLo') { hi = lo; document.getElementById('svHi').value = hi; }
       else { lo = hi; document.getElementById('svLo').value = lo; }
     }
-    state.svLo = lo; state.svHi = hi;
+    state.svLo = lo; state.svHi = hi; state.svTouched = true;
     svFillSync();
-    drawSurv(D[state.sysf]);
+    if (!window.__svT) window.__svT = setTimeout(() => {
+      window.__svT = 0;
+      drawSurv(D[state.sysf]);
+    }, 40);
   });
 });
 
