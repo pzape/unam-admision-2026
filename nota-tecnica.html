@@ -27,6 +27,20 @@ body { font: 15.5px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; color:
 .topnav a { flex: none; color: #3f4557; font-weight: 650; text-decoration: none; font-size: 12px; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 .topnav a:hover { background: #eef0fe; color: #4f46e5; }
 .topnav a.cur, .topnav a.cur:hover { background: #4f46e5; color: #fff; }
+.nav1 { max-width: 1000px; margin: 0 auto; padding: 9px 20px 5px; display: flex; align-items: center; gap: 9px; font-size: 14px; color: var(--ink2); flex-wrap: wrap; }
+.nav1 b { color: var(--ink); }
+.nav1 .dot { width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, #4f46e5, #ea580c); flex: none; }
+.moments { display: flex; gap: 5px; margin-left: 4px; }
+.moments a { text-decoration: none; font-size: 12.5px; font-weight: 750; padding: 4px 12px; border-radius: 999px; color: var(--ink2); white-space: nowrap; }
+.moments a[data-m="h"].on, .moments a[data-m="h"]:hover { background: rgba(234,88,12,.13); color: #9a3412; }
+.moments a[data-m="c"].on, .moments a[data-m="c"]:hover { background: rgba(217,119,6,.16); color: #92400e; }
+.moments a[data-m="r"].on, .moments a[data-m="r"]:hover { background: rgba(67,56,202,.12); color: #3730a3; }
+.nota-link { margin-left: auto; font-size: 12px; font-weight: 650; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.nota-link:hover, .nota-link.cur { color: var(--brand); }
+.topnav.m-h a.cur, .topnav.m-h a.cur:hover { background: #ea580c; color: #fff; }
+.topnav.m-c a.cur, .topnav.m-c a.cur:hover { background: #b45309; color: #fff; }
+.topnav.m-r a.cur, .topnav.m-r a.cur:hover { background: #4338ca; color: #fff; }
+
 .topnav .nsep { width: 14px; flex: none; }
 .topbar .dot { width: 11px; height: 11px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
 .topbar b { font-weight: 800; }
@@ -55,24 +69,59 @@ a { color: var(--brand); }
 </head>
 <body>
 <!-- Análisis y autoría: Pedro Zape · github.com/pzape · julio 2026 -->
-<div class="topbar"><div class="topbar-in">
-  <span class="dot"></span><b>Admisión UNAM</b><span style="color:var(--muted)">2021–2026</span>
-  <a href="https://pzape.github.io/unam-admision-2026/">Explorador interactivo →</a>
+<div class="topbar">
+<div class="nav1">
+  <span class="dot"></span><b>Admisión UNAM</b>
+  <nav class="moments" aria-label="Momentos del proyecto">
+    <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html" class="on" aria-current="true">La historia</a>
+    <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html">La convocatoria</a>
+    <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html">Los resultados</a>
+  </nav>
+  <a class="nota-link cur" href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a>
 </div>
-<nav class="topnav" aria-label="Páginas del sitio">
-  <a href="https://pzape.github.io/unam-admision-2026/">Explorador</a>
-  <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">SUAyED</a>
-  <a href="https://pzape.github.io/unam-admision-2026/historia.html">Historia</a>
-  <span class="nsep" aria-hidden="true"></span>
-  <a href="https://pzape.github.io/unam-admision-2026/examen-control.html">Examen de control</a>
-  <a href="https://pzape.github.io/unam-admision-2026/convocados.html">Convocados</a>
-  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">El control por carrera</a>
-  <a href="https://pzape.github.io/unam-admision-2026/el-corte.html">El corte</a>
-  <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">En línea vs control</a>
-  <span class="nsep" aria-hidden="true"></span>
-  <a href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html" class="cur" aria-current="page">Nota técnica</a>
+<nav class="topnav m-h" id="nav2" aria-label="Páginas del momento" data-moment="h">
+  <a href="https://pzape.github.io/unam-admision-2026/historia.html">La historia</a>
+  <a href="https://pzape.github.io/unam-admision-2026/?tab=mapa">Mapa de riesgo</a>
+  <a href="https://pzape.github.io/unam-admision-2026/?tab=plant">Planteles</a>
+  <a href="https://pzape.github.io/unam-admision-2026/?tab=buscar">Buscador escolarizado</a>
+  <a href="https://pzape.github.io/unam-admision-2026/suayed-buscador.html">Buscador SUAyED</a>
+  <a href="https://pzape.github.io/unam-admision-2026/?tab=calc">Calculadora</a>
 </nav>
 </div>
+<script>
+(function () {
+  var B = 'https://pzape.github.io/unam-admision-2026/';
+  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "Convocados"], ["examen-control.html", "¿Te tocaría el control?"], ["suayed-examen-control.html", "El control en SUAyED"]], "r": [["el-corte.html", "El corte"], ["resultados-control.html", "El control por carrera"], ["los-mismos-aspirantes.html", "En línea vs control"]]};
+  var nav2 = document.getElementById('nav2');
+  if (!nav2) return;
+  var own = nav2.dataset.moment;
+  var ms = document.querySelectorAll('.moments a');
+  function isCur(u) {
+    var here = location.pathname.split('/').pop() || 'index.html';
+    var parts = u.split('?');
+    var path = parts[0] || 'index.html';
+    var q = parts[1];
+    var tabHere = new URLSearchParams(location.search).get('tab');
+    if (q) return (here === 'index.html') && tabHere === new URLSearchParams(q).get('tab');
+    return here === path && !(path === 'index.html' && tabHere);
+  }
+  function paint(m) {
+    ms.forEach(function (a) { a.classList.toggle('on', a.dataset.m === m); });
+    nav2.className = 'topnav m-' + m;
+    nav2.replaceChildren();
+    L2[m].forEach(function (it) {
+      var a = document.createElement('a');
+      a.href = B + it[0];
+      a.textContent = it[1];
+      if (m === own && isCur(it[0])) { a.className = 'cur'; a.setAttribute('aria-current', 'page'); }
+      nav2.appendChild(a);
+    });
+  }
+  ms.forEach(function (a) { a.addEventListener('mouseenter', function () { paint(a.dataset.m); }); });
+  document.querySelector('.topbar').addEventListener('mouseleave', function () { paint(own); });
+  paint(own);
+})();
+</script>
 
 <div class="wrap" data-autoria="Pedro Zape · github.com/pzape">
   <span class="kicker">Nota técnica · Descriptor de datos</span>
