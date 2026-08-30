@@ -372,6 +372,15 @@ function drawAreas() {
     host.appendChild(h);
     drawFlow(host, rs, AREAS[a] || `Área ${a}`);
   });
+  const missing = Object.keys(AREAS).filter(a => !byArea.has(a));
+  if (missing.length) {
+    const p = document.createElement('p');
+    p.style.cssText = 'margin:14px 2px 4px;font-size:12.5px;color:var(--muted)';
+    p.textContent = `${SYSN[state.sys]} no tiene carreras con examen de control en ` +
+      (missing.length === 1 ? 'el ' : 'las ') +
+      missing.map(a => AREAS[a].replace(' · ', ' (') + ')').join(' ni en ') + '.';
+    host.appendChild(p);
+  }
 }
 
 function drawFlow(host, rs, label) {
