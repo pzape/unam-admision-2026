@@ -17,7 +17,7 @@
   --line: #e7eaf2; --axis: #a7aec1;
   --brand: #4f46e5; --brand-soft: #eef0fe;
   --sys-e: #4f46e5; --sys-a: #0d9488; --sys-d: #a855f7;
-  --p25: #94a3b8; --l26: #ea580c; --ctl: #4338ca;
+  --p25: #94a3b8; --l26: #ea580c; --ctl: #4338ca; --ctl-soft: rgba(67,56,202,.09);
   --shadow: 0 1px 2px rgba(16,18,35,.05), 0 10px 30px rgba(16,18,35,.07);
 }
 * { box-sizing: border-box; }
@@ -53,11 +53,11 @@ body { margin: 0; background: var(--bg); color: var(--ink);
 .topnav.m-r a.cur, .topnav.m-r a.cur:hover { background: #4338ca; color: #fff; }
 
 .topnav .nsep { width: 14px; flex: none; }
-.wrap { max-width: 1000px; margin: 0 auto; padding: 26px 20px 50px; }
-.tag { display: inline-block; background: var(--brand-soft); color: var(--brand); border-radius: 999px;
-  font-size: 11px; font-weight: 800; letter-spacing: .06em; padding: 3px 12px; text-transform: uppercase; }
-h1 { font-size: 26px; margin: 10px 0 6px; letter-spacing: -.01em; }
-.sub { color: var(--ink2); font-size: 14px; margin: 0 0 16px; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 40px 22px 90px; }
+.kicker { display: inline-block; background: var(--ctl-soft); color: var(--ctl); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px; }
+h1 { font-size: clamp(26px, 4.6vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -.02em; margin: 0 0 12px; text-wrap: balance; }
+.grad { background: linear-gradient(90deg, var(--ctl), var(--l26)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sub { font-size: 16.5px; line-height: 1.6; color: var(--ink2); margin: 0 0 22px; }
 .seg { border: none; margin: 0 0 10px; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
 .seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .seg label { display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px; border: 1.5px solid var(--line);
@@ -124,26 +124,26 @@ td .pl { display: block; font-size: 11px; color: var(--muted); font-weight: 500;
 <body>
 <div class="topbar">
 <div class="nav1">
-  <span class="dot"></span><b>Admisión UNAM</b>
+  <span class="dot"></span><b>Admisión UNAM 2026</b>
   <nav class="moments" aria-label="Momentos del proyecto">
-    <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html">La historia</a>
-    <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html">La convocatoria</a>
-    <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html" class="on" aria-current="true">Los resultados</a>
+    <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html">Examen en línea — La historia</a>
+    <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html">Examen presencial — Convocatoria</a>
+    <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html" class="on" aria-current="true">Examen de control — Resultados</a>
   </nav>
   <a class="nota-link" href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a>
 </div>
 <div class="nav2band m-r">
 <nav class="topnav m-r" id="nav2" aria-label="Páginas del momento" data-moment="r">
-  <a href="https://pzape.github.io/unam-admision-2026/el-corte.html" class="cur" aria-current="page">El corte</a>
-  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">El control por carrera</a>
-  <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">En línea vs control</a>
+  <a href="https://pzape.github.io/unam-admision-2026/el-corte.html" class="cur" aria-current="page">¿Cómo se movió el corte?</a>
+  <a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">Resultados por carrera</a>
+  <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">Comparación de aciertos</a>
 </nav>
 </div>
 </div>
 <script>
 (function () {
   var B = 'https://pzape.github.io/unam-admision-2026/';
-  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "Convocados"], ["examen-control.html", "¿Te tocaría el control?"], ["suayed-examen-control.html", "El control en SUAyED"]], "r": [["el-corte.html", "El corte"], ["resultados-control.html", "El control por carrera"], ["los-mismos-aspirantes.html", "En línea vs control"]]};
+  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "¿Cuántos serían convocados?"], ["examen-control.html", "¿Harías el examen de control? — Licenciatura"], ["suayed-examen-control.html", "¿Harías el examen de control? — SUAyED"]], "r": [["el-corte.html", "¿Cómo se movió el corte?"], ["resultados-control.html", "Resultados por carrera"], ["los-mismos-aspirantes.html", "Comparación de aciertos"]]};
   var nav2 = document.getElementById('nav2');
   if (!nav2) return;
   var own = nav2.dataset.moment;
@@ -177,8 +177,8 @@ td .pl { display: block; font-size: 11px; color: var(--muted); font-weight: 500;
 })();
 </script>
 <div class="wrap">
-  <span class="tag">Análisis · Datos oficiales DGAE</span>
-  <h1>El corte, antes y después del examen de control</h1>
+  <span class="kicker">Análisis · datos oficiales DGAE</span>
+  <h1>El <span class="grad">corte</span>, antes y después del examen de control</h1>
   <p class="sub" id="pageSub">Cada curva es una carrera: su corte en el examen presencial de 2025, en el
   examen en línea y en el examen de control. Pasa el cursor para ver los tres cortes; haz clic en una
   curva o en la lista para fijar una o varias carreras y compararlas. Con "Todos los planteles" la vista
