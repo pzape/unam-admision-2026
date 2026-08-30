@@ -68,9 +68,9 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .chart-sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
 .mod-sel { border: none; margin: 6px 0; padding: 0; display: flex; gap: 7px; flex-wrap: wrap; }
 .seg-hint { font-size: 12.5px; color: var(--muted); margin: 18px 0 0; }
-.sv-ctl { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--ink2); margin: 4px 0 10px; }
+.sv-ctl { display: block; font-size: 13px; color: var(--ink2); margin: 4px 0 2px; }
 .sv-ctl b { color: var(--ctl); }
-.sv-dual { position: relative; width: 230px; height: 28px; flex: none; }
+.sv-dual { position: relative; height: 28px; margin: 4px 2% 0 5.78%; }
 .sv-dual .sv-track { position: absolute; top: 12px; left: 0; right: 0; height: 4px; border-radius: 2px; background: #e2e6f0; }
 .sv-dual .sv-fill { position: absolute; top: 12px; height: 4px; border-radius: 2px; background: var(--ctl); }
 .sv-dual input[type="range"] { position: absolute; left: 0; top: 0; width: 100%; height: 28px; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
@@ -230,8 +230,8 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
       <div class="sv-dual">
         <div class="sv-track"></div>
         <div class="sv-fill" id="svFill"></div>
-        <input type="range" id="svLo" min="0" max="5" step="1" value="5" aria-label="Banda inferior del rango en el examen en línea">
-        <input type="range" id="svHi" min="0" max="5" step="1" value="5" aria-label="Banda superior del rango en el examen en línea">
+        <input type="range" id="svLo" min="0" max="120" step="1" value="100" aria-label="Límite inferior del rango en el examen en línea">
+        <input type="range" id="svHi" min="0" max="120" step="1" value="120" aria-label="Límite superior del rango en el examen en línea">
       </div>
     </div>
     <div id="survHost"></div>
@@ -304,6 +304,8 @@ const PAL = ['#2C5FA8', '#2F8F63', '#B8912B', '#C46A9E', '#7A3E8F', '#B4452C'];
 const BR = ['0–19', '20–39', '40–59', '60–79', '80–89', '90–99', '100–109', '110+'];
 const PALR = ['#93ACD6', '#5E83C0', '#2C5FA8', '#2F8F63', '#B8912B', '#C46A9E', '#7A3E8F', '#B4452C'];
 const lvlR = j => j <= 2 ? 0 : j - 2;
+const SVLOW = [0, 60, 80, 90, 100, 110];
+const SVUP = [59, 79, 89, 99, 109, 120];
 const hex2rgb = hx => [parseInt(hx.slice(1, 3), 16), parseInt(hx.slice(3, 5), 16), parseInt(hx.slice(5, 7), 16)];
 const mix = (a, b, t) => {
   const A = hex2rgb(a), B = hex2rgb(b);
@@ -602,21 +604,19 @@ function drawSurv(d) {
   let maxB = avail.length - 1;
   while (maxB > 0 && !avail[maxB]) maxB--;
   const inLo = document.getElementById('svLo'), inHi = document.getElementById('svHi');
-  inLo.min = inHi.min = String(minB);
-  inLo.max = inHi.max = String(maxB);
+  inLo.min = inHi.min = String(SVLOW[minB]);
+  inLo.max = inHi.max = String(SVUP[maxB]);
   if (!state.svTouched) {
-    const LOWB = [0, 60, 80, 90, 100, 110];
-    const UPB = [59, 79, 89, 99, 109, 120];
-    const target = Math.max(0, UPB[maxB] - 20);
+    const target = Math.max(0, SVUP[maxB] - 20);
     let defLo = 0;
-    for (let b = 5; b >= 0; b--) if (LOWB[b] <= target) { defLo = b; break; }
+    for (let b = SVLOW.length - 1; b >= 0; b--) if (SVLOW[b] <= target) { defLo = b; break; }
     state.svLo = Math.max(minB, Math.min(defLo, maxB));
     state.svHi = maxB;
   }
   state.svLo = Math.min(Math.max(state.svLo, minB), maxB);
   state.svHi = Math.min(Math.max(state.svHi, minB), maxB);
   if (state.svLo > state.svHi) state.svLo = state.svHi;
-  inLo.value = String(state.svLo); inHi.value = String(state.svHi);
+  inLo.value = String(SVLOW[state.svLo]); inHi.value = String(SVUP[state.svHi]);
   const h5 = Array(25).fill(0);
   for (let b = state.svLo; b <= state.svHi; b++)
     for (let i = 0; i < 25; i++) h5[i] += d.bh[b][i];
@@ -687,13 +687,15 @@ function drawSurv(d) {
 }
 ['svLo', 'svHi'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => {
-    let lo = +document.getElementById('svLo').value;
-    let hi = +document.getElementById('svHi').value;
-    if (lo > hi) {
-      if (id === 'svLo') { hi = lo; document.getElementById('svHi').value = hi; }
-      else { lo = hi; document.getElementById('svLo').value = lo; }
+    const inLo = document.getElementById('svLo'), inHi = document.getElementById('svHi');
+    let loB = 0, hiB = SVUP.length - 1;
+    for (let b = SVLOW.length - 1; b >= 0; b--) if (SVLOW[b] <= +inLo.value) { loB = b; break; }
+    for (let b = 0; b < SVUP.length; b++) if (SVUP[b] >= +inHi.value) { hiB = b; break; }
+    if (loB > hiB) {
+      if (id === 'svLo') hiB = loB; else loB = hiB;
     }
-    state.svLo = lo; state.svHi = hi; state.svTouched = true;
+    inLo.value = String(SVLOW[loB]); inHi.value = String(SVUP[hiB]);
+    state.svLo = loB; state.svHi = hiB; state.svTouched = true;
     svFillSync();
     if (!window.__svT) window.__svT = setTimeout(() => {
       window.__svT = 0;
