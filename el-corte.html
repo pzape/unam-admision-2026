@@ -367,7 +367,7 @@ function drawAreas() {
     const rs = byArea.get(a);
     const h = document.createElement('p'); h.className = 'ar-h';
     h.textContent = AREAS[a] || `Área ${a}`;
-    const sm = document.createElement('small'); sm.textContent = ` · ${rs.length} carreras`;
+    const sm = document.createElement('small'); sm.textContent = ` · ${rs.length} carrera${rs.length === 1 ? '' : 's'}`;
     h.appendChild(sm);
     host.appendChild(h);
     drawFlow(host, rs, AREAS[a] || `Área ${a}`);
