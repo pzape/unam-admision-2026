@@ -78,7 +78,7 @@ h2 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; margin: 34px 0 
 .calc-out b { color: var(--seg); font-variant-numeric: tabular-nums; }
 svg { width: 100%; height: auto; display: block; }
 svg text { font-family: inherit; }
-.tblwrap { overflow: auto; max-height: 520px; border-radius: 12px; box-shadow: var(--shadow); }
+.tblwrap { overflow: auto; max-height: 600px; border-radius: 12px; box-shadow: var(--shadow); }
 table { border-collapse: collapse; width: 100%; font-size: 13px; background: var(--surface); }
 th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
 th:first-child, td:first-child { text-align: left; }
@@ -315,6 +315,14 @@ function renderTable() {
     });
     tb.appendChild(tr);
   });
+  const wrap = document.querySelector('.tblwrap');
+  const trs = tb.querySelectorAll('tr');
+  if (trs.length > 10) {
+    const r10 = trs[9];
+    wrap.style.maxHeight = (r10.offsetTop + r10.offsetHeight + 2) + 'px';
+  } else {
+    wrap.style.maxHeight = 'none';
+  }
 }
 document.querySelectorAll('#tbl th').forEach(th => th.addEventListener('click', () => {
   const k = th.dataset.k;
