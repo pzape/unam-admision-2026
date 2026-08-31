@@ -1180,7 +1180,7 @@ function drawSurvC(d) {
   document.getElementById('survSub2').textContent =
     `Calificaciones en el examen de control de los ${fmt(n)} aspirantes vinculados de esta carrera con ${a.txt} en el ` +
     `examen en línea. Mediana aproximada: ${med} aciertos; con 110 o más en el control: ${fmt(kept)} ` +
-    `(barras oscuras). Ajusta el rango con las cajas o las perillas.`;
+    `(a la derecha de la línea del 110). Ajusta el rango con las cajas o las perillas.`;
   const tt = document.getElementById('ttSurv2');
   const W = 900, H = 270, m = {t: 24, r: 18, b: 38, l: 52};
   const mx = Math.max(1, ...fullH);
@@ -1191,12 +1191,15 @@ function drawSurvC(d) {
   el('line', {x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: '#a7aec1', 'stroke-width': 1}, svg);
   for (let v = 0; v <= 120; v += 20)
     el('text', {x: m.l + v / 125 * (W - m.l - m.r) + bw / 2, y: H - 12, 'text-anchor': 'middle', fill: '#6a7186', 'font-size': 11.5}, svg).textContent = v;
+  const mxSel = Math.max(1, ...h5);
   h5.forEach((nb, i) => {
     if (!nb) return;
-    const s0 = i * 5;
-    const fill = s0 >= 110 ? '#8f3520' : (s0 >= 90 ? '#c97355' : (s0 >= 60 ? '#dfa38c' : '#f0d3c9'));
-    el('rect', {x: m.l + i * bw + 1, y: Y(nb), width: bw - 2, height: Math.max(Y(0) - Y(nb), 1.5), rx: 3, fill}, svg);
+    el('rect', {x: m.l + i * bw + 1, y: Y(nb), width: bw - 2, height: Math.max(Y(0) - Y(nb), 1.5), rx: 3,
+      fill: mix('#f0d3c9', '#8f3520', nb / mxSel)}, svg);
   });
+  const x110 = m.l + 110 / 125 * (W - m.l - m.r);
+  el('line', {x1: x110, x2: x110, y1: m.t + 18, y2: Y(0), stroke: '#8f3520', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .7}, svg);
+  el('text', {x: x110 + 4, y: m.t + 30, fill: '#8f3520', 'font-weight': 750, 'font-size': 11}, svg).textContent = '110';
   const mxq = m.l + (med + 2.5) / 125 * (W - m.l - m.r);
   el('line', {x1: mxq, x2: mxq, y1: m.t, y2: Y(0), stroke: '#101223', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
   const medRight = mxq > (W - m.l) / 2;
