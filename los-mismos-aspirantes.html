@@ -638,7 +638,6 @@ function drawSurv(d) {
       `calificaciones: muy pocos para el histograma. Ajusta el rango.`;
     return;
   }
-  const kept = h5.slice(22).reduce((s, x) => s + x, 0);
   let acc = 0, medBin = 0, inBin = 0;
   for (let i = 0; i < 25; i++) {
     if (acc + h5[i] >= n / 2) { medBin = i; inBin = (n / 2 - acc) / h5[i]; break; }
@@ -647,8 +646,7 @@ function drawSurv(d) {
   const med = Math.round(medBin * 5 + inBin * 5);
   document.getElementById('survSub').textContent =
     `Calificaciones en el examen de control de los ${fmt(n)} aspirantes de ${d.name} con ${a.txt} en el ` +
-    `examen en línea. Mediana aproximada: ${med} aciertos; con 110 o más en el control: ${fmt(kept)} ` +
-    `(a la derecha de la línea del 110). Ajusta el rango con las cajas o las perillas.`;
+    `examen en línea. Mediana aproximada: ${med} aciertos. Ajusta el rango con las cajas o las perillas.`;
   const tt = document.getElementById('ttSurv');
   const W = 900, H = 270, m = {t: 24, r: 18, b: 38, l: 52};
   const mx = Math.max(1, ...fullH);
@@ -665,9 +663,6 @@ function drawSurv(d) {
     el('rect', {x: m.l + i * bw + 1, y: Y(nb), width: bw - 2, height: Math.max(Y(0) - Y(nb), 1.5), rx: 3,
       fill: mix('#f0d3c9', '#8f3520', nb / mxSel)}, svg);
   });
-  const x110 = m.l + 110 / 125 * (W - m.l - m.r);
-  el('line', {x1: x110, x2: x110, y1: m.t + 18, y2: Y(0), stroke: '#8f3520', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .7}, svg);
-  el('text', {x: x110 + 4, y: m.t + 30, fill: '#8f3520', 'font-weight': 750, 'font-size': 11}, svg).textContent = '110';
   const mxq = m.l + (med + 2.5) / 125 * (W - m.l - m.r);
   el('line', {x1: mxq, x2: mxq, y1: m.t, y2: Y(0), stroke: '#101223', 'stroke-width': 1.2, 'stroke-dasharray': '3 4', opacity: .8}, svg);
   const medRight = mxq > (W - m.l) / 2;
