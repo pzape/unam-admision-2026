@@ -1003,10 +1003,15 @@ function drawFlowC(d) {
       const j = +j0;
       const x = side === 'R' ? flow[selIdx][j] : flow[j][selIdx];
       rf.t2.replaceChildren();
+      if (!x) {
+        const tz = el('tspan', {fill: '#6a7186', 'font-weight': 600}, rf.t2);
+        tz.textContent = '0';
+        return;
+      }
+      const tv = el('tspan', {fill: '#6a7186', 'font-weight': 600}, rf.t2);
+      tv.textContent = side === 'R' ? (x === 1 ? 'llegó ' : 'llegaron ') : (x === 1 ? 'salió ' : 'salieron ');
       const ta = el('tspan', {fill: selCol, 'font-weight': 800}, rf.t2);
       ta.textContent = fmt(x);
-      const tb = el('tspan', {fill: '#6a7186', 'font-weight': 600}, rf.t2);
-      tb.textContent = ` de ${fmt(rf.tot)}`;
     });
   };
   const place = (tops, ns, side, dispX, labels) => {
