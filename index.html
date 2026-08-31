@@ -46,17 +46,20 @@ body { font: 15.5px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:
 .moments a[data-m="h"].on, .moments a[data-m="h"]:hover { background: rgba(234,88,12,.14); color: #9a3412; }
 .moments a[data-m="c"].on, .moments a[data-m="c"]:hover { background: rgba(5,150,105,.13); color: #065f46; }
 .moments a[data-m="r"].on, .moments a[data-m="r"]:hover { background: rgba(67,56,202,.12); color: #3730a3; }
+.moments a[data-m="s"].on, .moments a[data-m="s"]:hover { background: rgba(168,85,247,.14); color: #6b21a8; }
 .nota-link { margin-left: auto; font-size: 12px; font-weight: 650; color: var(--muted); text-decoration: none; white-space: nowrap; }
 .nota-link:hover, .nota-link.cur { color: var(--brand); }
 .nav2band { border-top: 1px solid var(--line); }
 .nav2band.m-h { background: rgba(234,88,12,.06); }
 .nav2band.m-c { background: rgba(5,150,105,.06); }
 .nav2band.m-r { background: rgba(67,56,202,.06); }
+.nav2band.m-s { background: rgba(168,85,247,.06); }
 .nav2band .topnav { padding: 7px 16px; }
 .topbar .moments a, .topbar .topnav a { margin: 0; }
 .topnav.m-h a.cur, .topnav.m-h a.cur:hover { background: #ea580c; color: #fff; }
 .topnav.m-c a.cur, .topnav.m-c a.cur:hover { background: #059669; color: #fff; }
 .topnav.m-r a.cur, .topnav.m-r a.cur:hover { background: #4338ca; color: #fff; }
+.topnav.m-s a.cur, .topnav.m-s a.cur:hover { background: #7e22ce; color: #fff; }
 
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; letter-spacing: -.01em; }
 .brand .dot { width: 12px; height: 12px; border-radius: 4px; background: linear-gradient(135deg, var(--brand), var(--y26)); }
@@ -353,6 +356,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
     <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html" class="on">Examen en línea — La historia</a>
     <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html">Examen presencial — Convocatoria</a>
     <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html">Examen de control — Resultados</a>
+    <a data-m="s" href="https://pzape.github.io/unam-admision-2026/segunda-opcion.html">Segunda opción</a>
   </nav>
   <a class="nota-link" href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a>
 </div>
@@ -379,7 +383,7 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
 <script>
 (function () {
   var B = 'https://pzape.github.io/unam-admision-2026/';
-  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "¿Cuántos serían convocados?"], ["examen-control.html", "¿Harías el examen de control? — Licenciatura"], ["suayed-examen-control.html", "¿Harías el examen de control? — SUAyED"]], "r": [["el-corte.html", "¿Cómo se movió el corte?"], ["resultados-control.html", "Resultados por carrera"], ["los-mismos-aspirantes.html", "Comparación de aciertos"]]};
+  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "¿Cuántos serían convocados?"], ["examen-control.html", "¿Harías el examen de control? — Licenciatura"], ["suayed-examen-control.html", "¿Harías el examen de control? — SUAyED"]], "r": [["el-corte.html", "¿Cómo se movió el corte?"], ["resultados-control.html", "Resultados por carrera"], ["los-mismos-aspirantes.html", "Comparación de aciertos"]], "s": [["segunda-opcion.html", "La segunda opción"]]};
   var nav2 = document.getElementById('nav2');
   if (!nav2) return;
   var own = nav2.dataset.moment;
@@ -551,6 +555,9 @@ details.dd[open] > summary { border-color: var(--brand); color: var(--brand); }
         examen en línea a 97 en el presencial
         (<a href="https://pzape.github.io/unam-admision-2026/resultados-control.html">resultados por carrera</a> ·
         <a href="https://pzape.github.io/unam-admision-2026/los-mismos-aspirantes.html">los mismos aspirantes</a>).</li>
+        <li class="hot2"><span class="d">30 de agosto</span>La UNAM abre la segunda opción: 2,024 lugares
+        en los 66 programas que no llenaron su oferta, para los 16,543 no seleccionados del examen de control
+        (<a href="https://pzape.github.io/unam-admision-2026/segunda-opcion.html">la segunda opción</a>)</li>
       </ul>
     </details>
   </section>

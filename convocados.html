@@ -38,17 +38,20 @@ body { font: 15.5px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; color
 .moments a[data-m="h"].on, .moments a[data-m="h"]:hover { background: rgba(234,88,12,.14); color: #9a3412; }
 .moments a[data-m="c"].on, .moments a[data-m="c"]:hover { background: rgba(5,150,105,.13); color: #065f46; }
 .moments a[data-m="r"].on, .moments a[data-m="r"]:hover { background: rgba(67,56,202,.12); color: #3730a3; }
+.moments a[data-m="s"].on, .moments a[data-m="s"]:hover { background: rgba(168,85,247,.14); color: #6b21a8; }
 .nota-link { margin-left: auto; font-size: 12px; font-weight: 650; color: var(--muted); text-decoration: none; white-space: nowrap; }
 .nota-link:hover, .nota-link.cur { color: var(--brand); }
 .nav2band { border-top: 1px solid var(--line); }
 .nav2band.m-h { background: rgba(234,88,12,.06); }
 .nav2band.m-c { background: rgba(5,150,105,.06); }
 .nav2band.m-r { background: rgba(67,56,202,.06); }
+.nav2band.m-s { background: rgba(168,85,247,.06); }
 .nav2band .topnav { padding: 7px 16px; }
 .topbar .moments a, .topbar .topnav a { margin: 0; }
 .topnav.m-h a.cur, .topnav.m-h a.cur:hover { background: #ea580c; color: #fff; }
 .topnav.m-c a.cur, .topnav.m-c a.cur:hover { background: #059669; color: #fff; }
 .topnav.m-r a.cur, .topnav.m-r a.cur:hover { background: #4338ca; color: #fff; }
+.topnav.m-s a.cur, .topnav.m-s a.cur:hover { background: #7e22ce; color: #fff; }
 
 .wrap { max-width: 1000px; margin: 0 auto; padding: 40px 22px 90px; }
 .kicker { display: inline-block; background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px; }
@@ -140,6 +143,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
     <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html">Examen en línea — La historia</a>
     <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html" class="on">Examen presencial — Convocatoria</a>
     <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html">Examen de control — Resultados</a>
+    <a data-m="s" href="https://pzape.github.io/unam-admision-2026/segunda-opcion.html">Segunda opción</a>
   </nav>
   <a class="nota-link" href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a>
 </div>
@@ -154,7 +158,7 @@ svg text { font-family: system-ui, sans-serif; font-size: 13px; }
 <script>
 (function () {
   var B = 'https://pzape.github.io/unam-admision-2026/';
-  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "¿Cuántos serían convocados?"], ["examen-control.html", "¿Harías el examen de control? — Licenciatura"], ["suayed-examen-control.html", "¿Harías el examen de control? — SUAyED"]], "r": [["el-corte.html", "¿Cómo se movió el corte?"], ["resultados-control.html", "Resultados por carrera"], ["los-mismos-aspirantes.html", "Comparación de aciertos"]]};
+  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "¿Cuántos serían convocados?"], ["examen-control.html", "¿Harías el examen de control? — Licenciatura"], ["suayed-examen-control.html", "¿Harías el examen de control? — SUAyED"]], "r": [["el-corte.html", "¿Cómo se movió el corte?"], ["resultados-control.html", "Resultados por carrera"], ["los-mismos-aspirantes.html", "Comparación de aciertos"]], "s": [["segunda-opcion.html", "La segunda opción"]]};
   var nav2 = document.getElementById('nav2');
   if (!nav2) return;
   var own = nav2.dataset.moment;

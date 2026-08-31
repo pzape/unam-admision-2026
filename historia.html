@@ -43,17 +43,20 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand); outline
 .moments a[data-m="h"].on, .moments a[data-m="h"]:hover { background: rgba(234,88,12,.14); color: #9a3412; }
 .moments a[data-m="c"].on, .moments a[data-m="c"]:hover { background: rgba(5,150,105,.13); color: #065f46; }
 .moments a[data-m="r"].on, .moments a[data-m="r"]:hover { background: rgba(67,56,202,.12); color: #3730a3; }
+.moments a[data-m="s"].on, .moments a[data-m="s"]:hover { background: rgba(168,85,247,.14); color: #6b21a8; }
 .nota-link { margin-left: auto; font-size: 12px; font-weight: 650; color: var(--muted); text-decoration: none; white-space: nowrap; }
 .nota-link:hover, .nota-link.cur { color: var(--brand); }
 .nav2band { border-top: 1px solid var(--line); }
 .nav2band.m-h { background: rgba(234,88,12,.06); }
 .nav2band.m-c { background: rgba(5,150,105,.06); }
 .nav2band.m-r { background: rgba(67,56,202,.06); }
+.nav2band.m-s { background: rgba(168,85,247,.06); }
 .nav2band .topnav { padding: 7px 16px; }
 .topbar .moments a, .topbar .topnav a { margin: 0; }
 .topnav.m-h a.cur, .topnav.m-h a.cur:hover { background: #ea580c; color: #fff; }
 .topnav.m-c a.cur, .topnav.m-c a.cur:hover { background: #059669; color: #fff; }
 .topnav.m-r a.cur, .topnav.m-r a.cur:hover { background: #4338ca; color: #fff; }
+.topnav.m-s a.cur, .topnav.m-s a.cur:hover { background: #7e22ce; color: #fff; }
 
 .hero { min-height: 92svh; display: flex; align-items: center; justify-content: center; padding: 90px 22px 40px; }
 .hero-in { max-width: 700px; text-align: center; }
@@ -138,6 +141,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
     <a data-m="h" href="https://pzape.github.io/unam-admision-2026/historia.html" class="on">Examen en línea — La historia</a>
     <a data-m="c" href="https://pzape.github.io/unam-admision-2026/convocados.html">Examen presencial — Convocatoria</a>
     <a data-m="r" href="https://pzape.github.io/unam-admision-2026/el-corte.html">Examen de control — Resultados</a>
+    <a data-m="s" href="https://pzape.github.io/unam-admision-2026/segunda-opcion.html">Segunda opción</a>
   </nav>
   <a class="nota-link" href="https://pzape.github.io/unam-admision-2026/nota-tecnica.html">Nota técnica</a>
 </div>
@@ -155,7 +159,7 @@ svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-s
 <script>
 (function () {
   var B = 'https://pzape.github.io/unam-admision-2026/';
-  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "¿Cuántos serían convocados?"], ["examen-control.html", "¿Harías el examen de control? — Licenciatura"], ["suayed-examen-control.html", "¿Harías el examen de control? — SUAyED"]], "r": [["el-corte.html", "¿Cómo se movió el corte?"], ["resultados-control.html", "Resultados por carrera"], ["los-mismos-aspirantes.html", "Comparación de aciertos"]]};
+  var L2 = {"h": [["historia.html", "La historia"], ["?tab=mapa", "Mapa de riesgo"], ["?tab=plant", "Planteles"], ["?tab=buscar", "Buscador escolarizado"], ["suayed-buscador.html", "Buscador SUAyED"], ["?tab=calc", "Calculadora"]], "c": [["convocados.html", "¿Cuántos serían convocados?"], ["examen-control.html", "¿Harías el examen de control? — Licenciatura"], ["suayed-examen-control.html", "¿Harías el examen de control? — SUAyED"]], "r": [["el-corte.html", "¿Cómo se movió el corte?"], ["resultados-control.html", "Resultados por carrera"], ["los-mismos-aspirantes.html", "Comparación de aciertos"]], "s": [["segunda-opcion.html", "La segunda opción"]]};
   var nav2 = document.getElementById('nav2');
   if (!nav2) return;
   var own = nav2.dataset.moment;
@@ -572,6 +576,7 @@ function timelineStage() {
     ['31 de julio', 'La comisión técnica recomienda un examen de control presencial; los lugares se asignarán con sus resultados (Gaceta UNAM).', true],
     ['agosto', 'La DGAE publica los aciertos mínimos oficiales por carrera; incluyen al SUAyED.', true],
     ['finales de agosto', 'Se publican los resultados del examen de control: presentaron 37,476 de 59,217 convocados; los aspirantes con 110 o más aciertos pasaron de 8,396 a 97.', true],
+    ['30 de agosto', 'La UNAM abre la segunda opción: 2,024 lugares en los 66 programas que no llenaron su oferta, para los 16,543 no seleccionados del examen de control; la asignación será por sus aciertos.', true],
   ];
   for (const [d, t, hot] of items) {
     const li = document.createElement('li'); if (hot) li.className = 'hot';
