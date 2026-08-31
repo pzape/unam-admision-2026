@@ -68,6 +68,9 @@ h1 .grad { background: linear-gradient(90deg, var(--seg), var(--l26)); -webkit-b
 .fechas a { color: var(--seg); font-weight: 700; }
 h2 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; margin: 34px 0 10px; }
 .chart-sub { font-size: 14px; color: var(--ink2); margin: 0 0 14px; }
+.filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 0 0 10px; }
+.filters select { font: inherit; font-size: 13.5px; padding: 6px 10px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); max-width: 100%; }
+.filters .cnt { font-size: 12.5px; color: var(--muted); }
 .chart-card { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 16px 14px 10px; position: relative; margin-bottom: 8px; }
 .calc { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 14.5px; margin: 0 0 12px; }
 .calc input { width: 80px; font: inherit; padding: 6px 9px; border: 1.5px solid var(--line); border-radius: 10px; font-variant-numeric: tabular-nums; }
@@ -198,6 +201,22 @@ td .pl { display: block; font-size: 11px; color: var(--muted); font-weight: 500;
   (1,459); la UNAM anuncia 2,024, así que varios cupos vienen ampliados — la lista definitiva es la del
   registro oficial. El corte es el que tuvo cada carrera en el examen de control: la referencia de a qué
   nivel quedó su última admisión.</p>
+  <div class="filters">
+    <select id="fMod" aria-label="Filtrar por modalidad">
+      <option value="">Todas las modalidades</option>
+      <option value="e">Escolarizado</option>
+      <option value="a">SUAyED Abierta</option>
+      <option value="d">SUAyED a Distancia</option>
+    </select>
+    <select id="fArea" aria-label="Filtrar por área">
+      <option value="">Todas las áreas</option>
+      <option value="1">Área 1 · Físico-Matemáticas y de las Ingenierías</option>
+      <option value="2">Área 2 · Biológicas, Químicas y de la Salud</option>
+      <option value="3">Área 3 · Ciencias Sociales</option>
+      <option value="4">Área 4 · Humanidades y de las Artes</option>
+    </select>
+    <span class="cnt" id="fCnt"></span>
+  </div>
   <div class="tblwrap"><table id="tbl">
     <thead><tr>
       <th data-k="k">Carrera</th><th data-k="s">Sistema</th><th data-k="of">Oferta</th>
@@ -255,7 +274,12 @@ const mix = (a, b, t) => {
 const sortState = {k: 'vac', asc: false};
 function renderTable() {
   const tb = document.querySelector('#tbl tbody'); tb.replaceChildren();
-  const rows = [...ROWS];
+  const fm = document.getElementById('fMod').value;
+  const fa = document.getElementById('fArea').value;
+  const rows = ROWS.filter(r => (!fm || r.s === fm) && (!fa || r.code[0] === fa));
+  const vacSum = rows.reduce((a, r) => a + r.vac, 0);
+  document.getElementById('fCnt').textContent =
+    `${rows.length} de ${ROWS.length} programas · vacantes visibles: ${fmt(vacSum)}`;
   const {k, asc} = sortState;
   rows.sort((a, b) => {
     const va = a[k], vb = b[k];
@@ -298,6 +322,7 @@ document.querySelectorAll('#tbl th').forEach(th => th.addEventListener('click', 
   else { sortState.k = k; sortState.asc = k === 'k'; }
   renderTable();
 }));
+['fMod', 'fArea'].forEach(id => document.getElementById(id).addEventListener('change', renderTable));
 
 let markScore = null;
 function drawHist() {
