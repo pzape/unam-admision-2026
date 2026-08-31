@@ -385,7 +385,7 @@ function drawSlope(d) {
     }
   }
   let pinned = null, pinScope = null;
-  const baseState = () => { ribbons.forEach(r => r.p.setAttribute('opacity', .55)); infoDefault(); };
+  const baseState = () => { ribbons.forEach(r => r.p.setAttribute('opacity', .55)); infoDefault(); resetLabels('L'); resetLabels('R'); };
   const applyPin = () => { if (pinned) pinned(); else baseState(); };
   const resetR = applyPin;
   window.__unpinFlow = () => { pinned = null; pinScope = null; applyPin(); };
@@ -446,6 +446,8 @@ function drawSlope(d) {
     info.textContent = (side === 'L'
       ? `De los ${fmt(tot)} aspirantes con ${bands[i].lab} en el examen en línea, `
       : `De los ${fmt(tot)} aspirantes con ${BR[i]} en el examen de control, `) + frase + '.';
+    if (side === 'L') { markLabels('R', i, PAL[i]); resetLabels('L'); }
+    else { markLabels('L', i, PALR[i]); resetLabels('R'); }
   };
   const seg = (x, tops, ns, side, i, aria) => {
     const sg = el('rect', {x, y: tops[i], width: colW, height: Math.max(ns[i] * k, 1.5), rx: 3,
@@ -469,15 +471,36 @@ function drawSlope(d) {
     if (rightN[j]) seg(xR0, yTopR, rightN, 'R', j,
       `Banda ${BR[j]} en el examen de control: ${fmt(rightN[j])} aspirantes. Resalta de qué bandas del examen en línea vienen.`);
   }
+  const labRefs = {L: {}, R: {}};
+  const resetLabels = side => {
+    Object.values(labRefs[side]).forEach(rf => {
+      rf.t2.removeAttribute('fill');
+      rf.t2.replaceChildren(document.createTextNode(fmt(rf.tot)));
+    });
+  };
+  const markLabels = (side, selIdx, selCol) => {
+    Object.entries(labRefs[side]).forEach(([j0, rf]) => {
+      const j = +j0;
+      const x = side === 'R' ? d.flow[selIdx][j] : d.flow[j][selIdx];
+      rf.t2.replaceChildren();
+      const ta = el('tspan', {fill: selCol, 'font-weight': 800}, rf.t2);
+      ta.textContent = fmt(x);
+      const tb = el('tspan', {fill: '#6a7186', 'font-weight': 600}, rf.t2);
+      tb.textContent = ` de ${fmt(rf.tot)}`;
+    });
+  };
   const place = (tops, ns, side, dispX, labs) => {
     const rows = dispX.filter(i => ns[i]).map(i => ({i, y: tops[i] + Math.max(ns[i] * k, 1.5) / 2}));
     for (let z = 1; z < rows.length; z++)
       if (rows[z].y - rows[z - 1].y < 15) rows[z].y = rows[z - 1].y + 15;
     rows.forEach(rw => {
-      el('text', {x: side === 'L' ? xL0 - 10 : xR1 + 10, y: rw.y + 4, 'text-anchor': side === 'L' ? 'end' : 'start',
-        'font-size': 12, 'font-weight': 750, fill: '#3f4557'}, svg)
-        .textContent = `${labs[rw.i]} · ${fmt(ns[rw.i])}`;
+      const tx = el('text', {x: side === 'L' ? xL0 - 10 : xR1 + 10, y: rw.y + 4, 'text-anchor': side === 'L' ? 'end' : 'start',
+        'font-size': 12, 'font-weight': 750, fill: '#3f4557'}, svg);
+      el('tspan', {}, tx).textContent = `${labs[rw.i]} · `;
+      const t2 = el('tspan', {}, tx);
+      labRefs[side][rw.i] = {t2, tot: ns[rw.i]};
     });
+    resetLabels(side);
   };
   const leg = document.getElementById('slopeLegend');
   leg.hidden = false;
