@@ -69,6 +69,7 @@ h1 .grad { background: linear-gradient(90deg, var(--seg), var(--l26)); -webkit-b
 h2 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; margin: 34px 0 10px; }
 .chart-sub { font-size: 14px; color: var(--ink2); margin: 0 0 14px; }
 .why { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 0 0 8px; }
+.why.stack { grid-template-columns: 1fr; }
 .why .card { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 16px 18px; font-size: 14px; line-height: 1.6; color: var(--ink2); }
 .why .card b { color: var(--ink); }
 .why .card .t { display: block; font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
@@ -242,7 +243,7 @@ td .pl { display: block; font-size: 11px; color: var(--muted); font-weight: 500;
   <h2>Qué tienen en común las carreras con cupo que no se ofertaron en segunda opción</h2>
   <p class="chart-sub">Cruzando los 13 programas contra los datos completos del examen de control, aparecen
   cuatro rasgos:</p>
-  <div class="why">
+  <div class="why stack">
     <div class="card"><span class="t">1. La modalidad, el rasgo dominante</span>
     <b>9 de los 13 son SUAyED</b> — los 7 programas a distancia y los 2 de sistema abierto con vacantes
     quedaron fuera en bloque. La lista del registro es 100% presencial: la exclusión no parece caso por
