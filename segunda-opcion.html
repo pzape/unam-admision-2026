@@ -215,6 +215,7 @@ td .pl { display: block; font-size: 11px; color: var(--muted); font-weight: 500;
       <option value="3">Área 3 · Ciencias Sociales</option>
       <option value="4">Área 4 · Humanidades y de las Artes</option>
     </select>
+    <select id="fPlan" aria-label="Filtrar por plantel"></select>
     <span class="cnt" id="fCnt"></span>
   </div>
   <div class="tblwrap"><table id="tbl">
@@ -276,7 +277,8 @@ function renderTable() {
   const tb = document.querySelector('#tbl tbody'); tb.replaceChildren();
   const fm = document.getElementById('fMod').value;
   const fa = document.getElementById('fArea').value;
-  const rows = ROWS.filter(r => (!fm || r.s === fm) && (!fa || r.code[0] === fa));
+  const fp = document.getElementById('fPlan').value;
+  const rows = ROWS.filter(r => (!fm || r.s === fm) && (!fa || r.code[0] === fa) && (!fp || r.p === fp));
   const vacSum = rows.reduce((a, r) => a + r.vac, 0);
   document.getElementById('fCnt').textContent =
     `${rows.length} de ${ROWS.length} programas · vacantes visibles: ${fmt(vacSum)}`;
@@ -330,7 +332,20 @@ document.querySelectorAll('#tbl th').forEach(th => th.addEventListener('click', 
   else { sortState.k = k; sortState.asc = k === 'k'; }
   renderTable();
 }));
-['fMod', 'fArea'].forEach(id => document.getElementById(id).addEventListener('change', renderTable));
+(function fillPlanteles() {
+  const sel = document.getElementById('fPlan');
+  const m = new Map();
+  ROWS.forEach(r => m.set(r.p, (m.get(r.p) || 0) + 1));
+  const o0 = document.createElement('option');
+  o0.value = ''; o0.textContent = 'Todos los planteles';
+  sel.appendChild(o0);
+  [...m.entries()].sort((a, b) => a[0].localeCompare(b[0])).forEach(([p, n]) => {
+    const o = document.createElement('option');
+    o.value = p; o.textContent = `${p} (${n})`;
+    sel.appendChild(o);
+  });
+})();
+['fMod', 'fArea', 'fPlan'].forEach(id => document.getElementById(id).addEventListener('change', renderTable));
 
 let markScore = null;
 function drawHist() {
